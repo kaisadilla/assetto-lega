@@ -1,14 +1,14 @@
 import React from 'react';
 import "styles/components/main-menu.scss";
-import HorizontalNavBar from './HorizontalNavBar';
+import NavBar from './NavBar';
 
 function MainScreen () {
     return (
         <main className="main-menu">
-            <HorizontalNavBar>
-                <HorizontalNavBar.Item index={0} text="free session" />
-                <HorizontalNavBar.Item index={1} text="leagues" />
-            </HorizontalNavBar>
+            <NavBar startingIndex={1}>
+                <NavBar.Item index={0} text="free session" />
+                <NavBar.Item index={1} text="leagues" />
+            </NavBar>
         </main>
     );
 }

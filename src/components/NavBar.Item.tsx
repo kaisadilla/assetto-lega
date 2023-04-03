@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useHorizontalNavBarContext } from './useHorizontalNavBar';
+import { useNavBarContext } from './useNavBar';
 
-type HorizontalNavBar_ItemProps = {
+type NavBar_ItemProps = {
     text: string;
     index: number;
 }
 
-const HorizontalNavBar_Item: FunctionComponent<HorizontalNavBar_ItemProps> = ({
+const NavBar_Item: FunctionComponent<NavBar_ItemProps> = ({
     text,
     index,
 }) => {
-    const { selectedIndex, setSelectedIndex } = useHorizontalNavBarContext();
+    const { selectedIndex, setSelectedIndex } = useNavBarContext();
 
     const selected = index === selectedIndex;
 
@@ -26,4 +26,4 @@ const HorizontalNavBar_Item: FunctionComponent<HorizontalNavBar_ItemProps> = ({
     );
 }
 
-export default HorizontalNavBar_Item;
+export default NavBar_Item;

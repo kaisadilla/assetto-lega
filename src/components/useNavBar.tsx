@@ -1,16 +1,16 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-interface HorizontalNavBarContextType {
+interface NavBarContextType {
     selectedIndex: number;
     setSelectedIndex: (index: number) => void;
 }
 
-const HorizontalNavBarContext = createContext<HorizontalNavBarContextType>({} as HorizontalNavBarContextType);
-export const useHorizontalNavBarContext = () => useContext(HorizontalNavBarContext);
+const NavBarContext = createContext<NavBarContextType>({} as NavBarContextType);
+export const useNavBarContext = () => useContext(NavBarContext);
 
-export const HorizontalNavBarContextProvider = ({ children }: any) => {
+export const NavBarContextProvider = ({ index, children }: any) => {
     const [state, setState] = useState({
-        selectedIndex: 0
+        selectedIndex: index ?? 0
     });
 
     const value = useMemo(() => {
@@ -28,8 +28,8 @@ export const HorizontalNavBarContextProvider = ({ children }: any) => {
     }, [state]);
 
     return (
-        <HorizontalNavBarContext.Provider value={value}>
+        <NavBarContext.Provider value={value}>
             {children}
-        </HorizontalNavBarContext.Provider>
+        </NavBarContext.Provider>
     );
 }
