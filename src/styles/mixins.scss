@@ -1,0 +1,14 @@
+@mixin no-highlight () {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+@mixin clickable () {
+    @include no-highlight();
+    &:hover {
+        cursor: pointer;
+    }
+}

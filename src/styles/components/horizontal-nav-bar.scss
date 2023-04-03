@@ -1,0 +1,24 @@
+@import "../variables";
+@import "../mixins";
+
+.horiz-nav-bar {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.nav-bar-item {
+    @include clickable();
+
+    font-weight: $w-thin;
+    font-size: 16pt;
+    color: $text-color-dark-d2;
+
+    &:hover {
+        color: $text-color-dark-d1;
+    }
+
+    &.selected {
+        color: $text-color-dark;
+    }
+}
