@@ -1,0 +1,56 @@
+@import "../variables";
+
+.league-screen {
+    width: 100%;
+    height: 100%;
+
+    .league-selection-title {
+        border-bottom: 1px solid $text-color-dark-d1;
+        color: $text-color-dark-d1;
+        width: 400px;
+        margin: 0 auto;
+        h1 {
+            margin: 0;
+            font-size: 24pt;
+            font-weight: $w-regular;
+            font-style: italic;
+            text-align: center;
+        }
+    }
+}
+
+.league-selection-grid {
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+
+    display: grid;
+    grid-template:
+        "cho cho" 48px
+        "lea lea" 1fr
+        "tol vie" 48px / 1fr 192px;
+
+    .league-cell-choose {
+        grid-area: cho;
+    }
+
+    .league-cell-leagues {
+        grid-area: lea;
+        padding: 12px;
+        height: 100%;
+
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        overflow: auto;
+        gap: 6px;
+    }
+
+    .league-cell-tools {
+        grid-area: tol;
+    }
+
+    .league-cell-view {
+        grid-area: vie;
+    }
+}

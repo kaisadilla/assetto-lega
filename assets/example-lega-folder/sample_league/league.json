@@ -1,0 +1,63 @@
+{
+    "displayName": "F1 (2004)",
+    "tags": [
+        "Open-wheel",
+        "F1"
+    ],
+    "teams": [
+        {
+            "name": "BMW WilliamsF1",
+            "car": "f1_2004_williams",
+            "country": "Great Britain",
+            "icon": "williams",
+            "ballast": 10,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "3",
+                    "name": "Juan Pablo Montoya",
+                    "country": "Colombia",
+                    "skin": "Montoya",
+                    "strength": 93.8,
+                    "aggression": 79.5
+                },
+                {
+                    "number": "4",
+                    "name": "Ralf Schumacher",
+                    "country": "Germany",
+                    "skin": "Schumacher",
+                    "strength": 100,
+                    "aggression": 100
+                }
+            ]
+        },
+        {
+            "name": "Jaguar Racing",
+            "car": "f1_2004_jaguar",
+            "country": "Great Britain",
+            "icon": "jaguar",
+            "ballast": 20,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "14",
+                    "name": "Mark Webber",
+                    "country": "Australia",
+                    "skin": "Webber",
+                    "strength": 100,
+                    "aggression": 100
+                },
+                {
+                    "number": "15",
+                    "name": "Christian Klein",
+                    "country": "Germany",
+                    "skin": "Klien",
+                    "strength": 100,
+                    "aggression": 100
+                }
+            ]
+        }
+    ]
+}

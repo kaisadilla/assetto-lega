@@ -1,0 +1,138 @@
+@import "../mixins";
+@import "../variables";
+
+.editor-tab-teams {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.team {
+    display: flex;
+    gap: 3px;
+    font-family: "Oxanium";
+
+    .team-info {
+        width: 600px;
+        display: grid;
+        grid-template:
+            "a b c" 1fr / 100px 48px 1fr;
+        align-items: center;
+        padding-left: 16px;
+
+        .team-icon {
+            grid-area: a;
+            width: 72px;
+        }
+        .team-flag {
+            grid-area: b;
+            height: 24px;
+        }
+        .team-name {
+            grid-area: c;
+            font-weight: $w-regular;
+        }
+    }
+
+    .driver-list {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+
+        .driver-info, .driver-add {
+            height: 48px;
+        }
+
+        .driver-add {
+            @include center-content();
+            gap: 6px;
+            background-color: $color-success;
+
+            svg {
+                font-size: 18pt;
+                margin-top: -4px;
+            }
+        }
+
+        .driver-info {
+            display: grid;
+            grid-template:
+                "a b c d e f g" 1fr / 48px 48px 1.3fr 1fr 0.7fr 64px 64px;
+            align-items: center;
+            padding-left: 4px;
+
+            .driver-number {
+                grid-area: a;
+                width: 48px;
+                text-align: center;
+
+                > div {
+                    font-size: 20pt;
+                    font-weight: $w-bold;
+                    margin-top: 6px;
+                    //font-style: italic;
+                }
+            }
+            .driver-flag {
+                grid-area: b;
+                height: 18px;
+                width: 48px;
+                object-fit: contain;
+            }
+            .driver-name {
+                grid-area: c;
+                @include ellipsis();
+
+                font-weight: $w-medium;
+                flex-grow: 1.5;
+            }
+            .car-name {
+                grid-area: d;
+                font-weight: $w-thin;
+                font-size: 10pt;
+                flex-grow: 1;
+            }
+            .skin-icons {
+                grid-area: e;
+                @include center-content();
+                gap: 3px;
+                flex-grow: 0.7;
+                overflow-x: auto; // TODO: custom scrollbar
+
+                .skin-icon {
+                    height: 32px;
+                }
+            }
+            .driver-stats {
+                grid-area: f;
+                display: flex;
+                justify-content: center;
+
+                .team-stat {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 32px;
+    
+                    .stat-name {
+                        font-weight: $w-thin;
+                        font-size: 9pt;
+                    }
+                    .stat-value {
+                        font-weight: $w-medium;
+                    }
+                }
+            }
+            .remove-driver {
+                grid-area: g;
+                @include center-content();
+
+                background-color: $color-danger;
+                width: 48px;
+                height: 100%;
+                margin-left: 16px;
+            }
+        }
+    }
+}

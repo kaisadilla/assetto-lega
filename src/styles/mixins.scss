@@ -12,3 +12,37 @@
         cursor: pointer;
     }
 }
+
+@mixin ellipsis () {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin center-content () {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TODO: review these */
+@mixin scrollbar-thin ($thumb-color, $bg-color) {
+    scrollbar-color: $thumb-color $bg-color;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        background-color: $bg-color;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $thumb-color;
+    }
+}
+
+@mixin scrollbar-thin-std () {
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+}

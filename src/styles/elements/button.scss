@@ -1,0 +1,28 @@
+@import "../variables";
+
+.default-button {
+    background-color: #ffffff20;
+    padding: 4px 8px;
+    font-size: 10pt;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    svg {
+        //font-size: 12pt;
+    }
+
+    &:focus {
+        outline: 1px solid $color-primary;
+    }
+
+    &:hover:not(:disabled):not(:active) {
+        background-color: #ffffff30;
+    }
+
+    &:active {
+        background-color: $color-primary;
+    }
+}

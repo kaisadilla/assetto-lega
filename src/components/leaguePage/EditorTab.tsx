@@ -1,0 +1,96 @@
+//import React, { useState } from 'react';
+//import EditorTabTeams from '@src/components/leagueScreen/EditorTabTeams';
+//import { useLeagueContext } from '@src/components/useLeagueScreen';
+//
+//export interface EditorTabProps {
+//
+//}
+//
+//function EditorTab (props: EditorTabProps) {
+//    const { editorScreen, setEditorScreen } = useLeagueContext();
+//
+//    const [ teams, setTeams ] = useState([
+//        {
+//            "name": "Mercedes-AMG Petronas",
+//            "car": "rss_formula_hybrid_2022_s_mercedes",
+//            "country": "Germany",
+//            "icon": "mercedes",
+//            "color": "#03b87b",
+//            "ballast": 8,
+//            "restrictor": 0,
+//            "mainDriver": 0,
+//            "drivers": [
+//                {
+//                    "number": "44",
+//                    "name": "Lewis Hamilton",
+//                    "initials": "HAM",
+//                    "country": "Great Britain",
+//                    "skins": [
+//                        "W14_44_Hamilton"
+//                    ],
+//                    "strength": 98.764,
+//                    "aggression": 92.40
+//                }
+//            ]
+//        },
+//        {
+//            "name": "Oracle Red Bull Racing",
+//            "car": "rss_formula_hybrid_2022_s_red_bull",
+//            "country": "Austria",
+//            "icon": "red_bull",
+//            "color": "#15185F",
+//            "ballast": 0,
+//            "restrictor": 0,
+//            "mainDriver": 0,
+//            "drivers": [
+//                {
+//                    "number": "1",
+//                    "name": "Max Verstappen",
+//                    "initials": "VER",
+//                    "country": "Netherlands",
+//                    "skins": [
+//                        "RB19_1_Verstappen"
+//                    ],
+//                    "strength": 100,
+//                    "aggression": 100
+//                },
+//                {
+//                    "number": "11",
+//                    "name": "Sergio Pérez",
+//                    "initials": "PER",
+//                    "country": "Mexico",
+//                    "skins": [
+//                        "RB19_11_Perez"
+//                    ],
+//                    "strength": 94.41,
+//                    "aggression": 84.19
+//                }
+//            ]
+//        }
+//    ] as LeagueTeam[]);
+//
+//    const $screen = (() => {
+//        if (editorScreen === LeagueEditorScreen.INFO) {
+//            return <div>INFO!</div>
+//        }
+//        if (editorScreen === LeagueEditorScreen.TEAMS) {
+//            return <EditorTabTeams teams={teams} setTeams={setTeams} />
+//        }
+//        return <></>; 
+//    })();
+//
+//    return (
+//        <div>
+//            <NavBar get={editorScreen} set={setEditorScreen}>
+//                <NavBar.Item text="info" index={LeagueEditorScreen.INFO} />
+//                <NavBar.Item text="teams" index={LeagueEditorScreen.TEAMS} />
+//                <NavBar.Item text="tracks" index={LeagueEditorScreen.TRACKS} />
+//                <NavBar.Item text="calendar" index={LeagueEditorScreen.CALENDAR} />
+//                <NavBar.Item text="score system" index={LeagueEditorScreen.SCORE_SYSTEM} />
+//            </NavBar>
+//            {$screen}
+//        </div>
+//    );
+//}
+//
+//export default EditorTab;

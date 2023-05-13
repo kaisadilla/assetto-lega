@@ -1,11 +1,19 @@
 @import "../variables";
 
 .main-menu {
-    background-color: #0f121b;
     width: 100vw;
     height: 100vh;
-}
 
-.kek {
-    background-color: red;
+    display: grid;
+    grid-template:
+        "nav" 34px
+        "con" calc(100vh - 34px) / 1fr;
+
+    .cell-navbar {
+        grid-area: nav;
+    }
+
+    .cell-content {
+        grid-area: con;
+    }
 }

@@ -1,0 +1,59 @@
+[
+    {
+        "name": "Mercedes-AMG Petronas",
+        "car": "rss_formula_hybrid_2022_s_mercedes",
+        "country": "Germany",
+        "icon": "mercedes",
+        "color": "#03b87b",
+        "ballast": 8,
+        "restrictor": 0,
+        "mainDriver": 0,
+        "drivers": [
+            {
+                "number": "44",
+                "name": "Lewis Hamilton",
+                "initials": "HAM",
+                "country": "Great Britain",
+                "skins": [
+                    "W14_44_Hamilton"
+                ],
+                "strength": 98.764,
+                "aggression": 92.40
+            }
+        ]
+    },
+    {
+        "name": "Oracle Red Bull Racing",
+        "car": "rss_formula_hybrid_2022_s_red_bull",
+        "country": "Austria",
+        "icon": "red_bull",
+        "color": "#15185F",
+        "ballast": 0,
+        "restrictor": 0,
+        "mainDriver": 0,
+        "drivers": [
+            {
+                "number": "1",
+                "name": "Max Verstappen",
+                "initials": "VER",
+                "country": "Netherlands",
+                "skins": [
+                    "RB19_1_Verstappen"
+                ],
+                "strength": 100,
+                "aggression": 100
+            },
+            {
+                "number": "11",
+                "name": "Sergio Pérez",
+                "initials": "PER",
+                "country": "Mexico",
+                "skins": [
+                    "RB19_11_Perez"
+                ],
+                "strength": 94.41,
+                "aggression": 84.19
+            }
+        ]
+    }
+]

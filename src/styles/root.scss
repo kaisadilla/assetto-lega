@@ -1,6 +1,8 @@
 @import "variables";
 @import "mixins";
 
+@import "fonts/Oxanium/Oxanium.css";
+
 :root {
     @include no-highlight();
 
@@ -19,4 +21,17 @@ b, strong {
 body {
     padding: 0;
     margin: 0;
+}
+
+button {
+    font-family: $font-std;
+    font-size: 12pt;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: $text-color-dark;
+
+    &:hover:not(:disabled) {
+        cursor: pointer;
+    }
 }

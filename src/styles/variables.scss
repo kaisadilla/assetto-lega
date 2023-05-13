@@ -6,6 +6,15 @@ $text-color-dark: #eeeeee;
 $text-color-dark-d1: #c9c9c9;
 $text-color-dark-d2: #858585;
 
+$color-primary: #a10325;
+$color-primary-d2: #8a0723;
+$color-primary-d3: #70091f;
+$color-primary-d4: #550819;
+$color-primary-d5: #310610;
+
+$color-danger: #df1021;
+$color-success: #28a745;
+
 /*********
  * Fonts *
  *********/
@@ -25,5 +34,5 @@ $font-mono:
  $w-medium: 500;
  $w-semibold: 600;
  $w-bold: 700;
- $w-black: 800;
+ $w-black: 800; // aka extrabold
  $w-extrablack: 900;
