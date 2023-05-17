@@ -4,6 +4,7 @@ import { COUNTRIES_ASSETTO_TO_LEGA } from 'data/countries';
 import EditorTeamDriver from 'components/leaguePage/EditorTeamDriver';
 import { loadImage } from 'game/files';
 import Icon from 'elements/Icon';
+import { useSettingsContext } from 'components/useSettings';
 
 export interface EditorTeamProps {
     team: LeagueTeam,
@@ -15,6 +16,8 @@ function EditorTeam ({
     setTeam
 }: EditorTeamProps
 ) {
+    const { legaPath } = useSettingsContext();
+
     let countryId = COUNTRIES_ASSETTO_TO_LEGA[team.country];
     if (!countryId) {
         countryId = "eu"; // TODO: Replace with "unknown".
@@ -22,8 +25,8 @@ function EditorTeam ({
 
     const bgStyle = { backgroundColor: team.color };
 
-    const teamEx = loadImage("/home/kaisa/repos/assetto-lega/assets/team-icon.png");
-    const teamFlag = loadImage(`/home/kaisa/repos/assetto-lega/assets/flags/${countryId}.png`);
+    const teamEx = loadImage(`${legaPath}/assets/team-icon.png`);
+    const teamFlag = loadImage(`${legaPath}/assets/flags/${countryId}.png`);
 
     return (
         <div className="team">
