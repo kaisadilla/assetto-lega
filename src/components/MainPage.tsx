@@ -8,11 +8,6 @@ import { AppTab, useNavigationContext } from './useNavigation';
 function MainPage () {
     const { selectedTab, setSelectedTab } = useNavigationContext();
 
-    //const $tabs = [
-    //    createNavBarItem("free session", MainScreenTab.FREE_DRIVE, selectedTab, setSelectedTab),
-    //    createNavBarItem("leagues", MainScreenTab.LEAGUES, selectedTab, setSelectedTab)
-    //];
-
     const $content = (() => {
         if (selectedTab === AppTab.FREE_DRIVE) {
             return <FreeSessionPage />;

@@ -22,8 +22,8 @@ function EditorTeam ({
 
     const bgStyle = { backgroundColor: team.color };
 
-    const teamEx = loadImage("D:/repos/assetto-lega/assets/team-icon.png");
-    const teamFlag = loadImage(`D:/repos/assetto-lega/assets/flags/${countryId}.png`);
+    const teamEx = loadImage("/home/kaisa/repos/assetto-lega/assets/team-icon.png");
+    const teamFlag = loadImage(`/home/kaisa/repos/assetto-lega/assets/flags/${countryId}.png`);
 
     return (
         <div className="team">
