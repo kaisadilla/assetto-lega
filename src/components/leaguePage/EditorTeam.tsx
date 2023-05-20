@@ -18,12 +18,12 @@ function EditorTeam ({
 ) {
     const { legaPath } = useSettingsContext();
 
-    let countryId = COUNTRIES_ASSETTO_TO_LEGA[team.country];
+    let countryId = COUNTRIES_ASSETTO_TO_LEGA[team?.country ?? "Europe"];
     if (!countryId) {
         countryId = "eu"; // TODO: Replace with "unknown".
     }
 
-    const bgStyle = { backgroundColor: team.color };
+    const bgStyle = { backgroundColor: team.color ?? "0xff00ff" };
 
     const teamEx = loadImage(`${legaPath}/assets/team-icon.png`);
     const teamFlag = loadImage(`${legaPath}/assets/flags/${countryId}.png`);
@@ -41,7 +41,7 @@ function EditorTeam ({
                         <EditorTeamDriver key={i} team={team} />
                     ))
                 }
-                <div className="driver-add">
+                <div className="editor-add-button add-driver">
                     <Icon name="fa-add" />
                     <span>Add driver</span>
                 </div>

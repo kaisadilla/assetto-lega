@@ -10,11 +10,11 @@ export interface LeagueEditorProps {
 }
 
 export interface LeagueTeam {
-    "name": string,
-    "car": string,
-    "country": string,
-    "icon": string,
-    "color": string,
+    "name": string | null,
+    "car": string | null,
+    "country": string | null,
+    "icon": string | null,
+    "color": string | null,
     "ballast": number,
     "restrictor": number,
     "mainDriver": number,

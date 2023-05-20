@@ -2,9 +2,40 @@
 @import "../variables";
 
 .editor-tab-teams {
-    display: flex;
-    flex-direction: column;
+    .teams-container {
+        padding: 16px 32px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .add-team {
+            height: 48px;
+            font-family: "Oxanium";
+        }
+    }
+}
+
+.editor-add-button {
+    @include center-content();
     gap: 6px;
+    cursor: pointer;
+    background-color: $color-success;
+
+    &:hover:not(:disabled):not(:active) {
+        background-color: $color-success-l1;
+    }
+    &:active {
+        background-color: $color-success-d1;
+    }
+    &:focus {
+        outline: 1px solid $color-success-d1;
+    }
+
+    svg {
+        font-size: 18pt;
+        margin-top: -4px;
+    }
 }
 
 .team {
@@ -40,19 +71,8 @@
         flex-direction: column;
         gap: 3px;
 
-        .driver-info, .driver-add {
+        .driver-info, .add-driver {
             height: 48px;
-        }
-
-        .driver-add {
-            @include center-content();
-            gap: 6px;
-            background-color: $color-success;
-
-            svg {
-                font-size: 18pt;
-                margin-top: -4px;
-            }
         }
 
         .driver-info {
