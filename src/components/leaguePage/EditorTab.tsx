@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import NavBar from 'elements/NavBar';
-import { useNavigationContext } from 'components/useNavigation';
+import { useNavigationContext } from 'context/useNavigation';
 import { LeagueTeam } from './LeagueEditor';
-import { LeagueEditorTab } from 'components/useNavigation';
+import { LeagueEditorTab } from 'context/useNavigation';
 import EditorTabTeams from './EditorTabTeams';
 
 export interface EditorTabProps {

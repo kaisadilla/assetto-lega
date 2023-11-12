@@ -3,7 +3,7 @@ import "styles/components/main-menu.scss";
 import NavBar, { NavBarSize } from 'elements/NavBar';
 import LeaguePage from './LeaguePage';
 import FreeSessionPage from './FreeSessionPage';
-import { AppTab, useNavigationContext } from './useNavigation';
+import { AppTab, useNavigationContext } from '../context/useNavigation';
 
 function MainPage () {
     const { selectedTab, setSelectedTab } = useNavigationContext();

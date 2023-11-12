@@ -1,0 +1,116 @@
+{
+    "displayName": "F1 (2022)",
+    "region": "world",
+    "categories": [
+        "Open-wheel",
+        "F1"
+    ],
+    "logo": "@f1_2022",
+    "background": "@f1_2022",
+    "teams": [
+        {
+            "name": "Mercedes-AMG Petronas",
+            "car": "vrc_formula_alpha_2022_mercedes",
+            "country": "Germany",
+            "icon": "mercedes",
+            "color": "#03b87b",
+            "ballast": 8,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "44",
+                    "name": "Lewis Hamilton",
+                    "initials": "HAM",
+                    "country": "Great Britain",
+                    "skins": [
+                        "W13_44_Hamilton",
+                        "W13_Black_44_Hamilton"
+                    ],
+                    "defaultSkin": "W13_44_Hamilton",
+                    "strength": 98.764,
+                    "aggression": 92.404
+                },
+                {
+                    "number": "63",
+                    "name": "George Russell",
+                    "initials": "RUS",
+                    "country": "Great Britain",
+                    "skins": [
+                        "W13_63_Russell",
+                        "W13_Black_63_Russell"
+                    ],
+                    "defaultSkin": "W13_63_Russell",
+                    "strength": 91.282,
+                    "aggression": 95.513
+                }
+            ]
+        },
+        {
+            "name": "Oracle Red Bull Racing",
+            "car": "vrc_formula_alpha_2022_red_bull",
+            "country": "Austria",
+            "icon": "red_bull",
+            "color": "#15185F",
+            "ballast": 0,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "1",
+                    "name": "Max Verstappen",
+                    "initials": "VER",
+                    "country": "Netherlands",
+                    "skins": [
+                        "RB18_1_Verstappen"
+                    ],
+                    "defaultSkin": "RB18_1_Verstappen",
+                    "strength": 100,
+                    "aggression": 100
+                },
+                {
+                    "number": "11",
+                    "name": "Sergio Pérez",
+                    "initials": "PER",
+                    "country": "Mexico",
+                    "skins": [
+                        "RB18_11_Perez"
+                    ],
+                    "defaultSkin": "RB18_11_Perez",
+                    "strength": 88.41,
+                    "aggression": 84.19
+                }
+            ]
+        }
+    ],
+    "tracks": [
+        "bahrain_international_circuit",
+        "jeddah21"
+    ],
+    "calendar": [
+        {
+            "name": "Bahrain Grand Prix",
+            "officialName": "Formula 1 Gulf Air Bahrain Grand Prix 2022",
+            "track": "bahrain_international_circuit",
+            "layout": "grandprix",
+            "laps": 57
+        }
+    ],
+    "scoreSystem": {
+        "position": [
+            25,
+            18,
+            15,
+            12,
+            10,
+            8,
+            6,
+            4,
+            2,
+            1
+        ],
+        "minimumPointsPerRace": 0,
+        "fastestLap": 1,
+        "qualifying": null
+    }
+}

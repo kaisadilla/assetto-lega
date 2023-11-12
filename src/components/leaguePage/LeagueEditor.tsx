@@ -1,7 +1,7 @@
 import NavBar from 'elements/NavBar';
 import React, { useState } from 'react';
 import EditorTabTeams from './EditorTabTeams';
-import { LeagueEditorTab } from 'components/useNavigation';
+import { LeagueEditorTab } from 'context/useNavigation';
 import EditorTab from './EditorTab';
 
 export interface LeagueEditorProps {

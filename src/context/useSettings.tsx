@@ -10,7 +10,7 @@ export const useSettingsContext = () => useContext(SettingsContext);
 
 export const SettingsContextProvider = ({ tab, children }: any) => {
     const [state, setState] = useState({
-        legaPath: "C:/zzz-kaisa/repos/assetto-lega",
+        legaPath: "D:/repos/assetto-lega",
     });
 
     const value = useMemo(() => {

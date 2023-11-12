@@ -4,7 +4,7 @@ import { COUNTRIES_ASSETTO_TO_LEGA } from 'data/countries';
 import EditorTeamDriver from 'components/leaguePage/EditorTeamDriver';
 import { loadImage } from 'game/files';
 import Icon from 'elements/Icon';
-import { useSettingsContext } from 'components/useSettings';
+import { useSettingsContext } from 'context/useSettings';
 
 export interface EditorTeamProps {
     team: LeagueTeam,

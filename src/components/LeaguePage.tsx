@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "styles/components/league-screen.scss";
 import LeagueThumbnail from './leaguePage/LeagueThumbnail';
 import Icon from 'elements/Icon';
 import Button from 'elements/Button';
 import LeagueEditor from './leaguePage/LeagueEditor';
-import { LeagueScreen, useNavigationContext } from './useNavigation';
+import { LeagueScreen, useNavigationContext } from '../context/useNavigation';
+import { useDataContext } from 'context/useDataContext';
 
 export interface LeaguePageProps {
 

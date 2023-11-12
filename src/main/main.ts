@@ -14,6 +14,8 @@ import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
+import { createIpcHandlers } from "./ipc/ipcMain";
+import { verifyUserDataFolder } from "./userdata";
 
 const OPEN_DEVTOOLS_IN_DEBUG_MODE = false;
 
@@ -140,14 +142,18 @@ app.on("window-all-closed", () => {
     }
 });
 
-app
-    .whenReady()
-    .then(() => {
-        createWindow();
-        app.on("activate", () => {
-            // On macOS it"s common to re-create a window in the app when the
-            // dock icon is clicked and there are no other windows open.
-            if (mainWindow === null) createWindow();
-        });
-    })
-    .catch(console.log);
+app.whenReady().then(() => {
+    verifyUserDataFolder();
+    createIpcMethods();
+    createWindow();
+    app.on("activate", () => {
+        // On macOS it"s common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (mainWindow === null) createWindow();
+    });
+})
+.catch(console.log);
+
+function createIpcMethods () {
+    createIpcHandlers(ipcMain);
+}
