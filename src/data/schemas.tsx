@@ -1,3 +1,7 @@
+export interface UserSettings {
+    assettoCorsaFolder: string | null;
+}
+
 export interface League {
     displayName: string;
     region: string;

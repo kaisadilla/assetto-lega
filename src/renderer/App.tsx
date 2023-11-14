@@ -2,7 +2,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '@assets/icon.png';
 import 'styles/main.scss';
 import { NavigationContextProvider, AppTab } from 'context/useNavigation';
-import MainPage from 'components/MainPage';
+import MainPage from 'pages/MainPage';
 import { LeagueEditorContextProvider } from 'context/useLeagueEditor';
 import { SettingsContextProvider } from 'context/useSettings';
 import { DataContextProvider } from 'context/useDataContext';

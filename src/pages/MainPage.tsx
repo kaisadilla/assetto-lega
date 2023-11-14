@@ -1,11 +1,23 @@
 import React, { useEffect } from 'react';
 import "styles/components/main-menu.scss";
 import NavBar, { NavBarSize } from 'elements/NavBar';
-import LeaguePage from './LeaguePage';
-import FreeSessionPage from './FreeSessionPage';
+import LeaguePage from '../components/LeaguePage';
+import FreeSessionPage from '../components/FreeSessionPage';
 import { AppTab, useNavigationContext } from '../context/useNavigation';
+import { useDataContext } from 'context/useDataContext';
+import InitializeAppPage from './InitializeAppPage';
 
 function MainPage () {
+    const { loading, settings } = useDataContext();
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (settings.assettoCorsaFolder === null) {
+        return <InitializeAppPage />
+    }
+
     const { selectedTab, setSelectedTab } = useNavigationContext();
 
     const $content = (() => {

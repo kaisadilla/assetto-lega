@@ -1,5 +1,5 @@
 //import { ipcRenderer } from "electron";
-import { League } from "data/schemas";
+import { League, UserSettings } from "data/schemas";
 import Ipc from "main/ipc/ipcRenderer";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
@@ -8,12 +8,14 @@ export const useDataContext = () => useContext(DataContext);
 
 interface DataContextState {
     loading: boolean;
+    settings: UserSettings;
+    leagues: League[];
 }
 
 export const DataContextProvider = ({ children }: any) => {
     const [state, setState] = useState<DataContextState>({
         loading: true,
-    });
+    } as DataContextState);
 
     useEffect(() => {
         readData();
@@ -32,11 +34,13 @@ export const DataContextProvider = ({ children }: any) => {
     );
 
     async function readData () {
+        const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
-        console.log(leagues);
 
         setState({
             loading: false,
-        })
+            settings,
+            leagues,
+        });
     }
 }
