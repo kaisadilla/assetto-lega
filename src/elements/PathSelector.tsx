@@ -31,7 +31,7 @@ function PathSelector ({
         </div>
     );
     const style = {};
-    if (labelWidth)
+    //if (labelWidth)
 
     return (
         <div className="default-path-selector">
