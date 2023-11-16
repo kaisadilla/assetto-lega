@@ -1,7 +1,19 @@
 @import "root";
 
+@import "elements/path-selector";
+
 @import "pages/page";
+@import "pages/page-initialize-app";
 
 .app {
     background-color: #0f121b;
+    width: 100vw;
+    height: 100vh;
+}
+
+.tooltip.default-tooltip {
+    background-color: $color-primary;
+    color: white;
+    border-radius: 0;
+    padding: 6px 12px; // default: 8px 16px
 }

@@ -1,0 +1,20 @@
+.default-path-selector {
+    font-weight: $w-light;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    .label {
+        font-weight: $w-semibold;
+    }
+
+    .value {
+        flex-grow: 1;
+        font-size: 10pt;
+    }
+
+    .error-container {
+        color: $color-danger;
+        line-height: 0;
+    }
+}
