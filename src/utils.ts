@@ -14,13 +14,16 @@ export interface ConditionalClass {
  * @returns 
  */
 export function getClassString (
-    ...params: (string | [string, boolean | undefined] | undefined)[]
+    ...params: (string | boolean | [string, boolean | undefined] | undefined)[]
 ) : string
 {
     let str = "";
 
     for (const classEntry of params) {
         if (classEntry === undefined) {
+            continue;
+        }
+        if (classEntry === false) {
             continue;
         }
         // if the entry is conditional.

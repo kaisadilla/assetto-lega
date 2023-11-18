@@ -31,7 +31,7 @@ export async function verifyUserDataFolder () {
 
 export const Data = {
     async loadSettings () : Promise<UserSettings> {
-        console.log("Loading userdata > settings.");
+        console.info("Loading userdata > settings.");
         const path = getDataFile(FILE_SETTINGS);
 
         try {
@@ -44,7 +44,7 @@ export const Data = {
         }
     },
     async loadLeagues () : Promise<League[]> {
-        console.log("Loading userdata > leagues.");
+        console.info("Loading userdata > leagues.");
         const leagues: League[] = [];
 
         const files = await fsAsync.readdir(getDataFolder(FOLDER_LEAGUES));
@@ -61,6 +61,21 @@ export const Data = {
         };
     
         return leagues;
+    },
+
+    async saveSettings (settings: UserSettings) {
+        console.info("Saving userdata > settings.");
+        const path = getDataFile(FILE_SETTINGS);
+
+        try {
+            const content = JSON.stringify(settings, null, 2);
+            fsAsync.writeFile(path, content, TEXT_FORMAT);
+            return true;
+        }
+        catch (err) {
+            console.error(`Couldn't wrrite file '${path}'`, err);
+            return false;
+        }
     },
 }
 

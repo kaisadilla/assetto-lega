@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "styles/components/main-menu.scss";
 import NavBar, { NavBarSize } from 'elements/NavBar';
 import LeaguePage from '../components/LeaguePage';
@@ -6,15 +6,16 @@ import FreeSessionPage from '../components/FreeSessionPage';
 import { AppTab, useNavigationContext } from '../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
 import InitializeAppPage from './InitializeAppPage';
+import { isFolderAssettoCorsa } from 'game/assettoCorsa';
 
 function MainPage () {
-    const { loading, settings } = useDataContext();
+    const { loading, settings, isACFolderValid } = useDataContext();
 
     if (loading) {
         return <div>Loading...</div>
     }
 
-    if (settings.assettoCorsaFolder === null) {
+    if (isACFolderValid === false) {
         return <InitializeAppPage />
     }
 

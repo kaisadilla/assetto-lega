@@ -1,20 +1,30 @@
 .page-initialize-app {
     padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     .settings-table {
-        background: #ffffff10;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
         justify-content: center;
         width: 100%;
-        height: 100%;
-        padding: 24px;
+        max-width: 800px;
+        min-width: 200px;
+        padding: 24px;        
 
         .settings-row {
-            background: #ffffff05;
-            width: 100%;
-            max-width: 800px;
-            min-width: 200px;
+            background: #ffffff10;
+        }
+
+        .settings-buttons {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: row;
+            justify-content: right;
+            gap: 12px;
         }
     }
 }

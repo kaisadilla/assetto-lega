@@ -1,21 +1,30 @@
 import React from 'react';
 import "styles/elements/button.scss";
+import { getClassString } from 'utils';
 
 export interface ButtonProps {
     disabled?: boolean;
     onClick?: (evt: any) => void;
     children?: React.ReactNode;
+    className?: string;
 }
 
 function Button ({
-    disabled = false,
-    onClick = () => {},
+    disabled,
+    onClick,
     children,
+    className,
 }: ButtonProps) {
+    const classStr = getClassString(
+        "default-button",
+        disabled && "disabled",
+        className,
+    );
+
     return (
         <button
-            className="default-button"
-            onClick={onClick}
+            className={classStr}
+            onClick={(evt) => onClick?.(evt)}
             disabled={disabled}
         >
             {children}
