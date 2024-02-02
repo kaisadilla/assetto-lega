@@ -4,6 +4,8 @@ import { isFolderAssettoCorsa } from "game/assettoCorsa";
 import Ipc from "main/ipc/ipcRenderer";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
+type LeagueCollection = {[key: string]: League};
+
 const DataContext = createContext({} as DataContextState);
 export const useDataContext = () => useContext(DataContext);
 
@@ -15,6 +17,7 @@ interface DataContextState {
     userDataPath: string;
     settings: UserSettings;
     leagues: League[];
+    leaguesById: LeagueCollection;
     isACFolderValid: boolean;
     updateSettings: (settings: UserSettings) => void;
 }
@@ -54,6 +57,11 @@ export const DataContextProvider = ({ children }: any) => {
         const userDataPath = await Ipc.getDataFolderPath();
         const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
+        
+        const leaguesById: LeagueCollection = {};
+        for (const l of leagues) {
+            leaguesById[l.internalName] = l;
+        }
 
         const isACFolderValid = await validateACFolder(settings);
 
@@ -62,6 +70,7 @@ export const DataContextProvider = ({ children }: any) => {
             userDataPath,
             settings,
             leagues,
+            leaguesById,
             isACFolderValid,
         } as DataContextState);
     }

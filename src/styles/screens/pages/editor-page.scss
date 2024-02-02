@@ -1,7 +1,19 @@
 .editor-page {
     @include fill-container();
 
-    .league-container {
+    .league-selection {
         @include fill-container();
+
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0 24px 0;
+
+        .league-menu-container {
+            flex: 1;
+            min-height: 0;
+        }
+        .toolbar-bottom {
+            padding: 6px 24px;
+        }
     }
 }

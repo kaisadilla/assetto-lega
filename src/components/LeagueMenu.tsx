@@ -1,11 +1,16 @@
+import { League } from 'data/schemas';
 import Icon from 'elements/Icon';
 import React from 'react';
 
 export interface LeagueMenuProps {
-
+    leagues: League[];
+    onSelect?: (leagueId: string) => void;
 }
 
-function LeagueMenu (props: LeagueMenuProps) {
+// todo: build with real data
+function LeagueMenu ({
+    onSelect,
+}: LeagueMenuProps) {
     const __icon = require("@assets/league_icon.png");
     const __bg = require("@assets/preview.png");
 
@@ -20,6 +25,9 @@ function LeagueMenu (props: LeagueMenuProps) {
             <div className="section categories">
                 <h3>categories</h3>
                 <div className="category-container">
+                    <div className="category category-all">
+                        <span>ALL</span>
+                    </div>
                     <div className="category">
                         <Icon name="fa-star" />
                         <span>GT3</span>
@@ -121,7 +129,7 @@ function LeagueMenu (props: LeagueMenuProps) {
             <div className="section seasons">
                 <h3>seasons</h3>
                 <div className="season-container">
-                    <div className="season">
+                    <div className="season" onClick={() => onSelect?.("league-vanilla")}>
                         <div className="season-color" style={{backgroundColor: "#00ffff"}} />
                         <div className="season-logo">
                             <img src={__icon} />
