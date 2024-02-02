@@ -53,36 +53,9 @@ function LeagueMenu (props: LeagueMenuProps) {
             <div className="section series">
                 <h3>series</h3>
                 <div className="series-container">
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="icon-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula 1</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="icon-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula 1</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="icon-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula 1</span>
-                        </div>
-                    </div>
                     <div className="series-icon selected" style={seriesIconStyle}>
                         <div className="series-highlighter" />
-                        <div className="icon-container">
+                        <div className="logo-container">
                             <img src={__icon} />
                         </div>
                         <div className="name-container">
@@ -91,49 +64,175 @@ function LeagueMenu (props: LeagueMenuProps) {
                     </div>
                     <div className="series-icon" style={seriesIconStyle}>
                         <div className="series-highlighter" />
-                        <div className="icon-container">
+                        <div className="logo-container">
                             <img src={__icon} />
                         </div>
                         <div className="name-container">
-                            <span>Formula 1</span>
+                            <span>Indycar</span>
                         </div>
                     </div>
                     <div className="series-icon" style={seriesIconStyle}>
                         <div className="series-highlighter" />
-                        <div className="icon-container">
+                        <div className="logo-container">
                             <img src={__icon} />
                         </div>
                         <div className="name-container">
-                            <span>Formula 1</span>
+                            <span>Formula 2</span>
                         </div>
                     </div>
                     <div className="series-icon" style={seriesIconStyle}>
                         <div className="series-highlighter" />
-                        <div className="icon-container">
+                        <div className="logo-container">
                             <img src={__icon} />
                         </div>
                         <div className="name-container">
-                            <span>Formula 1</span>
+                            <span>Formula 3</span>
+                        </div>
+                    </div>
+                    <div className="series-icon" style={seriesIconStyle}>
+                        <div className="series-highlighter" />
+                        <div className="logo-container">
+                            <img src={__icon} />
+                        </div>
+                        <div className="name-container">
+                            <span>Formula E</span>
+                        </div>
+                    </div>
+                    <div className="series-icon" style={seriesIconStyle}>
+                        <div className="series-highlighter" />
+                        <div className="logo-container">
+                            <img src={__icon} />
+                        </div>
+                        <div className="name-container">
+                            <span>Super Formula</span>
+                        </div>
+                    </div>
+                    <div className="series-icon" style={seriesIconStyle}>
+                        <div className="series-highlighter" />
+                        <div className="logo-container">
+                            <img src={__icon} />
+                        </div>
+                        <div className="name-container">
+                            <span>Formula Renault</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="section seasons">
                 <h3>seasons</h3>
+                <div className="season-container">
+                    <div className="season">
+                        <div className="season-color" style={{backgroundColor: "#00ffff"}} />
+                        <div className="season-logo">
+                            <img src={__icon} />
+                        </div>
+                        <div className="season-name">
+                            <span className="name">2023</span>
+                        </div>
+                        <div className="season-fact season-teams">
+                            <span>10 teams</span>
+                        </div>
+                        <div className="season-fact season-drivers">
+                            <span>20 drivers</span>
+                        </div>
+                        <div className="season-fact season-tracks">
+                            <span>24 tracks</span>
+                        </div>
+                        <div className="season-fact season-era">
+                            <span>V6 hybrid</span>
+                        </div>
+                    </div>
+                    <div className="season">
+                        <div className="season-color" style={{backgroundColor: "#00ffff"}} />
+                        <div className="season-logo">
+                            <img src={__icon} />
+                        </div>
+                        <div className="season-name">
+                            <span className="name">2022</span>
+                        </div>
+                        <div className="season-fact season-teams">
+                            <span>10 teams</span>
+                        </div>
+                        <div className="season-fact season-drivers">
+                            <span>20 drivers</span>
+                        </div>
+                        <div className="season-fact season-tracks">
+                            <span>22 tracks</span>
+                        </div>
+                        <div className="season-fact season-era">
+                            <span>V6 hybrid</span>
+                        </div>
+                    </div>
+                    <div className="season">
+                        <div className="season-color" style={{backgroundColor: "#00ffff"}} />
+                        <div className="season-logo">
+                            <img src={__icon} />
+                        </div>
+                        <div className="season-name">
+                            <span className="name">Super series '21</span>
+                            <span className="year">2021</span>
+                        </div>
+                        <div className="season-fact season-teams">
+                            <span>11 teams</span>
+                        </div>
+                        <div className="season-fact season-drivers">
+                            <span>22 drivers</span>
+                        </div>
+                        <div className="season-fact season-tracks">
+                            <span>20 tracks</span>
+                        </div>
+                        <div className="season-fact season-era">
+                            <span>V6 hybrid</span>
+                        </div>
+                    </div>
+                    <div className="season">
+                        <div className="season-color" style={{backgroundColor: "#640096"}} />
+                        <div className="season-logo">
+                            <img src={__icon} />
+                        </div>
+                        <div className="season-name">
+                            <span className="name">Super series '20</span>
+                            <span className="year">2020</span>
+                        </div>
+                        <div className="season-fact season-teams">
+                            <span>12 teams</span>
+                        </div>
+                        <div className="season-fact season-drivers">
+                            <span>24 drivers</span>
+                        </div>
+                        <div className="season-fact season-tracks">
+                            <span>20 tracks</span>
+                        </div>
+                        <div className="season-fact season-era">
+                            <span>V8</span>
+                        </div>
+                    </div>
+                    <div className="season">
+                        <div className="season-color" style={{backgroundColor: "#640096"}} />
+                        <div className="season-logo">
+                            <img src={__icon} />
+                        </div>
+                        <div className="season-name">
+                            <span className="name">Super series '19</span>
+                            <span className="year">2019</span>
+                        </div>
+                        <div className="season-fact season-teams">
+                            <span>12 teams</span>
+                        </div>
+                        <div className="season-fact season-drivers">
+                            <span>24 drivers</span>
+                        </div>
+                        <div className="season-fact season-tracks">
+                            <span>18 tracks</span>
+                        </div>
+                        <div className="season-fact season-era">
+                            <span>V8</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
-
-    /*
-        <div className="league">
-            <div className="logo">
-                <img src={__icon} />
-            </div>
-            <div className="name">
-                <span>Formula 1 (2007)</span>
-            </div>
-        </div>
-     */
 }
 
 export default LeagueMenu;
