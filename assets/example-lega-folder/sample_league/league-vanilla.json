@@ -1,0 +1,85 @@
+{
+    "series": "Formula 1",
+    "year": 2023,
+    "displayName": "2023",
+    "era": "V6 hybrid",
+    "region": "world",
+    "categories": ["Open-wheel"],
+    "logo": "f1_2023.png",
+    "background": "f1_2023.jpg",
+    "teams": [
+        {
+            "name": "Oracle Red Bull F1 Team",
+            "car": "ks_ferrari_f2004",
+            "country": "austria",
+            "icon": "red_bull.png",
+            "color": "23326A",
+            "ballast": 0,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "1",
+                    "name": "Max Verstappen",
+                    "initials": "VER",
+                    "country": "netherlands",
+                    "skins": [
+                        "00_official",
+                        "01_ferrari_1"
+                    ],
+                    "default_skin": "00_official",
+                    "strength": 100,
+                    "aggression": 98
+                },
+                {
+                    "number": "11",
+                    "name": "Sergio Pérez",
+                    "initials": "PER",
+                    "country": "mexico",
+                    "skins": [
+                        "02_ferrari_2"
+                    ],
+                    "defaultSkin": "02_ferrari_2",
+                    "strength": 88.41,
+                    "aggression": 84.19
+                }
+            ]
+        }
+    ],
+    "tracks": [
+        "ks_nurburgring",
+        "monza"
+    ],
+    "calendar": [
+        {
+            "name": "Germany Grand Prix",
+            "officialName": "Formula 1 Mercedes-Benz Grosser Preis von Deutschland 2019",
+            "track": "ks_nurburgring",
+            "layout": "layout_gp_a",
+            "laps": 67
+        },
+        {
+            "name": "Italian Grand Prix",
+            "officialName": "Italian Grand Prix",
+            "track": "monza",
+            "laps": 53
+        }
+    ],
+    "scoreSystem": {
+        "position": [
+            25,
+            18,
+            15,
+            12,
+            10,
+            8,
+            6,
+            4,
+            2,
+            1
+        ],
+        "minimumPointsPerRace": 0,
+        "fastestLap": 1,
+        "qualifying": null
+    }
+}

@@ -3,8 +3,8 @@ import { createContext, useContext, useMemo, useState } from "react";
 interface INavigationContext {
     selectedTab: AppTab;
     setSelectedTab: (tab: AppTab) => void;
-    leagueScreen: LeagueScreen;
-    setLeagueScreen: (screen: LeagueScreen) => void;
+    leagueScreen: LeagueScreenPage;
+    setLeagueScreen: (screen: LeagueScreenPage) => void;
     leagueEditorTab: LeagueEditorTab;
     setLeagueEditorTab: (tab: LeagueEditorTab) => void;
 }
@@ -15,7 +15,7 @@ export const useNavigationContext = () => useContext(NavigationContext);
 export const NavigationContextProvider = ({ tab, children }: any) => {
     const [state, setState] = useState({
         selectedTab: tab ?? 0,
-        leagueScreen: LeagueScreen.SELECTION,
+        leagueScreen: LeagueScreenPage.SELECTION,
         leagueEditorTab: LeagueEditorTab.INFO,
     });
 
@@ -27,7 +27,7 @@ export const NavigationContextProvider = ({ tab, children }: any) => {
             })
         };
 
-        const setLeagueScreen = (screen: LeagueScreen) => {
+        const setLeagueScreen = (screen: LeagueScreenPage) => {
             setState({
                 ...state,
                 leagueScreen: screen
@@ -59,9 +59,10 @@ export const NavigationContextProvider = ({ tab, children }: any) => {
 export enum AppTab {
     FREE_DRIVE,
     LEAGUES,
+    EDITOR,
 };
 
-export enum LeagueScreen {
+export enum LeagueScreenPage {
     SELECTION,
     LEAGUE,
     EDITOR,

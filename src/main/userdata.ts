@@ -1,7 +1,8 @@
 import { League, UserSettings } from "data/schemas";
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { app } from "electron";
+import { app, nativeImage } from "electron";
+import path from "path";
 
 export const USERDATA_FOLDER = "assetto-lega";
 export const FILE_SETTINGS = "settings.json";
@@ -30,6 +31,13 @@ export async function verifyUserDataFolder () {
 }
 
 export const Data = {
+    /**
+     * Returns the complete path to the data folder (the one stored in AppData).
+     */
+    getDataFolderPath () : string {
+        return getDataFolderPath();
+    },
+
     async loadSettings () : Promise<UserSettings> {
         console.info("Loading userdata > settings.");
         const path = getDataFile(FILE_SETTINGS);
@@ -43,6 +51,7 @@ export const Data = {
             throw err;
         }
     },
+
     async loadLeagues () : Promise<League[]> {
         console.info("Loading userdata > leagues.");
         const leagues: League[] = [];
@@ -52,8 +61,13 @@ export const Data = {
         for (const f of files) {
             const filePath = getDataFolder(FOLDER_LEAGUES) + "/" + f;
             try {
+                const filename = path.parse(filePath).name;
+
                 const content = await fsAsync.readFile(filePath, TEXT_FORMAT);
-                leagues.push(JSON.parse(content));
+                const json: League = JSON.parse(content);
+                json.internalName = filename;
+
+                leagues.push(json);
             }
             catch (err) {
                 console.error(`Couldn't load file '${f}'`, err);
@@ -77,6 +91,18 @@ export const Data = {
             return false;
         }
     },
+
+    async loadImage (path: string) {
+        const lm = nativeImage.createFromPath("C:/Program Files (x86)/Steam/steamapps/common/assettocorsa/content/tracks/monza/ui/preview.png");
+        return lm.toPNG();
+    }
+}
+
+/**
+ * Returns the complete path to the data folder (the one stored in AppData).
+ */
+function getDataFolderPath () {
+    return app.getPath("appData") + "/" + USERDATA_FOLDER;
 }
 
 /**
@@ -84,7 +110,6 @@ export const Data = {
  * @param folder A folder's name inside the app's data folder.
  */
 function getDataFolder (folder: string) {
-
     return app.getPath("appData") + "/" + USERDATA_FOLDER + "/" + folder;
 }
 

@@ -1,30 +1,43 @@
 import React, { useState } from 'react';
-import preview from "../../assets/preview.png";
 import outline from "../../assets/outline.png";
 import flag from "../../assets/flags/eu.png";
 import "styles/elements/thumbnail.scss";
+import { Countries } from 'data/countries';
 
 export interface ThumbnailProps {
+    /** The name of the background file. */
+    background: string;
+    name: string;
+    flag: keyof typeof Countries;
+    logo: string;
     width: string;
 }
 
-function Thumbnail (props: ThumbnailProps) {
-    const [ showTools, setShowTools ] = useState(false);
+function Thumbnail ({
+    background,
+    logo,
+    name,
+    flag,
+    width,
+}: ThumbnailProps) {
+    const [showTools, setShowTools] = useState(false);
+
+    const flagPath = Countries[flag].flag;
 
     return (
         <div
             className="thumbnail"
-            style={{width: props.width}}
+            style={{width: width}}
             onMouseEnter={() => setShowTools(true)}
             onMouseLeave={() => setShowTools(false)}
         >
-            <img className="background" src={preview} />
-            <img className="logo" src={outline} />
+            <img className="background" src={background} />
+            <img className="logo" src={logo} />
             <div className="title">
                 <div className="flag-container">
-                    <img className="flag" src={flag} />
+                    <img className="flag" src={flagPath} />
                 </div>
-                <div className="name">F1 (2012)</div>
+                <div className="name">{name}</div>
             </div>
             {
                 showTools &&

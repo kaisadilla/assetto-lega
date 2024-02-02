@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import "styles/components/league-screen.scss";
-import LeagueThumbnail from './leaguePage/LeagueThumbnail';
+import LeagueThumbnail from '../../components/leaguePage/LeagueThumbnail';
 import Icon from 'elements/Icon';
 import Button from 'elements/Button';
-import LeagueEditor from './leaguePage/LeagueEditor';
-import { LeagueScreen, useNavigationContext } from '../context/useNavigation';
+import LeagueEditor from '../../components/leaguePage/LeagueEditor';
+import { LeagueScreenPage, useNavigationContext } from '../../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
 
 export interface LeaguePageProps {
@@ -13,6 +12,13 @@ export interface LeaguePageProps {
 
 function LeaguePage (props: LeaguePageProps) {
     const { leagueScreen, setLeagueScreen } = useNavigationContext();
+    const { leagues } = useDataContext();
+
+    console.log("leagues", leagues);
+
+    const $thumbnails = leagues.map(l => (
+        <LeagueThumbnail league={l} key={l.internalName} width="355px" />
+    ))
 
     const $selection = (
         <div className="league-selection-grid">
@@ -20,13 +26,12 @@ function LeaguePage (props: LeaguePageProps) {
                 <h1>Choose a league</h1>
             </div>
             <div className="league-cell-leagues">
-                <LeagueThumbnail width="355px" />
-                <LeagueThumbnail width="355px" />
-                <LeagueThumbnail width="355px" />
-                <LeagueThumbnail width="355px" />
+                {
+                    $thumbnails
+                }
             </div>
             <div className="league-cell-tools">
-                <Button onClick={() => setLeagueScreen(LeagueScreen.EDITOR)}>
+                <Button onClick={() => setLeagueScreen(LeagueScreenPage.EDITOR)}>
                     <Icon name="fa-plus" />
                     <span>Create league</span>
                 </Button>
@@ -39,8 +44,8 @@ function LeaguePage (props: LeaguePageProps) {
 
     return (
         <div className="league-screen">
-            { leagueScreen === LeagueScreen.SELECTION && $selection }
-            { leagueScreen === LeagueScreen.EDITOR && <LeagueEditor mode="create" /> }
+            { leagueScreen === LeagueScreenPage.SELECTION && $selection }
+            { leagueScreen === LeagueScreenPage.EDITOR && <LeagueEditor mode="create" /> }
         </div>
     );
 }

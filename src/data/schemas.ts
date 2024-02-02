@@ -3,7 +3,11 @@ export interface UserSettings {
 }
 
 export interface League {
+    internalName: string;
+    series: string;
+    year: number;
     displayName: string;
+    era?: string;
     region: string;
     categories: string[];
     logo: string;
@@ -42,7 +46,7 @@ export interface LeagueCalendaryEntry {
     name: string;
     officialName: string;
     track: string;
-    layout: string;
+    layout?: string;
     laps: number;
 }
 
@@ -53,9 +57,16 @@ export interface LeagueScoreSystem {
      */
     position: number[] | null;
     /**
-     * The minimum amount of points 
+     * The minimum amount of points given to each participant in the race.
      */
     minimumPointsPerRace: number;
+    /**
+     * The amount of points awarded to the participant with the fastest lap.
+     */
     fastestLap: number;
+    /**
+     * The amount of points given to each position of the qualifying.
+     * Works the same as the 'position' array.
+     */
     qualifying: number[] | null;
 }

@@ -1,7 +1,7 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '@assets/icon.png';
 import { NavigationContextProvider, AppTab } from 'context/useNavigation';
-import MainPage from 'pages/MainPage';
+import MainScreen from 'screens/MainScreen';
 import { LeagueEditorContextProvider } from 'context/useLeagueEditor';
 import { SettingsContextProvider } from 'context/useSettings';
 import { DataContextProvider } from 'context/useDataContext';
@@ -20,7 +20,7 @@ export default function App () {
                 <LeagueEditorContextProvider>
                 <DataContextProvider>
 
-                    <MainPage />
+                    <MainScreen />
                     
                 </DataContextProvider>
                 </LeagueEditorContextProvider>

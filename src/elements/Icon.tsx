@@ -5,6 +5,8 @@ export interface IconProps {
     name: string;
 }
 
+// TODO: Remake 'name' to be a fixed list.
+// TODO: Add classlist prop.
 function Icon (props: IconProps) {
     const className = `fa-solid ${props.name}`;
 

@@ -1,7 +1,11 @@
 import { League, UserSettings } from "data/schemas";
-import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS } from "./ipcNames";
+import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 
 const Ipc = {
+    async getDataFolderPath () : Promise<string> {
+        return await getIpcRenderer().invoke(HANDLER_GET_DATA_PATH);
+    },
+
     async loadSettings () : Promise<UserSettings> {
         return await getIpcRenderer().invoke(HANDLER_DATA_LOAD_SETTINGS);
     },

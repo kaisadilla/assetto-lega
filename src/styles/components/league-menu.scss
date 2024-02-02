@@ -1,0 +1,138 @@
+.league-menu {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template: "cat ser sea" 1fr / 2fr 4fr 5fr;
+
+    h3 {
+        padding: 0 0 3px 0;
+        margin: 0 0 9px 0;
+        font-size: 10pt;
+        font-weight: $w-regular;
+        border-bottom: 1px solid $color-primary;
+    }
+
+    .section {
+        padding: 6px 12px;
+    }
+
+    .categories {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+
+        .category-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center safe; // TODO: Update electron to chrome v115 or higher.
+            gap: 0px;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            .category {
+                width: 100%;
+                font-size: 10pt;
+                font-weight: $w-light;
+                padding: 2px 0 2px 8px;
+            
+                &:hover:not(.selected) {
+                    background-color: #ffffff30;
+                }
+            
+                &.selected {
+                    background-color: $color-primary;
+                }
+
+                svg {
+                    padding-right: 5px;
+                    color: $color-golden;
+                }
+                i {
+                    font-size: 4pt;
+                }
+            }
+        }
+    }
+
+    .series {
+        $grid-gap: 6px;
+
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+
+        .series-container {
+            flex: 1;
+            padding: $grid-gap;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            align-items: center;
+            gap: $grid-gap;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            .series-icon {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+
+                &.selected {
+                    .series-highlighter {
+                        border: 3px solid $color-primary;
+                        border-bottom: 0;
+                    }
+                    .name-container {
+                        background-color: $color-primary;
+                    }
+                }
+
+                .series-highlighter {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+
+                    &:hover {
+                        background: #ffffff40;
+                    }
+                }
+
+                .icon-container {
+                    flex: 1;
+                    min-height: 0;
+                    padding: 6%;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+
+                .name-container {
+                    @include ellipsis();
+                    height: 18px;
+
+                    width: 100%;
+                    font-size: 10pt;
+                    font-weight: $w-light;
+                    text-align: center;
+                    background-color: #77777760;
+                }
+            }
+        }
+    }
+
+    .seasons {
+        background: blue;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+}

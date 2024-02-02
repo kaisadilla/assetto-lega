@@ -1,9 +1,14 @@
 @import "root";
 
+@import "components/league-menu";
+
 @import "elements/path-selector";
 
-@import "pages/page";
-@import "pages/page-initialize-app";
+@import "screens/screen";
+@import "screens/screen-initialize-app";
+
+@import "screens/pages/editor-page";
+@import "screens/pages/league-page";
 
 .app {
     background-color: #0f121b;

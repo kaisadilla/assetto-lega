@@ -9,13 +9,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from "path";
-import { app, BrowserWindow, shell, ipcMain } from "electron";
+import { app, BrowserWindow, shell, ipcMain, protocol } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
 import { createIpcHandlers } from "./ipc/ipcMain";
 import { verifyUserDataFolder } from "./userdata";
+import { fileURLToPath } from "url";
 
 const OPEN_DEVTOOLS_IN_DEBUG_MODE = false;
 
@@ -66,6 +67,7 @@ const installExtensions = async () => {
 const createWindow = async () => {
     if (isDebug) {
         await installExtensions();
+        //protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler); // TODO: Remove
     }
 
     const RESOURCES_PATH = app.isPackaged
@@ -143,6 +145,7 @@ app.on("window-all-closed", () => {
 });
 
 app.whenReady().then(() => {
+    registerProtocols();
     verifyUserDataFolder();
     createIpcMethods();
     createWindow();
@@ -156,4 +159,13 @@ app.whenReady().then(() => {
 
 function createIpcMethods () {
     createIpcHandlers(ipcMain);
+}
+
+function registerProtocols () {
+    protocol.registerFileProtocol("atom", (req, callback) => {
+        const filePath = fileURLToPath(
+            "file://" + req.url.slice("atom://".length)
+        );
+        callback(filePath);
+    });
 }

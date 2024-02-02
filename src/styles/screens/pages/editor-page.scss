@@ -1,0 +1,7 @@
+.editor-page {
+    @include fill-container();
+
+    .league-container {
+        @include fill-container();
+    }
+}

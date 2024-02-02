@@ -5,8 +5,8 @@
         "Open-wheel",
         "F1"
     ],
-    "logo": "@f1_2022",
-    "background": "@f1_2022",
+    "logo": "f1_2022",
+    "background": "f1_2022",
     "teams": [
         {
             "name": "Mercedes-AMG Petronas",

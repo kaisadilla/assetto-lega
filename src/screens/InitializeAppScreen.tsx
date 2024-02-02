@@ -5,11 +5,11 @@ import { isFolderAssettoCorsa } from 'game/assettoCorsa';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 
-export interface InitializeAppPageProps {
+export interface InitializeAppScreenProps {
 
 }
 
-function InitializeAppPage (props: InitializeAppPageProps) {
+function InitializeAppScreen (props: InitializeAppScreenProps) {
     const { settings, updateSettings } = useDataContext();
 
     const [path, setPath] = useState(settings.assettoCorsaFolder ?? "");
@@ -93,4 +93,4 @@ function InitializeAppPage (props: InitializeAppPageProps) {
     }
 }
 
-export default InitializeAppPage;
+export default InitializeAppScreen;

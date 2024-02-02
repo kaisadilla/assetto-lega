@@ -9,6 +9,10 @@ export const useDataContext = () => useContext(DataContext);
 
 interface DataContextState {
     loading: boolean;
+    /**
+     * The absolute path to the user data folder stored in AppData.
+     */
+    userDataPath: string;
     settings: UserSettings;
     leagues: League[];
     isACFolderValid: boolean;
@@ -47,6 +51,7 @@ export const DataContextProvider = ({ children }: any) => {
     );
 
     async function readData () {
+        const userDataPath = await Ipc.getDataFolderPath();
         const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
 
@@ -54,6 +59,7 @@ export const DataContextProvider = ({ children }: any) => {
 
         setState({
             loading: false,
+            userDataPath,
             settings,
             leagues,
             isACFolderValid,

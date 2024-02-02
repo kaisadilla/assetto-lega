@@ -1,11 +1,15 @@
 import { Data } from "../userdata";
-import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS } from "./ipcNames";
+import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
 import { UserSettings } from "data/schemas";
 
 export function createIpcHandlers (ipcMain: Electron.IpcMain) {
+    ipcMain.handle(HANDLER_GET_DATA_PATH, (evt, arg) => {
+        return Data.getDataFolderPath();
+    });
+
     ipcMain.handle(HANDLER_DATA_LOAD_SETTINGS, async (evt, arg) => {
         return await Data.loadSettings();
     });

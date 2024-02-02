@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import "styles/components/main-menu.scss";
 import NavBar, { NavBarSize } from 'elements/NavBar';
-import LeaguePage from '../components/LeaguePage';
-import FreeSessionPage from '../components/FreeSessionPage';
+import LeaguePage from './pages/LeaguePage';
+import FreeSessionPage from './pages/FreeSessionPage';
 import { AppTab, useNavigationContext } from '../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
-import InitializeAppPage from './InitializeAppPage';
+import InitializeAppScreen from './InitializeAppScreen';
 import { isFolderAssettoCorsa } from 'game/assettoCorsa';
+import EditorPage from './pages/EditorPage';
 
-function MainPage () {
+function MainScreen () {
     const { loading, settings, isACFolderValid } = useDataContext();
+    const { selectedTab, setSelectedTab } = useNavigationContext();
 
     if (loading) {
         return <div>Loading...</div>
     }
 
     if (isACFolderValid === false) {
-        return <InitializeAppPage />
+        return <InitializeAppScreen />
     }
-
-    const { selectedTab, setSelectedTab } = useNavigationContext();
 
     const $content = (() => {
         if (selectedTab === AppTab.FREE_DRIVE) {
@@ -28,6 +28,11 @@ function MainPage () {
         else if (selectedTab === AppTab.LEAGUES) {
             return (
                 <LeaguePage />
+            );
+        }
+        else if (selectedTab === AppTab.EDITOR) {
+            return (
+                <EditorPage />
             );
         }
         else {
@@ -41,6 +46,7 @@ function MainPage () {
                 <NavBar size={NavBarSize.BIG} get={selectedTab} set={setSelectedTab}>
                     <NavBar.Item text="free session" index={AppTab.FREE_DRIVE} />
                     <NavBar.Item text="leagues" index={AppTab.LEAGUES} />
+                    <NavBar.Item text="editor" index={AppTab.EDITOR} />
                 </NavBar>
             </div>
             <div className="cell-content">
@@ -50,4 +56,4 @@ function MainPage () {
     );
 }
 
-export default MainPage;
+export default MainScreen;
