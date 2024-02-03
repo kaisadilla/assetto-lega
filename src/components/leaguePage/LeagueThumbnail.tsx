@@ -11,13 +11,13 @@ export interface LeagueThumbnailProps {
 }
 
 function LeagueThumbnail ({league, width}: LeagueThumbnailProps) {
-    const { userDataPath } = useDataContext();
+    const { dataPath } = useDataContext();
 
     const imgBackground = Files.getFilePath(
-        userDataPath, AssetFolder.leagueBackgrounds, league.background
+        dataPath, AssetFolder.leagueBackgrounds, league.background
     );
     const imgLogo = Files.getFilePath(
-        userDataPath, AssetFolder.leagueLogos, league.logo
+        dataPath, AssetFolder.leagueLogos, league.logo
     );
 
     return (

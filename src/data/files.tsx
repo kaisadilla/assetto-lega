@@ -12,25 +12,31 @@ export const Files = {
      * the folder) is expected to be. For example, the file "@aaa.png" in the folder
      * "img/league-bg" is expected to be in
      * "atom://[unit]/Users/[user name]/AppData/roaming/assetto-lega/img/league-bg/aaa.png"
-     * @param userDataPath The user data folder.
+     * @param dataPath The user data folder.
      * @param folder The folder where the file is located.
      * @param name The name of the file, as specified in the json data container
      * (i.e. including flags such as '@').
      */
-    getFilePath (userDataPath: string, folder: AssetFolder, name: string) : string {
-        let isDefaultResource = false;
+    getFilePath (dataPath: string, folder: AssetFolder, name: string) : string {
+        let isLegaAsset = false;
 
         // it's a default resource bundled with the program.
         if (name.charAt(0) === '@') {
-            isDefaultResource = true;
+            isLegaAsset = true;
             name = name.substring(1);
         }
     
-        if (isDefaultResource) {
-            return folder + "/" + name;
+        if (isLegaAsset) {
+            if (Assets[folder]?.[name] === undefined) {
+                throw `Asset '${name}' does not exist inside '${folder}'. ` +
+                    "As files searched in the assets folder are controlled by " +
+                    "the program, this should never happen.";
+            }
+
+            return Assets[folder][name];
         }
         else {
-            return "atom://" + userDataPath + "/" + folder + "/" + name;
+            return "atom://" + dataPath + "/" + folder + "/" + name;
         }
     }
     

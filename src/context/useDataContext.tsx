@@ -14,7 +14,7 @@ interface DataContextState {
     /**
      * The absolute path to the user data folder stored in AppData.
      */
-    userDataPath: string;
+    dataPath: string;
     settings: UserSettings;
     leagues: League[];
     leaguesById: LeagueCollection;
@@ -54,7 +54,7 @@ export const DataContextProvider = ({ children }: any) => {
     );
 
     async function readData () {
-        const userDataPath = await Ipc.getDataFolderPath();
+        const dataPath = await Ipc.getDataFolderPath();
         const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
         
@@ -67,7 +67,7 @@ export const DataContextProvider = ({ children }: any) => {
 
         setState({
             loading: false,
-            userDataPath,
+            dataPath,
             settings,
             leagues,
             leaguesById,

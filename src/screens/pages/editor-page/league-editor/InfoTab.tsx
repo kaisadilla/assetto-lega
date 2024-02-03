@@ -1,4 +1,5 @@
 import ImagePicker from 'components/ImagePicker';
+import { AssetFolder } from 'data/assets';
 import React from 'react';
 
 export interface InfoTabProps {
@@ -10,10 +11,16 @@ function InfoTab (props: InfoTabProps) {
         <div className="info-tab">
             <div className="images-section">
                 <div className="logo-cell">
-                    <ImagePicker directory={"img/league-logos"} image={null} />
+                    <ImagePicker
+                        directory={AssetFolder.leagueLogos}
+                        image={"@f1"}
+                    />
                 </div>
                 <div className="background-cell">
-                    BG
+                    <ImagePicker
+                        directory={AssetFolder.leagueBackgrounds}
+                        image={"@ac-spa"}
+                    />
                 </div>
             </div>
             <div className="info-section">
