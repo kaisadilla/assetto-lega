@@ -16,4 +16,31 @@
             padding: 6px 24px;
         }
     }
+
+    .league-editor {
+        padding: 12px 12px 24px 12px;
+
+        .info-tab {
+            display: flex;
+            flex-direction: row;
+
+            .images-section {
+                padding: 12px;
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+
+                .logo-cell {
+                    width: 200px;
+                    height: 200px;
+                }
+            }
+
+            .info-section {
+                padding: 12px;
+            }
+        }
+    }
 }

@@ -1,16 +1,22 @@
 @import "../variables";
 
 .main-menu {
+    $navbar-height: 32px;
+    $navbar-padding-top: 8px;
+    $navbar-total-height: $navbar-height + $navbar-padding-top;
+    
     width: 100vw;
     height: 100vh;
 
     display: grid;
     grid-template:
-        "nav" 34px
-        "con" calc(100vh - 34px) / 1fr;
+        "nav" $navbar-total-height
+        "con" calc(100vh - $navbar-total-height) / 1fr;
 
     .cell-navbar {
         grid-area: nav;
+        padding: $navbar-padding-top 16px;
+        padding-bottom: 0;
     }
 
     .cell-content {

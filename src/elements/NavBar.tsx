@@ -1,6 +1,7 @@
 import React from 'react';
 import "styles/components/nav-bar.scss"
 import NavBar_Item from './NavBar.Item';
+import { getClassString } from 'utils';
 
 /**
  * The index that is chosen as selected by default when no default index is
@@ -12,12 +13,6 @@ export enum NavBarSize {
     REGULAR,
     SMALL,
     BIG
-}
-
-const NAV_BAR_SIZES = {
-    [NavBarSize.REGULAR]: "12pt",
-    [NavBarSize.SMALL]: "10pt",
-    [NavBarSize.BIG]: "16pt",
 }
 
 export interface NavBarProps {
@@ -36,7 +31,13 @@ function NavBar ({
     size = NavBarSize.REGULAR,
     children,
 }: NavBarProps) {
-    const fontSize = NAV_BAR_SIZES[size];
+
+    const classStr = getClassString(
+        "horiz-nav-bar",
+        size === NavBarSize.SMALL && "nav-bar-small",
+        size === NavBarSize.REGULAR && "nav-bar-regular",
+        size === NavBarSize.BIG && "nav-bar-big",
+    )
 
     const getSet = {get, set};
 
@@ -47,7 +48,7 @@ function NavBar ({
     });
 
     return (
-        <div className="horiz-nav-bar" style={{fontSize: fontSize}}>
+        <div className={classStr}>
             {getSetChildren}
         </div>
     );

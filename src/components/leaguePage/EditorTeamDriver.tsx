@@ -1,6 +1,6 @@
 import Icon from 'elements/Icon';
 import React from 'react';
-import { LeagueTeam } from './LeagueEditor';
+import { LeagueTeam } from '../../screens/pages/editor-page/LeagueEditor';
 
 
 import ukEx from "@assets/flags/united_kingdom.png";

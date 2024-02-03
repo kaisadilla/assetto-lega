@@ -1,5 +1,5 @@
 import React from 'react';
-import { LeagueTeam } from './LeagueEditor';
+import { LeagueTeam } from '../../screens/pages/editor-page/LeagueEditor';
 import { COUNTRIES_ASSETTO_TO_LEGA } from 'data/countries';
 import EditorTeamDriver from 'components/leaguePage/EditorTeamDriver';
 import { loadImage } from 'game/files';

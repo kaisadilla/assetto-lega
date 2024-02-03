@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import LeagueThumbnail from '../../components/leaguePage/LeagueThumbnail';
 import Icon from 'elements/Icon';
 import Button from 'elements/Button';
-import LeagueEditor from '../../components/leaguePage/LeagueEditor';
+import LeagueEditor from './editor-page/LeagueEditor';
 import { LeagueScreenPage, useNavigationContext } from '../../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
 

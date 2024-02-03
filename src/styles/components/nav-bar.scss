@@ -4,7 +4,21 @@
 .horiz-nav-bar {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+
+    &.nav-bar-small {
+        font-size: 10pt;
+        gap: 10px;
+    }
+
+    &.nav-bar-regular {
+        font-size: 12pt;
+        gap: 12px;
+    }
+
+    &.nav-bar-big {
+        font-size: 16pt;
+        gap: 16px;
+    }
 }
 
 .nav-bar-item {

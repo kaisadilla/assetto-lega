@@ -1,4 +1,5 @@
 import { useDataContext } from 'context/useDataContext';
+import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
 import { League } from 'data/schemas';
 import Thumbnail from 'elements/Thumbnail';
@@ -13,10 +14,10 @@ function LeagueThumbnail ({league, width}: LeagueThumbnailProps) {
     const { userDataPath } = useDataContext();
 
     const imgBackground = Files.getFilePath(
-        userDataPath, "img/league-bg", league.background
+        userDataPath, AssetFolder.leagueBackgrounds, league.background
     );
     const imgLogo = Files.getFilePath(
-        userDataPath, "img/league-logos", league.logo
+        userDataPath, AssetFolder.leagueLogos, league.logo
     );
 
     return (

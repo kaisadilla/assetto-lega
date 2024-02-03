@@ -1,29 +1,27 @@
+import { League } from "data/schemas";
 import { createContext, useContext, useMemo, useState } from "react";
 
 interface INavigationContext {
-    selectedTab: AppTab;
-    setSelectedTab: (tab: AppTab) => void;
-    leagueScreen: LeagueScreenPage;
-    setLeagueScreen: (screen: LeagueScreenPage) => void;
-    leagueEditorTab: LeagueEditorTab;
-    setLeagueEditorTab: (tab: LeagueEditorTab) => void;
+    currentPage: Page;
+    setCurrentPage: (tab: Page) => void;
+    leagueScreen: LeagueScreenPage; // TODO remake
+    setLeagueScreen: (screen: LeagueScreenPage) => void; // TODO remake
 }
 
 const NavigationContext = createContext({} as INavigationContext);
 export const useNavigationContext = () => useContext(NavigationContext);
 
-export const NavigationContextProvider = ({ tab, children }: any) => {
+export const NavigationContextProvider = ({ tab: page, children }: any) => {
     const [state, setState] = useState({
-        selectedTab: tab ?? 0,
+        currentPage: page ?? 0,
         leagueScreen: LeagueScreenPage.SELECTION,
-        leagueEditorTab: LeagueEditorTab.INFO,
-    });
+    } as INavigationContext);
 
-    const value = useMemo(() => {
-        const setSelectedTab = (tab: AppTab) => {
+    const value = useMemo<INavigationContext>(() => {
+        const setCurrentPage = (tab: Page) => {
             setState({
                 ...state,
-                selectedTab: tab
+                currentPage: tab
             })
         };
 
@@ -34,18 +32,10 @@ export const NavigationContextProvider = ({ tab, children }: any) => {
             });
         }
 
-        const setLeagueEditorTab = (tab: LeagueEditorTab) => {
-            setState({
-                ...state,
-                leagueEditorTab: tab
-            });
-        }
-
         return {
             ...state,
-            setSelectedTab,
+            setCurrentPage,
             setLeagueScreen,
-            setLeagueEditorTab,
         }
     }, [state]);
 
@@ -56,7 +46,7 @@ export const NavigationContextProvider = ({ tab, children }: any) => {
     );
 }
 
-export enum AppTab {
+export enum Page {
     FREE_DRIVE,
     LEAGUES,
     EDITOR,
@@ -67,11 +57,3 @@ export enum LeagueScreenPage {
     LEAGUE,
     EDITOR,
 };
-
-export enum LeagueEditorTab {
-    INFO,
-    TEAMS,
-    TRACKS,
-    CALENDAR,
-    SCORE_SYSTEM,
-}

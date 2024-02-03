@@ -4,7 +4,7 @@
  * actions reserved for the main process.
  */
 
-import { app } from "electron";
+import { AssetFolder, Assets } from "./assets";
 
 export const Files = {
     /**
@@ -17,7 +17,7 @@ export const Files = {
      * @param name The name of the file, as specified in the json data container
      * (i.e. including flags such as '@').
      */
-    getFilePath (userDataPath: string, folder: string, name: string) : string {
+    getFilePath (userDataPath: string, folder: AssetFolder, name: string) : string {
         let isDefaultResource = false;
 
         // it's a default resource bundled with the program.

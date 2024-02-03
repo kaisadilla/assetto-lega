@@ -1,9 +1,8 @@
-import LeagueMenu from 'components/LeagueMenu';
-import LeagueEditor from 'components/leaguePage/LeagueEditor';
+import React, { useState } from 'react';
+import LeagueEditor from 'screens/pages/editor-page/LeagueEditor';
 import { useDataContext } from 'context/useDataContext';
 import { League } from 'data/schemas';
-import Button from 'elements/Button';
-import Icon from 'elements/Icon';import React, { useState } from 'react';
+import LeagueSelection from './editor-page/LeagueSelection';
 
 export interface EditorPageProps {
 
@@ -19,7 +18,7 @@ function EditorPage (props: EditorPageProps) {
     return (
         <div className="editor-page">
             {league === null && <LeagueSelection onSelect={handleSelectLeague} />}
-            {league && <LeagueEditor mode="create" />}
+            {league && <LeagueEditor league={league} />}
         </div>
     );
 
@@ -33,34 +32,6 @@ function EditorPage (props: EditorPageProps) {
             throw `Cannot find league with name ${leagueId}`;
         }
     }
-}
-
-
-export interface LeagueSelectionProps {
-    onSelect: (leagueId: string) => void;
-}
-
-function LeagueSelection ({
-    onSelect,
-}: LeagueSelectionProps) {
-    const { leagues } = useDataContext();
-
-    return (
-        <div className="league-selection">
-            <div className="league-menu-container">
-                <LeagueMenu
-                    leagues={leagues}
-                    onSelect={onSelect}
-                />
-            </div>
-            <div className="toolbar-bottom">
-                <Button onClick={() => console.log("not implemented: create league")}>
-                    <Icon name="fa-plus" />
-                    <span>Create league</span>
-                </Button>
-            </div>
-        </div>
-    );
 }
 
 export default EditorPage;
