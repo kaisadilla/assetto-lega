@@ -97,6 +97,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
+    "react-slider": "^2.0.6",
     "react-tooltip": "^5.23.0"
   },
   "devDependencies": {
@@ -113,6 +114,7 @@
     "@types/node": "18.13.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/react-slider": "^1.3.6",
     "@types/react-test-renderer": "^18.0.0",
     "@types/terser-webpack-plugin": "^5.0.4",
     "@types/webpack-bundle-analyzer": "^4.6.0",

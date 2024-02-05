@@ -14,7 +14,7 @@ import { DEFAULT_TOOLTIP_ID } from 'names';
 export default function App () {    
     return (
         <>
-            <div className="app">
+            <div className="window">
                 <SettingsContextProvider>
                 <NavigationContextProvider tab={Page.LEAGUES}>
                 <LeagueEditorContextProvider>

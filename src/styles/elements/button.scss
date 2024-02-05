@@ -1,7 +1,7 @@
 @import "../variables";
 
 .default-button {
-    background-color: #ffffff20;
+    background-color: $bg-color-dark-l1;
     padding: 4px 8px;
     font-size: 10pt;
 
@@ -14,13 +14,13 @@
         //font-size: 12pt;
     }
 
-    &:not(.disabled) {
+    &:not(.disabled):not(.highlighted) {
         &:focus {
             outline: 1px solid $color-primary;
         }
     
         &:hover:not(:disabled):not(:active) {
-            background-color: #ffffff30;
+            background-color: $bg-color-dark-l2;
         }
     
         &:active {
@@ -30,5 +30,21 @@
 
     &.disabled {
         color: #ffffff60;
+    }
+
+    &.highlighted:not(.disabled) {
+        background-color: $color-primary;
+
+        &:focus {
+            outline: 1px solid $text-color-dark-d2;
+        }
+
+        &:hover:not(:disabled):not(:active) {
+            background-color: $color-primary-l2;
+        }
+
+        &:active {
+            background-color: $color-primary-d2;
+        }
     }
 }

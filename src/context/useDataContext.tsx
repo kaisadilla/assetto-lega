@@ -1,4 +1,5 @@
 //import { ipcRenderer } from "electron";
+import { AssetFolder } from "data/assets";
 import { League, UserSettings } from "data/schemas";
 import { isFolderAssettoCorsa } from "game/assettoCorsa";
 import Ipc from "main/ipc/ipcRenderer";
@@ -20,6 +21,7 @@ interface DataContextState {
     leaguesById: LeagueCollection;
     isACFolderValid: boolean;
     updateSettings: (settings: UserSettings) => void;
+    getDataFolder: (folder: AssetFolder) => string;
 }
 
 export const DataContextProvider = ({ children }: any) => {
@@ -41,9 +43,14 @@ export const DataContextProvider = ({ children }: any) => {
             // TODO: what if it fails?
         }
 
+        function getDataFolder (assetFolder: AssetFolder) {
+            return state.dataPath + "/" + assetFolder;
+        }
+
         return {
             ...state,
             updateSettings,
+            getDataFolder,
         }
     }, [state]);
 

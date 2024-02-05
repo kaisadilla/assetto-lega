@@ -1,10 +1,13 @@
 @import "root";
 
+@import "components/image-gallery-selector";
 @import "components/image-picker";
 @import "components/main-menu";
 @import "components/league-menu";
 
+@import "elements/cover-panel";
 @import "elements/path-selector";
+@import "elements/scale-scroll";
 
 @import "screens/screen";
 @import "screens/screen-initialize-app";
@@ -12,8 +15,8 @@
 @import "screens/pages/editor-page";
 @import "screens/pages/league-page";
 
-.app {
-    background-color: #0f121b;
+.window {
+    background-color: $bg-color-dark;
     width: 100vw;
     height: 100vh;
 }

@@ -1,0 +1,50 @@
+.default-scale-scroll {
+    //background: blue;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    .scale-scroll-main {
+        width: 100%;
+        height: 100%;
+    
+        .scroll-track {
+            top: calc(50% - 2px);
+            height: 4px;
+            background: $bg-color-dark-l1;
+        
+            &.scroll-track-0 {
+                background: $bg-color-dark-l1;
+            }
+        
+            //&.scroll-track-1 {
+            //    width: 12px;
+            //    height: 12px;
+            //    background: yellow;
+            //}
+        }
+    
+        .scroll-thumb {
+            cursor: pointer;
+            background: $bg-color-dark-l4;
+            width: 10px;
+            height: 100%;
+            outline: none;
+        }
+    
+        .scroll-mark {
+            bottom: 0;
+            width: 0.5px;
+            height: 4px;
+            background-color: $bg-color-dark-l4;
+        }
+    }
+
+    .reset-button.reset-button {
+        width: 26px;
+        height: 26px;
+    }
+}

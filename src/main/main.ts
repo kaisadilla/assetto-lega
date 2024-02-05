@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from "path";
-import { app, BrowserWindow, shell, ipcMain, protocol } from "electron";
+import { app, BrowserWindow, shell, ipcMain, protocol, BrowserWindowConstructorOptions, net } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import MenuBuilder from "./menu";
@@ -17,6 +17,7 @@ import { resolveHtmlPath } from "./util";
 import { createIpcHandlers } from "./ipc/ipcMain";
 import { verifyUserDataFolder } from "./userdata";
 import { fileURLToPath } from "url";
+import { WindowType } from "./WindowType";
 
 const OPEN_DEVTOOLS_IN_DEBUG_MODE = false;
 
@@ -83,6 +84,8 @@ const createWindow = async () => {
         icon: getAssetPath("icon.png"),
         width: 1380, // 1024
         height: 940, // 728
+        minWidth: 800,
+        minHeight: 600,
         autoHideMenuBar: true,
         //frame: false,
         //titleBarStyle: "hidden", // this does the same as frame ?
@@ -93,7 +96,48 @@ const createWindow = async () => {
             contextIsolation: false,
             nodeIntegration: true,
         },
+        // TODO: custom title bar
+        //titleBarStyle: "hidden",
+        //titleBarOverlay: {
+        //    color: "#0f121b",
+        //    symbolColor: "#ffffff",
+        //    height: 33, // default: 44  -> 48 = 61
+        //},
     });
+
+    mainWindow.setMenu(null);
+
+    mainWindow.webContents.setWindowOpenHandler((args) => {
+        if (args.frameName === WindowType.ResizableBlockingPopup) {
+            return {
+                action: "allow",
+                overrideBrowserWindowOptions: {
+                    frame: true,
+                    parent: mainWindow,
+                    minWidth: 400,
+                    minHeight: 400,
+                    title: args.features,
+                    modal: true,
+                    minimizable: false,
+                    skipTaskbar: true,
+                    autoHideMenuBar: true,
+                    // this would show window controls but no title bar.
+                    //titleBarStyle: "hidden",
+                    //titleBarOverlay: true,
+                } as BrowserWindowConstructorOptions
+            }
+        }
+
+        console.error(
+            "Attempting to create a window with unknown frameName: " +
+            args.frameName
+        );
+
+        return {
+            action: "deny",
+        }
+    });
+
 	//window.setMenuBarVisibility(false);
 
     //mainWindow.maximize();
@@ -162,9 +206,9 @@ function createIpcMethods () {
 }
 
 function registerProtocols () {
-    protocol.registerFileProtocol("atom", (req, callback) => {
+    protocol.registerFileProtocol("asset", (req, callback) => {
         const filePath = fileURLToPath(
-            "file://" + req.url.slice("atom://".length)
+            "file://" + req.url.slice("asset://".length)
         );
         callback(filePath);
     });

@@ -1,9 +1,11 @@
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
+import WindowPopup from 'elements/WindowPopup';
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { getClassString } from 'utils';
+import ImageGallerySelector from './ImageGallerySelector';
+import CoverPanel from 'elements/CoverPanel';
 
 export interface ImagePickerProps {
     /**
@@ -18,7 +20,7 @@ export interface ImagePickerProps {
      * A method called when the user chooses a new image.
      * @param image The name of the image chosen by the user.
      */
-    onChange?: (image: string) => void;
+    onChange?: (image: string | null) => void;
     className?: string;
 }
 
@@ -30,7 +32,7 @@ function ImagePicker ({
 }: ImagePickerProps) {
     const { dataPath } = useDataContext();
 
-    const [isClicked, setClicked] = useState(false);
+    const [isGalleryOpen, setGalleryOpen] = useState(false);
 
     const classStr = getClassString(
         "image-picker",
@@ -55,27 +57,49 @@ function ImagePicker ({
     })();
 
     return (
-        <div className={classStr} onClick={() => setClicked(true)}>
-            {$img}
-            {isClicked && <Popup onClose={() => console.log("posok")} />}
+        <div className={classStr}>
+            <div
+                className="image-picker-content"
+                onDoubleClick={() => {setGalleryOpen(true)}}
+            >
+                {$img}
+            </div>
+            {isGalleryOpen && (
+            <CoverPanel onClose={handlePopupClose}>
+                <ImageGallerySelector
+                    directory={directory}
+                    preSelectedImage={image}
+                    onSelect={handleGallerySelect}
+                    onCancel={() => setGalleryOpen(false)}
+                />
+            </CoverPanel>
+            )}
         </div>
     );
+
+    function handlePopupClose () {
+        console.info("popup close!");
+        setGalleryOpen(false);
+    }
+
+    function handleGallerySelect (image: string | null) {
+        setGalleryOpen(false);
+        onChange?.(image);
+    }
 }
 
 export default ImagePicker;
 
-export interface PopupProps {
-    onClose: () => void;
-}
+//export interface ImageGalleryPopupProps {
+//    onClose: () => void;
+//}
 
-function Popup (props: PopupProps) {
-    const $container = document.createElement("div");
-    let wnd = window.open("", "resizable-blocking-popup");
-
-    if (!wnd) return <div>Error</div>
-
-    wnd.document.body.appendChild($container);
-    wnd.onunload = () => props.onClose();
-
-    return createPortal(<div>POPUP!</div>, $container);
-}
+//function ImageGalleryPopup ({
+//    onClose,
+//}: ImageGalleryPopupProps) {
+//    return (
+//        <WindowPopup title="Choose an image" onClose={onClose}>
+//            <ImageGallerySelector directory={directory} />
+//        </WindowPopup>
+//    )
+//}

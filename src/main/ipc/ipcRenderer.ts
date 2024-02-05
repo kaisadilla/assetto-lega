@@ -1,5 +1,6 @@
 import { League, UserSettings } from "data/schemas";
-import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { AssetFolder } from "data/assets";
+import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 
 const Ipc = {
     async getDataFolderPath () : Promise<string> {
@@ -25,6 +26,21 @@ const Ipc = {
     },
     async verifyPaths (paths: string[]) : Promise<boolean> {
         return await getIpcRenderer().invoke(HANDLER_FILES_VERIFY_PATHS, paths);
+    },
+
+    async scanFilesInDirectory (folderPath: string) : Promise<string[]> {
+        return await getIpcRenderer().invoke(HANDLER_FILES_SCAN_DIRECTORY, folderPath);
+    },
+
+    async uploadFile (
+        format: Electron.FileFilter[] | Electron.FileFilter,
+        directory: AssetFolder
+    ) : Promise<string | null>
+    {
+        if (Array.isArray(format) === false) {
+            format = [format];
+        }
+        return await getIpcRenderer().invoke(HANDLER_FILES_UPLOAD, {format, directory});
     },
 };
 

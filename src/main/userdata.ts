@@ -1,8 +1,9 @@
 import { League, UserSettings } from "data/schemas";
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { app, nativeImage } from "electron";
+import { app, dialog, nativeImage } from "electron";
 import path from "path";
+import { AssetFolder } from "data/assets";
 
 export const USERDATA_FOLDER = "assetto-lega";
 export const FILE_SETTINGS = "settings.json";
@@ -95,6 +96,41 @@ export const Data = {
     async loadImage (path: string) {
         const lm = nativeImage.createFromPath("C:/Program Files (x86)/Steam/steamapps/common/assettocorsa/content/tracks/monza/ui/preview.png");
         return lm.toPNG();
+    },
+
+    async scanFilesInDirectory (folderPath: string) {
+        const files = await fsAsync.readdir(folderPath);
+        return files;
+    },
+
+    async uploadFile (filters: Electron.FileFilter[], directory: AssetFolder)
+        : Promise<string | null>
+    {
+        const result = await dialog.showOpenDialog({
+            properties: ["openFile"],
+            filters: filters
+        });
+
+        if (result.canceled === false && result.filePaths.length <= 0) {
+            return null;
+        }
+
+        try {
+            const srcPath = result.filePaths[0];
+            const fileName = path.parse(srcPath).base;
+            const destPath = getDataFolderPath() + "/" + directory + "/" + fileName;
+
+            // TODO: Handle when image already exists
+            await fsAsync.copyFile(srcPath, destPath);
+            console.log(`Copied file ${fileName} into ${destPath}.`);
+
+            return fileName;
+        }
+        catch (err) {
+            console.error("Error while uploading file!", err);
+
+            return null;
+        }
     }
 }
 

@@ -1,9 +1,15 @@
 import { Data } from "../userdata";
-import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
 import { UserSettings } from "data/schemas";
+import { AssetFolder } from "data/assets";
+
+interface UploadFilesArgs {
+    format: Electron.FileFilter[],
+    directory: AssetFolder,
+}
 
 export function createIpcHandlers (ipcMain: Electron.IpcMain) {
     ipcMain.handle(HANDLER_GET_DATA_PATH, (evt, arg) => {
@@ -41,5 +47,16 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         }
 
         return exists;
+    });
+
+    ipcMain.handle(HANDLER_FILES_SCAN_DIRECTORY, async (evt, folderPath: string) => {
+        const files = await Data.scanFilesInDirectory(folderPath);
+        return files;
+    });
+
+    ipcMain.handle(HANDLER_FILES_UPLOAD, async (evt, {format, directory}: UploadFilesArgs)
+        : Promise<string | null> =>
+    {
+        return await Data.uploadFile(format, directory);
     });
 }
