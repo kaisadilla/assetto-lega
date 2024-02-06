@@ -2,6 +2,7 @@ import { useDataContext } from 'context/useDataContext';
 import { AssetFolder, Assets } from 'data/assets';
 import { FileTypes } from 'data/files';
 import Button from 'elements/Button';
+import ColorChooser from 'elements/ColorChooser';
 import ScaleScroll from 'elements/ScaleScroll';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +17,8 @@ export interface ImageGallerySelectorProps {
     onCancel?: (selectedImage: string | null) => void;
 }
 
+type BackgroundColor = "dark" | "transparent" | "white";
+
 function ImageGallerySelector ({
     directory,
     preSelectedImage,
@@ -28,11 +31,18 @@ function ImageGallerySelector ({
     const [selectedImage, setSelectedImage] = useState(preSelectedImage ?? null);
 
     const [imgScale, setImgScale] = useState(120);
+    const [bgColor, setBgColor] = useState<BackgroundColor>("white");
 
     // read user assets in the AppData folder and load them into "userFiles".
     useEffect(() => {
         loadUserFiles();
     }, []);
+
+    const colorOptions = {
+        "dark": "#000000",
+        "transparent": "#00000000",
+        "white": "#ffffff",
+    }
 
     const $defaultImgs = (() => {
         const $imgs = [];
@@ -78,22 +88,27 @@ function ImageGallerySelector ({
         return $imgs;
     })();
 
+    const previewContainerClass = `preview-container ${bgColor}`;
+
     return (
         <div className="image-gallery-selector">
             <div className="galleries">
                 <h2>Default images</h2>
-                <div className="preview-container">
+                <div className={previewContainerClass}>
                     {$defaultImgs}
                 </div>
                 <h2>Custom images</h2>
-                <div className="preview-container">
-                <div className="preview-container">
+                <div className={previewContainerClass}>
                     {$userImgs}
-                </div>
                 </div>
             </div>
             <div className="buttons">
                 <span className="selected-image-name">{selectedImage}</span>
+                <ColorChooser
+                    options={colorOptions}
+                    selectedOption={bgColor}
+                    onChange={color => setBgColor(color as BackgroundColor)}
+                />
                 <ScaleScroll
                     min={48}
                     max={256}
