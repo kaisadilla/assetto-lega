@@ -1,18 +1,20 @@
 import { Countries } from 'data/countries';
 import CoverPanel from 'elements/CoverPanel';
 import React, { useState } from 'react';
-import CouuntryPicker from './CountryPicker';
+import CountryPicker from './CountryPicker';
 
 export interface CountryFieldProps {
     /**
      * The internal name of the selected country.
      */
     value: string;
+    allowRegions?: boolean;
     onChange?: (country: string | null) => void;
 }
 
 function CountryField ({
     value,
+    allowRegions,
     onChange,
 }: CountryFieldProps) {
     const [isPickerOpen, setPickerOpen] = useState(false);
@@ -34,9 +36,10 @@ function CountryField ({
                     <img className="small-flag" src={country.flag} />
                 </div>
                 <div className="country-name">
-                    {country.displayName.length > 1
-                        ? country.displayName
-                        : "<country>"
+                    {
+                        country.displayName === ""
+                            ? "<unnamed country>"
+                            : country.displayName
                     }
                 </div>
             </>
@@ -50,8 +53,9 @@ function CountryField ({
             </div>
             {isPickerOpen && (
             <CoverPanel>
-                <CouuntryPicker
-                    preSelectedCountry={"uk"}
+                <CountryPicker
+                    preSelectedCountry={"united_kingdom"}
+                    allowRegions={allowRegions}
                     onSelect={handlePickerSelect}
                     onCancel={() => setPickerOpen(false)}
                 />

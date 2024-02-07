@@ -1,5 +1,52 @@
 .default-country-picker {
-    .country-list {
+    min-height: 0;
+
+    > .country-list {
         flex: 1;
+        padding: 24px;
+
+        .country-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            overflow-y: auto;
+            gap: 8px;
+            padding-bottom: 12px;
+        }
+    }
+
+    .selectable-country {
+        position: relative;
+        padding: 0 12px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+
+        width: 182px;
+        height: 48px;
+
+        background: $bg-color-dark-l1;
+
+        > .country-flag {
+            width: 42px;
+        }
+        > .country-name {
+            @include ellipsis();
+        }
+
+        > .country-highlighter {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid $text-color-dark-d2;
+        }
+
+        &.selected > .country-highlighter {
+            border: 3px solid $color-primary;
+        }
     }
 }

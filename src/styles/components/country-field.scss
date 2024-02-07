@@ -3,7 +3,7 @@
         background-color: $color-transparent-w2;
     }
 
-    .country-content {
+    > .country-content {
         cursor: pointer;
 
         height: 100%;
@@ -26,7 +26,7 @@
             padding: 0 5px;
         }
     
-        .country-flag {
+        > .country-flag {
             height: 20px;
     
             img {
@@ -35,7 +35,7 @@
             }
         }
     
-        .country-name {
+        > .country-name {
             height: 100%;
             display: flex;
             align-items: center;

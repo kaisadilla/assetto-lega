@@ -95,7 +95,7 @@ function InfoTab ({
                 </div>
                 <div className="info-section-cell region-cell">
                     <LabeledControl label="Region" required>
-                        <CountryField value={league.region} />
+                        <CountryField value={league.region} allowRegions />
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell region-cell">

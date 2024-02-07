@@ -2,5 +2,6 @@ export const DEFAULT_TOOLTIP_ID = "default-tooltip";
 
 export const TAB_INDICES = {
     ImagePicker: 5_000,
+    CountryPicker: 6_000,
     textboxSuggestions: 12_000,
 }
