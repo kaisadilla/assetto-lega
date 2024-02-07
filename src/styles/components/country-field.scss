@@ -1,0 +1,51 @@
+.default-country-field {
+    &:hover {
+        background-color: $color-transparent-w2;
+    }
+
+    .country-content {
+        cursor: pointer;
+
+        height: 100%;
+        width: fit-content;
+        min-width: min(160px, 100%);
+        padding: 0 6px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    
+        &:hover {
+            color: $color-primary-l2;
+            text-decoration: underline;
+        }
+    
+        &:focus {
+            border: 1px solid $color-primary;
+            background-color: $color-transparent-w2;
+            padding: 0 5px;
+        }
+    
+        .country-flag {
+            height: 20px;
+    
+            img {
+                height: 100%;
+                border: 1px solid $text-color-dark-d2;
+            }
+        }
+    
+        .country-name {
+            height: 100%;
+            display: flex;
+            align-items: center;
+    
+            &.country-error {
+                font-style: italic;
+                background-color: $color-primary-d5;
+                color: $color-primary-l3;
+                padding: 0 6px;
+            }
+        }
+    }
+}

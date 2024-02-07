@@ -1,3 +1,4 @@
+import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
 import { AssetFolder } from 'data/assets';
 import { League } from 'data/schemas';
@@ -94,7 +95,12 @@ function InfoTab ({
                 </div>
                 <div className="info-section-cell region-cell">
                     <LabeledControl label="Region">
-                        {league.region}
+                        <CountryField value={league.region} />
+                    </LabeledControl>
+                </div>
+                <div className="info-section-cell region-cell">
+                    <LabeledControl label="Color">
+                        {league.color}
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell categories-cell">

@@ -102,7 +102,7 @@ function TextboxSuggestions ({
     return (
         <div
             className="textbox-suggestions"
-            tabIndex={100}
+            tabIndex={1}
         >
             {$suggestions}
         </div>

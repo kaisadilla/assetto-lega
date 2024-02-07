@@ -9,6 +9,7 @@ export interface League {
     displayName: string;
     era?: string;
     region: string;
+    color: string;
     categories: string[];
     logo: string;
     background: string;
