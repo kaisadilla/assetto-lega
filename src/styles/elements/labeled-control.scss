@@ -5,16 +5,22 @@
     flex-direction: row;
     align-items: center;
 
-    .label {
+    > .label {
         width: 120px;
         font-weight: $w-regular;
+
+        > .label-required {
+            color: $color-danger;
+            padding-left: 1px;
+            font-weight: $w-semibold;
+        }
     }
 
-    .value {
+    > .value {
         flex: 1;
         height: 100%;
 
-        .default-control {
+        > .default-control {
             width: 100%;
             height: 100%;
         }

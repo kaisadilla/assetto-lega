@@ -1,0 +1,12 @@
+.default-toolbox-row {
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    gap: 8px;
+
+    .default-button {
+        width: 100px;
+    }
+}

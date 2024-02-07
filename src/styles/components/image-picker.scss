@@ -1,14 +1,4 @@
 .image-picker {
-    background: $bg-color-dark;
-    border: 1px solid $color-primary;
-    width: 80%;
-    height: 80%;
-    min-width: 400px;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-
     h2 {
         padding-bottom: 12px;
     }
@@ -18,20 +8,9 @@
         padding: 24px;
         overflow-y: auto;
     }
-    .buttons {
-        padding: 8px;
-        display: flex;
-        flex-direction: row;
-        justify-content: end;
-        align-items: center;
-        gap: 8px;
-
+    .image-picker-toolbox {
         .default-scale-scroll {
             width: 200px;
-        }
-
-        .default-button {
-            width: 100px;
         }
 
         .selected-image-name {

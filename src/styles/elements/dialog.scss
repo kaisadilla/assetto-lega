@@ -1,0 +1,11 @@
+.default-dialog {
+    background: $bg-color-dark;
+    border: 1px solid $color-primary;
+    width: 80%;
+    height: 80%;
+    min-width: 400px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}

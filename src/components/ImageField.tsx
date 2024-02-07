@@ -40,7 +40,7 @@ function ImageField ({
 }: ImageFieldProps) {
     const { dataPath } = useDataContext();
 
-    const [isGalleryOpen, setGalleryOpen] = useState(false);
+    const [isPickerOpen, setPickerOpen] = useState(false);
 
     const classStr = getClassString(
         "image-field",
@@ -68,32 +68,27 @@ function ImageField ({
         <div className={classStr}>
             <div
                 className="image-field-content"
-                onDoubleClick={() => {setGalleryOpen(true)}}
+                onDoubleClick={() => {setPickerOpen(true)}}
             >
                 {$img}
             </div>
             {/*showName && <div className="image-field-name">{image}</div>*/}
-            {isGalleryOpen && (
-            <CoverPanel onClose={handlePopupClose}>
+            {isPickerOpen && (
+            <CoverPanel>
                 <ImagePicker
                     directory={directory}
                     preSelectedImage={image}
                     defaultImageBackgroundColor={defaultImageBackgroundColor}
-                    onSelect={handleGallerySelect}
-                    onCancel={() => setGalleryOpen(false)}
+                    onSelect={handlePickerSelect}
+                    onCancel={() => setPickerOpen(false)}
                 />
             </CoverPanel>
             )}
         </div>
     );
 
-    function handlePopupClose () {
-        console.info("popup close!");
-        setGalleryOpen(false);
-    }
-
-    function handleGallerySelect (image: string | null) {
-        setGalleryOpen(false);
+    function handlePickerSelect (image: string | null) {
+        setPickerOpen(false);
         onChange?.(image);
     }
 }

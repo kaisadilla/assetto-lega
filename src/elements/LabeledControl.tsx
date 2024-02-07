@@ -21,6 +21,7 @@ function LabeledControl ({
         <div className="default-control default-labeled-control">
             <div className="label">
                 <label>{label}</label>
+                {required && <span className="label-required">*</span>}
             </div>
             <div className="value">
                 {children}

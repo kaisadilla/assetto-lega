@@ -39,14 +39,14 @@ function InfoTab ({
             </div>
             <div className="info-section">
                 <div className="info-section-cell internal-name-cell">
-                    <LabeledControl label="Internal name">
+                    <LabeledControl label="Internal name" required>
                         <Textbox
                             value={league.internalName}
                         />
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell series-cell">
-                    <LabeledControl label="Series">
+                    <LabeledControl label="Series" required>
                         <Textbox
                             value={league.series}
                             onChange={handleChange_series}
@@ -65,7 +65,7 @@ function InfoTab ({
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell year-cell">
-                    <LabeledControl label="Year">
+                    <LabeledControl label="Year" required>
                         <NumericBox
                             value={league.year}
                             onChange={handleChange_year}
@@ -94,12 +94,12 @@ function InfoTab ({
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell region-cell">
-                    <LabeledControl label="Region">
+                    <LabeledControl label="Region" required>
                         <CountryField value={league.region} />
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell region-cell">
-                    <LabeledControl label="Color">
+                    <LabeledControl label="Color" required>
                         {league.color}
                     </LabeledControl>
                 </div>

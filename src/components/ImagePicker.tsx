@@ -3,7 +3,9 @@ import { AssetFolder, Assets } from 'data/assets';
 import { FileTypes } from 'data/files';
 import Button from 'elements/Button';
 import ColorChooser from 'elements/ColorChooser';
+import Dialog from 'elements/Dialog';
 import ScaleScroll from 'elements/ScaleScroll';
+import ToolboxRow from 'elements/ToolboxRow';
 import Ipc from 'main/ipc/ipcRenderer';
 import { TAB_INDICES } from 'names';
 import React, { useEffect, useState } from 'react';
@@ -103,7 +105,7 @@ function ImagePicker ({
     const previewContainerClass = `preview-container ${bgColor}`;
 
     return (
-        <div className="image-picker">
+        <Dialog className="image-picker">
             <div className="galleries">
                 <h2>Default images</h2>
                 <div className={previewContainerClass}>
@@ -114,7 +116,7 @@ function ImagePicker ({
                     {$userImgs}
                 </div>
             </div>
-            <div className="buttons">
+            <ToolboxRow className="image-picker-toolbox">
                 <span className="selected-image-name">{selectedImage}</span>
                 <ColorChooser
                     options={colorOptions}
@@ -138,8 +140,8 @@ function ImagePicker ({
                 >
                     Select
                 </Button>
-            </div>
-        </div>
+            </ToolboxRow>
+        </Dialog>
     );
 
     async function loadUserFiles () {

@@ -1,16 +1,21 @@
 import { Countries } from 'data/countries';
-import React from 'react';
+import CoverPanel from 'elements/CoverPanel';
+import React, { useState } from 'react';
+import CouuntryPicker from './CountryPicker';
 
 export interface CountryFieldProps {
     /**
      * The internal name of the selected country.
      */
     value: string;
+    onChange?: (country: string | null) => void;
 }
 
 function CountryField ({
-    value
+    value,
+    onChange,
 }: CountryFieldProps) {
+    const [isPickerOpen, setPickerOpen] = useState(false);
 
     const $country = (() => {
         if (Object.keys(Countries).includes(value) === false) {
@@ -40,11 +45,29 @@ function CountryField ({
 
     return (
         <div className="default-control default-country-field" tabIndex={1}>
-            <div className="country-content">
+            <div className="country-content" onClick={handleClick}>
                 {$country}
             </div>
+            {isPickerOpen && (
+            <CoverPanel>
+                <CouuntryPicker
+                    preSelectedCountry={"uk"}
+                    onSelect={handlePickerSelect}
+                    onCancel={() => setPickerOpen(false)}
+                />
+            </CoverPanel>
+            )}
         </div>
     );
+
+    function handleClick () {
+        setPickerOpen(true);
+    }
+
+    function handlePickerSelect (image: string | null) {
+        setPickerOpen(false);
+        onChange?.(image);
+    }
 }
 
 export default CountryField;
