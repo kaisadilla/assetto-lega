@@ -1,4 +1,4 @@
-import { Countries } from 'data/countries';
+import { Countries, CountryCategory } from 'data/countries';
 import Button from 'elements/Button';
 import Dialog from 'elements/Dialog';
 import ToolboxRow from 'elements/ToolboxRow';
@@ -12,6 +12,17 @@ export interface CountryPickerProps {
     onSelect: (selectedCountry: string | null) => void;
     onCancel?: (selectedCountry: string | null) => void;
 }
+
+const CATEGORIES_BY_ORDER: CountryCategory[] = [
+    "Europe",
+    "Americas",
+    "Oceania",
+    "Asia",
+    "Middle East",
+    "Africa",
+    "Caribbean",
+    "World",
+]
 
 function CountryPicker ({
     preSelectedCountry,

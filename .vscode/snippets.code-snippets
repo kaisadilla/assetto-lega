@@ -19,14 +19,16 @@
 		"scope": "javascript,typescript",
 		"prefix": "ctry",
 		"body": [
+			",",
 			"\"$1\": {",
 			"	\"displayName\": \"$2\",",
+			"	\"category\": $3,",
 			"	\"flag\": require(\"@assets/flags/$1.png\"),",
 			"	\"assettoCorsa\": {",
 			"		\"name\": \"$2\",",
-			"		\"code\": \"$3\",",
+			"		\"code\": \"$4\",",
 			"	},",
-			"},",
+			"}",
 		]
 	}
 }

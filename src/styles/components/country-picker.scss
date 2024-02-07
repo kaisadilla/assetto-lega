@@ -4,6 +4,8 @@
     > .country-list {
         flex: 1;
         padding: 24px;
+        min-height: 0;
+        overflow-y: auto;
 
         .country-container {
             display: flex;
