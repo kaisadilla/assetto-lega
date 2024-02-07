@@ -31,7 +31,7 @@ function LeagueEditor (props: LeagueEditorProps) {
     const $screen = (() => {
         if (editorTab === EditorTab.INFO) {
             return (
-                <InfoTab />
+                <InfoTab league={league} onChange={handleLeagueFieldChange} />
             )
         }
         if (editorTab === EditorTab.TEAMS) {
@@ -52,6 +52,13 @@ function LeagueEditor (props: LeagueEditorProps) {
             {$screen}
         </div>
     );
+
+    function handleLeagueFieldChange (field: keyof League, value: any) {
+        setLeague({
+            ...league,
+            [field]: value,
+        } as League);
+    }
 }
 
 function cloneLeague (original: League) : League {

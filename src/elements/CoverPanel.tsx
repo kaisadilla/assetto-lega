@@ -10,7 +10,7 @@ function CoverPanel ({
     children,
 }: CoverPanelProps) {
     return (
-        <div className="cover-panel">
+        <div className="default-control cover-panel">
             {children}
         </div>
     );

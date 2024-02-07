@@ -116,3 +116,44 @@ export function generateRandomColor () {
 
     return "#" + col;
 }
+
+/**
+ * Filters the elements in the array given with the filter given, using a smart
+ * function, and returns a new array with the filtered elements.
+ * @param arr The array to filter.
+ * @param filter The filter to pass.
+ * @param caseSensitive If true, won't ignore character case when filtering.
+ */
+export function smartFilterArray (
+    arr: string[], filter: string, caseSensitive?: boolean
+) {
+    const LOCALE = "en-US";
+
+    let regexStr = "";
+    if (filter.length < 2) {
+        regexStr = filter;
+    }
+    // build a regex on the form of: C.*C.*C.*C.*C, where C is each character
+    // in the filter.
+    else {
+        for (let i = 0; i < filter.length - 1; i++) {
+            regexStr += filter[i] + ".*";
+        }
+        regexStr += filter[filter.length - 1];
+    }
+
+    if (!caseSensitive) {
+        // todo: locale stuff.
+        regexStr = regexStr.toLocaleLowerCase(LOCALE);
+    }
+
+    const regex = new RegExp(regexStr);
+
+    return arr.filter(str => {
+        if (!caseSensitive) {
+            str = str.toLocaleLowerCase(LOCALE);
+        }
+
+        return str.match(regex) !== null
+    });
+}

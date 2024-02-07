@@ -38,7 +38,7 @@ function PathSelector ({
     }
 
     return (
-        <div className="default-path-selector">
+        <div className="default-control default-path-selector">
             <span className="label" style={style}>{label}</span>
             <span className="value">{value}</span>
             {status.isValid === false && <PathSelectorError message={status?.message} />}

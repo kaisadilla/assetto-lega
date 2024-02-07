@@ -1,5 +1,4 @@
 import React from 'react';
-import "styles/elements/button.scss";
 import { getClassString } from 'utils';
 
 export interface ButtonProps {
@@ -18,6 +17,7 @@ function Button ({
     children,
 }: ButtonProps) {
     const classStr = getClassString(
+        "default-control",
         "default-button",
         disabled && "disabled",
         highlighted && "highlighted",

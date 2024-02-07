@@ -38,7 +38,7 @@ function ColorChooser ({
     })();
 
     return (
-        <div className="default-color-chooser">
+        <div className="default-control default-color-chooser">
             {$colors}
         </div>
     );

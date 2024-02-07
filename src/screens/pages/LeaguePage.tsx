@@ -45,7 +45,6 @@ function LeaguePage (props: LeaguePageProps) {
     return (
         <div className="league-screen">
             { leagueScreen === LeagueScreenPage.SELECTION && $selection }
-            { leagueScreen === LeagueScreenPage.EDITOR && <LeagueEditor mode="create" /> }
         </div>
     );
 }

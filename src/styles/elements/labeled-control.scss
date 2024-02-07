@@ -1,0 +1,22 @@
+.default-labeled-control {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .label {
+        width: 120px;
+        font-weight: $w-regular;
+    }
+
+    .value {
+        flex: 1;
+        height: 100%;
+
+        .default-control {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

@@ -9,7 +9,7 @@ import { AssetFolder, Assets } from "./assets";
 export const FileTypes = {
     images: {
         name: "Images",
-        extensions: ["png", "jpg", "jpeg", "webp"]
+        extensions: ["png", "jpg", "jpeg", "webp"],
     },
 }
 

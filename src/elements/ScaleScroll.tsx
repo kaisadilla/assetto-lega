@@ -23,7 +23,7 @@ function ScaleScroll ({
     showReset = false,
 }: ScaleScrollProps) {
     return (
-        <div className="default-scale-scroll">
+        <div className="default-control default-scale-scroll">
             <ReactSlider
                 className="scale-scroll-main"
                 min={min}
