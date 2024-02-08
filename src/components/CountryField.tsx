@@ -54,7 +54,7 @@ function CountryField ({
             {isPickerOpen && (
             <CoverPanel>
                 <CountryPicker
-                    preSelectedCountry={"united_kingdom"}
+                    preSelectedCountry={value}
                     allowRegions={allowRegions}
                     onSelect={handlePickerSelect}
                     onCancel={() => setPickerOpen(false)}
@@ -68,9 +68,9 @@ function CountryField ({
         setPickerOpen(true);
     }
 
-    function handlePickerSelect (image: string | null) {
+    function handlePickerSelect (country: string | null) {
         setPickerOpen(false);
-        onChange?.(image);
+        onChange?.(country);
     }
 }
 

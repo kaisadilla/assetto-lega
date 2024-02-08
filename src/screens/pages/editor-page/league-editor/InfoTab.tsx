@@ -95,7 +95,11 @@ function InfoTab ({
                 </div>
                 <div className="info-section-cell region-cell">
                     <LabeledControl label="Region" required>
-                        <CountryField value={league.region} allowRegions />
+                        <CountryField
+                            value={league.region}
+                            onChange={handleChange_region}
+                            allowRegions
+                        />
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell region-cell">
@@ -136,6 +140,10 @@ function InfoTab ({
 
     function handleChange_era (text: string) {
         onChange("era", text);
+    }
+
+    function handleChange_region (region: string) {
+        onChange("region", region);
     }
 }
 

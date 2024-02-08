@@ -13,17 +13,6 @@ export interface CountryPickerProps {
     onCancel?: (selectedCountry: string | null) => void;
 }
 
-const CATEGORIES_BY_ORDER: CountryCategory[] = [
-    "Europe",
-    "Americas",
-    "Oceania",
-    "Asia",
-    "Middle East",
-    "Africa",
-    "Caribbean",
-    "World",
-]
-
 function CountryPicker ({
     preSelectedCountry,
     allowRegions,
@@ -36,21 +25,12 @@ function CountryPicker ({
 
     let tabIndex = TAB_INDICES.CountryPicker;
 
-    const [$countries, $regions] = buildNodeArrays();
+    const $containers = buildContainers();
 
     return (
         <Dialog className="default-country-picker">
             <div className="country-list">
-                {allowRegions && <h2>Regions</h2>}
-                {allowRegions && (
-                    <div className="country-container">
-                        {$regions}
-                    </div>
-                )}
-                <h2>Countries</h2>
-                <div className="country-container">
-                    {$countries}
-                </div>
+                {$containers}
             </div>
             <ToolboxRow className="image-picker-toolbox">
                 <Button onClick={handleCancel}>Cancel</Button>
@@ -65,10 +45,6 @@ function CountryPicker ({
         </Dialog>
     );
 
-    async function handleCountryDoubleClick (country: string) {
-        onSelect(country);
-    }
-
     async function handleSelect () {
         onSelect(selectedCountry);
     }
@@ -77,32 +53,81 @@ function CountryPicker ({
         onCancel?.(selectedCountry);
     }
 
-    function buildNodeArrays () {
-        const countries = [];
-        const regions = [];
+    function buildContainers () {
+        const $containers = [];
 
-        for (const c in Countries) {
-            const country = Countries[c];
-            const $element = (
-                <SelectableCountry
-                    name={c}
-                    selected={selectedCountry === c}
-                    onClick={() => setSelectedCountry(c)}
-                    onDoubleClick={() => handleCountryDoubleClick(c)}
-                    tabIndex={tabIndex}
+        let tabIndex = TAB_INDICES.CountryPicker;
+        const getTabIndex = () => tabIndex++;
+
+        for (const key in CountryCategory) {
+            const value = CountryCategory[key as keyof typeof CountryCategory];
+
+            // skip category 'pseudo' if regions are not allowed.
+            if (!allowRegions && value === CountryCategory.pseudo) {
+                continue;
+            }
+
+            $containers.push(
+                <CategoryCountryContainer
+                    key={value}
+                    category={value}
+                    selectedCountry={selectedCountry}
+                    onChoose={country => setSelectedCountry(country)}
+                    onSubmit={handleCountryDoubleClick}
+                    getTabIndex={getTabIndex}
                 />
-            );
-
-            if (country.isRegion) {
-                regions.push($element);
-            }
-            else {
-                countries.push($element);
-            }
+            )
         }
 
-        return [countries, regions];
+        return $containers;
     }
+
+    async function handleCountryDoubleClick (country: string) {
+        onSelect(country);
+    }
+}
+
+export interface CategoryCountryContainerProps {
+    category: CountryCategory;
+    selectedCountry: string | null;
+    onChoose: (country: string) => void;
+    onSubmit: (country: string) => void;
+    getTabIndex: () => number;
+}
+
+function CategoryCountryContainer ({
+    category,
+    selectedCountry,
+    onChoose,
+    onSubmit,
+    getTabIndex,
+}: CategoryCountryContainerProps) {
+    const filteredCountries = [];
+    for (const c in Countries) {
+        if (Countries[c].category === category) {
+            filteredCountries.push(c);
+        }
+    }
+    // CountryCategory[key as keyof typeof CountryCategory]
+    return (
+        <>
+            <h2>{category}</h2>
+            <div className="country-container">
+                {
+                    filteredCountries.map(c => (
+                        <SelectableCountry
+                            key={c}
+                            name={c}
+                            selected={selectedCountry === c}
+                            onClick={() => onChoose(c)}
+                            onDoubleClick={() => onSubmit(c)}
+                            tabIndex={getTabIndex()}
+                        />
+                    ))
+                }
+            </div>
+        </>
+    );
 }
 
 export interface SelectableCountryProps {
