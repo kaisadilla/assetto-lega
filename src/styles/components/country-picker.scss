@@ -33,6 +33,7 @@
 
         > .country-flag {
             width: 42px;
+            max-height: 42px;
         }
         > .country-name {
             @include ellipsis();

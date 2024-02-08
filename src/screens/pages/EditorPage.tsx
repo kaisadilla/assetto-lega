@@ -18,7 +18,12 @@ function EditorPage (props: EditorPageProps) {
     return (
         <div className="editor-page">
             {league === null && <LeagueSelection onSelect={handleSelectLeague} />}
-            {league && <LeagueEditor league={league} />}
+            {
+                league && <LeagueEditor
+                    league={league}
+                    onCancel={() => setLeague(null)}
+                />
+            }
         </div>
     );
 

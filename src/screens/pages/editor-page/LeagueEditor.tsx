@@ -3,6 +3,8 @@ import { useNavigationContext } from 'context/useNavigation';
 import { useState } from 'react';
 import InfoTab from './league-editor/InfoTab';
 import { League } from 'data/schemas';
+import ToolboxRow from 'elements/ToolboxRow';
+import Button from 'elements/Button';
 
 enum EditorTab {
     INFO,
@@ -24,14 +26,18 @@ export interface LeagueEditorProps {
     onCancel?: (currentVersion: League) => void;
 }
 
-function LeagueEditor (props: LeagueEditorProps) {
-    const [league, setLeague] = useState(cloneLeague(props.league));
+function LeagueEditor ({
+    league,
+    onSave,
+    onCancel,
+}: LeagueEditorProps) {
+    const [editedLeague, setEditedLeague] = useState(cloneLeague(league));
     const [editorTab, setEditorTab] = useState(EditorTab.INFO);
 
     const $screen = (() => {
         if (editorTab === EditorTab.INFO) {
             return (
-                <InfoTab league={league} onChange={handleLeagueFieldChange} />
+                <InfoTab league={editedLeague} onChange={handleLeagueFieldChange} />
             )
         }
         if (editorTab === EditorTab.TEAMS) {
@@ -50,14 +56,22 @@ function LeagueEditor (props: LeagueEditorProps) {
                 <NavBar.Item text="score system" index={EditorTab.SCORE_SYSTEM} />
             </NavBar>
             {$screen}
+            <ToolboxRow>
+                <Button onClick={handleCancel}>Cancel</Button>
+                <Button>Save</Button>
+            </ToolboxRow>
         </div>
     );
 
     function handleLeagueFieldChange (field: keyof League, value: any) {
-        setLeague({
-            ...league,
+        setEditedLeague({
+            ...editedLeague,
             [field]: value,
         } as League);
+    }
+
+    function handleCancel () {
+        onCancel?.(editedLeague);
     }
 }
 

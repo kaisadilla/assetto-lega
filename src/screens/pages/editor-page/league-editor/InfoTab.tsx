@@ -1,5 +1,6 @@
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
+import MultiTagField from 'components/MultiTagField';
 import { AssetFolder } from 'data/assets';
 import { League } from 'data/schemas';
 import LabeledControl from 'elements/LabeledControl';
@@ -99,6 +100,7 @@ function InfoTab ({
                             value={league.region}
                             onChange={handleChange_region}
                             allowRegions
+                            required
                         />
                     </LabeledControl>
                 </div>
@@ -109,7 +111,10 @@ function InfoTab ({
                 </div>
                 <div className="info-section-cell categories-cell">
                     <LabeledControl label="Categories">
-                        {league.categories}
+                        <MultiTagField
+                            values={league.categories}
+                            onChange={handleChange_categories}
+                        />
                     </LabeledControl>
                 </div>
             </div>
@@ -117,33 +122,37 @@ function InfoTab ({
     );
 
     function handleChange_logo (name: string | null) {
-        onChange("logo", name);
+        onChange('logo', name);
     }
 
     function handleChange_background (name: string | null) {
-        onChange("background", name);
+        onChange('background', name);
     }
 
     function handleChange_series (text: string) {
-        onChange("series", text);
+        onChange('series', text);
     }
 
-    function handleChange_year (text: number | null) {
-        if (text !== null) {
-            onChange("year", text);
+    function handleChange_year (year: number | null) {
+        if (year !== null) {
+            onChange('year', year);
         }
     }
 
     function handleChange_displayName (text: string) {
-        onChange("displayName", text);
+        onChange('displayName', text);
     }
 
     function handleChange_era (text: string) {
-        onChange("era", text);
+        onChange('era', text);
     }
 
-    function handleChange_region (region: string) {
-        onChange("region", region);
+    function handleChange_region (region: string | null) {
+        onChange('region', region);
+    }
+
+    function handleChange_categories (categories: string[]) {
+        onChange('categories', categories);
     }
 }
 

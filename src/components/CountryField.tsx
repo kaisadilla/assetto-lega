@@ -9,12 +9,14 @@ export interface CountryFieldProps {
      */
     value: string;
     allowRegions?: boolean;
+    required?: boolean; // TODO: Implement optional 'null' value.
     onChange?: (country: string | null) => void;
 }
 
 function CountryField ({
     value,
     allowRegions,
+    required,
     onChange,
 }: CountryFieldProps) {
     const [isPickerOpen, setPickerOpen] = useState(false);

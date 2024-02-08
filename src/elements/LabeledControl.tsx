@@ -1,8 +1,10 @@
 import React from 'react';
+import { getClassString } from 'utils';
 
 export interface LabeledControlProps {
     label: string;
     required?: boolean;
+    className?: string;
     children?: React.ReactNode;
 }
 
@@ -15,10 +17,17 @@ export interface LabeledControlProps {
 function LabeledControl ({
     label,
     required,
+    className,
     children,
 }: LabeledControlProps) {
+    const classStr = getClassString(
+        "default-control",
+        "default-labeled-control",
+        className,
+    );
+
     return (
-        <div className="default-control default-labeled-control">
+        <div className={classStr}>
             <div className="label">
                 <label>{label}</label>
                 {required && <span className="label-required">*</span>}
