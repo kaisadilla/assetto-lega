@@ -1,14 +1,23 @@
+import { League } from 'data/schemas';
 import Thumbnail from 'elements/Thumbnail';
 import React from 'react';
 
 export interface LeagueThumbnailProps {
+    league: League;
     width: string;
 }
 
-function LeagueThumbnail (props: LeagueThumbnailProps) {
+function LeagueThumbnail ({
+    league,
+    width,
+}: LeagueThumbnailProps) {
     return (
         <div>
-            <Thumbnail width={props.width} />
+            <Thumbnail
+                name={league.displayName}
+                flag={league.region}
+                width={width}
+            />
         </div>
     );
 }

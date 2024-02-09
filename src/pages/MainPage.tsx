@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "styles/components/main-menu.scss";
 import NavBar, { NavBarSize } from 'elements/NavBar';
-import LeaguePage from '../components/LeaguePage';
+import LeagueCatalogPage from './LeagueCatalogPage';
 import FreeSessionPage from '../components/FreeSessionPage';
 import { AppTab, useNavigationContext } from '../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
@@ -27,7 +27,7 @@ function MainPage () {
         }
         else if (selectedTab === AppTab.LEAGUES) {
             return (
-                <LeaguePage />
+                <LeagueCatalogPage />
             );
         }
         else {

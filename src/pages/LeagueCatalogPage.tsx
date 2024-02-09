@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import "styles/components/league-screen.scss";
-import LeagueThumbnail from './leaguePage/LeagueThumbnail';
+import LeagueThumbnail from '../components/leaguePage/LeagueThumbnail';
 import Icon from 'elements/Icon';
 import Button from 'elements/Button';
-import LeagueEditor from './leaguePage/LeagueEditor';
+import LeagueEditor from '../components/leaguePage/LeagueEditor';
 import { LeagueScreen, useNavigationContext } from '../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
 
-export interface LeaguePageProps {
+export interface LeagueCatalogPageProps {
 
 }
 
-function LeaguePage (props: LeaguePageProps) {
+function LeagueCatalogPage (props: LeagueCatalogPageProps) {
+    const { leagues } = useDataContext();
     const { leagueScreen, setLeagueScreen } = useNavigationContext();
 
     const $selection = (
@@ -20,10 +21,15 @@ function LeaguePage (props: LeaguePageProps) {
                 <h1>Choose a league</h1>
             </div>
             <div className="league-cell-leagues">
-                <LeagueThumbnail width="355px" />
-                <LeagueThumbnail width="355px" />
-                <LeagueThumbnail width="355px" />
-                <LeagueThumbnail width="355px" />
+                {
+                    leagues.map(l => (
+                        <LeagueThumbnail
+                            key={l.internalName}
+                            league={l}
+                            width="355px"
+                        />
+                    ))
+                }
             </div>
             <div className="league-cell-tools">
                 <Button onClick={() => setLeagueScreen(LeagueScreen.EDITOR)}>
@@ -45,4 +51,4 @@ function LeaguePage (props: LeaguePageProps) {
     );
 }
 
-export default LeaguePage;
+export default LeagueCatalogPage;

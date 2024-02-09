@@ -3,6 +3,7 @@ export interface UserSettings {
 }
 
 export interface League {
+    internalName: string;
     displayName: string;
     region: string;
     categories: string[];
