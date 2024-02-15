@@ -157,3 +157,14 @@ export function smartFilterArray (
         return str.match(regex) !== null
     });
 }
+
+export function clampNumber (num: number, min: number, max: number) {
+    return Math.max(Math.min(num, max), min);
+}
+
+export function truncateNumber (num: number, decimalPlaces: number) {
+    const multiplier = 10 ** decimalPlaces;
+    const numToTrim = num * multiplier;
+    const truncated = Math[numToTrim < 0 ? 'ceil' : 'floor'](numToTrim);
+    return truncated / multiplier;
+}

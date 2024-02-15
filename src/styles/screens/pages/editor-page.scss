@@ -58,10 +58,10 @@
                 display: flex;
                 flex-direction: column;
                 overflow-y: auto;
+                gap: 2px;
 
                 .info-section-cell {
                     width: 100%;
-                    height: 24px;
 
                     > .default-labeled-control > .label {
                         width: 100px;

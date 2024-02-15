@@ -1,0 +1,42 @@
+.default-color-field {
+    position: relative;
+
+    &:hover {
+        background-color: $color-transparent-w2;
+    }
+
+    > .color-content {
+        cursor: pointer;
+        
+        height: 100%;
+        width: fit-content;
+        min-width: min(160px, 100%);
+        padding: 0 6px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+
+        > .color-field-sample {
+            width: 18px;
+            height: 18px;
+            border: 1px solid $text-color-dark-d2;
+        }
+    
+        &:hover {
+            color: $color-primary-l2;
+            text-decoration: underline;
+        }
+    
+        &:focus {
+            border: 1px solid $color-primary;
+            background-color: $color-transparent-w2;
+            padding: 0 5px;
+        }
+    }
+
+    > .color-field-picker {
+        position: absolute;
+        z-index: 1000000;
+    }
+}

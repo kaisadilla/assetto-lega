@@ -1,5 +1,5 @@
 import React from 'react';
-import { getClassString } from 'utils';
+import { clampNumber, getClassString } from 'utils';
 
 export interface NumericBoxProps {
     value?: number | null;
@@ -8,6 +8,8 @@ export interface NumericBoxProps {
     maxDecimalPlaces?: number;
     showArrows?: boolean;
     step?: number;
+    minValue?: number;
+    maxValue?: number;
     onChange?: (value: number | null) => void;
     className?: string;
 }
@@ -19,6 +21,8 @@ function NumericBox ({
     maxDecimalPlaces,
     showArrows,
     step,
+    minValue,
+    maxValue,
     onChange,
     className,
 }: NumericBoxProps) {
@@ -29,12 +33,18 @@ function NumericBox ({
         className,
     );
 
+    // TODO: better handling of decimal period.
+    let valueStr = value?.toString() ?? "";
+    if (value !== undefined && allowDecimals && valueStr.indexOf(".") === -1) {
+        valueStr += ".";
+    }
+
     return (
         <div className={classStr}>
             <input
                 className="input-field"
                 type="numeric"
-                value={value ?? ""}
+                value={valueStr}
                 onChange={handleChange}
             />
         </div>
@@ -70,16 +80,23 @@ function NumericBox ({
                 }
             }
         }
-        const num = parseFloat(str);
+
+        let num = parseFloat(str);
 
         if (isNaN(num)) {
             if (!allowEmpty && str === "") {
-                onChange(0);
-                return;
+                num = 0;
             }
             else {
                 return;
             }
+        }
+
+        if (minValue && num < minValue) {
+            num = minValue;
+        }
+        if (maxValue && num > maxValue) {
+            num = maxValue;
         }
 
         onChange(num);

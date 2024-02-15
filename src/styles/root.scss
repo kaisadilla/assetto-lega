@@ -7,9 +7,15 @@
     @include no-highlight();
 
     font-family: $font-std;
-    font-weight: $w-light;
+    font-weight: $w-regular;
     font-size: 10pt;
     color: white;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.25) {
+    :root {
+        font-weight: $w-light;
+    }
 }
 
 * {

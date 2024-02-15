@@ -1,0 +1,135 @@
+.default-color-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    // override other classes
+    &.default-color-picker {
+        min-width: 0px;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    > .color-controls {
+        display: flex;
+        gap: 16px;
+        padding: 24px;
+
+        > .color-gadgets {
+            display: grid;
+            grid-template: "sat hue" 320px
+                           "swa emp" 12px / 320px 30px;
+
+            > .saturation-container {
+                grid-area: sat;
+                
+                position: relative;
+                width: 300px;
+                height: 300px;
+                border: 1px solid $text-color-dark-d2;
+            }
+    
+            > .hue-container {
+                grid-area: hue;
+
+                position: relative;
+                width: 30px;
+                height: 300px;
+                border: 1px solid $text-color-dark-d2;
+            }
+            > .swatches-container {
+                grid-area: swa;
+
+                position: relative;
+                width: 300px;
+                height: 12px;
+                display: flex;
+                align-items: center;
+
+                > div {
+                    margin-top: 0px !important;
+                    width: 100%;
+                }
+            }
+        }
+
+        > .manual-input-container {
+            > .color-comparison {
+                width: 100px;
+                height: 100px;
+                border: 1px solid $text-color-dark-d2;
+
+                .color-old, .color-new {
+                    width: 100%;
+                    height: 50%;
+                }
+            }
+
+            > .color-parameters {
+                display: flex;
+                flex-direction: column;
+                gap: 0px;
+                align-items: center;
+
+                > .default-form-title {
+                    align-self: start;
+                }
+
+                > .default-labeled-control {
+                    &.hex-control {
+                        width: 100px;
+                        > .label {
+                            width: 36px;
+                        }
+                    }
+
+                    &.rgb-control {
+                        width: 56px;
+    
+                        > .label {
+                            width: 18px;
+                        }
+                    }
+
+                    &.hsl-control {
+                        width: 84px;
+                        > .label {
+                            width: 18px;
+                        }
+
+                        > .after-label {
+                            width: 18px;
+                        }
+                    }
+
+                    > .value input {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+
+    > .image-picker-toolbox {
+        width: 100%;
+    }
+
+    .color-picker-pointer {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #f8f8f8;
+        box-shadow: 0 1px 4px 0 #0000005e;
+        transform: translateX(-10px) translateY(-10px);
+    }
+
+    .color-picker-slider {
+        width: 35px;
+        border-radius: 1px;
+        height: 6px;
+        box-shadow: 0 0 2px #00000099;
+        background: #fff;
+        transform: translateX(-3px) translateY(-3px);
+    }
+}

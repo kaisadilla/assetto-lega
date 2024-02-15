@@ -11,6 +11,7 @@ export interface CountryFieldProps {
     allowRegions?: boolean;
     required?: boolean; // TODO: Implement optional 'null' value.
     onChange?: (country: string | null) => void;
+    tabIndex?: number;
 }
 
 function CountryField ({
@@ -18,6 +19,7 @@ function CountryField ({
     allowRegions,
     required,
     onChange,
+    tabIndex = 1,
 }: CountryFieldProps) {
     const [isPickerOpen, setPickerOpen] = useState(false);
 
@@ -49,7 +51,7 @@ function CountryField ({
     })();
 
     return (
-        <div className="default-control default-country-field" tabIndex={1}>
+        <div className="default-control default-country-field" tabIndex={tabIndex}>
             <div className="country-content" onClick={handleClick}>
                 {$country}
             </div>

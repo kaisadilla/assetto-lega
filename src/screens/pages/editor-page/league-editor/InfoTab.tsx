@@ -1,3 +1,4 @@
+import ColorField from 'components/ColorField';
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
 import MultiTagField from 'components/MultiTagField';
@@ -106,7 +107,10 @@ function InfoTab ({
                 </div>
                 <div className="info-section-cell region-cell">
                     <LabeledControl label="Color" required>
-                        {league.color}
+                        <ColorField
+                            value={league.color}
+                            onChange={handleChange_color}
+                        />
                     </LabeledControl>
                 </div>
                 <div className="info-section-cell categories-cell">
@@ -149,6 +153,10 @@ function InfoTab ({
 
     function handleChange_region (region: string | null) {
         onChange('region', region);
+    }
+
+    function handleChange_color (color: string) {
+        onChange('color', color);
     }
 
     function handleChange_categories (categories: string[]) {

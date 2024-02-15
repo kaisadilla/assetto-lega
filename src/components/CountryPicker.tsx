@@ -45,11 +45,11 @@ function CountryPicker ({
         </Dialog>
     );
 
-    async function handleSelect () {
+    function handleSelect () {
         onSelect(selectedCountry);
     }
 
-    async function handleCancel () {
+    function handleCancel () {
         onCancel?.(selectedCountry);
     }
 
@@ -82,7 +82,7 @@ function CountryPicker ({
         return $containers;
     }
 
-    async function handleCountryDoubleClick (country: string) {
+    function handleCountryDoubleClick (country: string) {
         onSelect(country);
     }
 }

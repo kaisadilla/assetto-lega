@@ -85,16 +85,23 @@ function MultiTagAdder ({
                 className="tag-textbox"
                 value={name}
                 onChange={name => setName(name)}
+                onBlur={handleBlur}
             />
-            <div className="tag-action" onClick={handleClick}>
+            <div className="tag-action" onClick={handleAdd}>
                 <Icon name="fa-plus" />
             </div>
         </div>
     );
 
-    function handleClick () {
+    function handleAdd () {
         onSubmit(name);
         setName("");
+    }
+
+    function handleBlur () {
+        if (name !== "") {
+            handleAdd();
+        }
     }
 }
 

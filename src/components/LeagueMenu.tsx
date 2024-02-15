@@ -20,6 +20,8 @@ function LeagueMenu ({
         backgroundImage: `linear-gradient(#00000060, #00000060), url(${__bg})`,
     }
 
+    // TODO - Important: include "maker" or something like that to distinguish
+    // F1 by VRC from F1 by RSS.
     return (
         <div className="league-menu">
             <div className="section categories">

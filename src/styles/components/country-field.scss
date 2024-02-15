@@ -28,6 +28,8 @@
     
         > .country-flag {
             width: 30px;
+            display: flex;
+            align-items: center;
     
             img {
                 width: 100%;

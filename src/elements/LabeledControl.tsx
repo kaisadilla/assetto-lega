@@ -3,6 +3,7 @@ import { getClassString } from 'utils';
 
 export interface LabeledControlProps {
     label: string;
+    afterLabel?: string;
     required?: boolean;
     className?: string;
     children?: React.ReactNode;
@@ -16,6 +17,7 @@ export interface LabeledControlProps {
  */
 function LabeledControl ({
     label,
+    afterLabel,
     required,
     className,
     children,
@@ -35,6 +37,11 @@ function LabeledControl ({
             <div className="value">
                 {children}
             </div>
+            {afterLabel !== undefined && (
+                <div className="after-label">
+                    <span>{afterLabel}</span>
+                </div>
+            )}
         </div>
     );
 }

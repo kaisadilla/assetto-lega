@@ -5,7 +5,9 @@ export interface TextboxProps {
     value?: string;
     suggestions?: string[];
     placeholder?: string;
+    pattern?: RegExp;
     onChange?: (value: string) => void;
+    onBlur?: (evt: React.FocusEvent<HTMLDivElement, HTMLElement>) => void;
     className?: string;
 }
 
@@ -13,7 +15,9 @@ function Textbox ({
     value = "",
     suggestions,
     placeholder = "---",
+    pattern,
     onChange,
+    onBlur,
     className,
 }: TextboxProps) {
     const [isFocused, setFocused] = useState(false);
@@ -62,6 +66,8 @@ function Textbox ({
                 setFocused(false);
             }
         })
+
+        onBlur?.(evt);
     }
 
     function handleChange (evt: React.ChangeEvent<HTMLInputElement>) {
@@ -70,6 +76,11 @@ function Textbox ({
         if (onChange === undefined) return;
 
         const newValue = evt.target.value;
+
+        if (pattern && pattern.test(newValue) === false) {
+            return;
+        }
+        
         onChange(newValue);
     }
 
