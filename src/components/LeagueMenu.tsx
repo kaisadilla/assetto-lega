@@ -131,7 +131,7 @@ function LeagueMenu ({
             <div className="section seasons">
                 <h3>seasons</h3>
                 <div className="season-container">
-                    <div className="season" onClick={() => onSelect?.("league-vanilla")}>
+                    <div className="season" onClick={() => onSelect?.("f1-2023-rss")}>
                         <div className="season-color" style={{backgroundColor: "#00ffff"}} />
                         <div className="season-logo">
                             <img src={__icon} />

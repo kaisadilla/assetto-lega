@@ -17,8 +17,7 @@ export const AssettoCorsa = {
             throw `Car ${folderName} has no './ui/ui_car.json' file.`;
         }
 
-        const uiJson = await fsAsync.readFile(carUiFile, TEXT_FORMAT); // Todo: detect-file-encoding-and-language
-        const ui = JSON.parse(uiJson) as CarUi;
+        const ui = await readJsonFile<CarUi>(carUiFile);
 
         const skinFolders = await fsAsync.readdir(carSkinFolder);
         const skins: {[folderName: string]: CarSkin} = {};
@@ -31,16 +30,17 @@ export const AssettoCorsa = {
                 console.error(`Car ${folderName} has no './ui_skin.json' file.`);
             }
 
-            const skinUiJson = await fsAsync.readFile(skinUiFile, TEXT_FORMAT);
-            const skinUi = JSON.parse(skinUiJson) as CarSkinUi;
+            const skinUi = await readJsonFile<CarSkinUi>(skinUiFile);
 
             skins[f] = {
+                folderName: f,
                 folderPath: skinFolder,
                 ui: skinUi,
             };
         }
 
         return {
+            folderName,
             folderPath: carFolder,
             ui,
             skins,
@@ -48,7 +48,13 @@ export const AssettoCorsa = {
     },
 };
 
+async function readJsonFile<T> (path: string) : Promise<T> {
+    const str = await fsAsync.readFile(path, TEXT_FORMAT); // Todo: detect-file-encoding-and-language
+    return JSON.parse(str) as T;
+}
+
 export interface CarData {
+    folderName: string;
     /**
      * The absolute path to the folder containing this car.
      */
@@ -87,6 +93,7 @@ export interface CarUiSpecs {
 }
 
 export interface CarSkin {
+    folderName: string;
     folderPath: string;
     ui: CarSkinUi;
 }

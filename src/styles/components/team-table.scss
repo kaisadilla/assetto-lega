@@ -38,160 +38,183 @@
     }
 }
 
-.team {
+.team-table {
     $table-gap: 4px;
 
     display: flex;
-    gap: $table-gap;
-    font-family: "Oxanium";
-    min-height: 64px;
+    flex-direction: column;
+    gap: $table-gap * 2;
 
-    &.text-black {
-        color: black;
-    }
-    &.text-white {
-        color: white;
-    }
-
-    .team-stat {
+    .team {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .stat-name {
-            font-weight: $w-thin;
-            font-size: 9pt;
+        gap: $table-gap;
+        font-family: "Oxanium";
+        min-height: 64px;
+    
+        &.text-black {
+            color: black;
         }
-        .stat-value {
-            font-weight: $w-medium;
+        &.text-white {
+            color: white;
         }
-    }
-
-    > .team-info {
-        width: 650px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: 16px;
-        justify-content: start;
-        align-items: center;
-        padding-left: 16px;
-
-        > .team-logo {
-            width: 72px; //100
-            max-height: 72px;
-        }
-
-        > .team-flag {
-            height: 24px; //48
-        }
-
-        > .team-name-and-badge {
-            display: flex;
-            flex-direction: row;
-            gap: 8px;
-            width: 250px;
-
-            > .team-name {
-                @include ellipsis();
-                font-weight: $w-regular;
-            }
-            > .team-badge {
-                object-fit: contain;
-                width: 32px;
-                max-height: 32px;
-            }
-        }
-        > .team-car {
-            flex: 1;
-            height: 100%;
+    
+        .team-stat {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
-
-            > .team-car-stats {
-                display: flex;
-                flex-direction: row;
-                gap: 6px;
+    
+            .stat-name {
+                font-weight: $w-thin;
+                font-size: 9pt;
+            }
+            .stat-value {
+                font-weight: $w-medium;
             }
         }
-    }
-
-    .driver-list {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        gap: $table-gap;
-
-        .driver-info {
-            height: 48px;
-            padding: 0 8px 0 4px;
+    
+        > .team-info {
+            width: 650px;
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
+            gap: 16px;
             justify-content: start;
             align-items: center;
-            gap: 8px;
-
-            &.solo-driver {
-                height: 100%;
+            padding-left: 16px;
+    
+            > .team-logo {
+                object-fit: contain;
+                width: 72px; //100
+                max-height: 72px;
+                //background: #ffffff80;
+                //padding: 6px;
+                //border-radius: 8px;
             }
-
-            > .driver-number {
-                width: 64px;
-                text-align: center;
-
-                > div {
-                    font-size: 20pt;
-                    font-weight: $w-bold;
-                    margin-top: 6px;
-                    //font-style: italic;
+    
+            > .team-flag {
+                height: 24px; //48
+                box-sizing: content-box;
+                border: 1px solid $text-color-dark-d2;
+            }
+    
+            > .team-name-and-badge {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+                width: 250px;
+    
+                > .team-name {
+                    @include ellipsis();
+                    font-weight: $w-regular;
+                }
+                > .team-badge {
+                    object-fit: contain;
+                    width: 32px;
+                    max-height: 32px;
                 }
             }
-
-            > .driver-flag {
-                max-height: 32px;
-                max-width: 32px;
-                object-fit: contain;
+            > .team-car {
+                flex: 1;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+    
+                > .team-car-stats {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 16px;
+                }
             }
-
-            > .driver-initials {
-                font-size: 12pt;
-                font-weight: $w-bold;
-                padding: 0 6px;
-            }
-
-            > .driver-name {
-                width: 180px;
-                @include ellipsis();
-
-                font-weight: $w-medium;
-            }
-            
-            > .skin-icons {
+        }
+    
+        .driver-list {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: $table-gap;
+    
+            .driver-info {
+                height: 48px;
+                padding: 0 8px 0 4px;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
                 justify-content: start;
                 align-items: center;
-                gap: 3px;
-                flex: 1;
-                overflow-x: auto; // TODO: custom scrollbar
-
-                .skin-icon {
-                    height: 32px;
+                gap: 8px;
+    
+                &.solo-driver {
+                    height: 100%;
                 }
-            }
-            
-            > .driver-stats {
-                grid-area: f;
-                display: flex;
-                justify-content: center;
-
-                .team-stat {
-                    width: 40px;
+    
+                > .driver-number {
+                    width: 64px;
+                    text-align: center;
+    
+                    > div {
+                        font-size: 20pt;
+                        font-weight: $w-bold;
+                        margin-top: 6px;
+                        //font-style: italic;
+                    }
+                }
+    
+                > .driver-flag {
+                    max-height: 32px;
+                    max-width: 32px;
+                    object-fit: contain;
+                    box-sizing: content-box;
+                    border: 1px solid $text-color-dark-d2;
+                }
+    
+                > .driver-initials {
+                    width: 56px;
+                    font-size: 12pt;
+                    font-weight: $w-bold;
+                    text-align: center;
+                    padding: 0 6px;
+                }
+    
+                > .driver-name {
+                    width: 180px;
+                    @include ellipsis();
+    
+                    font-weight: $w-medium;
+                }
+                
+                > .skin-icons {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 3px;
+                    flex: 1;
+                    overflow-x: auto; // TODO: custom scrollbar
+    
+                    .skin-icon {
+                        box-sizing: content-box;
+                        height: 32px;
+                        border: 1px solid $text-color-dark-d2;
+    
+                        &.default-skin {
+                            border: 3px solid $color-golden;
+                        }
+                    }
+                }
+                
+                > .driver-stats {
+                    grid-area: f;
+                    display: flex;
+                    justify-content: center;
+    
+                    .team-stat {
+                        width: 40px;
+                    }
                 }
             }
         }

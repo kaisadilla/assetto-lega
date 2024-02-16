@@ -1,0 +1,248 @@
+{
+    "series": "Formula 1",
+    "year": 2023,
+    "displayName": "2023",
+    "era": "V6 hybrid",
+    "color": "#19C71C",
+    "region": "world",
+    "categories": ["Open-wheel", "Open cockpit"],
+    "logo": "f1_2023.png",
+    "background": "f1_2023.jpg",
+    "teams": [
+        {
+            "name": "Oracle Red Bull F1 Team",
+            "car": "rss_formula_hybrid_2023",
+            "country": "austria",
+            "logo": "@red-bull",
+            "badge": "@red-bull",
+            "color": "#23326A",
+            "ballast": 0,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "1",
+                    "name": "Max Verstappen",
+                    "initials": "VER",
+                    "country": "netherlands",
+                    "skins": [
+                        "RB19_1_Verstappen",
+                        "RB19_Miami_1_Verstappen"
+                    ],
+                    "defaultSkin": "RB19_1_Verstappen",
+                    "strength": 99.3,
+                    "aggression": 98.0
+                },
+                {
+                    "number": "11",
+                    "name": "Sergio Pérez",
+                    "initials": "PER",
+                    "country": "mexico",
+                    "skins": [
+                        "RB19_11_Perez",
+                        "RB19_Miami_11_Perez"
+                    ],
+                    "defaultSkin": "RB19_11_Perez",
+                    "strength": 88.4,
+                    "aggression": 84.2
+                }
+            ]
+        },
+        {
+            "name": "Mercedes-AMG Petronas F1 Team",
+            "car": "rss_formula_hybrid_2023",
+            "country": "germany",
+            "logo": "@mercedes",
+            "badge": "@mercedes",
+            "color": "#1fb2a7",
+            "ballast": 10,
+            "restrictor": 5,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "44",
+                    "name": "Lewis Hamilton",
+                    "initials": "HAM",
+                    "country": "united_kingdom",
+                    "skins": [
+                        "W14_44_Hamilton"
+                    ],
+                    "defaultSkin": "W14_44_Hamilton",
+                    "strength": 96.1,
+                    "aggression": 92.5
+                },
+                {
+                    "number": "63",
+                    "name": "George Russell",
+                    "initials": "RUS",
+                    "country": "united_kingdom",
+                    "skins": [
+                        "W14_63_Russell"
+                    ],
+                    "defaultSkin": "W14_63_Russell",
+                    "strength": 90.7,
+                    "aggression": 97.3
+                }
+            ]
+        },
+        {
+            "name": "Scuderia Ferrari",
+            "car": "rss_formula_hybrid_2023",
+            "country": "italy",
+            "logo": "@ferrari",
+            "badge": "@ferrari",
+            "color": "#a6051a",
+            "ballast": 12,
+            "restrictor": 4,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "16",
+                    "name": "Charles Leclerc",
+                    "initials": "LEC",
+                    "country": "monaco",
+                    "skins": [
+                        "SF23_16_Leclerc",
+                        "SF23_Monaco_16_Leclerc",
+                        "SF23_Monza_16_Leclerc"
+                    ],
+                    "defaultSkin": "SF23_16_Leclerc",
+                    "strength": 92.8,
+                    "aggression": 94.4
+                },
+                {
+                    "number": "55",
+                    "name": "Carlos Sainz",
+                    "initials": "SAI",
+                    "country": "spain",
+                    "skins": [
+                        "SF23_55_Sainz",
+                        "SF23_Monza_55_Sainz",
+                        "SF23_Spain_55_Sainz"
+                    ],
+                    "defaultSkin": "SF23_55_Sainz",
+                    "strength": 90.2,
+                    "aggression": 90.5
+                }
+            ]
+        },
+        {
+            "name": "McLaren F1 Team",
+            "car": "rss_formula_hybrid_2023",
+            "country": "united_kingdom",
+            "logo": "@mclaren",
+            "badge": "@mclaren",
+            "color": "#ff8000",
+            "ballast": 12,
+            "restrictor": 5,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "4",
+                    "name": "Lando Norris",
+                    "initials": "NOR",
+                    "country": "united_kingdom",
+                    "skins": [
+                        "MCL38_4_Norris",
+                        "MCL60_4_Norris",
+                        "MCL60_Chrome_4_Norris",
+                        "MCL60_Triple_Crown_4_Norris"
+                    ],
+                    "defaultSkin": "MCL38_4_Norris",
+                    "strength": 90.0,
+                    "aggression": 88.6
+                },
+                {
+                    "number": "81",
+                    "name": "Oscar Piastri",
+                    "initials": "PIA",
+                    "country": "australia",
+                    "skins": [
+                        "MCL38_81_Piastri",
+                        "MCL60_81_Piastri",
+                        "MCL60_Chrome_81_Piastri",
+                        "MCL60_Triple_Crown_81_Piastri"
+                    ],
+                    "defaultSkin": "MCL38_81_Piastri",
+                    "strength": 85.2,
+                    "aggression": 83.9
+                }
+            ]
+        },
+        {
+            "name": "Aston Martin Aramco Cognizant F1 Team",
+            "car": "rss_formula_hybrid_2023",
+            "country": "united_kingdom",
+            "logo": "@aston-martin",
+            "badge": "@aston-martin",
+            "color": "#00665e",
+            "ballast": 20,
+            "restrictor": 5,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "number": "14",
+                    "name": "Fernando Alonso",
+                    "initials": "ALO",
+                    "country": "spain",
+                    "skins": [
+                        "AMR23_14_Alonso",
+                        "AMR23_Silverstone_14_Alonso"
+                    ],
+                    "defaultSkin": "AMR23_14_Alonso",
+                    "strength": 97.9,
+                    "aggression": 99.2
+                },
+                {
+                    "number": "18",
+                    "name": "Lance Stroll",
+                    "initials": "STR",
+                    "country": "canada",
+                    "skins": [
+                        "AMR23_18_Stroll",
+                        "AMR23_Silverstone_18_Stroll"
+                    ],
+                    "defaultSkin": "AMR23_18_Stroll",
+                    "strength": 72.2,
+                    "aggression": 97.1
+                }
+            ]
+        }
+    ],
+    "tracks": [
+        "ks_nurburgring",
+        "monza"
+    ],
+    "calendar": [
+        {
+            "name": "Germany Grand Prix",
+            "officialName": "Formula 1 Mercedes-Benz Grosser Preis von Deutschland 2019",
+            "track": "ks_nurburgring",
+            "layout": "layout_gp_a",
+            "laps": 67
+        },
+        {
+            "name": "Italian Grand Prix",
+            "officialName": "Italian Grand Prix",
+            "track": "monza",
+            "laps": 53
+        }
+    ],
+    "scoreSystem": {
+        "position": [
+            25,
+            18,
+            15,
+            12,
+            10,
+            8,
+            6,
+            4,
+            2,
+            1
+        ],
+        "minimumPointsPerRace": 0,
+        "fastestLap": 1,
+        "qualifying": null
+    }
+}

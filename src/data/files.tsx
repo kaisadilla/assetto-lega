@@ -6,6 +6,8 @@
 
 import { AssetFolder, Assets } from "./assets";
 
+export const FILE_PROTOCOL = "asset://";
+
 export const FileTypes = {
     images: {
         name: "Images",
@@ -42,8 +44,12 @@ export const Files = {
             return Assets[folder][name];
         }
         else {
-            return "asset://" + dataPath + "/" + folder + "/" + name;
+            return FILE_PROTOCOL + dataPath + "/" + folder + "/" + name;
         }
+    },
+
+    getCarSkinIcon (acPath: string, carFolder: string, skinFolder: string) : string {
+        return FILE_PROTOCOL + acPath + "/content/cars/" + carFolder + "/skins/"
+            + skinFolder + "/livery.png";
     }
-    
 }

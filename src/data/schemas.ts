@@ -40,7 +40,7 @@ export interface LeagueTeamDriver {
     initials: string;
     country: string;
     skins: string[];
-    default_skin: string;
+    defaultSkin: string;
     strength: number;
     aggression: number;
 }

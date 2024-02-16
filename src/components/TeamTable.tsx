@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { COUNTRIES_ASSETTO_TO_LEGA, Countries } from 'data/countries';
 import { loadImage } from 'game/files';
 import Icon from 'elements/Icon';
@@ -11,6 +11,8 @@ import { Files } from 'data/files';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { getClassString } from 'utils';
+import { CarData } from 'main/assettoCorsa';
+import Ipc from 'main/ipc/ipcRenderer';
 
 export interface TeamTableProps {
     teams: LeagueTeam[];
@@ -20,14 +22,11 @@ function TeamTable ({
     teams,
 }: TeamTableProps) {
     return (
-        <div>
+        <div className="team-table">
             {teams.map((t, i) => <TeamEntry key={i} team={t} />)}
         </div>
     );
 }
-
-export default TeamTable;
-
 
 interface TeamEntryProps {
     team: LeagueTeam;
@@ -41,11 +40,19 @@ function TeamEntry ({
 ) {
     const { dataPath } = useDataContext();
 
+    const [car, setCar] = useState<CarData | null>(null);
+
+    useEffect(() => {
+        loadCar();
+    }, []);
+
     const bgStyle = { backgroundColor: team.color ?? "0xff00ff" };
 
     const logoImg = Files.getFilePath(dataPath, AssetFolder.teamLogos, team.logo);
     const countryData = Countries[team.country];
     const badgeImg = Files.getFilePath(dataPath, AssetFolder.teamBadges, team.badge);
+
+    // TODO: Check if team color deserves white or black text.
 
     return (
         <div className="team text-white">
@@ -58,7 +65,7 @@ function TeamEntry ({
                 </div>
                 <div className="team-car">
                     <div className="team-car-name">
-                        <span>Formula Hybrid 2023</span>
+                        <span>{car?.ui.name ?? team.car}</span>
                     </div>
                     <div className="team-car-stats">
                         <div className="team-stat team-car-ballast">
@@ -79,6 +86,7 @@ function TeamEntry ({
                             key={i}
                             team={team}
                             driver={d}
+                            car={car}
                             isSolo={team.drivers.length === 1}
                         />
                     ))
@@ -86,23 +94,33 @@ function TeamEntry ({
             </div>
         </div>
     );
+
+    async function loadCar () {
+        const car = await Ipc.getCarData(team.car);
+        setCar(car);
+    }
 }
 
 interface DriverEntryProps {
     team: LeagueTeam;
     driver: LeagueTeamDriver;
+    car: CarData | null;
     isSolo: boolean;
 }
 
 function DriverEntry ({
     team,
     driver,
+    car,
     isSolo,
 }: DriverEntryProps
 ) {
     const bgStyle = { backgroundColor: team.color };
 
     const countryData = Countries[driver.country];
+    if (!countryData) {
+        throw `Cannot find country with id '${driver.country}'.`;
+    }
 
     const classStr = getClassString(
         "driver-info",
@@ -118,8 +136,10 @@ function DriverEntry ({
             <span className="driver-initials">{driver.initials}</span>
             <span className="driver-name">{driver.name}</span>
             <div className="skin-icons">
-                <img className="skin-icon" src={skinEx} />
-                <img className="skin-icon" src={skinEx} />
+                <DriverEntryCarSkinCollection
+                    driver={driver}
+                    car={car}
+                />
             </div>
             <div className="driver-stats">
                 <div className="team-stat">
@@ -134,3 +154,43 @@ function DriverEntry ({
         </div>
     );
 }
+
+export interface DriverEntryCarSkinCollectionProps {
+    driver: LeagueTeamDriver;
+    car: CarData | null;
+}
+
+function DriverEntryCarSkinCollection ({
+    driver,
+    car,
+}: DriverEntryCarSkinCollectionProps) {
+    const { settings } = useDataContext();
+
+    if (car === null) return <></>;
+
+    const $skins = driver.skins.map(skin => {
+        const classStr = getClassString(
+            "skin-icon",
+            driver.defaultSkin === skin && "default-skin"
+        )
+
+        return (
+            <img
+                key={skin}
+                className={classStr}
+                src={Files.getCarSkinIcon(
+                    settings.assettoCorsaFolder!, car.folderName, skin
+                )}
+            />
+        );
+    });
+
+    return (
+        <>
+            {$skins}
+        </>
+    );
+}
+
+
+export default TeamTable;

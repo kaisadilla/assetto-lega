@@ -13,9 +13,6 @@ function TeamsTab ({
     league,
     onChange,
 }: TeamsTabProps) {
-    const res = Ipc.getCarData("rss_formula_hybrid_2023"); // await
-    console.log(res);
-
     return (
         <div className="editor-tab teams-tab">
             <TeamTable teams={league.teams} />

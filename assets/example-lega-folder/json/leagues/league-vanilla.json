@@ -29,7 +29,7 @@
                         "00_official",
                         "01_ferrari_1"
                     ],
-                    "default_skin": "00_official",
+                    "defaultSkin": "00_official",
                     "strength": 100,
                     "aggression": 98
                 },
