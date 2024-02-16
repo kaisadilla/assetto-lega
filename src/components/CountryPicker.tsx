@@ -106,15 +106,22 @@ function CategoryCountryContainer ({
     const filteredCountries = [];
 
     for (const c in Countries) {
-        if (Countries[c].category === category) {
+        const country = Countries[c];
+        if (country.category === category) {
+            let sortingName = country.displayName;
+            // ignore 'The' when sorting alphabetically.
+            if (sortingName.startsWith("The ")) {
+                sortingName = sortingName.substring(4);
+            }
+
             filteredCountries.push({
                 id: c,
-                displayName: Countries[c].displayName,
+                sortingName,
             });
         }
     }
 
-    filteredCountries.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    filteredCountries.sort((a, b) => a.sortingName.localeCompare(b.sortingName));
 
     const filteredCountryNames = filteredCountries.map(c => c.id);
 
