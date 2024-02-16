@@ -2,6 +2,7 @@ import { Countries } from 'data/countries';
 import CoverPanel from 'elements/CoverPanel';
 import React, { useState } from 'react';
 import CountryPicker from './CountryPicker';
+import { getClassString } from 'utils';
 
 export interface CountryFieldProps {
     /**
@@ -33,13 +34,18 @@ function CountryField ({
         }
 
         const country = Countries[value];
+    
+        const nameClassStr = getClassString(
+            "country-name",
+            country.isPseudo && "country-name-pseudo"
+        )
         
         return (
             <>
                 <div className="country-flag">
                     <img className="small-flag" src={country.flag} />
                 </div>
-                <div className="country-name">
+                <div className={nameClassStr}>
                     {
                         country.displayName === ""
                             ? "<unnamed country>"

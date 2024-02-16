@@ -25,9 +25,11 @@
 
         padding: 12px;
 
-        .info-tab {
+        .editor-tab {
             @include fill-container();
+        }
 
+        .info-tab {
             display: flex;
             flex-direction: row;
             overflow-y: auto;
@@ -63,8 +65,17 @@
                 .info-section-cell {
                     width: 100%;
 
-                    > .default-labeled-control > .label {
-                        width: 100px;
+                    > .default-labeled-control {
+                        > .label {
+                            width: 100px;
+                        }
+                        > .value {
+                            color: $text-color-dark-d1;
+
+                            .default-typebox > input {
+                                color: $text-color-dark-d1;
+                            }
+                        }
                     }
                 }
 

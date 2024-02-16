@@ -5,7 +5,7 @@
     "era": "V6 hybrid",
     "color": "#19C71C",
     "region": "world",
-    "categories": ["Open-wheel"],
+    "categories": ["Open-wheel", "Open cockpit"],
     "logo": "f1_2023.png",
     "background": "f1_2023.jpg",
     "teams": [
@@ -13,7 +13,8 @@
             "name": "Oracle Red Bull F1 Team",
             "car": "ks_ferrari_f2004",
             "country": "austria",
-            "icon": "red_bull.png",
+            "logo": "@red-bull",
+            "badge": "@red-bull",
             "color": "#23326A",
             "ballast": 0,
             "restrictor": 0,
@@ -41,8 +42,8 @@
                         "02_ferrari_2"
                     ],
                     "defaultSkin": "02_ferrari_2",
-                    "strength": 88.41,
-                    "aggression": 84.19
+                    "strength": 88.4,
+                    "aggression": 84.2
                 }
             ]
         }

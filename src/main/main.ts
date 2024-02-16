@@ -87,8 +87,7 @@ const createWindow = async () => {
         minWidth: 800,
         minHeight: 600,
         autoHideMenuBar: true,
-        //frame: false,
-        //titleBarStyle: "hidden", // this does the same as frame ?
+        frame: false,
         webPreferences: {
             preload: app.isPackaged
                 ? path.join(__dirname, "preload.js")
@@ -97,12 +96,12 @@ const createWindow = async () => {
             nodeIntegration: true,
         },
         // TODO: custom title bar
-        //titleBarStyle: "hidden",
-        //titleBarOverlay: {
-        //    color: "#0f121b",
-        //    symbolColor: "#ffffff",
-        //    height: 33, // default: 44  -> 48 = 61
-        //},
+        titleBarStyle: "hidden",
+        titleBarOverlay: {
+            color: "#0f121b",
+            symbolColor: "#ffffff",
+            height: 33, // default: 44  -> 48 = 61
+        },
     });
 
     mainWindow.setMenu(null);

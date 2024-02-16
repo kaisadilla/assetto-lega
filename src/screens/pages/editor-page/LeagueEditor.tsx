@@ -5,6 +5,7 @@ import InfoTab from './league-editor/InfoTab';
 import { League } from 'data/schemas';
 import ToolboxRow from 'elements/ToolboxRow';
 import Button from 'elements/Button';
+import TeamsTab from './league-editor/TeamsTab';
 
 enum EditorTab {
     INFO,
@@ -38,9 +39,12 @@ function LeagueEditor ({
         if (editorTab === EditorTab.INFO) {
             return (
                 <InfoTab league={editedLeague} onChange={handleLeagueFieldChange} />
-            )
+            );
         }
         if (editorTab === EditorTab.TEAMS) {
+            return (
+                <TeamsTab league={editedLeague} onChange={handleLeagueFieldChange} />
+            );
             //return <EditorTabTeams teams={teams} setTeams={setTeams} />
         }
         return <></>;
@@ -58,7 +62,7 @@ function LeagueEditor ({
             {$screen}
             <ToolboxRow>
                 <Button onClick={handleCancel}>Cancel</Button>
-                <Button>Save</Button>
+                <Button highlighted>Save</Button>
             </ToolboxRow>
         </div>
     );

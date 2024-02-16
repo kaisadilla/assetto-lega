@@ -12,6 +12,7 @@ export const FOLDER_LEAGUES = "json/leagues";
 export const FOLDER_IMAGES = "img";
 export const FOLDER_LEAGUE_LOGOS = "img/league-logos";
 export const FOLDER_LEAGUE_BG = "img/league-bg";
+export const FOLDER_TEAM_BADGES = "img/team-badges";
 export const FOLDER_TEAM_LOGOS = "img/team-logos";
 
 const TEXT_FORMAT = "utf-8";
@@ -28,6 +29,7 @@ export async function verifyUserDataFolder () {
     createDataFolderIfNotExists(FOLDER_IMAGES);
     createDataFolderIfNotExists(FOLDER_LEAGUE_LOGOS);
     createDataFolderIfNotExists(FOLDER_LEAGUE_BG);
+    createDataFolderIfNotExists(FOLDER_TEAM_BADGES);
     createDataFolderIfNotExists(FOLDER_TEAM_LOGOS);
 }
 

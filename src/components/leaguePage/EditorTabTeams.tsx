@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import "styles/components/editor-tab-teams.scss";
 import Icon from 'elements/Icon';
-import EditorTeam from 'components/leaguePage/EditorTeam';
+import EditorTeam from 'components/TeamTable';
 import { LeagueTeam } from 'screens/pages/editor-page/LeagueEditor';
 import { generateRandomColor } from 'utils';
 

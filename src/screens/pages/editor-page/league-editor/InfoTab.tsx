@@ -7,6 +7,7 @@ import { League } from 'data/schemas';
 import LabeledControl from 'elements/LabeledControl';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
+import FormTitle from 'elements/form/FormTitle';
 import React from 'react';
 
 export interface InfoTabProps {
@@ -19,8 +20,9 @@ function InfoTab ({
     onChange,
 }: InfoTabProps) {
     return (
-        <div className="info-tab">
+        <div className="editor-tab info-tab">
             <div className="images-section">
+                <FormTitle title="Logo" />
                 <div className="logo-cell">
                     <ImageField
                         className="logo-image-field"
@@ -30,6 +32,7 @@ function InfoTab ({
                         onChange={handleChange_logo}
                     />
                 </div>
+                <FormTitle title="Background" />
                 <div className="background-cell">
                     <ImageField
                         className="background-image-field"
@@ -44,6 +47,7 @@ function InfoTab ({
                     <LabeledControl label="Internal name" required>
                         <Textbox
                             value={league.internalName}
+                            readonly
                         />
                     </LabeledControl>
                 </div>
@@ -92,6 +96,14 @@ function InfoTab ({
                                 "V8",
                                 "V10",
                             ]}
+                        />
+                    </LabeledControl>
+                </div>
+                <div className="info-section-cell era-cell">
+                    <LabeledControl label="Makers">
+                        <Textbox
+                            value={league.makers}
+                            onChange={handleChange_makers}
                         />
                     </LabeledControl>
                 </div>
@@ -149,6 +161,10 @@ function InfoTab ({
 
     function handleChange_era (text: string) {
         onChange('era', text);
+    }
+
+    function handleChange_makers (text: string) {
+        onChange('makers', text);
     }
 
     function handleChange_region (region: string | null) {

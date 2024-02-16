@@ -1,0 +1,199 @@
+@import "../mixins";
+@import "../variables";
+
+.editor-tab-teams {
+    .teams-container {
+        padding: 16px 32px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .add-team {
+            height: 48px;
+            font-family: "Oxanium";
+        }
+    }
+}
+
+.editor-add-button {
+    @include center-content();
+    gap: 6px;
+    cursor: pointer;
+    background-color: $color-success;
+
+    &:hover:not(:disabled):not(:active) {
+        background-color: $color-success-l1;
+    }
+    &:active {
+        background-color: $color-success-d1;
+    }
+    &:focus {
+        outline: 1px solid $color-success-d1;
+    }
+
+    svg {
+        font-size: 18pt;
+        margin-top: -4px;
+    }
+}
+
+.team {
+    $table-gap: 4px;
+
+    display: flex;
+    gap: $table-gap;
+    font-family: "Oxanium";
+    min-height: 64px;
+
+    &.text-black {
+        color: black;
+    }
+    &.text-white {
+        color: white;
+    }
+
+    .team-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .stat-name {
+            font-weight: $w-thin;
+            font-size: 9pt;
+        }
+        .stat-value {
+            font-weight: $w-medium;
+        }
+    }
+
+    > .team-info {
+        width: 650px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 16px;
+        justify-content: start;
+        align-items: center;
+        padding-left: 16px;
+
+        > .team-logo {
+            width: 72px; //100
+            max-height: 72px;
+        }
+
+        > .team-flag {
+            height: 24px; //48
+        }
+
+        > .team-name-and-badge {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            width: 250px;
+
+            > .team-name {
+                @include ellipsis();
+                font-weight: $w-regular;
+            }
+            > .team-badge {
+                object-fit: contain;
+                width: 32px;
+                max-height: 32px;
+            }
+        }
+        > .team-car {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            > .team-car-stats {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+            }
+        }
+    }
+
+    .driver-list {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: $table-gap;
+
+        .driver-info {
+            height: 48px;
+            padding: 0 8px 0 4px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: start;
+            align-items: center;
+            gap: 8px;
+
+            &.solo-driver {
+                height: 100%;
+            }
+
+            > .driver-number {
+                width: 64px;
+                text-align: center;
+
+                > div {
+                    font-size: 20pt;
+                    font-weight: $w-bold;
+                    margin-top: 6px;
+                    //font-style: italic;
+                }
+            }
+
+            > .driver-flag {
+                max-height: 32px;
+                max-width: 32px;
+                object-fit: contain;
+            }
+
+            > .driver-initials {
+                font-size: 12pt;
+                font-weight: $w-bold;
+                padding: 0 6px;
+            }
+
+            > .driver-name {
+                width: 180px;
+                @include ellipsis();
+
+                font-weight: $w-medium;
+            }
+            
+            > .skin-icons {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: start;
+                align-items: center;
+                gap: 3px;
+                flex: 1;
+                overflow-x: auto; // TODO: custom scrollbar
+
+                .skin-icon {
+                    height: 32px;
+                }
+            }
+            
+            > .driver-stats {
+                grid-area: f;
+                display: flex;
+                justify-content: center;
+
+                .team-stat {
+                    width: 40px;
+                }
+            }
+        }
+    }
+}

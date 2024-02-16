@@ -160,8 +160,8 @@
                 
                 display: grid;
                 grid-template:
-                    "col log nam tea tra" 1fr
-                    "col log nam dri era" 1fr / 8px 64px 1fr 64px 64px;
+                    "col log nam tea tra mak" 1fr
+                    "col log nam dri era mak" 1fr / 8px 64px 1fr 64px 64px 64px;
 
                 &:hover {
                     background-color: $bg-color-dark-l2;
@@ -204,6 +204,7 @@
                     align-items: center;
                     font-size: 8pt;
                     font-weight: $w-extralight;
+                    color: $text-color-dark-d1;
                 }
 
                 .season-teams {
@@ -217,6 +218,10 @@
                 }
                 .season-era {
                     grid-area: era;
+                }
+                .season-makers {
+                    grid-area: mak;
+                    color: white;
                 }
             }
         }

@@ -8,6 +8,7 @@ export interface League {
     year: number;
     displayName: string;
     era?: string;
+    makers?: string;
     region: string;
     color: string;
     categories: string[];
@@ -23,7 +24,8 @@ export interface LeagueTeam {
     name: string;
     car: string;
     country: string;
-    icon: string;
+    logo: string;
+    badge: string;
     color: string;
     ballast: number;
     restrictor: number;

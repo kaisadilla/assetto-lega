@@ -49,6 +49,10 @@
                 color: $color-primary-l3;
                 padding: 0 6px;
             }
+
+            &.country-name-pseudo {
+                font-style: italic;
+            }
         }
     }
 }

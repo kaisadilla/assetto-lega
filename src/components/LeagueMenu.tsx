@@ -151,6 +151,9 @@ function LeagueMenu ({
                         <div className="season-fact season-era">
                             <span>V6 hybrid</span>
                         </div>
+                        <div className="season-fact season-makers">
+                            <span>RSS</span>
+                        </div>
                     </div>
                     <div className="season">
                         <div className="season-color" style={{backgroundColor: "#00ffff"}} />
@@ -171,6 +174,9 @@ function LeagueMenu ({
                         </div>
                         <div className="season-fact season-era">
                             <span>V6 hybrid</span>
+                        </div>
+                        <div className="season-fact season-makers">
+                            <span>SimDream</span>
                         </div>
                     </div>
                     <div className="season">
@@ -194,6 +200,9 @@ function LeagueMenu ({
                         <div className="season-fact season-era">
                             <span>V6 hybrid</span>
                         </div>
+                        <div className="season-fact season-makers">
+                            <span>SuzQ</span>
+                        </div>
                     </div>
                     <div className="season">
                         <div className="season-color" style={{backgroundColor: "#640096"}} />
@@ -216,6 +225,9 @@ function LeagueMenu ({
                         <div className="season-fact season-era">
                             <span>V8</span>
                         </div>
+                        <div className="season-fact season-makers">
+                            <span>SuzQ</span>
+                        </div>
                     </div>
                     <div className="season">
                         <div className="season-color" style={{backgroundColor: "#640096"}} />
@@ -237,6 +249,9 @@ function LeagueMenu ({
                         </div>
                         <div className="season-fact season-era">
                             <span>V8</span>
+                        </div>
+                        <div className="season-fact season-makers">
+                            <span>SuzQ</span>
                         </div>
                     </div>
                 </div>

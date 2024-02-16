@@ -6,6 +6,7 @@ export interface TextboxProps {
     suggestions?: string[];
     placeholder?: string;
     pattern?: RegExp;
+    readonly?: boolean;
     onChange?: (value: string) => void;
     onBlur?: (evt: React.FocusEvent<HTMLDivElement, HTMLElement>) => void;
     className?: string;
@@ -16,6 +17,7 @@ function Textbox ({
     suggestions,
     placeholder = "---",
     pattern,
+    readonly,
     onChange,
     onBlur,
     className,
@@ -44,6 +46,7 @@ function Textbox ({
                 value={value}
                 onChange={handleChange}
                 placeholder={placeholder}
+                readOnly={readonly}
             />
             {suggestions && isFocused &&
                 <TextboxSuggestions

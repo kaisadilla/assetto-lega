@@ -47,6 +47,7 @@ function MainScreen () {
                     <NavBar.Item text="leagues" index={Page.LEAGUES} />
                     <NavBar.Item text="editor" index={Page.EDITOR} />
                 </NavBar>
+                <div className="drag-region" />
             </div>
             <div className="cell-content">
                 {$content}
