@@ -1,10 +1,11 @@
 import { Data } from "../userdata";
-import { HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
 import { UserSettings } from "data/schemas";
 import { AssetFolder } from "data/assets";
+import { AssettoCorsa, CarData } from "../assettoCorsa";
 
 interface UploadFilesArgs {
     format: Electron.FileFilter[],
@@ -58,5 +59,15 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         : Promise<string | null> =>
     {
         return await Data.uploadFile(format, directory);
+    });
+
+    ipcMain.handle(HANDLER_AC_SET_PATH, async (evt, folderPath: string) => {
+        AssettoCorsa.acPath = folderPath;
+    });
+
+    ipcMain.handle(HANDLER_AC_GET_CAR_DATA, async (evt, folderName: string)
+        : Promise<CarData> =>
+    {
+        return await AssettoCorsa.getCarData(folderName);
     });
 }

@@ -85,6 +85,8 @@ export const DataContextProvider = ({ children }: any) => {
     /**
      * Validates that the Assetto Corsa folder in the settings given exists and
      * is, indeed, an Assetto Corsa root folder.
+     * If the validation is passed, the AssettoCorsa file is updated with the
+     * path stored in the settings.
      * @param settings The settings to check.
      */
     async function validateACFolder (settings: UserSettings) {
@@ -95,6 +97,9 @@ export const DataContextProvider = ({ children }: any) => {
             return false;
         }
         else {
+            // Important: set the AC folder for the AC interface file.
+            Ipc.setAssettoCorsaPath(settings.assettoCorsaFolder!);
+
             return true;
         }
     }

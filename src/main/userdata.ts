@@ -134,7 +134,7 @@ export const Data = {
             return null;
         }
     }
-}
+};
 
 /**
  * Returns the complete path to the data folder (the one stored in AppData).
@@ -183,5 +183,5 @@ async function createSettingsFile () {
         assettoCorsaFolder: null,
     }
 
-    await fs.writeFileSync(path, JSON.stringify(settings, null, 2));
+    fs.writeFileSync(path, JSON.stringify(settings, null, 2));
 }
