@@ -63,7 +63,7 @@ function CountryPicker ({
             const value = CountryCategory[key as keyof typeof CountryCategory];
 
             // skip category 'pseudo' if regions are not allowed.
-            if (!allowRegions && value === CountryCategory.pseudo) {
+            if (!allowRegions && value === CountryCategory.regions) {
                 continue;
             }
 
@@ -169,6 +169,11 @@ function SelectableCountry ({
 
     const country = Countries[name];
 
+    const nameClassStr = getClassString(
+        "country-name",
+        country.isPseudo && "country-name-pseudo"
+    )
+
     return (
         <div
             className={classStr}
@@ -178,7 +183,7 @@ function SelectableCountry ({
             tabIndex={tabIndex}
         >
             <img className="country-flag" src={country.flag} />
-            <div className="country-name">
+            <div className={nameClassStr}>
                 {
                     country.displayName === ""
                         ? "<unnamed country>"

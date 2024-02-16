@@ -2,12 +2,13 @@ export interface Country {
     displayName: string;
     category: CountryCategory;
     isRegion?: boolean;
-    assettoCorsa: CorsaCountry | null;
+    isPseudo?: boolean;
     flag: string;
+    assettoCorsa: CorsaCountry | null;
 }
 
 export enum CountryCategory {
-    pseudo = "Regions",
+    regions = "Regions",
     europe = "Europe",
     americas = "Americas",
     oceania = "Oceania",
@@ -22,7 +23,7 @@ export enum CountryCategory {
 interface CorsaCountry {
     name: string;
     code: string;
-    mod?: boolean;
+    isMod?: boolean;
 }
 
 export const COUNTRIES_ASSETTO_TO_LEGA: {[key: string]: string} = {
@@ -43,7 +44,7 @@ export const COUNTRIES_ASSETTO_TO_LEGA: {[key: string]: string} = {
 export const Countries: { [key: string]: Country } = {
     "assetto_corsa": {
         "displayName": "Assetto Corsa",
-        "category": CountryCategory.pseudo,
+        "category": CountryCategory.regions,
         "isRegion": true,
         "flag": require("@assets/flags/assetto_corsa.png"),
         "assettoCorsa": {
@@ -53,21 +54,21 @@ export const Countries: { [key: string]: Country } = {
     },
     "eu": {
         "displayName": "Europe",
-        "category": CountryCategory.pseudo,
+        "category": CountryCategory.regions,
         "isRegion": true,
         "flag": require("@assets/flags/eu.png"),
         "assettoCorsa": null,
     },
     "world": {
         "displayName": "World",
-        "category": CountryCategory.pseudo,
+        "category": CountryCategory.regions,
         "isRegion": true,
         "flag": require("@assets/flags/world.png"),
         "assettoCorsa": null,
     },
     "afghanistan": {
         "displayName": "Afghanistan",
-        "category": CountryCategory.middleEast,
+        "category": CountryCategory.asia,
         "flag": require("@assets/flags/afghanistan.png"),
         "assettoCorsa": {
             "name": "Afghanistan",
@@ -135,15 +136,6 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Armenia",
             "code": "ARM",
-        },
-    },
-    "aruba": {
-        "displayName": "Aruba",
-        "category": CountryCategory.caribbean,
-        "flag": require("@assets/flags/aruba.png"),
-        "assettoCorsa": {
-            "name": "Aruba",
-            "code": "ABW",
         },
     },
     "australia": {
@@ -963,7 +955,7 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Libya",
             "code": "LBY",
-            "mod": true,
+            "isMod": true,
         },
     },
     "liechtenstein": {
@@ -1234,7 +1226,7 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Niue",
             "code": "NIU",
-            "mod": true,
+            "isMod": true,
         },
     },
     "north_korea": {
@@ -1244,7 +1236,7 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "North Korea",
             "code": "PRK",
-            "mod": true,
+            "isMod": true,
         },
     },
     "north_macedonia": {
@@ -1299,7 +1291,7 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Palestine",
             "code": "PSE",
-            "mod": true,
+            "isMod": true,
         },
     },
     "panama": {
@@ -1426,6 +1418,15 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "St. Vincent and the Grenadines",
             "code": "VCT",
+        },
+    },
+    "sahrawi_adm": {
+        "displayName": "Sahrawi Republic",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/sahrawi_adm.png"),
+        "assettoCorsa": {
+            "name": "Sahrawi Republic",
+            "code": "ESH",
         },
     },
     "samoa": {
@@ -1570,7 +1571,7 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "South Sudan",
             "code": "SSD",
-            "mod": true,
+            "isMod": true,
         },
     },
     "spain": {
@@ -1634,6 +1635,15 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Syria",
             "code": "SYR",
+        },
+    },
+    "taiwan": {
+        "displayName": "Taiwan",
+        "category": CountryCategory.asia,
+        "flag": require("@assets/flags/taiwan.png"),
+        "assettoCorsa": {
+            "name": "Taiwan",
+            "code": "TWN",
         },
     },
     "tajikistan": {
@@ -1805,7 +1815,7 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Vatican City",
             "code": "VAT",
-            "mod": true,
+            "isMod": true,
         },
     },
     "venezuela": {
@@ -1851,6 +1861,523 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Zimbabwe",
             "code": "ZWE",
+        },
+    },
+    /*******************************/
+    /* Partially recognized states */
+    /*******************************/
+    "abkhazia": {
+        "displayName": "Abkhazia",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/abkhazia.png"),
+        "assettoCorsa": {
+            "name": "Abkhazia",
+            "code": "ABK",
+            "isMod": true,
+        },
+    },
+    "afghanistan_emirate": {
+        "displayName": "Emirate of Afghanistan",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/afghanistan_emirate.png"),
+        "assettoCorsa": {
+            "name": "Emirate of Afghanistan",
+            "code": "AFE",
+            "isMod": true,
+        },
+    },
+    "kosovo": {
+        "displayName": "Kosovo",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/kosovo.png"),
+        "assettoCorsa": {
+            "name": "Kosovo",
+            "code": "UNK",
+            "isMod": true,
+        },
+    },
+    "northern_cyprus": {
+        "displayName": "Northern Cyprus",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/northern_cyprus.png"),
+        "assettoCorsa": {
+            "name": "Northern Cyprus",
+            "code": "NCY",
+            "isMod": true,
+        },
+    },
+    "somaliland": {
+        "displayName": "Somaliland",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/somaliland.png"),
+        "assettoCorsa": {
+            "name": "Somaliland",
+            "code": "SML",
+            "isMod": true,
+        },
+    },
+    "south_ossetia": {
+        "displayName": "South Ossetia",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/south_ossetia.png"),
+        "assettoCorsa": {
+            "name": "South Ossetia",
+            "code": "SOS",
+            "isMod": true,
+        },
+    },
+    "transnistria": {
+        "displayName": "Transnistria",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/transnistria.png"),
+        "assettoCorsa": {
+            "name": "Transnistria",
+            "code": "TRA",
+            "isMod": true,
+        },
+    },
+    /************************/
+    /* Sub-national regions */
+    /************************/
+    // - United Kingdom
+    "england": {
+        "displayName": "England",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/england.png"),
+        "assettoCorsa": {
+            "name": "England",
+            "code": "ENG",
+        },
+    },
+    "northern_ireland": {
+        "displayName": "Northern Ireland",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/northern_ireland.png"),
+        "assettoCorsa": {
+            "name": "Northern Ireland",
+            "code": "NIR",
+        },
+    },
+    "scotland": {
+        "displayName": "Scotland",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/scotland.png"),
+        "assettoCorsa": {
+            "name": "Scotland",
+            "code": "SCT",
+        },
+    },
+    "wales": {
+        "displayName": "Wales",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/wales.png"),
+        "assettoCorsa": {
+            "name": "Wales",
+            "code": "WLS",
+        },
+    },
+    // - Spain
+    "basque_country": {
+        "displayName": "Basque Country",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/basque_country.png"),
+        "assettoCorsa": {
+            "name": "Basque Country",
+            "code": "EUS",
+            "isMod": true,
+        },
+    },
+    "canary_islands": {
+        "displayName": "Canary Islands",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/canary_islands.png"),
+        "assettoCorsa": {
+            "name": "Canary Islands",
+            "code": "CAI",
+            "isMod": true,
+        },
+    },
+    "catalonia": {
+        "displayName": "Catalonia",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/catalonia.png"),
+        "assettoCorsa": {
+            "name": "Catalonia",
+            "code": "CAT",
+            "isMod": true,
+        },
+    },
+    "galicia": {
+        "displayName": "Galicia",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/galicia.png"),
+        "assettoCorsa": {
+            "name": "Galicia",
+            "code": "GLZ",
+            "isMod": true,
+        },
+    },
+    // - Belgium
+    "flanders": {
+        "displayName": "Flanders",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/flanders.png"),
+        "assettoCorsa": {
+            "name": "Flanders",
+            "code": "FLA",
+            "isMod": true,
+        },
+    },
+    "wallonia": {
+        "displayName": "Wallonia",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/wallonia.png"),
+        "assettoCorsa": {
+            "name": "Wallonia",
+            "code": "WAL",
+            "isMod": true,
+        },
+    },
+    // - Finland
+    "aland": {
+        "displayName": "Åland",
+        "category": CountryCategory.subnational,
+        "flag": require("@assets/flags/aland.png"),
+        "assettoCorsa": {
+            "name": "Åland",
+            "code": "ALA",
+            "isMod": true,
+        },
+    },
+    /*****************************/
+    /* Non-sovereign territories */
+    /*****************************/
+    // - Australia
+    "christmas_island": {
+        "displayName": "Christmas Island",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/christmas_island.png"),
+        "assettoCorsa": {
+            "name": "Christmas Island",
+            "code": "CXR",
+            "isMod": true,
+        },
+    },
+    "cocos_islands": {
+        "displayName": "Cocos (Keeling) Islands",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/cocos_islands.png"),
+        "assettoCorsa": {
+            "name": "Cocos (Keeling) Islands",
+            "code": "CCK",
+        },
+    },
+    "norfolk_island": {
+        "displayName": "Norfolk Island",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/norfolk_island.png"),
+        "assettoCorsa": {
+            "name": "Norfolk Island",
+            "code": "NFK",
+            "isMod": true,
+        },
+    },
+    // - China
+    "hong_kong": {
+        "displayName": "Hong Kong",
+        "category": CountryCategory.asia,
+        "isPseudo": true,
+        "flag": require("@assets/flags/hong_kong.png"),
+        "assettoCorsa": {
+            "name": "Hong Kong",
+            "code": "HKG",
+        },
+    },
+    "macau": {
+        "displayName": "Macau",
+        "category": CountryCategory.asia,
+        "isPseudo": true,
+        "flag": require("@assets/flags/macau.png"),
+        "assettoCorsa": {
+            "name": "Macau",
+            "code": "MAC",
+        },
+    },
+    // - Denmark
+    "faroe_islands": {
+        "displayName": "Faroe Islands",
+        "category": CountryCategory.europe,
+        "isPseudo": true,
+        "flag": require("@assets/flags/faroe_islands.png"),
+        "assettoCorsa": {
+            "name": "Faroe Islands",
+            "code": "FRO",
+        },
+    },
+    "greenland": {
+        "displayName": "Greenland",
+        "category": CountryCategory.europe, // geographically American.
+        "isPseudo": true,
+        "flag": require("@assets/flags/greenland.png"),
+        "assettoCorsa": {
+            "name": "Greenland",
+            "code": "GRL",
+        },
+    },
+    // - France
+    "french_polynesia": {
+        "displayName": "French Polynesia",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/french_polynesia.png"),
+        "assettoCorsa": {
+            "name": "French Polynesia",
+            "code": "PYF",
+        },
+    },
+    "new_caledonia": {
+        "displayName": "New Caledonia",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/new_caledonia.png"),
+        "assettoCorsa": {
+            "name": "New Caledonia",
+            "code": "NCL",
+        },
+    },
+    "st_barthelemy": {
+        "displayName": "St. Barthélemy",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/st_barthelemy.png"),
+        "assettoCorsa": {
+            "name": "St. Barthélemy",
+            "code": "BLM",
+            "isMod": true,
+        },
+    },
+    "st_martin": {
+        "displayName": "St. Martin",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/st_martin.png"),
+        "assettoCorsa": {
+            "name": "St. Martin",
+            "code": "MAF",
+            "isMod": true,
+        },
+    },
+    "st_pierre_and_miquelon": {
+        "displayName": "St. Pierre and Miquelon",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/st_pierre_and_miquelon.png"),
+        "assettoCorsa": {
+            "name": "St. Pierre and Miquelon",
+            "code": "SPM",
+            "isMod": true,
+        },
+    },
+    "wallis_and_futuna": {
+        "displayName": "Wallis and Futuna",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/wallis_and_futuna.png"),
+        "assettoCorsa": {
+            "name": "Wallis and Futuna",
+            "code": "WLF",
+            "isMod": true,
+        },
+    },
+    // - Netherlands
+    "aruba": {
+        "displayName": "Aruba",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/aruba.png"),
+        "assettoCorsa": {
+            "name": "Aruba",
+            "code": "ABW",
+        },
+    },
+    "curacao": {
+        "displayName": "Curaçao",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/curacao.png"),
+        "assettoCorsa": {
+            "name": "Curaçao",
+            "code": "CUW",
+            "isMod": true,
+        },
+    },
+    "sint_maarten": {
+        "displayName": "Sint Maarten",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/sint_maarten.png"),
+        "assettoCorsa": {
+            "name": "Sint Maarten",
+            "code": "SXM",
+            "isMod": true,
+        },
+    },
+    // - New Zealand
+    "tokelau": {
+        "displayName": "Tokelau",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/tokelau.png"),
+        "assettoCorsa": {
+            "name": "Tokelau",
+            "code": "TKL",
+            "isMod": true,
+        },
+    },
+    // - United Kingdom
+    "anguilla": {
+        "displayName": "Anguilla",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/anguilla.png"),
+        "assettoCorsa": {
+            "name": "Anguilla",
+            "code": "AIA",
+        },
+    },
+    "bermuda": {
+        "displayName": "Bermuda",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/bermuda.png"),
+        "assettoCorsa": {
+            "name": "Bermuda",
+            "code": "BMU",
+        },
+    },
+    "cayman_islands": {
+        "displayName": "Cayman Islands",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/cayman_islands.png"),
+        "assettoCorsa": {
+            "name": "Cayman Islands",
+            "code": "CYM",
+        },
+    },
+    "gibraltar": {
+        "displayName": "Gibraltar",
+        "category": CountryCategory.europe,
+        "isPseudo": true,
+        "flag": require("@assets/flags/gibraltar.png"),
+        "assettoCorsa": {
+            "name": "Gibraltar",
+            "code": "GBZ",
+            "isMod": true,
+        },
+    },
+    "guernsey": {
+        "displayName": "Guernsey",
+        "category": CountryCategory.europe,
+        "isPseudo": true,
+        "flag": require("@assets/flags/guernsey.png"),
+        "assettoCorsa": {
+            "name": "Guernsey",
+            "code": "GGY",
+        },
+    },
+    "isle_of_man": {
+        "displayName": "Isle of Man",
+        "category": CountryCategory.europe,
+        "isPseudo": true,
+        "flag": require("@assets/flags/isle_of_man.png"),
+        "assettoCorsa": {
+            "name": "Isle of Man",
+            "code": "IMN",
+        },
+    },
+    "jersey": {
+        "displayName": "Jersey",
+        "category": CountryCategory.europe,
+        "isPseudo": true,
+        "flag": require("@assets/flags/jersey.png"),
+        "assettoCorsa": {
+            "name": "Jersey",
+            "code": "JEY",
+        },
+    },
+    "montserrat": {
+        "displayName": "Montserrat",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/montserrat.png"),
+        "assettoCorsa": {
+            "name": "Montserrat",
+            "code": "MSR",
+        },
+    },
+    "turks_and_caicos_islands": {
+        "displayName": "Turks and Caicos Islands",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/turks_and_caicos_islands.png"),
+        "assettoCorsa": {
+            "name": "Turks and Caicos Islands",
+            "code": "TCA",
+        },
+    },
+    "virgin_islands_gb": {
+        "displayName": "Virgin Islands (Great Britain)",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/virgin_islands_gb.png"),
+        "assettoCorsa": {
+            "name": "Virgin Islands (Great Britain)",
+            "code": "VGB",
+        },
+    },
+    // - United States
+    "american_samoa": {
+        "displayName": "American Samoa",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/american_samoa.png"),
+        "assettoCorsa": {
+            "name": "American Samoa",
+            "code": "ASM",
+        },
+    },
+    "guam": {
+        "displayName": "Guam",
+        "category": CountryCategory.oceania,
+        "isPseudo": true,
+        "flag": require("@assets/flags/guam.png"),
+        "assettoCorsa": {
+            "name": "Guam",
+            "code": "GUM",
+        },
+    },
+    "puerto_rico": {
+        "displayName": "Puerto Rico",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/puerto_rico.png"),
+        "assettoCorsa": {
+            "name": "Puerto Rico",
+            "code": "PRI",
+        },
+    },
+    "virgin_islands_us": {
+        "displayName": "U.S. Virgin Islands",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/virgin_islands_us.png"),
+        "assettoCorsa": {
+            "name": "U.S. Virgin Islands",
+            "code": "VIR",
         },
     },
 }
