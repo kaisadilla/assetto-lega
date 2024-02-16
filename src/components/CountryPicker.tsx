@@ -102,19 +102,29 @@ function CategoryCountryContainer ({
     onSubmit,
     getTabIndex,
 }: CategoryCountryContainerProps) {
+    // contains both id and displayName to sort countries alphabetically.
     const filteredCountries = [];
+
     for (const c in Countries) {
         if (Countries[c].category === category) {
-            filteredCountries.push(c);
+            filteredCountries.push({
+                id: c,
+                displayName: Countries[c].displayName,
+            });
         }
     }
+
+    filteredCountries.sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+    const filteredCountryNames = filteredCountries.map(c => c.id);
+
     // CountryCategory[key as keyof typeof CountryCategory]
     return (
         <>
             <h2>{category}</h2>
             <div className="country-container">
                 {
-                    filteredCountries.map(c => (
+                    filteredCountryNames.map(c => (
                         <SelectableCountry
                             key={c}
                             name={c}

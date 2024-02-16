@@ -22,7 +22,7 @@
 			",",
 			"\"$1\": {",
 			"	\"displayName\": \"$2\",",
-			"	\"category\": $3,",
+			"	\"category\": CountryCategory.$3,",
 			"	\"flag\": require(\"@assets/flags/$1.png\"),",
 			"	\"assettoCorsa\": {",
 			"		\"name\": \"$2\",",

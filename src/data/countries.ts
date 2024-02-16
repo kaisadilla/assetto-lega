@@ -323,6 +323,294 @@ export const Countries: { [key: string]: Country } = {
             "code": "BDI",
         },
     },
+    "cambodia": {
+        "displayName": "Cambodia",
+        "category": CountryCategory.asia,
+        "flag": require("@assets/flags/cambodia.png"),
+        "assettoCorsa": {
+            "name": "Cambodia",
+            "code": "KHM",
+        },
+    },
+    "cameroon": {
+        "displayName": "Cameroon",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/cameroon.png"),
+        "assettoCorsa": {
+            "name": "Cameroon",
+            "code": "CMR",
+        },
+    },
+    "canada": {
+        "displayName": "Canada",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/canada.png"),
+        "assettoCorsa": {
+            "name": "Canada",
+            "code": "CAN",
+        },
+    },
+    "cape_verde": {
+        "displayName": "Cape Verde",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/cape_verde.png"),
+        "assettoCorsa": {
+            "name": "Cape Verde",
+            "code": "CPV",
+        },
+    },
+    "central_african_republic": {
+        "displayName": "Central Africa R.",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/central_african_republic.png"),
+        "assettoCorsa": {
+            "name": "Central Africa R.",
+            "code": "CAF",
+        },
+    },
+    "chad": {
+        "displayName": "Chad",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/chad.png"),
+        "assettoCorsa": {
+            "name": "Chad",
+            "code": "TCH",
+        },
+    },
+    "chile": {
+        "displayName": "Chile",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/chile.png"),
+        "assettoCorsa": {
+            "name": "Chile",
+            "code": "CHL",
+        },
+    },
+    "china": {
+        "displayName": "China",
+        "category": CountryCategory.asia,
+        "flag": require("@assets/flags/china.png"),
+        "assettoCorsa": {
+            "name": "China",
+            "code": "CHN",
+        },
+    },
+    "colombia": {
+        "displayName": "Colombia",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/colombia.png"),
+        "assettoCorsa": {
+            "name": "Colombia",
+            "code": "COL",
+        },
+    },
+    "comoros": {
+        "displayName": "Comoros",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/comoros.png"),
+        "assettoCorsa": {
+            "name": "Comoros",
+            "code": "COM",
+        },
+    },
+    "congo_kinsasha": {
+        "displayName": "Congo, Dem. Rep.",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/congo_kinsasha.png"),
+        "assettoCorsa": {
+            "name": "Congo, Dem. Rep.",
+            "code": "COD",
+        },
+    },
+    "congo_brazzaville": {
+        "displayName": "Congo, Rep.",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/congo_brazzaville.png"),
+        "assettoCorsa": {
+            "name": "Congo, Rep.",
+            "code": "COG",
+        },
+    },
+    "costa_rica": {
+        "displayName": "Costa Rica",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/costa_rica.png"),
+        "assettoCorsa": {
+            "name": "Costa Rica",
+            "code": "CRI",
+        },
+    },
+    "croatia": {
+        "displayName": "Croatia",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/croatia.png"),
+        "assettoCorsa": {
+            "name": "Croatia",
+            "code": "HRV",
+        },
+    },
+    "cuba": {
+        "displayName": "Cuba",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/cuba.png"),
+        "assettoCorsa": {
+            "name": "Cuba",
+            "code": "CUB",
+        },
+    },
+    "cyprus": {
+        "displayName": "Cyprus",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/cyprus.png"),
+        "assettoCorsa": {
+            "name": "Cyprus",
+            "code": "CYP",
+        },
+    },
+    "czech_republic": {
+        "displayName": "Czech Republic",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/czech_republic.png"),
+        "assettoCorsa": {
+            "name": "Czech Republic",
+            "code": "CZE",
+        },
+    },
+    "denmark": {
+        "displayName": "Denmark",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/denmark.png"),
+        "assettoCorsa": {
+            "name": "Denmark",
+            "code": "DNK",
+        },
+    },
+    "djibouti": {
+        "displayName": "Djibouti",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/djibouti.png"),
+        "assettoCorsa": {
+            "name": "Djibouti",
+            "code": "DJI",
+        },
+    },
+    "dominica": {
+        "displayName": "Dominica",
+        "category": CountryCategory.caribbean,
+        "flag": require("@assets/flags/dominica.png"),
+        "assettoCorsa": {
+            "name": "Dominica",
+            "code": "DMA",
+        },
+    },
+    "dominican_republic": {
+        "displayName": "Dominican Republic",
+        "category": CountryCategory.caribbean,
+        "flag": require("@assets/flags/dominican_republic.png"),
+        "assettoCorsa": {
+            "name": "Dominican Republic",
+            "code": "DOM",
+        },
+    },
+    "east_timor": {
+        "displayName": "Timor-Leste",
+        "category": CountryCategory.asia,
+        "flag": require("@assets/flags/east_timor.png"),
+        "assettoCorsa": {
+            "name": "Timor-Leste",
+            "code": "TLS",
+        },
+    },
+    "ecuador": {
+        "displayName": "Ecuador",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/ecuador.png"),
+        "assettoCorsa": {
+            "name": "Ecuador",
+            "code": "ECU",
+        },
+    },
+    "egypt": {
+        "displayName": "Egypt",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/egypt.png"),
+        "assettoCorsa": {
+            "name": "Egypt",
+            "code": "EGY",
+        },
+    },
+    "el_salvador": {
+        "displayName": "El Salvador",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/el_salvador.png"),
+        "assettoCorsa": {
+            "name": "El Salvador",
+            "code": "SLV",
+        },
+    },
+    "equatorial_guinea": {
+        "displayName": "Equatorial Guinea",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/equatorial_guinea.png"),
+        "assettoCorsa": {
+            "name": "Equatorial Guinea",
+            "code": "GNQ",
+        },
+    },
+    "eritrea": {
+        "displayName": "Eritrea",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/eritrea.png"),
+        "assettoCorsa": {
+            "name": "Eritrea",
+            "code": "ERI",
+        },
+    },
+    "estonia": {
+        "displayName": "Estonia",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/estonia.png"),
+        "assettoCorsa": {
+            "name": "Estonia",
+            "code": "EST",
+        },
+    },
+    "eswatini": {
+        "displayName": "Eswatini",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/eswatini.png"),
+        "assettoCorsa": {
+            "name": "Eswatini",
+            "code": "SWZ",
+        },
+    },
+    "ethiopia": {
+        "displayName": "Ethiopia",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/ethiopia.png"),
+        "assettoCorsa": {
+            "name": "Ethiopia",
+            "code": "ETH",
+        },
+    },
+    "fiji": {
+        "displayName": "Fiji",
+        "category": CountryCategory.oceania,
+        "flag": require("@assets/flags/fiji.png"),
+        "assettoCorsa": {
+            "name": "Fiji",
+            "code": "FJI",
+        },
+    },
+    "finland": {
+        "displayName": "Finland",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/finland.png"),
+        "assettoCorsa": {
+            "name": "Finland",
+            "code": "FIN",
+        },
+    },
     "france": {
         "displayName": "France",
         "category": CountryCategory.europe,
@@ -330,6 +618,33 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "France",
             "code": "FRA",
+        },
+    },
+    "gabon": {
+        "displayName": "Gabon",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/gabon.png"),
+        "assettoCorsa": {
+            "name": "Gabon",
+            "code": "GAB",
+        },
+    },
+    "gambia": {
+        "displayName": "The Gambia",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/gambia.png"),
+        "assettoCorsa": {
+            "name": "The Gambia",
+            "code": "GMB",
+        },
+    },
+    "georgia": {
+        "displayName": "Georgia",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/georgia.png"),
+        "assettoCorsa": {
+            "name": "Georgia",
+            "code": "GEO",
         },
     },
     "germany": {
@@ -341,6 +656,159 @@ export const Countries: { [key: string]: Country } = {
             "code": "DEU",
         },
     },
+    "ghana": {
+        "displayName": "Ghana",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/ghana.png"),
+        "assettoCorsa": {
+            "name": "Ghana",
+            "code": "GHA",
+        },
+    },
+    "greece": {
+        "displayName": "Greece",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/greece.png"),
+        "assettoCorsa": {
+            "name": "Greece",
+            "code": "GRC",
+        },
+    },
+    "grenada": {
+        "displayName": "Grenada",
+        "category": CountryCategory.caribbean,
+        "flag": require("@assets/flags/grenada.png"),
+        "assettoCorsa": {
+            "name": "Grenada",
+            "code": "GRD",
+        },
+    },
+    "guatemala": {
+        "displayName": "Guatemala",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/guatemala.png"),
+        "assettoCorsa": {
+            "name": "Guatemala",
+            "code": "GTM",
+        },
+    },
+    "guinea": {
+        "displayName": "Guinea",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/guinea.png"),
+        "assettoCorsa": {
+            "name": "Guinea",
+            "code": "GIN",
+        },
+    },
+    "guinea_bissau": {
+        "displayName": "Guinea-Bissau",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/guinea_bissau.png"),
+        "assettoCorsa": {
+            "name": "Guinea-Bissau",
+            "code": "GNB",
+        },
+    },
+    "guyana": {
+        "displayName": "Guyana",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/guyana.png"),
+        "assettoCorsa": {
+            "name": "Guyana",
+            "code": "GUY",
+        },
+    },
+    "haiti": {
+        "displayName": "Haiti",
+        "category": CountryCategory.caribbean,
+        "flag": require("@assets/flags/haiti.png"),
+        "assettoCorsa": {
+            "name": "Haiti",
+            "code": "HTI",
+        },
+    },
+    "honduras": {
+        "displayName": "Honduras",
+        "category": CountryCategory.americas,
+        "flag": require("@assets/flags/honduras.png"),
+        "assettoCorsa": {
+            "name": "Honduras",
+            "code": "HND",
+        },
+    },
+    "hungary": {
+        "displayName": "Hungary",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/hungary.png"),
+        "assettoCorsa": {
+            "name": "Hungary",
+            "code": "HUN",
+        },
+    },
+    "iceland": {
+        "displayName": "Iceland",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/iceland.png"),
+        "assettoCorsa": {
+            "name": "Iceland",
+            "code": "ISL",
+        },
+    },
+    "india": {
+        "displayName": "India",
+        "category": CountryCategory.asia,
+        "flag": require("@assets/flags/india.png"),
+        "assettoCorsa": {
+            "name": "India",
+            "code": "IND",
+        },
+    },
+    "indonesia": {
+        "displayName": "Indonesia",
+        "category": CountryCategory.asia,
+        "flag": require("@assets/flags/indonesia.png"),
+        "assettoCorsa": {
+            "name": "Indonesia",
+            "code": "IDN",
+        },
+    },
+    "iran": {
+        "displayName": "Iran",
+        "category": CountryCategory.middleEast,
+        "flag": require("@assets/flags/iran.png"),
+        "assettoCorsa": {
+            "name": "Iran",
+            "code": "IRN",
+        },
+    },
+    "iraq": {
+        "displayName": "Iraq",
+        "category": CountryCategory.middleEast,
+        "flag": require("@assets/flags/iraq.png"),
+        "assettoCorsa": {
+            "name": "Iraq",
+            "code": "IRQ",
+        },
+    },
+    "ireland": {
+        "displayName": "Ireland",
+        "category": CountryCategory.europe,
+        "flag": require("@assets/flags/ireland.png"),
+        "assettoCorsa": {
+            "name": "Ireland",
+            "code": "IRL",
+        },
+    },
+    "israel": {
+        "displayName": "Israel",
+        "category": CountryCategory.middleEast,
+        "flag": require("@assets/flags/israel.png"),
+        "assettoCorsa": {
+            "name": "Israel",
+            "code": "ISR",
+        },
+    },
     "italy": {
         "displayName": "Italy",
         "category": CountryCategory.europe,
@@ -348,6 +816,15 @@ export const Countries: { [key: string]: Country } = {
         "assettoCorsa": {
             "name": "Italy",
             "code": "ITA",
+        },
+    },
+    "ivory_coast": {
+        "displayName": "Côte d'Ivoire",
+        "category": CountryCategory.africa,
+        "flag": require("@assets/flags/ivory_coast.png"),
+        "assettoCorsa": {
+            "name": "Côte d'Ivoire",
+            "code": "CIV",
         },
     },
     "japan": {
