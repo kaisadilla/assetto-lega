@@ -43,6 +43,13 @@ export interface LeagueTeamDriver {
     defaultSkin: string;
     strength: number;
     aggression: number;
+    classifying: {
+        value: number;
+        delta: number;
+        consistency: number;
+        miracleChance: number;
+        disasterChance: number;
+    }
 }
 
 export interface LeagueCalendaryEntry {

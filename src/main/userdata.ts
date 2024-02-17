@@ -55,6 +55,24 @@ export const Data = {
         }
     },
 
+    async loadLeague (fileName: string) : Promise<League | null> {
+        const filePath = getDataFolder(FOLDER_LEAGUES) + "/" + fileName;
+
+        try {
+            const filename = path.parse(filePath).name;
+
+            const content = await fsAsync.readFile(filePath, TEXT_FORMAT);
+            const league: League = JSON.parse(content);
+            league.internalName = filename;
+            
+            return league;
+        }
+        catch (err) {
+            console.error(`Couldn't load file '${fileName}'`, err);
+            return null;
+        }
+    },
+
     async loadLeagues () : Promise<League[]> {
         console.info("Loading userdata > leagues.");
         const leagues: League[] = [];
@@ -62,18 +80,9 @@ export const Data = {
         const files = await fsAsync.readdir(getDataFolder(FOLDER_LEAGUES));
 
         for (const f of files) {
-            const filePath = getDataFolder(FOLDER_LEAGUES) + "/" + f;
-            try {
-                const filename = path.parse(filePath).name;
-
-                const content = await fsAsync.readFile(filePath, TEXT_FORMAT);
-                const json: League = JSON.parse(content);
-                json.internalName = filename;
-
-                leagues.push(json);
-            }
-            catch (err) {
-                console.error(`Couldn't load file '${f}'`, err);
+            const league = await this.loadLeague(f);
+            if (league) {
+                leagues.push(league);
             }
         };
     
@@ -90,8 +99,50 @@ export const Data = {
             return true;
         }
         catch (err) {
-            console.error(`Couldn't wrrite file '${path}'`, err);
+            console.error(`Couldn't write file '${path}'`, err);
             return false;
+        }
+    },
+
+    async saveLeague (originalInternalName: string | null, league: League)
+        : Promise<League | null>
+    {
+        const newFileName = league.internalName + ".json";
+        const filePath = getDataFolder(FOLDER_LEAGUES) + "/" + newFileName;
+        const backupPath = filePath.substring(0, filePath.length - 5) + ".backup";
+        const isOverwriting = fs.existsSync(filePath);
+
+        const leagueJson = JSON.stringify(league, null, 4);
+
+        if (isOverwriting) {
+            // rename the old file to be a backup.
+            await fsAsync.rename(filePath, backupPath);
+            // create the new file.
+            await fsAsync.writeFile(filePath, leagueJson);
+            // now that the new file exists, remove the backup
+            await fsAsync.unlink(backupPath);
+
+            // reload it from the file we created.
+            return await this.loadLeague(newFileName);
+        }
+        else {
+            // this league is being created, not edited.
+            if (originalInternalName === null) {
+                await fsAsync.writeFile(filePath, leagueJson);
+                
+                return await this.loadLeague(newFileName);
+            }
+            // this league is being edited, but has been renamed.
+            else {
+                const oldFilePath = getDataFolder(FOLDER_LEAGUES) + "/"
+                    + originalInternalName + ".json";
+
+                await fsAsync.writeFile(filePath, leagueJson);
+                // now that the new file exists, remove the original file.
+                await fsAsync.unlink(oldFilePath);
+                
+                return await this.loadLeague(newFileName);
+            }
         }
     },
 

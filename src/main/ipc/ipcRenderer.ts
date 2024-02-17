@@ -1,6 +1,6 @@
 import { League, UserSettings } from "data/schemas";
 import { AssetFolder } from "data/assets";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 
 const Ipc = {
     async getDataFolderPath () : Promise<string> {
@@ -16,6 +16,21 @@ const Ipc = {
 
     async saveSettings (settings: UserSettings) : Promise<boolean> {
         return await getIpcRenderer().invoke(HANDLER_DATA_SAVE_SETTINGS, settings);
+    },
+
+    /**
+     * Saves the given league in the user data's folder.
+     * @param originalInternalName The ORIGINAL internal name of the league,
+     * even if the league has been renamed.
+     * @param league ALL the league's data to save.
+     */
+    async saveLeague (
+        originalInternalName: string | null, league: League
+    ) : Promise<League> {
+        return await getIpcRenderer().invoke(HANDLER_DATA_SAVE_LEAGUE, {
+            originalInternalName,
+            league,
+        });
     },
 
     async openDirectory () : Promise<string> {

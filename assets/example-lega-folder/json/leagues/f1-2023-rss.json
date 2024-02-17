@@ -31,7 +31,14 @@
                     ],
                     "defaultSkin": "RB19_1_Verstappen",
                     "strength": 99.3,
-                    "aggression": 98.0
+                    "aggression": 98.0,
+                    "classifying": {
+                        "value": 1,
+                        "delta": 0.1,
+                        "consistency": 0.9,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
+                    }
                 },
                 {
                     "number": "11",
@@ -44,7 +51,14 @@
                     ],
                     "defaultSkin": "RB19_11_Perez",
                     "strength": 88.4,
-                    "aggression": 84.2
+                    "aggression": 84.2,
+                    "classifying": {
+                        "value": 1.3,
+                        "delta": 0.3,
+                        "consistency": 0.4,
+                        "miracleChance": 0.06,
+                        "disasterChance": 0.1
+                    }
                 }
             ]
         },
@@ -69,7 +83,14 @@
                     ],
                     "defaultSkin": "W14_44_Hamilton",
                     "strength": 96.1,
-                    "aggression": 92.5
+                    "aggression": 92.5,
+                    "classifying": {
+                        "value": 1.25,
+                        "delta": 0.16,
+                        "consistency": 0.65,
+                        "miracleChance": 0.18,
+                        "disasterChance": 0.07
+                    }
                 },
                 {
                     "number": "63",
@@ -81,7 +102,14 @@
                     ],
                     "defaultSkin": "W14_63_Russell",
                     "strength": 90.7,
-                    "aggression": 97.3
+                    "aggression": 97.3,
+                    "classifying": {
+                        "value": 1.18,
+                        "delta": 0.25,
+                        "consistency": 0.8,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 }
             ]
         },
@@ -108,7 +136,14 @@
                     ],
                     "defaultSkin": "SF23_16_Leclerc",
                     "strength": 92.8,
-                    "aggression": 94.4
+                    "aggression": 94.4,
+                    "classifying": {
+                        "value": 1.1,
+                        "delta": 0.16,
+                        "consistency": 0.85,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 },
                 {
                     "number": "55",
@@ -122,7 +157,9 @@
                     ],
                     "defaultSkin": "SF23_55_Sainz",
                     "strength": 90.2,
-                    "aggression": 90.5
+                    "aggression": 90.5,
+                    "miracleChance": 0.1,
+                    "disasterChance": 0.1
                 }
             ]
         },
@@ -143,14 +180,15 @@
                     "initials": "NOR",
                     "country": "united_kingdom",
                     "skins": [
-                        "MCL38_4_Norris",
                         "MCL60_4_Norris",
                         "MCL60_Chrome_4_Norris",
                         "MCL60_Triple_Crown_4_Norris"
                     ],
-                    "defaultSkin": "MCL38_4_Norris",
+                    "defaultSkin": "MCL60_4_Norris",
                     "strength": 90.0,
-                    "aggression": 88.6
+                    "aggression": 88.6,
+                    "miracleChance": 0.1,
+                    "disasterChance": 0.1
                 },
                 {
                     "number": "81",
@@ -158,14 +196,15 @@
                     "initials": "PIA",
                     "country": "australia",
                     "skins": [
-                        "MCL38_81_Piastri",
                         "MCL60_81_Piastri",
                         "MCL60_Chrome_81_Piastri",
                         "MCL60_Triple_Crown_81_Piastri"
                     ],
-                    "defaultSkin": "MCL38_81_Piastri",
+                    "defaultSkin": "MCL60_81_Piastri",
                     "strength": 85.2,
-                    "aggression": 83.9
+                    "aggression": 83.9,
+                    "miracleChance": 0.1,
+                    "disasterChance": 0.1
                 }
             ]
         },
@@ -191,7 +230,9 @@
                     ],
                     "defaultSkin": "AMR23_14_Alonso",
                     "strength": 97.9,
-                    "aggression": 99.2
+                    "aggression": 99.2,
+                    "miracleChance": 0.1,
+                    "disasterChance": 0.1
                 },
                 {
                     "number": "18",
@@ -204,7 +245,9 @@
                     ],
                     "defaultSkin": "AMR23_18_Stroll",
                     "strength": 72.2,
-                    "aggression": 97.1
+                    "aggression": 97.1,
+                    "miracleChance": 0.1,
+                    "disasterChance": 0.1
                 }
             ]
         }

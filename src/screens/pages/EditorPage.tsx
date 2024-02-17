@@ -3,6 +3,7 @@ import LeagueEditor from 'screens/pages/editor-page/LeagueEditor';
 import { useDataContext } from 'context/useDataContext';
 import { League } from 'data/schemas';
 import LeagueSelection from './editor-page/LeagueSelection';
+import Ipc from 'main/ipc/ipcRenderer';
 
 export interface EditorPageProps {
 
@@ -21,7 +22,8 @@ function EditorPage (props: EditorPageProps) {
             {
                 league && <LeagueEditor
                     league={league}
-                    onCancel={() => setLeague(null)}
+                    onSave={handleSave}
+                    onCancel={handleCancel}
                 />
             }
         </div>
@@ -36,6 +38,17 @@ function EditorPage (props: EditorPageProps) {
         else {
             throw `Cannot find league with name ${leagueId}`;
         }
+    }
+
+    async function handleSave (editedLeague: League) {
+        await Ipc.saveLeague(league?.internalName ?? null, editedLeague);
+        // TODO: update league in the program's memory.
+        // TODO: add buttons for 'save' and 'save and exit'.
+        setLeague(null);
+    }
+
+    function handleCancel () {
+        setLeague(null);
     }
 }
 

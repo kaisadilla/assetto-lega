@@ -62,7 +62,7 @@ function LeagueEditor ({
             {$screen}
             <ToolboxRow>
                 <Button onClick={handleCancel}>Cancel</Button>
-                <Button highlighted>Save</Button>
+                <Button onClick={handleSave} highlighted>Save</Button>
             </ToolboxRow>
         </div>
     );
@@ -76,6 +76,10 @@ function LeagueEditor ({
 
     function handleCancel () {
         onCancel?.(editedLeague);
+    }
+
+    function handleSave () {
+        onSave?.(editedLeague);
     }
 }
 

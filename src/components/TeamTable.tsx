@@ -46,7 +46,8 @@ function TeamEntry ({
         loadCar();
     }, []);
 
-    const bgStyle = { backgroundColor: team.color ?? "0xff00ff" };
+    const teamInfoStyle = { borderColor: team.color ?? "transparent" };
+    const teamColorStyle = { backgroundColor: team.color ?? "transparent" };
 
     const logoImg = Files.getFilePath(dataPath, AssetFolder.teamLogos, team.logo);
     const countryData = Countries[team.country];
@@ -56,9 +57,14 @@ function TeamEntry ({
 
     return (
         <div className="team text-white">
-            <div className="team-info" style={bgStyle}>
-                <img className="team-logo" src={logoImg} />
-                <img className="team-flag" src={countryData?.flag} />
+            <div className="team-info" style={teamInfoStyle}>
+                <div className="team-color" style={teamColorStyle} />
+                <div className="team-logo">
+                    <img src={logoImg} />
+                </div>
+                <div className="team-flag">
+                    <img src={countryData?.flag} />
+                </div>
                 <div className="team-name-and-badge">
                     <span className="team-name">{team.name}</span>
                 <img className="team-badge" src={badgeImg} />

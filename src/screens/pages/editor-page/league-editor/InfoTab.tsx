@@ -47,7 +47,8 @@ function InfoTab ({
                     <LabeledControl label="Internal name" required>
                         <Textbox
                             value={league.internalName}
-                            readonly
+                            onChange={handleChange_internalName}
+                            //readonly
                         />
                     </LabeledControl>
                 </div>
@@ -143,6 +144,10 @@ function InfoTab ({
 
     function handleChange_background (name: string | null) {
         onChange('background', name);
+    }
+
+    function handleChange_internalName (text: string) {
+        onChange('internalName', text);
     }
 
     function handleChange_series (text: string) {
