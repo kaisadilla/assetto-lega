@@ -4,6 +4,7 @@
     }
 
     > .country-content {
+        // TODO: This exact css is copied in all field-picker components.
         cursor: pointer;
 
         height: 100%;
@@ -42,6 +43,7 @@
             height: 100%;
             display: flex;
             align-items: center;
+            padding-right: 16px;
     
             &.country-error {
                 font-style: italic;

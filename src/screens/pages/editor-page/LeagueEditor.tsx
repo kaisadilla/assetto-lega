@@ -36,6 +36,7 @@ function LeagueEditor ({
 }: LeagueEditorProps) {
     const [editedLeague, setEditedLeague] = useState(cloneLeague(league));
     const [editorTab, setEditorTab] = useState(EditorTab.INFO);
+    const [isEdited, setEdited] = useState(false);
 
     const $screen = (() => {
         if (editorTab === EditorTab.INFO) {
@@ -71,10 +72,11 @@ function LeagueEditor ({
     );
 
     function handleLeagueFieldChange (field: keyof League, value: any) {
-        setEditedLeague({
-            ...editedLeague,
+        setEditedLeague(prevState => ({
+            ...prevState,
             [field]: value,
-        } as League);
+        }));
+        setEdited(true);
     }
 
     function handleCancel () {

@@ -65,9 +65,16 @@ function TeamEntry ({
                 <div className="team-flag">
                     <img src={countryData?.flag} />
                 </div>
-                <div className="team-name-and-badge">
-                    <span className="team-name">{team.name}</span>
-                <img className="team-badge" src={badgeImg} />
+                <div className="team-names-and-badge">
+                    <div className="team-names">
+                        <div className="team-name">{team.name}</div>
+                        {team.constructorName && (
+                            <span className="team-constructor">
+                                {team.constructorName}
+                            </span>
+                        )}
+                    </div>
+                    <img className="team-badge" src={badgeImg} />
                 </div>
                 <div className="team-car">
                     <div className="team-car-name">

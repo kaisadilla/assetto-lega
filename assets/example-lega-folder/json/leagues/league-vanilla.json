@@ -1,7 +1,7 @@
 {
-    "series": "Formula 1",
+    "series": "Formula 1 (fake)",
     "year": 2023,
-    "displayName": "2023",
+    "displayName": "F1fake 2023",
     "era": "V6 hybrid",
     "color": "#19C71C",
     "region": "world",
@@ -11,6 +11,8 @@
     "teams": [
         {
             "name": "Oracle Red Bull F1 Team",
+            "shortName": "Red Bull Racing",
+            "constructorName": "Red Bull-Honda RBPT",
             "car": "ks_ferrari_f2004",
             "country": "austria",
             "logo": "@red-bull",

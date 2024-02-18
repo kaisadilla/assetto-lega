@@ -33,6 +33,7 @@ function CountryPicker ({
                 {$containers}
             </div>
             <ToolboxRow className="image-picker-toolbox">
+                <ToolboxRow.Status text={selectedCountry} />
                 <Button onClick={handleCancel}>Cancel</Button>
                 <Button
                     highlighted

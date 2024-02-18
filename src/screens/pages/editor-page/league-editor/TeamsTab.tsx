@@ -84,7 +84,7 @@ function TeamEditModePanel ({
 }: TeamEditModePanelProps) {
 
     return (
-        <div>
+        <div className="teams-tab-edit">
             <TeamEditionTable 
                 teams={teams}
             />

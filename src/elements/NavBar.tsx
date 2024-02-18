@@ -22,6 +22,7 @@ export interface NavBarProps {
     get: any;
     set: (index: any) => void;
     size?: NavBarSize;
+    className?: string;
     children: React.ReactNode;
 }
 
@@ -29,6 +30,7 @@ function NavBar ({
     get,
     set,
     size = NavBarSize.REGULAR,
+    className,
     children,
 }: NavBarProps) {
 
@@ -37,6 +39,7 @@ function NavBar ({
         size === NavBarSize.SMALL && "nav-bar-small",
         size === NavBarSize.REGULAR && "nav-bar-regular",
         size === NavBarSize.BIG && "nav-bar-big",
+        className,
     )
 
     const getSet = {get, set};

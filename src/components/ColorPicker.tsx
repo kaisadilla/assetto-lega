@@ -4,7 +4,7 @@ import LabeledControl from 'elements/LabeledControl';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
 import ToolboxRow from 'elements/ToolboxRow';
-import FormTitle from 'elements/form/FormTitle';
+import Form from 'elements/form/Form';
 import React, { useState } from 'react';
 import { ColorChangeHandler, ColorResult, HSLColor, SliderPicker, PhotoshopPicker, SketchPicker } from 'react-color';
 import { Alpha, EditableInput, Hue, Saturation } from "react-color/lib/components/common";
@@ -90,8 +90,8 @@ function ColorPicker ({
                             style={{backgroundColor: hex}}
                         />
                     </div>
-                    <div className="color-parameters">
-                        <FormTitle title="Color" />
+                    <Form className="color-parameters">
+                        <Form.Title title="Color" />
                         <LabeledControl className="hex-control" label="Hex">
                             <Textbox
                                 value={hex}
@@ -99,7 +99,7 @@ function ColorPicker ({
                                 onChange={() => {}}
                             />
                         </LabeledControl>
-                        <FormTitle title="RGB" />
+                        <Form.Title title="RGB" />
                         <LabeledControl className="rgb-control" label="R">
                             <NumericBox
                                 value={rgb.r}
@@ -124,7 +124,7 @@ function ColorPicker ({
                                 onChange={n => handleRgbInput('b', n!)}
                             />
                         </LabeledControl>
-                        <FormTitle title="HSL" />
+                        <Form.Title title="HSL" />
                         <LabeledControl className="hsl-control" label="H" afterLabel="°">
                             <NumericBox
                                 value={truncateNumber(hsl.h, 1)}
@@ -152,7 +152,7 @@ function ColorPicker ({
                                 onChange={n => handleHslInput('l', n!)}
                             />
                         </LabeledControl>
-                    </div>
+                    </Form>
                 </div>
             </div>
             

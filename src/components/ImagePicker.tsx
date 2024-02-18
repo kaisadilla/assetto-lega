@@ -9,34 +9,42 @@ import ToolboxRow from 'elements/ToolboxRow';
 import Ipc from 'main/ipc/ipcRenderer';
 import { TAB_INDICES } from 'names';
 import React, { useEffect, useState } from 'react';
-import { getClassString } from 'utils';
+import { clampNumber, getClassString } from 'utils';
+import PickerDialog, { PickerImageBackgroundColor } from './PickerDialog';
 
 type UserFileCollection = {[name: string]: string};
+
+const MIN_IMAGE_SIZE = 48;
+const MAX_IMAGE_SIZE = 256;
 
 export interface ImagePickerProps {
     directory: AssetFolder;
     preSelectedImage?: string | null;
-    defaultImageBackgroundColor?: ImageBackgroundColor;
+    defaultImageBackgroundColor?: PickerImageBackgroundColor;
+    defaultImageSize?: number;
     onSelect: (selectedImage: string | null) => void;
     onCancel?: (selectedImage: string | null) => void;
 }
-
-export type ImageBackgroundColor = "dark" | "transparent" | "white";
 
 function ImagePicker ({
     directory,
     preSelectedImage,
     defaultImageBackgroundColor = "transparent",
+    defaultImageSize = 120,
     onSelect,
     onCancel,
 }: ImagePickerProps) {
+    defaultImageSize = clampNumber(
+        defaultImageSize, MIN_IMAGE_SIZE, MAX_IMAGE_SIZE
+    );
+
     const { getDataFolder } = useDataContext();
 
     const [userFiles, setUserFiles] = useState<UserFileCollection | null>(null);
     const [selectedImage, setSelectedImage] = useState(preSelectedImage ?? null);
 
-    const [imgScale, setImgScale] = useState(120);
-    const [bgColor, setBgColor] = useState<ImageBackgroundColor>(
+    const [imgScale, setImgScale] = useState(defaultImageSize);
+    const [bgColor, setBgColor] = useState<PickerImageBackgroundColor>(
         defaultImageBackgroundColor
     );
 
@@ -60,7 +68,7 @@ function ImagePicker ({
         for (const name in assets) {
             const asset = assets[name];
             $imgs.push(
-                <SelectableImage
+                <PickerDialog.Image
                     key={name}
                     name={name}
                     src={asset}
@@ -84,7 +92,7 @@ function ImagePicker ({
         for (const name in userFiles ?? {}) {
             const path = userFiles![name];
             $imgs.push(
-                <SelectableImage
+                <PickerDialog.Image
                     key={name}
                     name={name}
                     src={path}
@@ -102,31 +110,33 @@ function ImagePicker ({
         return $imgs;
     })();
 
-    const previewContainerClass = `preview-container ${bgColor}`;
-
     return (
-        <Dialog className="image-picker">
-            <div className="galleries">
-                <h2>Default images</h2>
-                <div className={previewContainerClass}>
+        <PickerDialog className="default-image-picker">
+            <PickerDialog.GalleriesSection imageBackgroundColor={bgColor}>
+                <PickerDialog.SectionTitle>
+                    Default images
+                </PickerDialog.SectionTitle>
+                <PickerDialog.Gallery>
                     {$defaultImgs}
-                </div>
-                <h2>Custom images</h2>
-                <div className={previewContainerClass}>
+                </PickerDialog.Gallery>
+                <PickerDialog.SectionTitle>
+                    Custom images
+                </PickerDialog.SectionTitle>
+                <PickerDialog.Gallery>
                     {$userImgs}
-                </div>
-            </div>
-            <ToolboxRow className="image-picker-toolbox">
-                <span className="selected-image-name">{selectedImage}</span>
+                </PickerDialog.Gallery>
+            </PickerDialog.GalleriesSection>
+            <PickerDialog.Toolbox>
+                <ToolboxRow.Status text={selectedImage} />
                 <ColorChooser
                     options={colorOptions}
                     selectedOption={bgColor}
-                    onChange={color => setBgColor(color as ImageBackgroundColor)}
+                    onChange={color => setBgColor(color as PickerImageBackgroundColor)}
                 />
                 <ScaleScroll
-                    min={48}
-                    max={256}
-                    defaultValue={120}
+                    min={MIN_IMAGE_SIZE}
+                    max={MAX_IMAGE_SIZE}
+                    defaultValue={defaultImageSize}
                     value={imgScale}
                     onChange={v => setImgScale(v)}
                     showReset
@@ -140,8 +150,8 @@ function ImagePicker ({
                 >
                     Select
                 </Button>
-            </ToolboxRow>
-        </Dialog>
+            </PickerDialog.Toolbox>
+        </PickerDialog>
     );
 
     async function loadUserFiles () {
@@ -179,47 +189,3 @@ function ImagePicker ({
 }
 
 export default ImagePicker;
-
-export interface SelectableImageProps {
-    name: string;
-    src: string;
-    selected: boolean;
-    scale: number;
-    onClick: () => void;
-    onDoubleClick: () => void;
-    tabIndex?: number;
-}
-
-function SelectableImage ({
-    name,
-    src,
-    selected,
-    scale,
-    onClick,
-    onDoubleClick,
-    tabIndex,
-}: SelectableImageProps) {
-    const classStr = getClassString(
-        "gallery-selectable-image",
-        selected && "selected",
-    )
-
-    const style = {
-        width: `${scale}px`,
-        height: `${scale}px`,
-    }
-
-    return (
-        <div
-            className={classStr}
-            onClick={onClick}
-            onKeyDown={(evt) => {if (evt.key === "Enter") onClick()}}
-            onDoubleClick={onDoubleClick}
-            style={style}
-            tabIndex={tabIndex}
-        >
-            <div className="image-highlighter" />
-            <img src={src} />
-        </div>
-    );
-}

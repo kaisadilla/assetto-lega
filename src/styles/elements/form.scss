@@ -1,0 +1,22 @@
+.default-form {
+    //background: green;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+
+    .default-form-title {
+        padding: 0;
+        margin: 0;
+        font-weight: $w-semibold;
+        font-size: 10pt;
+        padding: 6px 0 0 0;
+    }
+
+    .default-form-section {
+        display: flex;
+        flex-direction: column;
+    }
+}

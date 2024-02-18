@@ -22,6 +22,8 @@ export interface League {
 
 export interface LeagueTeam {
     name: string;
+    shortName: string;
+    constructorName?: string;
     car: string;
     country: string;
     logo: string;

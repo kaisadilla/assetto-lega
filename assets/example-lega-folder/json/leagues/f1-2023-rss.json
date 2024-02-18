@@ -11,6 +11,8 @@
     "teams": [
         {
             "name": "Oracle Red Bull F1 Team",
+            "shortName": "Red Bull Racing",
+            "constructorName": "Red Bull-Honda RBPT",
             "car": "rss_formula_hybrid_2023",
             "country": "austria",
             "logo": "@red-bull",
@@ -64,6 +66,8 @@
         },
         {
             "name": "Mercedes-AMG Petronas F1 Team",
+            "shortName": "Mercedes",
+            "constructorName": "Mercedes",
             "car": "rss_formula_hybrid_2023",
             "country": "germany",
             "logo": "@mercedes",
@@ -115,6 +119,8 @@
         },
         {
             "name": "Scuderia Ferrari",
+            "shortName": "Ferrari",
+            "constructorName": "Ferrari",
             "car": "rss_formula_hybrid_2023",
             "country": "italy",
             "logo": "@ferrari",
@@ -165,6 +171,8 @@
         },
         {
             "name": "McLaren F1 Team",
+            "shortName": "McLaren",
+            "constructorName": "McLaren-Mercedes",
             "car": "rss_formula_hybrid_2023",
             "country": "united_kingdom",
             "logo": "@mclaren",
@@ -210,12 +218,14 @@
         },
         {
             "name": "Aston Martin Aramco Cognizant F1 Team",
+            "shortName": "Aston Martin",
+            "constructorName": "Aston Martin-Mercedes",
             "car": "rss_formula_hybrid_2023",
             "country": "united_kingdom",
             "logo": "@aston-martin",
             "badge": "@aston-martin",
             "color": "#00665e",
-            "ballast": 20,
+            "ballast": 18,
             "restrictor": 5,
             "mainDriver": 0,
             "drivers": [

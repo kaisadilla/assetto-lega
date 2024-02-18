@@ -23,11 +23,16 @@ export interface ImageFieldProps {
      */
     defaultImageBackgroundColor?: ImageBackgroundColor;
     /**
+     * The size of the images in the gallery when the gallery is opened.
+     */
+    defaultImageSize?: number;
+    /**
      * A method called when the user chooses a new image.
      * @param image The name of the image chosen by the user.
      */
     onChange?: (image: string | null) => void;
     className?: string;
+    tabIndex?: number;
 }
 
 function ImageField ({
@@ -35,8 +40,10 @@ function ImageField ({
     image,
     showName, // TODO: Implement
     defaultImageBackgroundColor = "transparent",
+    defaultImageSize = 120,
     onChange,
     className,
+    tabIndex = 1,
 }: ImageFieldProps) {
     const { dataPath } = useDataContext();
 
@@ -65,7 +72,7 @@ function ImageField ({
     })();
 
     return (
-        <div className={classStr}>
+        <div className={classStr} tabIndex={tabIndex}>
             <div
                 className="image-field-content"
                 onDoubleClick={() => {setPickerOpen(true)}}
@@ -79,6 +86,7 @@ function ImageField ({
                     directory={directory}
                     preSelectedImage={image}
                     defaultImageBackgroundColor={defaultImageBackgroundColor}
+                    defaultImageSize={defaultImageSize}
                     onSelect={handlePickerSelect}
                     onCancel={() => setPickerOpen(false)}
                 />

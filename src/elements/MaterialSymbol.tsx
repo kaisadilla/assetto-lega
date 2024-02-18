@@ -15,6 +15,7 @@ function MaterialSymbol ({
     className
 }: MaterialSymbolProps) {
     const classStr = getClassString(
+        "material-symbol",
         ["material-symbols-sharp", symbolStyle === "sharp"],
         ["material-symbols-rounded", symbolStyle === "rounded"],
         ["material-symbols-outlined", symbolStyle === "outlined"],

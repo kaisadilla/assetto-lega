@@ -9,4 +9,14 @@
     .default-button {
         width: 100px;
     }
+
+    .default-status {
+        @include ellipsis();
+
+        flex: 1;
+        padding-left: 16px;
+        font-size: 10pt;
+        font-weight: $w-light;
+        color: $text-color-dark-d1;
+    }
 }

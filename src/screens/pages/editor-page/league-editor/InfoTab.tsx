@@ -7,7 +7,7 @@ import { League } from 'data/schemas';
 import LabeledControl from 'elements/LabeledControl';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
-import FormTitle from 'elements/form/FormTitle';
+import Form from 'elements/form/Form';
 import React from 'react';
 
 export interface InfoTabProps {
@@ -21,29 +21,29 @@ function InfoTab ({
 }: InfoTabProps) {
     return (
         <div className="editor-tab info-tab">
-            <div className="images-section">
-                <FormTitle title="Logo" />
-                <div className="logo-cell">
-                    <ImageField
-                        className="logo-image-field"
-                        directory={AssetFolder.leagueLogos}
-                        image={league.logo}
-                        defaultImageBackgroundColor="white"
-                        onChange={handleChange_logo}
-                    />
-                </div>
-                <FormTitle title="Background" />
-                <div className="background-cell">
-                    <ImageField
-                        className="background-image-field"
-                        directory={AssetFolder.leagueBackgrounds}
-                        image={league.background}
-                        onChange={handleChange_background}
-                    />
-                </div>
-            </div>
-            <div className="info-section">
-                <div className="info-section-cell internal-name-cell">
+            <Form>
+                <Form.Section className="images-section" horizontalAlignment='center'>
+                    <Form.Title title="Logo" />
+                        <div className="logo-cell">
+                            <ImageField
+                                className="logo-image-field"
+                                directory={AssetFolder.leagueLogos}
+                                image={league.logo}
+                                defaultImageBackgroundColor='white'
+                                onChange={handleChange_logo}
+                            />
+                        </div>
+                    <Form.Title title="Background" />
+                        <div className="background-cell">
+                            <ImageField
+                                className="background-image-field"
+                                directory={AssetFolder.leagueBackgrounds}
+                                image={league.background}
+                                onChange={handleChange_background}
+                            />
+                        </div>
+                </Form.Section>
+                <Form.Section className="info-section">
                     <LabeledControl label="Internal name" required>
                         <Textbox
                             value={league.internalName}
@@ -51,8 +51,6 @@ function InfoTab ({
                             //readonly
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell series-cell">
                     <LabeledControl label="Series" required>
                         <Textbox
                             value={league.series}
@@ -70,24 +68,18 @@ function InfoTab ({
                             ]}
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell year-cell">
                     <LabeledControl label="Year" required>
                         <NumericBox
                             value={league.year}
                             onChange={handleChange_year}
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell display-name-cell">
                     <LabeledControl label="Display name">
                         <Textbox
                             value={league.displayName}
                             onChange={handleChange_displayName}
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell era-cell">
                     <LabeledControl label="Era">
                         <Textbox
                             value={league.era}
@@ -99,16 +91,12 @@ function InfoTab ({
                             ]}
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell era-cell">
                     <LabeledControl label="Makers">
                         <Textbox
                             value={league.makers}
                             onChange={handleChange_makers}
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell region-cell">
                     <LabeledControl label="Region" required>
                         <CountryField
                             value={league.region}
@@ -117,24 +105,20 @@ function InfoTab ({
                             required
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell region-cell">
                     <LabeledControl label="Color" required>
                         <ColorField
                             value={league.color}
                             onChange={handleChange_color}
                         />
                     </LabeledControl>
-                </div>
-                <div className="info-section-cell categories-cell">
-                    <LabeledControl label="Categories">
+                    <LabeledControl className="categories-cell" label="Categories">
                         <MultiTagField
                             values={league.categories}
                             onChange={handleChange_categories}
                         />
                     </LabeledControl>
-                </div>
-            </div>
+                </Form.Section>
+            </Form>
         </div>
     );
 

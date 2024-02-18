@@ -1,15 +1,15 @@
 import React from 'react';
 import { getClassString } from 'utils';
 
-export interface FormTitleProps {
+export interface Form_TitleProps {
     title: string;
     className?: string;
 }
 
-function FormTitle ({
+function Form_Title ({
     title,
     className,
-}: FormTitleProps) {
+}: Form_TitleProps) {
     const classStr = getClassString(
         "default-form-title",
         className,
@@ -22,4 +22,4 @@ function FormTitle ({
     );
 }
 
-export default FormTitle;
+export default Form_Title;

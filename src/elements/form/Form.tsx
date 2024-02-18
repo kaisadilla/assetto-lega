@@ -1,18 +1,19 @@
 import React from 'react';
 import { getClassString } from 'utils';
-import ToolboxRow_Status from './ToolboxRow.Status';
+import Form_Title from './Form.Title';
+import Form_Section from './Form.Section';
 
-export interface ToolboxRowProps {
+export interface FormProps {
     className?: string;
     children?: React.ReactNode;
 }
 
-function ToolboxRow ({
+function Form ({
     className,
     children,
-}: ToolboxRowProps) {
+}: FormProps) {
     const classStr = getClassString(
-        "default-toolbox-row",
+        "default-form",
         className,
     )
 
@@ -23,6 +24,7 @@ function ToolboxRow ({
     );
 }
 
-ToolboxRow.Status = ToolboxRow_Status;
+Form.Title = Form_Title;
+Form.Section = Form_Section;
 
-export default ToolboxRow;
+export default Form;

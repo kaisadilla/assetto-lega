@@ -127,21 +127,37 @@
                 }
             }
     
-            > .team-name-and-badge {
+            > .team-names-and-badge {
+                $width: 250px;
+                $gap: 8px;
+                $image-size: 24px;
+
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                gap: 8px;
-                width: 250px;
+                gap: $gap;
+                width: $width;
+
+                > .team-names {
+                    display: flex;
+                    flex-direction: column;
+                    max-width: $width - $gap - $image-size;
     
-                > .team-name {
-                    @include ellipsis();
-                    font-weight: $w-regular;
+                    > .team-name {
+                        @include ellipsis();
+                        font-weight: $w-regular;
+                    }
+
+                    > .team-constructor {
+                        color: $text-color-dark-d2;
+                    }
                 }
+
                 > .team-badge {
                     object-fit: contain;
-                    width: 24px;
-                    max-height: 24px;
+                    width: $image-size;
+                    max-height: $image-size;
+                    display: block;
                 }
             }
             > .team-car {

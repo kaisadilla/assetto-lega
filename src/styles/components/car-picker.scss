@@ -1,0 +1,13 @@
+.default-car-picker {
+    .galleries {
+        flex: 1;
+        padding: 24px;
+        overflow-y: auto;
+    }
+    
+    .car-picker-toolbox {
+        .default-scale-scroll {
+            width: 200px;
+        }
+    }
+}
