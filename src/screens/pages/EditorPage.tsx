@@ -10,7 +10,7 @@ export interface EditorPageProps {
 }
 
 function EditorPage (props: EditorPageProps) {
-    const { leaguesById } = useDataContext();
+    const { leaguesById, updateLeague } = useDataContext();
     
     // The league currently being edited. When this value is equal to null,
     // the main menu is shown instead. 
@@ -23,6 +23,7 @@ function EditorPage (props: EditorPageProps) {
                 league && <LeagueEditor
                     league={league}
                     onSave={handleSave}
+                    onSaveAndExit={handleSaveAndExit}
                     onCancel={handleCancel}
                 />
             }
@@ -42,8 +43,11 @@ function EditorPage (props: EditorPageProps) {
 
     async function handleSave (editedLeague: League) {
         await Ipc.saveLeague(league?.internalName ?? null, editedLeague);
-        // TODO: update league in the program's memory.
-        // TODO: add buttons for 'save' and 'save and exit'.
+        updateLeague(league?.internalName ?? null, editedLeague);
+    }
+
+    async function handleSaveAndExit (editedLeague: League) {
+        await handleSave(editedLeague);
         setLeague(null);
     }
 

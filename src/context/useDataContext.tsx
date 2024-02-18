@@ -22,6 +22,7 @@ interface DataContextState {
     isACFolderValid: boolean;
     updateSettings: (settings: UserSettings) => void;
     getDataFolder: (folder: AssetFolder) => string;
+    updateLeague: (internalName: string | null, league: League) => void;
 }
 
 export const DataContextProvider = ({ children }: any) => {
@@ -47,10 +48,47 @@ export const DataContextProvider = ({ children }: any) => {
             return state.dataPath + "/" + assetFolder;
         }
 
+        /**
+         * Updates a league in the program's memory only, following the same
+         * rules as the functions to update the disk's file.
+         * @param internalName The ORIGINAL internal name of the edited league,
+         * even if it has changed in the edition; or `null` if this is a new
+         * league.
+         * @param league The league's object.
+         */
+        function updateLeague (internalName: string | null, league: League) {
+            const leagues = [...state.leagues];
+            let index = -1;
+            
+            if (internalName) {
+                index = leagues.findIndex(
+                    l => l.internalName === internalName
+                );
+            }
+
+            if (index !== -1) {
+                leagues[index] = league;
+            }
+            else {
+                leagues.push(league);
+            }
+
+            const leaguesById = generateLeagueCollection(leagues);
+
+            setState(prevState => ({
+                ...prevState,
+                leagues,
+                leaguesById,
+            }));
+
+            console.log(leagues);
+        }
+
         return {
             ...state,
             updateSettings,
             getDataFolder,
+            updateLeague,
         }
     }, [state]);
 
@@ -65,10 +103,7 @@ export const DataContextProvider = ({ children }: any) => {
         const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
         
-        const leaguesById: LeagueCollection = {};
-        for (const l of leagues) {
-            leaguesById[l.internalName] = l;
-        }
+        const leaguesById = generateLeagueCollection(leagues);
 
         const isACFolderValid = await validateACFolder(settings);
 
@@ -80,6 +115,16 @@ export const DataContextProvider = ({ children }: any) => {
             leaguesById,
             isACFolderValid,
         } as DataContextState);
+    }
+
+    function generateLeagueCollection (leagues: League[]) {
+        const leaguesById: LeagueCollection = {};
+
+        for (const l of leagues) {
+            leaguesById[l.internalName] = l;
+        }
+        
+        return leaguesById;
     }
 
     /**

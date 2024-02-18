@@ -1,0 +1,64 @@
+.league-editor > .info-tab {
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+
+    .images-section {
+        padding: 12px;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+
+        .logo-cell {
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+        }
+
+        .background-cell {
+            width: 355px;
+            height: 200px;
+        }
+    }
+
+    .info-section {
+        flex: 1;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        gap: 2px;
+
+        .info-section-cell {
+            width: 100%;
+
+            > .default-labeled-control {
+                > .label {
+                    width: 100px;
+                }
+                > .value {
+                    color: $text-color-dark-d1;
+
+                    .default-typebox > input {
+                        color: $text-color-dark-d1;
+                    }
+                }
+            }
+        }
+
+        .categories-cell {
+            flex: 1;
+
+            > .default-labeled-control {
+                align-items: flex-start;
+
+                > .label {
+                    height: 24px;
+                    padding-top: 3px;
+                }
+            }
+        }
+    }
+}

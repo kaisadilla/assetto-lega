@@ -24,12 +24,14 @@ export interface LeagueEditorProps {
      */
     league: League;
     onSave?: (currentVersion: League) => void;
+    onSaveAndExit?: (currentVersion: League) => void;
     onCancel?: (currentVersion: League) => void;
 }
 
 function LeagueEditor ({
     league,
     onSave,
+    onSaveAndExit,
     onCancel,
 }: LeagueEditorProps) {
     const [editedLeague, setEditedLeague] = useState(cloneLeague(league));
@@ -62,7 +64,8 @@ function LeagueEditor ({
             {$screen}
             <ToolboxRow>
                 <Button onClick={handleCancel}>Cancel</Button>
-                <Button onClick={handleSave} highlighted>Save</Button>
+                <Button onClick={handleSave}>Save</Button>
+                <Button onClick={handleSaveAndExit} highlighted>Save and exit</Button>
             </ToolboxRow>
         </div>
     );
@@ -80,6 +83,10 @@ function LeagueEditor ({
 
     function handleSave () {
         onSave?.(editedLeague);
+    }
+
+    function handleSaveAndExit () {
+        onSaveAndExit?.(editedLeague);
     }
 }
 
