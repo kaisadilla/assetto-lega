@@ -1,6 +1,6 @@
 import Dialog from 'elements/Dialog';
 import ToolboxRow from 'elements/ToolboxRow';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { getClassString } from 'utils';
 
 export type PickerImageBackgroundColor = "dark" | "transparent" | "white";
@@ -96,8 +96,11 @@ interface PickerDialog_ImageProps {
     src: string;
     selected: boolean;
     scale?: number;
+    widthScale?: number;
+    heightScale?: number;
     onClick: () => void;
     onDoubleClick: () => void;
+    className?: string;
     tabIndex?: number;
 }
 
@@ -106,19 +109,26 @@ function PickerDialog_Image ({
     src,
     selected,
     scale,
+    widthScale,
+    heightScale,
     onClick,
     onDoubleClick,
+    className,
     tabIndex,
 }: PickerDialog_ImageProps) {
     const classStr = getClassString(
         "picker-dialog-image",
         selected && "selected",
+        className,
     )
 
-    const style = scale ? {
-        width: `${scale}px`,
-        height: `${scale}px`,
-    } : {};
+    const style = {} as React.CSSProperties;
+    if (scale !== undefined) {
+        style.width = `${scale}px`;
+        style.height = `${scale}px`;
+    }
+    if (widthScale !== undefined) style.width = `${widthScale}px`;
+    if (heightScale !== undefined) style.height = `${heightScale}px`;
 
     return (
         <div
