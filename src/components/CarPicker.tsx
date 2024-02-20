@@ -66,7 +66,7 @@ function CarPicker ({
                 />
             </div>
             <PickerDialog.Toolbox>
-                <ToolboxRow.Status text={"selectedCar"} />
+                <ToolboxRow.Status text={selectedCar} />
                 <ScaleScroll
                     min={MIN_IMAGE_SIZE}
                     max={MAX_IMAGE_SIZE}

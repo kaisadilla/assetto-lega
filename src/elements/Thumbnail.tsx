@@ -25,7 +25,7 @@ function Thumbnail ({
 
     return (
         <div
-            className="default-thumbnail"
+            className="thumbnail"
             style={{width: width}}
             onMouseEnter={() => setShowTools(true)}
             onMouseLeave={() => setShowTools(false)}

@@ -4,6 +4,68 @@
     position: relative;
     aspect-ratio: 355/200;
 
+    > .thumbnail-background {
+        background: red;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+
+        > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    > .thumbnail-info {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 24px;
+        background: #77777740;
+        padding: 0 8px;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+
+        > .thumbnail-name {
+            @include ellipsis();
+        }
+    }
+
+    > .thumbnail-highlighter {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        //border: 2px solid $color-primary;
+    }
+}
+
+.default-car-thumbnail {
+    > .thumbnail-info > .thumbnail-badge {
+        max-height: 100%;
+        max-width: 24px;
+        padding: 2px 0;
+        display: flex;
+
+        > img {
+            max-width: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+
+// TODO: Remove
+.thumbnail {
+    position: relative;
+    aspect-ratio: 355/200;
+
     .background {
         position: absolute;
         width: 100%;

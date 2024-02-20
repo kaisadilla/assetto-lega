@@ -68,12 +68,12 @@ function Section ({
             </PickerDialog.SectionTitle>
             <PickerDialog.Gallery>
                 {section.elements.map(el => (
-                    <PickerDialog.Image
+                    <PickerDialog.Thumbnail
                         key={el.value}
                         name={el.displayName}
                         src={el.imagePath}
                         selected={selectedElement === el.value}
-                        widthScale={width}
+                        width={width}
                         onClick={() => onSelect(el.value)}
                         onDoubleClick={() => {}}
                         tabIndex={tabIndex}
