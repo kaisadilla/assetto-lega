@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactSlider from 'react-slider';
 import Button from './Button';
 import Icon from './Icon';
+import { clampNumber } from 'utils';
 
 export interface ScaleScrollProps {
     min: number;
@@ -30,7 +31,7 @@ function ScaleScroll ({
                 max={max}
                 value={value}
                 defaultValue={defaultValue}
-                onChange={onChange}
+                onChange={handleChange}
                 marks={marks}
                 trackClassName="scroll-track"
                 thumbClassName="scroll-thumb"
@@ -48,6 +49,10 @@ function ScaleScroll ({
         if (defaultValue !== undefined) {
             onChange?.(defaultValue);
         }
+    }
+
+    function handleChange (value: number) {
+        onChange?.(clampNumber(value, min, max));
     }
 }
 

@@ -3,21 +3,34 @@ import NavBar, { NavBarSize } from 'elements/NavBar';
 import LeaguePage from './pages/LeaguePage';
 import FreeSessionPage from './pages/FreeSessionPage';
 import { Page, useNavigationContext } from '../context/useNavigation';
-import { useDataContext } from 'context/useDataContext';
+import { AppStatus, useDataContext } from 'context/useDataContext';
 import InitializeAppScreen from './InitializeAppScreen';
 import { isFolderAssettoCorsa } from 'game/assettoCorsa';
 import EditorPage from './pages/EditorPage';
+import ReadingAcContentScreen from './ReadingAcContent';
+import DragRegion from 'elements/DragRegion';
 
 function MainScreen () {
-    const { loading, settings, isACFolderValid } = useDataContext();
+    const { appStatus, settings, isACFolderValid, readAcContent } = useDataContext();
     const { currentPage: selectedTab, setCurrentPage: setSelectedTab } = useNavigationContext();
 
-    if (loading) {
+    useEffect(() => {
+        // TODO: Probably load outside of here altogether.
+        if (isACFolderValid && appStatus === AppStatus.ReadingAcContent) {
+            readAcContent();
+        }
+    }, [appStatus, isACFolderValid]);
+
+    if (appStatus === AppStatus.LoadingData) {
         return <div>Loading...</div>
     }
 
     if (isACFolderValid === false) {
         return <InitializeAppScreen />
+    }
+
+    if (appStatus === AppStatus.ReadingAcContent) {
+        return <ReadingAcContentScreen />
     }
 
     const $content = (() => {
@@ -47,7 +60,7 @@ function MainScreen () {
                     <NavBar.Item text="leagues" index={Page.LEAGUES} />
                     <NavBar.Item text="editor" index={Page.EDITOR} />
                 </NavBar>
-                <div className="drag-region" />
+                <DragRegion />
             </div>
             <div className="cell-content">
                 {$content}

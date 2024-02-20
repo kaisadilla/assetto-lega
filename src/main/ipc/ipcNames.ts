@@ -16,5 +16,6 @@ export const HANDLER_FILES_SCAN_DIRECTORY = "files/scan-directory";
 export const HANDLER_FILES_UPLOAD = "files/upload";
 
 export const HANDLER_AC_SET_PATH = "ac/set-path";
+export const HANDLER_AC_LOAD_DATA = "ac/load-data";
 export const HANDLER_AC_GET_CAR_LIST = "ac/get-car-list";
 export const HANDLER_AC_GET_CAR_DATA = "ac/get-car-data";

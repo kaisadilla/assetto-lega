@@ -11,7 +11,7 @@ import { Files } from 'data/files';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { getClassString } from 'utils';
-import { CarData } from 'main/assettoCorsa';
+import { CarData } from 'main/assettoCorsa/acFolder';
 import Ipc from 'main/ipc/ipcRenderer';
 
 export interface TeamTableProps {

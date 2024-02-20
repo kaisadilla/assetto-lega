@@ -82,3 +82,61 @@ export interface LeagueScoreSystem {
      */
     qualifying: number[] | null;
 }
+
+
+
+export interface CarData {
+    folderName: string;
+    /**
+     * The absolute path to the folder containing this car.
+     */
+    folderPath: string;
+    ui: CarUi;
+    /**
+     * The skins present in this car's folder. Each key corresponds to the name
+     * of a folder, and each value holds information about that skin.
+     */
+    skins: {[folderName: string]: CarSkin};
+}
+
+// Assetto Corsa's game data.
+
+export interface CarUi {
+    name?: string;
+    brand?: string;
+    country?: string;
+    year?: number;
+    description?: string;
+    tags?: string[];
+    class?: string;
+    specs?: CarUiSpecs;
+    torqueCurve?: [number, number][];
+    powerCurve?: [number, number][];
+    author?: string;
+    version?: string;
+    url?: string;
+}
+
+export interface CarUiSpecs {
+    bhp?: string;
+    torque?: string;
+    weight?: string;
+    topspeed?: string;
+    acceleration?: string;
+    pwratio?: string;
+}
+
+export interface CarSkin {
+    folderName: string;
+    folderPath: string;
+    ui: CarSkinUi;
+}
+
+export interface CarSkinUi {
+    skinname?: string;
+    country?: string;
+    drivername?: string;
+    team?: string;
+    number?: string;
+    priority?: number;
+}

@@ -27,10 +27,8 @@
         }
 
         // This region allows the window to be dragged.
-        .drag-region {
+        .default-drag-region {
             flex: 1;
-            user-select: none;
-            -webkit-app-region: drag;
         }
     }
 

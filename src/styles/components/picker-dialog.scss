@@ -1,6 +1,5 @@
 .default-picker-dialog {
-
-    > .default-picker-dialog-gallery-section {
+    .default-picker-dialog-gallery-section {
         flex: 1;
         padding: 24px;
         overflow-y: auto;
@@ -54,5 +53,10 @@
         .default-scale-scroll {
             width: 200px;
         }
+    }
+
+    .default-picker-thumbnail-selector {
+        width: 100%;
+        height: 100%;
     }
 }

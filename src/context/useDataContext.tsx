@@ -7,11 +7,18 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 type LeagueCollection = {[key: string]: League};
 
+export enum AppStatus {
+    LoadingData = 0,
+    //LocatingAcFolder = 1,
+    ReadingAcContent = 1,
+    Ready = 2,
+}
+
 const DataContext = createContext({} as DataContextState);
 export const useDataContext = () => useContext(DataContext);
 
 interface DataContextState {
-    loading: boolean;
+    appStatus: AppStatus;
     /**
      * The absolute path to the user data folder stored in AppData.
      */
@@ -21,17 +28,18 @@ interface DataContextState {
     leaguesById: LeagueCollection;
     isACFolderValid: boolean;
     updateSettings: (settings: UserSettings) => void;
+    readAcContent: () => void;
     getDataFolder: (folder: AssetFolder) => string;
     updateLeague: (internalName: string | null, league: League) => void;
 }
 
 export const DataContextProvider = ({ children }: any) => {
     const [state, setState] = useState<DataContextState>({
-        loading: true,
+        appStatus: AppStatus.LoadingData,
     } as DataContextState);
 
     useEffect(() => {
-        readData();
+        loadData();
     }, [])
 
     const value = useMemo(() => {
@@ -42,6 +50,14 @@ export const DataContextProvider = ({ children }: any) => {
                 setState(prev => ({ ...prev, settings, isACFolderValid }));
             }
             // TODO: what if it fails?
+        }
+
+        async function readAcContent () {
+            await Ipc.readAcContent();
+            setState(prev => ({
+                ...prev,
+                appStatus: AppStatus.Ready,
+            }));
         }
 
         function getDataFolder (assetFolder: AssetFolder) {
@@ -87,6 +103,7 @@ export const DataContextProvider = ({ children }: any) => {
         return {
             ...state,
             updateSettings,
+            readAcContent,
             getDataFolder,
             updateLeague,
         }
@@ -98,7 +115,7 @@ export const DataContextProvider = ({ children }: any) => {
         </DataContext.Provider>
     );
 
-    async function readData () {
+    async function loadData () {
         const dataPath = await Ipc.getDataFolderPath();
         const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
@@ -108,7 +125,7 @@ export const DataContextProvider = ({ children }: any) => {
         const isACFolderValid = await validateACFolder(settings);
 
         setState({
-            loading: false,
+            appStatus: AppStatus.ReadingAcContent,
             dataPath,
             settings,
             leagues,

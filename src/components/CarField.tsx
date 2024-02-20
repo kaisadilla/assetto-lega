@@ -1,10 +1,10 @@
 import CoverPanel from 'elements/CoverPanel';
 import CarLogoImage from 'elements/images/CarLogoImage';
-import { CarData } from 'main/assettoCorsa';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 import CarPicker from './CarPicker';
+import { CarData } from 'data/schemas';
 
 export interface CarFieldProps {
     value: string;

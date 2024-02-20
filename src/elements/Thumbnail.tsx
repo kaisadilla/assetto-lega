@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import outline from "../../assets/outline.png";
 import flag from "../../assets/flags/eu.png";
-import "styles/elements/thumbnail.scss";
 import { Countries } from 'data/countries';
 
 export interface ThumbnailProps {
@@ -26,7 +25,7 @@ function Thumbnail ({
 
     return (
         <div
-            className="thumbnail"
+            className="default-thumbnail"
             style={{width: width}}
             onMouseEnter={() => setShowTools(true)}
             onMouseLeave={() => setShowTools(false)}
