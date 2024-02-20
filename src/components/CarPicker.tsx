@@ -103,44 +103,4 @@ function CarPicker ({
     }
 }
 
-interface CarImageCollectionProps {
-    cars: CarData[];
-    scale: number;
-}
-
-function CarImageCollection ({
-    cars,
-    scale,
-}: CarImageCollectionProps) {
-    const $imgs = [];
-    let tabIndex = 0;
-
-    for (const car of cars) {
-        const defaultSkin = Object.keys(car.skins)[0];
-        const path = getCarPreviewFolder(car.skins[defaultSkin]?.folderPath, true);
-        $imgs.push(
-            <PickerDialog.Image
-                className="car-picker-image"
-                key={car.folderName}
-                name={car.ui.name ?? car.folderName}
-                src={path}
-                selected={false}
-                widthScale={scale}
-                onClick={() => {}}
-                onDoubleClick={() => {}}
-                tabIndex={tabIndex}
-            />
-        );
-
-        tabIndex++;
-    }
-
-    return (
-        <>
-            {$imgs}
-        </>
-    );
-}
-
-
 export default CarPicker;
