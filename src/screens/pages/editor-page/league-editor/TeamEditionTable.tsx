@@ -3,7 +3,7 @@ import ColorField from 'components/ColorField';
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
 import { AssetFolder } from 'data/assets';
-import { LeagueTeam } from 'data/schemas';
+import { LeagueTeam, LeagueTeamDriver } from 'data/schemas';
 import Button from 'elements/Button';
 import LabeledControl from 'elements/LabeledControl';
 import MaterialSymbol from 'elements/MaterialSymbol';
@@ -48,7 +48,14 @@ function TeamEditionTable ({
                     <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
                 </NavBar>
                 <div className="team-editor-tab">
-                    <TabInfo team={editedTeams[selectedTeam]} onChange={handleInfoChange} />
+                    {tab === TeamEditorTab.INFO && <TabInfo
+                        team={editedTeams[selectedTeam]}
+                        onChange={handleInfoChange}
+                    />}
+                    {tab === TeamEditorTab.DRIVERS && <TabDrivers
+                        team={editedTeams[selectedTeam]}
+                        onChange={handleInfoChange}
+                    />}
                 </div>
             </div>
             <ToolboxRow className="team-toolbar">
@@ -235,6 +242,89 @@ function TabInfo ({
         onChange(field, value);
     }
 }
+
+interface TabDriversProps {
+    team: LeagueTeam,
+    onChange: (field: keyof LeagueTeam, value: any) => void;
+}
+
+function TabDrivers ({
+    team,
+    onChange,
+}: TabDriversProps) {
+
+    return (
+        <div className="tab-drivers">
+            <div className="driver-list">
+                {team.drivers.map(d => <DriverCard key={d.name} driver={d} />)}
+            </div>
+        </div>
+    );
+}
+
+interface DriverCardProps {
+    driver: LeagueTeamDriver;
+}
+
+function DriverCard ({
+    driver
+}: DriverCardProps) {
+
+    return (
+        <Form className="driver">
+            <Form.Section className="images-section" horizontalAlignment='center'>
+                <Form.Title title="Photo" />
+                <ImageField
+                    className="photo-image-field"
+                    directory={AssetFolder.teamLogos}
+                    image={"@red-bull"}
+                    defaultImageSize={96}
+                />
+            </Form.Section>
+            <Form.Section className="info-section">
+                <LabeledControl label="Name" required>
+                    <Textbox
+                        value={driver.name}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Number" required>
+                    <Textbox
+                        value={driver.number}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Initials" required>
+                    <Textbox
+                        value={driver.initials}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Country" required>
+                    <CountryField
+                        value={driver.country}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Strength" required>
+                    <NumericBox
+                        value={driver.strength}
+                        minValue={70}
+                        maxValue={100}
+                        allowDecimals={true}
+                        maxDecimalPlaces={1}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Aggression" required>
+                    <NumericBox
+                        value={driver.aggression}
+                        minValue={0}
+                        maxValue={100}
+                        allowDecimals={true}
+                        maxDecimalPlaces={1}
+                    />
+                </LabeledControl>
+            </Form.Section>
+        </Form>
+    );
+}
+
 
 
 function cloneTeamArray (teams: LeagueTeam[]) {

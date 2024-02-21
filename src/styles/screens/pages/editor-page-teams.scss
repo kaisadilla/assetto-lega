@@ -130,6 +130,10 @@
     > .team-panel {
         //background: darkblue;
         grid-area: pan;
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
 
         .team-panel-nav-bar {
             padding: 0 12px 3px 12px;
@@ -138,6 +142,8 @@
         }
 
         > .team-editor-tab {
+            min-height: 0;
+
             > .tab-info {
                 gap: 16px;
 
@@ -178,6 +184,64 @@
             
                             .default-typebox > input {
                                 color: $text-color-dark-d1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            > .tab-drivers {
+                height: 100%;
+
+                .driver-list {
+                    display: flex;
+                    flex-direction: column;
+                    overflow-y: auto;
+                    width: 100%;
+                    height: 100%;
+                    min-height: 0;
+                    //gap: 8px;
+                }
+
+                .driver {
+                    gap: 16px;
+                    height: fit-content;
+                    flex-shrink: 0;
+                    //background-color: $bg-color-dark-l1;
+
+                    &:not(:last-child) {
+                        border-bottom: 1px solid $bg-color-dark-l1;
+                    }
+
+                    &:hover {
+                        background-color: $bg-color-dark-l1;
+                    }
+
+                    > .images-section {
+                        padding: 12px;
+                        width: fit-content;
+                        gap: 16px;
+
+                        > .photo-image-field {
+                            width: 96px;
+                            height: 96px;
+                        }
+                    }
+
+                    > .info-section {
+                        width: 100%;
+                        padding: 12px 0;
+                        
+                        > .default-labeled-control {
+                            > .label {
+                                width: 100px;
+                            }
+                            > .value {
+                                color: $text-color-dark-d1;
+                
+                                .default-typebox > input {
+                                    color: $text-color-dark-d1;
+                                }
                             }
                         }
                     }

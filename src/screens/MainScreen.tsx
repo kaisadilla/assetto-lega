@@ -59,6 +59,7 @@ function MainScreen () {
                     <NavBar.Item text="free session" index={Page.FREE_DRIVE} />
                     <NavBar.Item text="leagues" index={Page.LEAGUES} />
                     <NavBar.Item text="editor" index={Page.EDITOR} />
+                    <NavBar.Item text="stats" index={Page.STATS} />
                 </NavBar>
                 <DragRegion />
             </div>

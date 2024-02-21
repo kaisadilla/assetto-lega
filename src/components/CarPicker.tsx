@@ -13,7 +13,7 @@ import Textbox from 'elements/Textbox';
 import NavBar from 'elements/NavBar';
 import CarThumbnail from 'elements/CarThumbnail';
 import MaterialSymbol from 'elements/MaterialSymbol';
-import { LETTERS } from 'constants';
+import { LETTERS } from 'al_constants';
 import { LOCALE } from 'utils';
 
 const MIN_IMAGE_SIZE = 100;

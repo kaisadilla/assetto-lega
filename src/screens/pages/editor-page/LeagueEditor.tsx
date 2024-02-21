@@ -10,9 +10,11 @@ import TeamsTab from './league-editor/TeamsTab';
 enum EditorTab {
     INFO,
     TEAMS,
+    DRIVERS,
     TRACKS,
     CALENDAR,
     SCORE_SYSTEM,
+    INGAME_UI,
 }
 
 export interface LeagueEditorProps {
@@ -48,7 +50,6 @@ function LeagueEditor ({
             return (
                 <TeamsTab league={editedLeague} onChange={handleLeagueFieldChange} />
             );
-            //return <EditorTabTeams teams={teams} setTeams={setTeams} />
         }
         return <></>;
     })();
@@ -58,9 +59,11 @@ function LeagueEditor ({
             <NavBar get={editorTab} set={setEditorTab}>
                 <NavBar.Item text="info" index={EditorTab.INFO} />
                 <NavBar.Item text="teams" index={EditorTab.TEAMS} />
+                <NavBar.Item text="drivers" index={EditorTab.DRIVERS} />
                 <NavBar.Item text="tracks" index={EditorTab.TRACKS} />
                 <NavBar.Item text="calendar" index={EditorTab.CALENDAR} />
                 <NavBar.Item text="score system" index={EditorTab.SCORE_SYSTEM} />
+                <NavBar.Item text="ingame ui" index={EditorTab.INGAME_UI} />
             </NavBar>
             {$screen}
             <ToolboxRow>

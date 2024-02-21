@@ -50,6 +50,7 @@ export enum Page {
     FREE_DRIVE,
     LEAGUES,
     EDITOR,
+    STATS,
 };
 
 export enum LeagueScreenPage {

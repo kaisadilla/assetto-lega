@@ -10,7 +10,7 @@ $text-color-dark: #eeeeee;
 $text-color-dark-d1: #b9b9b9;
 $text-color-dark-d2: #858585;
 
-$color-primary: #a10325;
+$color-primary: var(--color-primary);
 $color-primary-l1: #b9183b;
 $color-primary-l2: #c22749;
 $color-primary-l3: #ca4965;

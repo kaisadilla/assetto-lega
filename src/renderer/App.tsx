@@ -6,15 +6,17 @@ import { LeagueEditorContextProvider } from 'context/useLeagueEditor';
 import { SettingsContextProvider } from 'context/useSettings';
 import { DataContextProvider } from 'context/useDataContext';
 import { Tooltip } from 'react-tooltip';
-
-import 'styles/main.scss';
+import darkTheme from 'styles/main.scss';
 import 'react-tooltip/dist/react-tooltip.css';
 import { DEFAULT_TOOLTIP_ID } from 'names';
 
-export default function App () {    
+export default function App () {
+    // TODO: Themes!
+    //document.documentElement.style.setProperty('--color-primary', "#00ffff");
+    
     return (
         <>
-            <div className="window">
+            <div className="window" style={darkTheme}>
                 <SettingsContextProvider>
                 <NavigationContextProvider tab={Page.LEAGUES}>
                 <LeagueEditorContextProvider>
