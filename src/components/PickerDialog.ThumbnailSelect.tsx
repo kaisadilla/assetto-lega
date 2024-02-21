@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PickerDialog from './PickerDialog';
 import Button from 'elements/Button';
 import ScaleScroll from 'elements/ScaleScroll';
@@ -12,8 +12,7 @@ export interface PickerElementSection {
 
 export interface PickerElement {
     value: string;
-    imagePath: string;
-    displayName: string;
+    thumbnail: JSX.Element;
 }
 
 export interface PickerDialog_ThumbnailSelectorProps {
@@ -21,6 +20,7 @@ export interface PickerDialog_ThumbnailSelectorProps {
     selectedElement: string | null;
     width: number;
     onSelect: (value: string) => void;
+    focusedSection?: string | null;
     className?: string;
 }
 
@@ -29,12 +29,13 @@ function PickerDialog_ThumbnailSelector ({
     selectedElement,
     width,
     onSelect,
+    focusedSection,
     className,
 }: PickerDialog_ThumbnailSelectorProps) {
     const classStr = getClassString(
         "default-picker-thumbnail-selector",
         className,
-    )
+    );
 
     return (
         <PickerDialog.GalleriesSection className={classStr}>
@@ -45,6 +46,7 @@ function PickerDialog_ThumbnailSelector ({
                         selectedElement={selectedElement}
                         width={width}
                         onSelect={onSelect}
+                        focusedSection={focusedSection}
                     />
                 ))
             }
@@ -57,6 +59,7 @@ interface SectionProps {
     selectedElement: string | null;
     width: number;
     onSelect: (value: string) => void;
+    focusedSection?: string | null;
     tabIndex?: number;
 }
 
@@ -65,20 +68,29 @@ function Section ({
     selectedElement,
     width,
     onSelect,
+    focusedSection,
     tabIndex = 1,
 }: SectionProps) {
+    // TODO: use PickerDialog.SectionTitle instead of h2 (with ref).
+    const $title = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        //console.info("new ref for " + section.title, $title);
+        if (focusedSection === section.title) {
+            $title.current?.scrollIntoView({behavior: 'instant'});
+        }
+    }, [$title, focusedSection])
 
     return (
         <>
-            <PickerDialog.SectionTitle>
+            <h2 ref={$title}>
                 {section.title}
-            </PickerDialog.SectionTitle>
+            </h2>
             <PickerDialog.Gallery>
                 {section.elements.map(el => (
                     <PickerDialog.Thumbnail
                         key={el.value}
-                        name={el.displayName}
-                        src={el.imagePath}
+                        content={el.thumbnail}
                         selected={selectedElement === el.value}
                         width={width}
                         onClick={() => onSelect(el.value)}

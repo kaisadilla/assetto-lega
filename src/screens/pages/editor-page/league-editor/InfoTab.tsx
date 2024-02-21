@@ -111,6 +111,7 @@ function InfoTab ({
                             onChange={handleChange_color}
                         />
                     </LabeledControl>
+                    {/* TODO change with an expandable checklist */}
                     <LabeledControl className="categories-cell" label="Categories">
                         <MultiTagField
                             values={league.categories}

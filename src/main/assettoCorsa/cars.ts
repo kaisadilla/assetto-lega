@@ -1,6 +1,6 @@
 import { BrandData, CarData } from "data/schemas";
 import { AssettoCorsa } from "./acFolder";
-import { getCarDefaultSkin } from "../mainProcessUtils";
+import { LOCALE, getCarDefaultSkin } from "../mainProcessUtils";
 
 const Cars = {
     carList: [] as CarData[],
@@ -28,7 +28,9 @@ const Cars = {
             }
         }
 
-        this.brands = Object.values(this.brandsById);
+        this.brands = Object.values(this.brandsById).sort(
+            (a, b) => a.displayName.localeCompare(b.displayName, LOCALE)
+        );
 
         return this.carList.length;
     },

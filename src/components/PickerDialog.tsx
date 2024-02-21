@@ -4,6 +4,7 @@ import React, { HTMLAttributes } from 'react';
 import { getClassString } from 'utils';
 import PickerDialog_ThumbnailSelector from './PickerDialog.ThumbnailSelect';
 import PickerDialog_Thumbnail from './PickerDialog.Thumbnail';
+import PickerDialog_Filter from './PickerDialog.Filter';
 
 export type PickerImageBackgroundColor = "dark" | "transparent" | "white";
 
@@ -35,6 +36,7 @@ PickerDialog.Image = PickerDialog_Image;
 PickerDialog.Toolbox = PickerDialog_Toolbox;
 PickerDialog.ThumbnailSelector = PickerDialog_ThumbnailSelector;
 PickerDialog.Thumbnail = PickerDialog_Thumbnail;
+PickerDialog.Filter = PickerDialog_Filter;
 
 interface PickerDialog_GalleriesSectionProps {
     imageBackgroundColor?: PickerImageBackgroundColor;

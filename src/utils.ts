@@ -1,5 +1,7 @@
 import { saveAs } from "file-saver";
 
+export const LOCALE = "en-US";
+
 export interface ConditionalClass {
     [className: string]: boolean;
 }
@@ -127,8 +129,37 @@ export function generateRandomColor () {
 export function smartFilterArray (
     arr: string[], filter: string, caseSensitive?: boolean
 ) {
-    const LOCALE = "en-US";
+    const regex = __buildSmartFilterRegex(filter, caseSensitive);
 
+    return arr.filter(str => {
+        if (!caseSensitive) {
+            str = str.toLocaleLowerCase(LOCALE);
+        }
+
+        return str.match(regex) !== null
+    });
+}
+
+export function smartFilterObjectArray<T> (
+    arr: T[],
+    filter: string,
+    fieldSelector: (obj: T) => string,
+    caseSensitive?: boolean
+) {
+    const regex = __buildSmartFilterRegex(filter, caseSensitive);
+
+    return arr.filter(obj => {
+        let str = fieldSelector(obj);
+
+        if (!caseSensitive) {
+            str = str.toLocaleLowerCase(LOCALE);
+        }
+
+        return str.match(regex) !== null;
+    });
+}
+
+function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
     let regexStr = "";
     if (filter.length < 2) {
         regexStr = filter;
@@ -147,15 +178,7 @@ export function smartFilterArray (
         regexStr = regexStr.toLocaleLowerCase(LOCALE);
     }
 
-    const regex = new RegExp(regexStr);
-
-    return arr.filter(str => {
-        if (!caseSensitive) {
-            str = str.toLocaleLowerCase(LOCALE);
-        }
-
-        return str.match(regex) !== null
-    });
+    return new RegExp(regexStr);
 }
 
 export function clampNumber (num: number, min: number, max: number) {

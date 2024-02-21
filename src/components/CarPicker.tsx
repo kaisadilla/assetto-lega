@@ -6,11 +6,13 @@ import React, { useEffect, useState } from 'react';
 import PickerDialog from './PickerDialog';
 import Ipc from 'main/ipc/ipcRenderer';
 import { FILE_PROTOCOL } from 'data/files';
-import { BrandData, CarData } from 'data/schemas';
-import { getCarPreviewFile } from 'paths';
+import { BrandData, CarData, getCarDefaultSkin } from 'data/schemas';
+import { getCarBadgeFile, getCarPreviewFile } from 'paths';
 import { PickerElement, PickerElementSection } from './PickerDialog.ThumbnailSelect';
 import Textbox from 'elements/Textbox';
 import NavBar from 'elements/NavBar';
+import { FilterElement } from './PickerDialog.Filter';
+import CarThumbnail from 'elements/CarThumbnail';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -19,6 +21,9 @@ const DEFAULT_IMAGE_SIZE = 196;
 enum FilterType {
     Brand,
     Tag,
+    Name,
+    Country,
+    Tier,
 }
 
 export interface CarPickerProps {
@@ -39,7 +44,9 @@ function CarPicker ({
     const [selectedCar, setSelectedCar] = useState(preSelectedCar ?? null);
     const [imgScale, setImgScale] = useState(DEFAULT_IMAGE_SIZE);
 
-    const [filterType, setFilterType] = useState(FilterType.Brand)
+    const [carSearchValue, setCarSearchValue] = useState("");
+    const [filterType, setFilterType] = useState(FilterType.Brand);
+    const [filterValue, setFilterValue] = useState<string | null>(null);
 
     useEffect(() => {
         loadAcData();
@@ -48,83 +55,58 @@ function CarPicker ({
     useEffect(() => {
         if (carList === null) return;
         if (brandList === null) return;
-        
-        const section: PickerElementSection = {
-            title: "Cars",
-            elements: carList.map(c => {
-                const defaultSkin = Object.keys(c.skins)[0];
-                const path = getCarPreviewFile(c.skins[defaultSkin]?.folderPath, true);
 
-                return {
-                    value: c.folderName,
-                    displayName: c.ui.name,
-                    imagePath: path,
-                } as PickerElement;
-            })
+        if (filterType === FilterType.Brand) {
+            const sections = [] as PickerElementSection[];
+
+            for (const b of brandList) {
+                sections.push({
+                    title: b.displayName,
+                    elements: buildCarPickerItems(
+                        carList.filter(c => c.ui.brand === b.displayName)
+                    ),
+                })
+            }
+
+            setCarEntries(sections);
         }
+    }, [carList, filterType]);
 
-        setCarEntries([section]);
-    }, [carList]);
+    useEffect(() => {
+        if (filterValue !== null) {
+            
+        }
+    }, [filterValue]);
 
     return (
         <PickerDialog className="default-car-picker">
             <div className="filter-navbar-container">
-                <NavBar get={filterType} set={setFilterType}>
+                <NavBar
+                    className="filter-navbar"
+                    get={filterType}
+                    set={setFilterType}
+                >
                     <NavBar.Item text="by brand" index={FilterType.Brand} />
                     <NavBar.Item text="by tag" index={FilterType.Tag} />
+                    <NavBar.Item text="by name" index={FilterType.Name} />
+                    <NavBar.Item text="by country" index={FilterType.Country} />
+                    <NavBar.Item text="by tier" index={FilterType.Tier} />
                 </NavBar>
+                <Textbox
+                    className="car-search-textbox"
+                    placeholder="Search car..."
+                    value={carSearchValue}
+                    onChange={str => setCarSearchValue(str)}
+                />
             </div>
             <div className="selector-container">
                 <div className="filters-container">
-                    <div className="filter">
-                        <div className="filter-header">
-                            <div className="filter-name">Brands</div>
-                        </div>
-                        <div className="filter-filter">
-                            <Textbox
-                                className="filter-filter-input"
-                                placeholder="Filter brands..."
-                            />
-                        </div>
-                        <div className="filter-list">
-                            <div className="filter-brand">
-                                <div className="brand-badge">
-                                    <img src="asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_ferrari/ui/badge.png" />
-                                </div>
-                                <div className="brand-name">
-                                    Abarth
-                                </div>
-                            </div>
-                            <div className="filter-brand">
-                                <div className="brand-badge">
-                                    <img src="asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_mclaren/ui/badge.png" />
-                                </div>
-                                <div className="brand-name">
-                                    Alfa Romeo
-                                </div>
-                            </div>
-                            <div className="filter-brand">
-                                <div className="brand-badge">
-                                    <img src="asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_redbull/ui/badge.png" />
-                                </div>
-                                <div className="brand-name">
-                                    Alpine
-                                </div>
-                            </div>
-                            {
-                                brandList?.map(b => (
-                                    <div className="filter-brand">
-                                        <div className="brand-badge">
-                                            <img src={b.badgePath} />
-                                        </div>
-                                        <div className="brand-name">
-                                            {b.displayName}
-                                        </div>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    </div>
+                    <PickerDialog.Filter
+                        title="Brands"
+                        items={buildBrandFilterItems()}
+                        selectedValue={filterValue}
+                        onSelect={handleFilterSelect}
+                    />
                 </div>
                 <div className="car-list-container">
                     <PickerDialog.ThumbnailSelector
@@ -133,6 +115,7 @@ function CarPicker ({
                         selectedElement={selectedCar}
                         width={imgScale}
                         onSelect={c => setSelectedCar(c)}
+                        focusedSection={filterValue}
                     />
                 </div>
             </div>
@@ -158,6 +141,10 @@ function CarPicker ({
         </PickerDialog>
     );
 
+    async function handleFilterSelect (value: string) {
+        setFilterValue(value);
+    }
+
     async function handleSelect () {
         if (selectedCar) {
             onSelect(selectedCar);
@@ -174,6 +161,56 @@ function CarPicker ({
         const _brands = await Ipc.getBrandList();
         setBrandList(_brands);
     }
+
+    function buildBrandFilterItems () {
+        return (brandList ?? []).map(b => ({
+            name: b.displayName,
+            value: b.displayName,
+            element: <FilterBrandItem brand={b} />
+        }));
+    }
+
+    function buildCarPickerItems (carList: CarData[]) {
+        return carList.map(c => {
+            const defaultSkin = getCarDefaultSkin(c);
+            const previewPath = getCarPreviewFile(defaultSkin.folderPath, true);
+
+            return {
+                value: c.folderName,
+                //displayName: c.ui.name,
+                //imagePath: path,
+                thumbnail: (
+                    <CarThumbnail
+                        name={c.ui.name ?? c.folderName}
+                        badgePath={getCarBadgeFile(c.folderPath, true)}
+                        previewPath={previewPath}
+                        width={imgScale}
+                    />
+                )
+            } as PickerElement;
+        })
+    }
 }
+
+interface FilterBrandItemProps {
+    brand: BrandData;
+}
+
+function FilterBrandItem ({
+    brand
+}: FilterBrandItemProps) {
+
+    return (
+        <div className="filter-brand">
+            <div className="brand-badge">
+                <img src={brand.badgePath} />
+            </div>
+            <div className="brand-name">
+                {brand.displayName}
+            </div>
+        </div>
+    );
+}
+
 
 export default CarPicker;

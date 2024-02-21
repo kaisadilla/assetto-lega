@@ -3,8 +3,7 @@ import Thumbnail from 'elements/Thumbnail';
 import React from 'react';
 
 export interface PickerDialog_ThumbnailProps {
-    name: string;
-    src: string;
+    content: JSX.Element;
     selected: boolean;
     width: number;
     onClick: () => void;
@@ -14,8 +13,7 @@ export interface PickerDialog_ThumbnailProps {
 }
 
 function PickerDialog_Thumbnail ({
-    name,
-    src,
+    content,
     selected,
     width,
     onClick,
@@ -25,12 +23,15 @@ function PickerDialog_Thumbnail ({
 }: PickerDialog_ThumbnailProps) {
 
     return (
-        <CarThumbnail
-            name={name}
-            badgePath={"asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_ferrari/ui/badge.png"}
-            previewPath={src}
-            width={width}
-        />
+        <div className="picker-dialog-thumbnail">
+            {content}
+        </div>
+        //<CarThumbnail
+        //    name={name}
+        //    badgePath={"asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_ferrari/ui/badge.png"}
+        //    previewPath={src}
+        //    width={width}
+        ///>
     );
 }
 

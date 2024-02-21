@@ -1,6 +1,15 @@
 .default-car-picker {
     .filter-navbar-container {
         padding: 16px 16px 0 16px;
+        display: flex;
+
+        .filter-navbar {
+            flex: 1;
+            min-width: fit-content;
+        }
+        .car-search-textbox {
+            width: 200px;
+        }
     }
 
     .selector-container {
@@ -16,69 +25,32 @@
             flex: 1;
             min-width: 200px;
 
-            .filter {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                height: 100%;
-                width: 100%;
+            .filter-brand {
+                $height: 36px;
+                flex-shrink: 0;
 
-                .filter-header {
+                height: $height;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                padding: 0 4px;
+
+                .brand-badge {
+                    height: 100%;
+                    width: $height;
                     display: flex;
                     align-items: center;
-                    gap: 6px;
-                    padding: 4px 4px 8px 4px;
+                    justify-content: center;
 
-                    .filter-name {
-                        white-space: nowrap;
-                        font-size: 10pt;
-                        font-weight: $w-semibold;
+                    img {
+                        max-height: 100%;
+                        max-width: 100%;
+                        padding: 4px;
                     }
                 }
-                
-                .filter-filter {
-                    .filter-filter-input {
-                        height: 20px;
-                    }
-                }
-
-                .filter-list {
-                    display: flex;
-                    flex-direction: column;
-                    overflow-y: auto;
-                    
-                    .filter-brand {
-                        $height: 36px;
-                        flex-shrink: 0;
-
-                        height: $height;
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 4px;
-                        padding: 0 4px;
-
-                        .brand-badge {
-                            height: 100%;
-                            width: $height;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-
-                            img {
-                                max-height: 100%;
-                                max-width: 100%;
-                                padding: 4px;
-                            }
-                        }
-                        .brand-name {
-                            @include ellipsis();
-                        }
-
-                        &:hover {
-                            background-color: $bg-color-dark-l1;
-                        }
-                    }
+                .brand-name {
+                    @include ellipsis();
                 }
             }
         }

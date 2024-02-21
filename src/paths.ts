@@ -10,8 +10,8 @@ export function getCarPreviewFile (skinFolderPath: string, asResource: boolean =
     return __returnPath(filePath, asResource);
 }
 
-export function getCarBadgeFile (skinFolderPath: string, asResource: boolean = false) {
-    const filePath = skinFolderPath + "/badge.png";
+export function getCarBadgeFile (carFolderPath: string, asResource: boolean = false) {
+    const filePath = carFolderPath + "/ui/badge.png";
     return __returnPath(filePath, asResource);
 }
 
