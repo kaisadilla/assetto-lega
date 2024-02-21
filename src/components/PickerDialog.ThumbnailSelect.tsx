@@ -3,7 +3,7 @@ import PickerDialog from './PickerDialog';
 import Button from 'elements/Button';
 import ScaleScroll from 'elements/ScaleScroll';
 import ToolboxRow from 'elements/ToolboxRow';
-import { clampNumber } from 'utils';
+import { clampNumber, getClassString } from 'utils';
 
 export interface PickerElementSection {
     title: string;
@@ -21,6 +21,7 @@ export interface PickerDialog_ThumbnailSelectorProps {
     selectedElement: string | null;
     width: number;
     onSelect: (value: string) => void;
+    className?: string;
 }
 
 function PickerDialog_ThumbnailSelector ({
@@ -28,9 +29,15 @@ function PickerDialog_ThumbnailSelector ({
     selectedElement,
     width,
     onSelect,
+    className,
 }: PickerDialog_ThumbnailSelectorProps) {
+    const classStr = getClassString(
+        "default-picker-thumbnail-selector",
+        className,
+    )
+
     return (
-        <PickerDialog.GalleriesSection className="default-picker-thumbnail-selector">
+        <PickerDialog.GalleriesSection className={classStr}>
             {
                 sections.map(s => (
                     <Section

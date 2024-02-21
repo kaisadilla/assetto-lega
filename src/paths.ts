@@ -5,7 +5,16 @@ import { FILE_PROTOCOL } from "data/files";
  * @param skinFolderPath The complete path to the skin to display for that car.
  * @param asResource If true, the path will contain the resource protocol.
  */
-export function getCarPreviewFolder (skinFolderPath: string, asResource: boolean = false) {
+export function getCarPreviewFile (skinFolderPath: string, asResource: boolean = false) {
     const filePath = skinFolderPath + "/preview.jpg";
-    return (asResource ? FILE_PROTOCOL : "") + filePath;
+    return __returnPath(filePath, asResource);
+}
+
+export function getCarBadgeFile (skinFolderPath: string, asResource: boolean = false) {
+    const filePath = skinFolderPath + "/badge.png";
+    return __returnPath(filePath, asResource);
+}
+
+function __returnPath (path: string, asResource: boolean) {
+    return (asResource ? FILE_PROTOCOL : "") + path;
 }

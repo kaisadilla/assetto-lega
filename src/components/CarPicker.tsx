@@ -6,13 +6,20 @@ import React, { useEffect, useState } from 'react';
 import PickerDialog from './PickerDialog';
 import Ipc from 'main/ipc/ipcRenderer';
 import { FILE_PROTOCOL } from 'data/files';
-import { CarData } from 'data/schemas';
-import { getCarPreviewFolder } from 'paths';
+import { BrandData, CarData } from 'data/schemas';
+import { getCarPreviewFile } from 'paths';
 import { PickerElement, PickerElementSection } from './PickerDialog.ThumbnailSelect';
+import Textbox from 'elements/Textbox';
+import NavBar from 'elements/NavBar';
 
-const MIN_IMAGE_SIZE = 48;
+const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
 const DEFAULT_IMAGE_SIZE = 196;
+
+enum FilterType {
+    Brand,
+    Tag,
+}
 
 export interface CarPickerProps {
     preSelectedCar?: string;
@@ -26,23 +33,27 @@ function CarPicker ({
     onCancel,
 }: CarPickerProps) {
     const [carList, setCarList] = useState<CarData[] | null>(null);
+    const [brandList, setBrandList] = useState<BrandData[] | null>(null);
     const [carEntries, setCarEntries] = useState<PickerElementSection[]>([]);
 
     const [selectedCar, setSelectedCar] = useState(preSelectedCar ?? null);
     const [imgScale, setImgScale] = useState(DEFAULT_IMAGE_SIZE);
 
+    const [filterType, setFilterType] = useState(FilterType.Brand)
+
     useEffect(() => {
-        loadCarList();
+        loadAcData();
     }, []);
 
     useEffect(() => {
         if (carList === null) return;
+        if (brandList === null) return;
         
         const section: PickerElementSection = {
             title: "Cars",
             elements: carList.map(c => {
                 const defaultSkin = Object.keys(c.skins)[0];
-                const path = getCarPreviewFolder(c.skins[defaultSkin]?.folderPath, true);
+                const path = getCarPreviewFile(c.skins[defaultSkin]?.folderPath, true);
 
                 return {
                     value: c.folderName,
@@ -57,13 +68,73 @@ function CarPicker ({
 
     return (
         <PickerDialog className="default-car-picker">
+            <div className="filter-navbar-container">
+                <NavBar get={filterType} set={setFilterType}>
+                    <NavBar.Item text="by brand" index={FilterType.Brand} />
+                    <NavBar.Item text="by tag" index={FilterType.Tag} />
+                </NavBar>
+            </div>
             <div className="selector-container">
-                <PickerDialog.ThumbnailSelector
-                    sections={carEntries}
-                    selectedElement={selectedCar}
-                    width={imgScale}
-                    onSelect={c => setSelectedCar(c)}
-                />
+                <div className="filters-container">
+                    <div className="filter">
+                        <div className="filter-header">
+                            <div className="filter-name">Brands</div>
+                        </div>
+                        <div className="filter-filter">
+                            <Textbox
+                                className="filter-filter-input"
+                                placeholder="Filter brands..."
+                            />
+                        </div>
+                        <div className="filter-list">
+                            <div className="filter-brand">
+                                <div className="brand-badge">
+                                    <img src="asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_ferrari/ui/badge.png" />
+                                </div>
+                                <div className="brand-name">
+                                    Abarth
+                                </div>
+                            </div>
+                            <div className="filter-brand">
+                                <div className="brand-badge">
+                                    <img src="asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_mclaren/ui/badge.png" />
+                                </div>
+                                <div className="brand-name">
+                                    Alfa Romeo
+                                </div>
+                            </div>
+                            <div className="filter-brand">
+                                <div className="brand-badge">
+                                    <img src="asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_redbull/ui/badge.png" />
+                                </div>
+                                <div className="brand-name">
+                                    Alpine
+                                </div>
+                            </div>
+                            {
+                                brandList?.map(b => (
+                                    <div className="filter-brand">
+                                        <div className="brand-badge">
+                                            <img src={b.badgePath} />
+                                        </div>
+                                        <div className="brand-name">
+                                            {b.displayName}
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className="car-list-container">
+                    <PickerDialog.ThumbnailSelector
+                        className="car-gallery"
+                        sections={carEntries}
+                        selectedElement={selectedCar}
+                        width={imgScale}
+                        onSelect={c => setSelectedCar(c)}
+                    />
+                </div>
             </div>
             <PickerDialog.Toolbox>
                 <ToolboxRow.Status text={selectedCar} />
@@ -97,9 +168,11 @@ function CarPicker ({
         onCancel?.(selectedCar);
     }
 
-    async function loadCarList () {
-        const list = await Ipc.getCarList();
-        setCarList(list);
+    async function loadAcData () {
+        const _cars = await Ipc.getCarList();
+        setCarList(_cars);
+        const _brands = await Ipc.getBrandList();
+        setBrandList(_brands);
     }
 }
 

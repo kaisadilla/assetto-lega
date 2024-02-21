@@ -1,7 +1,97 @@
 .default-car-picker {
+    .filter-navbar-container {
+        padding: 16px 16px 0 16px;
+    }
+
     .selector-container {
         flex: 1;
-        overflow-y: auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 16px;
+        padding: 16px;
+
+        .filters-container {
+            flex: 1;
+            min-width: 200px;
+
+            .filter {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                height: 100%;
+                width: 100%;
+
+                .filter-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 4px 4px 8px 4px;
+
+                    .filter-name {
+                        white-space: nowrap;
+                        font-size: 10pt;
+                        font-weight: $w-semibold;
+                    }
+                }
+                
+                .filter-filter {
+                    .filter-filter-input {
+                        height: 20px;
+                    }
+                }
+
+                .filter-list {
+                    display: flex;
+                    flex-direction: column;
+                    overflow-y: auto;
+                    
+                    .filter-brand {
+                        $height: 36px;
+                        flex-shrink: 0;
+
+                        height: $height;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 4px;
+                        padding: 0 4px;
+
+                        .brand-badge {
+                            height: 100%;
+                            width: $height;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            img {
+                                max-height: 100%;
+                                max-width: 100%;
+                                padding: 4px;
+                            }
+                        }
+                        .brand-name {
+                            @include ellipsis();
+                        }
+
+                        &:hover {
+                            background-color: $bg-color-dark-l1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .car-list-container {
+            flex: 4.5;
+            height: 100%;
+            overflow-y: auto;
+
+            .car-gallery {
+                padding: 0;
+            }
+        }
     }
     
     .car-picker-toolbox {

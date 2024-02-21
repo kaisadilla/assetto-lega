@@ -50,6 +50,7 @@ function PickerDialog_GalleriesSection ({
     const classStr = getClassString(
         "default-picker-dialog-gallery-section",
         imageBackgroundColor,
+        className,
     )
 
     return (

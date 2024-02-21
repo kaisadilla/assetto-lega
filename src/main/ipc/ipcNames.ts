@@ -19,3 +19,4 @@ export const HANDLER_AC_SET_PATH = "ac/set-path";
 export const HANDLER_AC_LOAD_DATA = "ac/load-data";
 export const HANDLER_AC_GET_CAR_LIST = "ac/get-car-list";
 export const HANDLER_AC_GET_CAR_DATA = "ac/get-car-data";
+export const HANDLER_AC_GET_CAR_BRAND_LIST = "ac/get-car-brand-list";

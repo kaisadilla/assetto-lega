@@ -1,9 +1,9 @@
 import { Data } from "../userdata";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { CarData, League, UserSettings } from "data/schemas";
+import { BrandData, CarData, League, UserSettings } from "data/schemas";
 import { AssetFolder } from "data/assets";
 import { AssettoCorsa } from "../assettoCorsa/acFolder";
 import Cars from "../assettoCorsa/cars";
@@ -101,12 +101,17 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         : CarData[] =>
     {
         return Cars.carList;
-        //return await AssettoCorsa.getCarList();
     });
 
     ipcMain.handle(HANDLER_AC_GET_CAR_DATA, (evt, folderName: string)
         : CarData | null =>
     {
         return Cars.carsById[folderName] ?? null;
+    });
+
+    ipcMain.handle(HANDLER_AC_GET_CAR_BRAND_LIST, (evt, arg)
+        : BrandData[] =>
+    {
+        return Cars.brands;
     });
 }

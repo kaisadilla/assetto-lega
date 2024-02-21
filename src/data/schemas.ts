@@ -83,8 +83,6 @@ export interface LeagueScoreSystem {
     qualifying: number[] | null;
 }
 
-
-
 export interface CarData {
     folderName: string;
     /**
@@ -97,6 +95,11 @@ export interface CarData {
      * of a folder, and each value holds information about that skin.
      */
     skins: {[folderName: string]: CarSkin};
+}
+
+export function getCarDefaultSkin (carData: CarData) {
+    const firstSkin = Object.keys(carData.skins)[0];
+    return carData.skins[firstSkin];
 }
 
 // Assetto Corsa's game data.
@@ -139,4 +142,9 @@ export interface CarSkinUi {
     team?: string;
     number?: string;
     priority?: number;
+}
+
+export interface BrandData {
+    displayName: string;
+    badgePath: string;
 }
