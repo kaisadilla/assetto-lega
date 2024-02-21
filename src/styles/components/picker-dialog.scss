@@ -19,10 +19,10 @@
         > .default-picker-dialog-gallery {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 0px;
             padding-bottom: 12px;
 
-            > .picker-dialog-image {
+            .picker-dialog-image {
                 position: relative;
                 object-fit: contain;
                 border: 1px solid $text-color-dark-d2;
@@ -46,18 +46,30 @@
                     left: -1px;
                 }
             }
+        
+            .picker-dialog-thumbnail {
+                position: relative;
+        
+                > .content-container {
+                    //box-sizing: content-box;
+                    border: 3px solid transparent;
+                }
+                
+
+                &:hover > .content-container {
+                    border-color: $bg-color-dark-l1;
+                }
+            }
         }
     }
 
     > .default-picker-dialog-toolbox {
+        .default-button {
+            height: 26px;
+        }
         .default-scale-scroll {
             width: 200px;
         }
-    }
-
-    .default-picker-thumbnail-selector {
-        width: 100%;
-        height: 100%;
     }
 
     .default-picker-filter {
@@ -83,25 +95,6 @@
         .filter-filter {
             .filter-filter-input {
                 height: 24px;
-            }
-        }
-
-        .filter-list {
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-
-            .filter-item {
-                height: fit-content;
-                width: 100%;
-
-                &.selected {
-                    background-color: $color-primary;
-                }
-
-                &:hover {
-                    background-color: $bg-color-dark-l1;
-                }
             }
         }
     }

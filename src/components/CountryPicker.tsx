@@ -1,6 +1,7 @@
 import { Countries, CountryCategory } from 'data/countries';
 import Button from 'elements/Button';
 import Dialog from 'elements/Dialog';
+import DefaultHighlighter from 'elements/Highlighter';
 import ToolboxRow from 'elements/ToolboxRow';
 import { TAB_INDICES } from 'names';
 import React, { useState } from 'react';
@@ -163,11 +164,6 @@ function SelectableCountry ({
     onDoubleClick,
     tabIndex
 }: SelectableCountryProps) {
-    const classStr = getClassString(
-        "selectable-country",
-        selected && "selected",
-    )
-
     const country = Countries[name];
 
     const nameClassStr = getClassString(
@@ -177,7 +173,7 @@ function SelectableCountry ({
 
     return (
         <div
-            className={classStr}
+            className="selectable-country"
             onClick={onClick}
             onKeyDown={(evt) => {if (evt.key === "Enter") onClick()}}
             onDoubleClick={onDoubleClick}
@@ -191,7 +187,7 @@ function SelectableCountry ({
                         : country.displayName
                 }
             </div>
-            <div className="country-highlighter" />
+            <DefaultHighlighter className="country-highlighter" highlight={selected} />
         </div>
     );
 }

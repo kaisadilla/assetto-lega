@@ -3,7 +3,7 @@ import { COUNTRIES_ASSETTO_TO_LEGA, Countries } from 'data/countries';
 import { loadImage } from 'game/files';
 import Icon from 'elements/Icon';
 import { useSettingsContext } from 'context/useSettings';
-import { LeagueTeam, LeagueTeamDriver } from 'data/schemas';
+import { AcCar, LeagueTeam, LeagueTeamDriver } from 'data/schemas';
 
 import ukEx from "@assets/flags/united_kingdom.png";
 import skinEx from "@assets/skin-icon.png";
@@ -11,7 +11,6 @@ import { Files } from 'data/files';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { getClassString } from 'utils';
-import { CarData } from 'main/assettoCorsa/acFolder';
 import Ipc from 'main/ipc/ipcRenderer';
 
 export interface TeamTableProps {
@@ -40,7 +39,7 @@ function TeamEntry ({
 ) {
     const { dataPath } = useDataContext();
 
-    const [car, setCar] = useState<CarData | null>(null);
+    const [car, setCar] = useState<AcCar | null>(null);
 
     useEffect(() => {
         loadCar();
@@ -109,7 +108,7 @@ function TeamEntry ({
     );
 
     async function loadCar () {
-        const car = await Ipc.getCarData(team.car);
+        const car = await Ipc.getCar(team.car);
         setCar(car);
     }
 }
@@ -117,7 +116,7 @@ function TeamEntry ({
 interface DriverEntryProps {
     team: LeagueTeam;
     driver: LeagueTeamDriver;
-    car: CarData | null;
+    car: AcCar | null;
     isSolo: boolean;
 }
 
@@ -170,7 +169,7 @@ function DriverEntry ({
 
 export interface DriverEntryCarSkinCollectionProps {
     driver: LeagueTeamDriver;
-    car: CarData | null;
+    car: AcCar | null;
 }
 
 function DriverEntryCarSkinCollection ({

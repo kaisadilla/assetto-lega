@@ -4,7 +4,7 @@ import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 import CarPicker from './CarPicker';
-import { CarData } from 'data/schemas';
+import { AcCar } from 'data/schemas';
 
 export interface CarFieldProps {
     value: string;
@@ -19,12 +19,12 @@ function CarField ({
     className,
     tabIndex = 1,
 }: CarFieldProps) {
-    const [car, setCar] = useState<CarData | null>(null);
+    const [car, setCar] = useState<AcCar | null>(null);
     const [isPickerOpen, setPickerOpen] = useState(false);
 
     useEffect(() => {
         loadCar();
-    }, []);
+    }, [value]);
 
     const classStr = getClassString(
         "default-control",
@@ -71,7 +71,7 @@ function CarField ({
     }
 
     async function loadCar () {
-        const car = await Ipc.getCarData(value);
+        const car = await Ipc.getCar(value);
         setCar(car);
     }
 }

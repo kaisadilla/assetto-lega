@@ -1,26 +1,46 @@
+import BrandSelectorList, { BrandSelectorListEntryData } from 'elements/BrandSelectorList';
+import TextSelectorList from 'elements/TextSelectorList';
 import Textbox from 'elements/Textbox';
 import React, { useState } from 'react';
 import { getClassString, smartFilterObjectArray } from 'utils';
 
-export interface FilterElement {
+export interface BrandFilterElement {
     name: string;
     value: string;
-    element: JSX.Element;
+    badgePath?: string;
+}
+
+export interface TextFilterElement {
+    name: string;
+    value: string;
 }
 
 export interface PickerDialog_FilterProps {
     title: string;
-    items: FilterElement[];
+    selectorListStyle: 'text' | 'brand' | 'country';
+    brandItems?: BrandFilterElement[];
+    textItems?: TextFilterElement[];
     selectedValue?: string | null;
     onSelect?: (value: string) => void;
 }
 
 function PickerDialog_Filter ({
     title,
-    items,
+    selectorListStyle,
+    brandItems,
+    textItems,
     selectedValue,
     onSelect,
 }: PickerDialog_FilterProps) {
+    if (selectorListStyle === 'brand' && brandItems === undefined) {
+        throw `Error when building PickerDialog.Filter: selectorListStyle `
+            + `'brand' requires prop 'brandItems' to be informed.`;
+    }
+    if (selectorListStyle === 'text' && textItems === undefined) {
+        throw `Error when building PickerDialog.Filter: selectorListStyle `
+            + `'text' requires prop 'textItems' to be informed.`;
+    }
+
     const [searchVal, setSearchVal] = useState("");
 
     return (
@@ -36,48 +56,37 @@ function PickerDialog_Filter ({
                     onChange={str => setSearchVal(str)}
                 />
             </div>
-            <div className="filter-list">
-                {
-                    smartFilterObjectArray(items, searchVal, i => i.name)
-                        .map(it => <FilterItem
-                            key={it.value}
-                            item={it}
-                            selectedValue={selectedValue}
-                            onSelect={onSelect}
-                        />
-                    )
-                }
-            </div>
+            {
+                selectorListStyle === 'brand' && <BrandSelectorList
+                    entries={
+                        smartFilterObjectArray(brandItems ?? [], searchVal, i => i.name)
+                            .map(it => ({
+                                name: it.name,
+                                value: it.value,
+                                badgePath: it.badgePath,
+                                selected: selectedValue === it.value,
+                                onSelect: () => onSelect?.(it.value)
+                            })
+                        )
+                    }
+                />
+            }
+            {
+                selectorListStyle === 'text' && <TextSelectorList
+                    entries={
+                        smartFilterObjectArray(textItems ?? [], searchVal, i => i.name)
+                            .map(it => ({
+                                name: it.name,
+                                value: it.value,
+                                selected: selectedValue === it.value,
+                                onSelect: () => onSelect?.(it.value)
+                            })
+                        )
+                    }
+                />
+            }
         </div>
     );
 }
-
-interface FilterItemProps {
-    item: FilterElement;
-    selectedValue?: string | null;
-    onSelect?: (value: string) => void;
-}
-
-function FilterItem ({
-    item,
-    selectedValue,
-    onSelect,
-}: FilterItemProps) {
-    const classStr = getClassString(
-        "filter-item",
-        selectedValue === item.value && "selected",
-    );
-
-    return (
-        <div className={classStr} onClick={handleClick}>
-            {item.element}
-        </div>
-    );
-
-    function handleClick () {
-        onSelect?.(item.value);
-    }
-}
-
 
 export default PickerDialog_Filter;

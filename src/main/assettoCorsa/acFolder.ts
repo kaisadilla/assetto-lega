@@ -1,12 +1,12 @@
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { CarData, CarSkin, CarSkinUi, CarUi } from "data/schemas";
+import { AcCar, CarSkin, CarSkinUi, CarUi } from "data/schemas";
 
 const TEXT_FORMAT = "utf-8";
 
 export const AssettoCorsa = {
     acPath: "",
-    async getCarList () : Promise<CarData[]> {
+    async getCarList () : Promise<AcCar[]> {
         const start = Date.now();
 
         const carFolder = this.acPath + "/content/cars";
@@ -16,7 +16,7 @@ export const AssettoCorsa = {
 
         for (const f of carFolders) {
             try {
-                const carData = await this.getCarData(f);
+                const carData = await this.getCar(f);
                 cars.push(carData);
             }
             catch (ex) {
@@ -32,7 +32,7 @@ export const AssettoCorsa = {
 
         return cars;
     },
-    async getCarData (folderName: string) : Promise<CarData> {
+    async getCar (folderName: string) : Promise<AcCar> {
         // TODO: Extremely important: fix malformed AC json files.
         const carFolder = this.acPath + "/content/cars/" + folderName;
         const carUiFile = carFolder + "/ui/ui_car.json";

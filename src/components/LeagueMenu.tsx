@@ -1,5 +1,6 @@
-import { League } from 'data/schemas';
+import { League, Tier } from 'data/schemas';
 import Icon from 'elements/Icon';
+import TextSelectorList from 'elements/TextSelectorList';
 import React from 'react';
 
 export interface LeagueMenuProps {
@@ -26,38 +27,56 @@ function LeagueMenu ({
         <div className="league-menu">
             <div className="section categories">
                 <h3>categories</h3>
-                <div className="category-container">
-                    <div className="category category-all">
-                        <span>ALL</span>
-                    </div>
-                    <div className="category">
-                        <Icon name="fa-star" />
-                        <span>GT3</span>
-                    </div>
-                    <div className="category">
-                        <Icon name="fa-star" />
-                        <span>Hypercar</span>
-                    </div>
-                    <div className="category selected">
-                        <Icon name="fa-star" />
-                        <span>Open-wheel</span>
-                    </div>
-                    <div className="category">
-                        <Icon name="fa-star" />
-                        <span>Spec series</span>
-                    </div>
-                    <div className="category">
-                        <span>Karts</span>
-                    </div>
-                    <div className="category">
-                        <span>LMP1</span>
-                    </div>
-                    <div className="category">
-                        <span>LMP2</span>
-                    </div>
-                    <div className="category">
-                        <span>Open cockpit</span>
-                    </div>
+                <div className="categories-container">
+                    <TextSelectorList
+                        entries={[
+                            {
+                                name: "ALL",
+                                value: "ALL",
+                                isAll: true,
+                            },
+                            {
+                                name: "GT3",
+                                value: "GT3",
+                                tier: Tier.Legendary,
+                            },
+                            {
+                                name: "Hypercar",
+                                value: "Hypercar",
+                                tier: Tier.Legendary,
+                            },
+                            {
+                                name: "Open-wheel",
+                                value: "Open-wheel",
+                                tier: Tier.Legendary,
+                                selected: true,
+                            },
+                            {
+                                name: "Spec series",
+                                value: "Spec series",
+                                tier: Tier.Epic,
+                            },
+                            {
+                                name: "Karts",
+                                value: "Karts",
+                                tier: Tier.Epic,
+                            },
+                            {
+                                name: "LMP1",
+                                value: "LMP1",
+                                tier: Tier.Distinguished,
+                            },
+                            {
+                                name: "LMP2",
+                                value: "LMP2",
+                                tier: Tier.Distinguished,
+                            },
+                            {
+                                name: "Open cockpit",
+                                value: "Open cockpit",
+                            }
+                        ]}
+                    />
                 </div>
             </div>
             <div className="section series">

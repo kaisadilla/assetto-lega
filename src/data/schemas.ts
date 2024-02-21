@@ -2,6 +2,13 @@ export interface UserSettings {
     assettoCorsaFolder: string | null;
 }
 
+export enum Tier {
+    Legendary = "Legendary",
+    Epic = "Epic",
+    Distinguished = "Distinguished",
+    Regular = "Regular",
+}
+
 export interface League {
     internalName: string;
     series: string;
@@ -83,7 +90,15 @@ export interface LeagueScoreSystem {
     qualifying: number[] | null;
 }
 
-export interface CarData {
+export interface AcCarCollection {
+    carList: AcCar[],
+    carsById: {[folderName: string]: AcCar},
+    brands: AcCarBrand[],
+    brandsById: {[brandName: string]: AcCarBrand},
+    tags: string[],
+}
+
+export interface AcCar {
     folderName: string;
     /**
      * The absolute path to the folder containing this car.
@@ -97,7 +112,7 @@ export interface CarData {
     skins: {[folderName: string]: CarSkin};
 }
 
-export function getCarDefaultSkin (carData: CarData) {
+export function getCarDefaultSkin (carData: AcCar) {
     const firstSkin = Object.keys(carData.skins)[0];
     return carData.skins[firstSkin];
 }
@@ -144,7 +159,7 @@ export interface CarSkinUi {
     priority?: number;
 }
 
-export interface BrandData {
+export interface AcCarBrand {
     displayName: string;
     badgePath: string;
 }

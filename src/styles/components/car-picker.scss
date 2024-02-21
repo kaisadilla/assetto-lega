@@ -24,35 +24,6 @@
         .filters-container {
             flex: 1;
             min-width: 200px;
-
-            .filter-brand {
-                $height: 36px;
-                flex-shrink: 0;
-
-                height: $height;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 4px;
-                padding: 0 4px;
-
-                .brand-badge {
-                    height: 100%;
-                    width: $height;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    img {
-                        max-height: 100%;
-                        max-width: 100%;
-                        padding: 4px;
-                    }
-                }
-                .brand-name {
-                    @include ellipsis();
-                }
-            }
         }
 
         .car-list-container {
@@ -67,13 +38,13 @@
     }
     
     .car-picker-toolbox {
-        .default-scale-scroll {
-            width: 200px;
+        .view-style-button {
+            width: 34px;
+            height: 26px;
+            
+            > span {
+                font-weight: $w-thin;
+            }
         }
-    }
-
-    .car-picker-image.car-picker-image {
-        border: 1px solid red !important;
-        padding: 0;
     }
 }

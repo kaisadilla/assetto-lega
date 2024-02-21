@@ -1,6 +1,6 @@
-import { League, UserSettings, CarData, BrandData } from "data/schemas";
+import { League, UserSettings, AcCarCollection, AcCar, AcCarBrand } from "data/schemas";
 import { AssetFolder } from "data/assets";
-import { HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
 
 const Ipc = {
     async getDataFolderPath () : Promise<string> {
@@ -68,15 +68,19 @@ const Ipc = {
         return await getIpcRenderer().invoke(HANDLER_AC_LOAD_DATA);
     },
 
-    async getCarList () : Promise<CarData[]> {
+    async getCarData () : Promise<AcCarCollection> {
+        return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR_DATA);
+    },
+
+    async getCarList () : Promise<AcCar[]> {
         return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR_LIST);
     },
 
-    async getCarData (folderPath: string) {
-        return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR_DATA, folderPath);
+    async getCar (folderPath: string) {
+        return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR, folderPath);
     },
 
-    async getBrandList () : Promise<BrandData[]> {
+    async getBrandList () : Promise<AcCarBrand[]> {
         return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR_BRAND_LIST);
     },
 };

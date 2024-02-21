@@ -22,41 +22,12 @@
         flex-direction: column;
         min-height: 0;
 
-        .category-container {
-            flex: 1;
+        .categories-container {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: start; //safe center;
-            gap: 2px;
-            overflow-x: hidden;
-            overflow-y: auto;
-
-            .category {
-                width: 100%;
-                font-size: 10pt;
-                font-weight: $w-light;
-                padding: 2px 0 2px 8px;
-            
-                &:hover:not(.selected) {
-                    background-color: $bg-color-dark-l2;
-                }
-            
-                &.selected {
-                    background-color: $color-primary;
-                }
-
-                &.category-all {
-                    font-weight: $w-semibold;
-                }
-
-                svg {
-                    padding-right: 5px;
-                    color: $color-golden;
-                }
-                i {
-                    font-size: 4pt;
-                }
-            }
+            min-height: 0;
         }
     }
 

@@ -200,6 +200,7 @@ function TabInfo ({
                 <LabeledControl label="Car" required>
                     <CarField
                         value={team.car}
+                        onChange={car => handleFieldChange('car', car)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Country" required>

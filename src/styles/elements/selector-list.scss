@@ -1,0 +1,96 @@
+.default-brand-selector-list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .brand-selector-list-entry {
+        height: fit-content;
+        width: 100%;
+
+        &.selected {
+            background-color: $color-primary;
+        }
+
+        &:hover {
+            background-color: $bg-color-dark-l1;
+        }
+    }
+
+    .brand-selector-list-entry {
+        $height: 36px;
+        flex-shrink: 0;
+
+        height: $height;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        padding: 0 4px;
+
+        .brand-badge {
+            height: 100%;
+            width: $height;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                max-height: 100%;
+                max-width: 100%;
+                padding: 4px;
+            }
+        }
+        .brand-name {
+            @include ellipsis();
+        }
+    }
+}
+
+.default-text-selector-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: start; //safe center;
+    gap: 2px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .text-selector-list-entry {
+        width: 100%;
+        font-size: 10pt;
+        font-weight: $w-light;
+        padding: 2px 0 2px 8px;
+    
+        &:hover:not(.selected) {
+            background-color: $bg-color-dark-l2;
+        }
+    
+        &.selected {
+            background-color: $color-primary;
+        }
+
+        &.entry-all {
+            font-weight: $w-semibold;
+        }
+
+        svg {
+            padding-right: 5px;
+
+            &.tier-Legendary {
+                color: $color-tier-legendary;
+            }
+            &.tier-Epic {
+                color: $color-tier-epic;
+            }
+            &.tier-Distinguished {
+                color: $color-tier-distinguished;
+            }
+        }
+        i {
+            font-size: 4pt;
+        }
+        span {
+            // show up text that consists of only spaces.
+            white-space: pre;
+        }
+    }
+}

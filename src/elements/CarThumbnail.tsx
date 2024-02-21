@@ -33,9 +33,8 @@ function CarThumbnail ({
                 </div>
                 <div className="thumbnail-name">{name}</div>
             </div>
-            <div className="thumbnail-highlighter" />
         </div>
-    ); // TODO: Transform highlighter into element
+    );
 }
 
 export default CarThumbnail;

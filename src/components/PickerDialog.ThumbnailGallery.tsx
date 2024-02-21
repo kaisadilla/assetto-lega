@@ -15,23 +15,23 @@ export interface PickerElement {
     thumbnail: JSX.Element;
 }
 
-export interface PickerDialog_ThumbnailSelectorProps {
+export interface PickerDialog_ThumbnailGalleryProps {
     sections: PickerElementSection[];
     selectedElement: string | null;
-    width: number;
     onSelect: (value: string) => void;
+    onDoubleClickItem: (value: string) => void;
     focusedSection?: string | null;
     className?: string;
 }
 
-function PickerDialog_ThumbnailSelector ({
+function PickerDialog_ThumbnailGallery ({
     sections,
     selectedElement,
-    width,
     onSelect,
+    onDoubleClickItem,
     focusedSection,
     className,
-}: PickerDialog_ThumbnailSelectorProps) {
+}: PickerDialog_ThumbnailGalleryProps) {
     const classStr = getClassString(
         "default-picker-thumbnail-selector",
         className,
@@ -44,8 +44,8 @@ function PickerDialog_ThumbnailSelector ({
                     <Section
                         section={s}
                         selectedElement={selectedElement}
-                        width={width}
                         onSelect={onSelect}
+                        onDoubleClick={onDoubleClickItem}
                         focusedSection={focusedSection}
                     />
                 ))
@@ -57,8 +57,8 @@ function PickerDialog_ThumbnailSelector ({
 interface SectionProps {
     section: PickerElementSection;
     selectedElement: string | null;
-    width: number;
     onSelect: (value: string) => void;
+    onDoubleClick: (value: string) => void;
     focusedSection?: string | null;
     tabIndex?: number;
 }
@@ -66,8 +66,8 @@ interface SectionProps {
 function Section ({
     section,
     selectedElement,
-    width,
     onSelect,
+    onDoubleClick,
     focusedSection,
     tabIndex = 1,
 }: SectionProps) {
@@ -92,9 +92,8 @@ function Section ({
                         key={el.value}
                         content={el.thumbnail}
                         selected={selectedElement === el.value}
-                        width={width}
                         onClick={() => onSelect(el.value)}
-                        onDoubleClick={() => {}}
+                        onDoubleClick={() => onDoubleClick(el.value)}
                         tabIndex={tabIndex}
                     />
                 ))}
@@ -103,4 +102,4 @@ function Section ({
     );
 }
 
-export default PickerDialog_ThumbnailSelector;
+export default PickerDialog_ThumbnailGallery;

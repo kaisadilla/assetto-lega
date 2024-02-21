@@ -2,7 +2,7 @@ import Dialog from 'elements/Dialog';
 import ToolboxRow from 'elements/ToolboxRow';
 import React, { HTMLAttributes } from 'react';
 import { getClassString } from 'utils';
-import PickerDialog_ThumbnailSelector from './PickerDialog.ThumbnailSelect';
+import PickerDialog_ThumbnailGallery from './PickerDialog.ThumbnailGallery';
 import PickerDialog_Thumbnail from './PickerDialog.Thumbnail';
 import PickerDialog_Filter from './PickerDialog.Filter';
 
@@ -34,7 +34,7 @@ PickerDialog.SectionTitle = PickerDialog_SectionTitle;
 PickerDialog.Gallery = PickerDialog_Gallery;
 PickerDialog.Image = PickerDialog_Image;
 PickerDialog.Toolbox = PickerDialog_Toolbox;
-PickerDialog.ThumbnailSelector = PickerDialog_ThumbnailSelector;
+PickerDialog.ThumbnailGallery = PickerDialog_ThumbnailGallery;
 PickerDialog.Thumbnail = PickerDialog_Thumbnail;
 PickerDialog.Filter = PickerDialog_Filter;
 
@@ -161,9 +161,13 @@ function PickerDialog_Toolbox ({
     className,
     children,
 }: PickerDialog_ToolboxProps) {
+    const classStr = getClassString(
+        "default-picker-dialog-toolbox",
+        className,
+    )
 
     return (
-        <ToolboxRow className="default-picker-dialog-toolbox">
+        <ToolboxRow className={classStr}>
             {children}
         </ToolboxRow>
     );

@@ -1,11 +1,12 @@
 import CarThumbnail from 'elements/CarThumbnail';
+import DefaultHighlighter from 'elements/Highlighter';
 import Thumbnail from 'elements/Thumbnail';
 import React from 'react';
+import { getClassString } from 'utils';
 
 export interface PickerDialog_ThumbnailProps {
     content: JSX.Element;
     selected: boolean;
-    width: number;
     onClick: () => void;
     onDoubleClick: () => void;
     className?: string;
@@ -15,23 +16,28 @@ export interface PickerDialog_ThumbnailProps {
 function PickerDialog_Thumbnail ({
     content,
     selected,
-    width,
     onClick,
     onDoubleClick,
     className,
     tabIndex,
 }: PickerDialog_ThumbnailProps) {
+    const classStr = getClassString(
+        "picker-dialog-thumbnail",
+        className,
+    )
 
     return (
-        <div className="picker-dialog-thumbnail">
-            {content}
+        <div
+            className={classStr}
+            onClick={onClick}
+            onDoubleClick={onDoubleClick}
+            tabIndex={tabIndex}
+        >
+            <div className="content-container">
+                {content}
+            </div>
+            <DefaultHighlighter highlight={selected} />
         </div>
-        //<CarThumbnail
-        //    name={name}
-        //    badgePath={"asset://X:/SteamLibrary/steamapps/common/assettocorsa/content/cars/acfl_2006_ferrari/ui/badge.png"}
-        //    previewPath={src}
-        //    width={width}
-        ///>
     );
 }
 
