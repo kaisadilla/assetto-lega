@@ -33,7 +33,7 @@ export async function loadAcCarCollection () : Promise<number> {
         if (Cars.brandsById[brand] === undefined) {
             Cars.brandsById[brand] = {
                 displayName: brand,
-                badgePath: "asset://" + c.folderPath + "/ui/badge.png",
+                badgePath: "asset://" + c.folderPath.replace("#", "%23") + "/ui/badge.png",
             } as AcCarBrand;
         }
     }

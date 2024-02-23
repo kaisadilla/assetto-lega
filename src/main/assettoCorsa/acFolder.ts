@@ -60,21 +60,31 @@ export const AssettoCorsa = {
             }
 
             console.info(`Loading UI json for car skin '${f}'...`);
-            let skinUi: CarSkinUi;
+            let skinUi: CarSkinUi | null = null;
 
             try {
                 skinUi = await readJsonFile<CarSkinUi>(skinUiFile);
             }
             catch (ex) {
                 console.error(`Couldn't read UI json for car skin '${f}'`, ex);
-                continue;
             }
 
-            skins[f] = {
-                folderName: f,
-                folderPath: skinFolder,
-                ui: skinUi,
-            };
+            if (skinUi) {
+                skins[f] = {
+                    folderName: f,
+                    folderPath: skinFolder,
+                    ui: skinUi,
+                };
+            }
+            else {
+                skins[f] = {
+                    folderName: f,
+                    folderPath: skinFolder,
+                    ui: {
+                        skinname: f,
+                    } as CarSkinUi,
+                };
+            }
         }
 
         if (Object.keys(skins).length === 0) {

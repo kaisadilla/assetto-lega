@@ -16,5 +16,15 @@ export function getCarBadgeFile (carFolderPath: string, asResource: boolean = fa
 }
 
 function __returnPath (path: string, asResource: boolean) {
-    return (asResource ? FILE_PROTOCOL : "") + path;
+    return (asResource ? FILE_PROTOCOL : "") + __cureImgSrc(path);
+}
+
+/**
+ * Replaces the character '#' in the string given for its HTML safe
+ * representation: '%23'.
+ * @param path 
+ * @returns 
+ */
+function __cureImgSrc (path: string) {
+    return path.replace("#", "%23");
 }

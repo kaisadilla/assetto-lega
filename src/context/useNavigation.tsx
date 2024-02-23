@@ -50,6 +50,7 @@ export enum Page {
     FREE_DRIVE,
     LEAGUES,
     EDITOR,
+    CONTENT,
     STATS,
 };
 

@@ -11,8 +11,8 @@ enum EditorTab {
     INFO,
     TEAMS,
     DRIVERS,
-    TRACKS,
     CALENDAR,
+    TRACKS, // TODO: Tracks in CALENDAR appear automatically here and can't be removed.
     SCORE_SYSTEM,
     INGAME_UI,
 }
@@ -60,8 +60,8 @@ function LeagueEditor ({
                 <NavBar.Item text="info" index={EditorTab.INFO} />
                 <NavBar.Item text="teams" index={EditorTab.TEAMS} />
                 <NavBar.Item text="drivers" index={EditorTab.DRIVERS} />
-                <NavBar.Item text="tracks" index={EditorTab.TRACKS} />
                 <NavBar.Item text="calendar" index={EditorTab.CALENDAR} />
+                <NavBar.Item text="tracks" index={EditorTab.TRACKS} />
                 <NavBar.Item text="score system" index={EditorTab.SCORE_SYSTEM} />
                 <NavBar.Item text="ingame ui" index={EditorTab.INGAME_UI} />
             </NavBar>
