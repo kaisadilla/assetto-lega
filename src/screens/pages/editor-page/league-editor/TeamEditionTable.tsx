@@ -55,7 +55,7 @@ function TeamEditionTable ({
                     />}
                     {tab === TeamEditorTab.DRIVERS && <TabDrivers
                         team={editedTeams[selectedTeam]}
-                        onChange={handleInfoChange}
+                        onChange={handleDriversChange}
                     />}
                 </div>
             </div>
@@ -73,6 +73,14 @@ function TeamEditionTable ({
     }
 
     function handleInfoChange (field: keyof LeagueTeam, value: any) {
+        handleTeamChange(field, value);
+    }
+
+    function handleDriversChange (drivers: LeagueTeamDriver[]) {
+        handleTeamChange('drivers', drivers);
+    }
+
+    function handleTeamChange (field: keyof LeagueTeam, value: any) {
         const team = {
             ...editedTeams[selectedTeam],
             [field]: value,
@@ -246,7 +254,7 @@ function TabInfo ({
 
 interface TabDriversProps {
     team: LeagueTeam,
-    onChange: (field: keyof LeagueTeam, value: any) => void;
+    onChange: (drivers: LeagueTeamDriver[]) => void;
 }
 
 function TabDrivers ({
@@ -257,24 +265,39 @@ function TabDrivers ({
     return (
         <div className="tab-drivers">
             <div className="driver-list">
-                {team.drivers.map(d => <DriverCard
+                {team.drivers.map((d, i) => <DriverCard
                     key={d.name}
                     driver={d}
                     carId={team.car}
+                    onChange={(field, value) => handleDriverChange(i, field, value)}
                 />)}
             </div>
         </div>
     );
+
+    function handleDriverChange (
+        index: number, field: keyof LeagueTeamDriver, value: any
+    ) {
+        const updatedDrivers = [...team.drivers];
+        updatedDrivers[index] = {
+            ...updatedDrivers[index],
+            [field]: value,
+        };
+
+        onChange(updatedDrivers);
+    }
 }
 
 interface DriverCardProps {
     driver: LeagueTeamDriver;
     carId: string;
+    onChange: (field: keyof LeagueTeamDriver, value: any) => void;
 }
 
 function DriverCard ({
     driver,
     carId,
+    onChange,
 }: DriverCardProps) {
 
     return (
@@ -338,12 +361,17 @@ function DriverCard ({
                     <MultipleCarSkinField
                         skins={driver.skins}
                         carId={carId}
+                        onChange={skins => handleFieldChange('skins', skins)}
                     />
                     {/*<span>{driver.skins.join(", ")}</span>*/}
                 </LabeledControl>
             </Form.Section>
         </Form>
     );
+
+    function handleFieldChange (field: keyof LeagueTeamDriver, value: any) {
+        onChange(field, value);
+    }
 }
 
 
@@ -356,6 +384,12 @@ function cloneTeamArray (teams: LeagueTeam[]) {
     }
 
     return newArr;
+}
+
+// todo remove
+function cloneDriver (driver: LeagueTeamDriver) {
+    const newObj = structuredClone(driver);
+    return newObj;
 }
 
 export default TeamEditionTable;

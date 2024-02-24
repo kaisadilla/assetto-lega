@@ -12,6 +12,7 @@ import { getCarSkinIcon } from 'paths';
 export interface MultipleCarSkinFieldProps {
     skins: string[];
     carId: string;
+    onChange?: (skins: string[]) => void;
     className?: string;
     tabIndex?: number;
 }
@@ -19,6 +20,7 @@ export interface MultipleCarSkinFieldProps {
 function MultipleCarSkinField ({
     skins,
     carId,
+    onChange,
     className,
     tabIndex = 1,
 }: MultipleCarSkinFieldProps) {
@@ -49,7 +51,7 @@ function MultipleCarSkinField ({
                     multipleSelection
                     car={car}
                     preSelectedSkins={skins}
-                    onSelect={() => {}}
+                    onSelect={handlePickerSelect}
                     onCancel={() => setPickerOpen(false)}
                 />
             </CoverPanel>
@@ -64,6 +66,15 @@ function MultipleCarSkinField ({
 
     function handleClick () {
         setPickerOpen(true);
+    }
+
+    function handlePickerSelect (skins: string | string[] | null) {
+        if (Array.isArray(skins) === false) {
+            throw `MultipleCarSkinField expected picker's result to be string[], `
+                + `but got '${skins}' instead.`;
+        }
+        setPickerOpen(false);
+        onChange?.(skins);
     }
 }
 

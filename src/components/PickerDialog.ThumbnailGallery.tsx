@@ -40,8 +40,9 @@ function PickerDialog_ThumbnailGallery ({
     return (
         <PickerDialog.GalleriesSection className={classStr}>
             {
-                sections.map(s => (
+                sections.map((s, i) => (
                     <Section
+                        key={i}
                         section={s}
                         selectedElement={selectedElement}
                         onSelect={onSelect}

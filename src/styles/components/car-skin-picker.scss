@@ -78,12 +78,20 @@
                         background-color: $color-primary;
                     }
 
+                    > .skin-checkbox {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding-left: 12px;
+                    }
+
                     > .skin-icon {
                         $size: 64px;
 
                         width: $size;
                         height: $size;
                         flex-shrink: 0;
+                        padding: 6px;
 
                         > img {
                             width: 100%;
@@ -91,12 +99,15 @@
                         }
                     }
                     > .skin-info {
+                        flex: 1;
                         display: flex;
                         flex-direction: column;
                         flex-wrap: nowrap;
                         justify-content: center;
                         gap: 0px;
-                        width: calc(100% - 64px - 12px);
+                        min-width: 0;
+                        overflow: hidden; // just in case
+                        padding-right: 8px;
 
                         > .skin-number {
                             font-weight: $w-bold;

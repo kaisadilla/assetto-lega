@@ -6,6 +6,7 @@ import { AcCar, AcCarSkin, AcCarSkinCollection } from 'data/schemas';
 import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIcon, getCarSkinPreviewFile } from 'paths';
 import { getClassString } from 'utils';
+import Checkbox from 'elements/Checkbox';
 
 // TODO: Document - parameters receive a string if multipleSelection = false,
 // or an array of strings if multipleSelection = true.
@@ -30,7 +31,12 @@ function CarSkinPicker ({
     const [highlightedSkin, setHighlightedSkin] = useState<string | null>(
         firstSkin.folderName
     );
-    const [selectedSkins, setSelectedSkins] = useState([] as string[]);
+
+    const sel = Array.isArray(preSelectedSkins)
+        ? preSelectedSkins
+        : [preSelectedSkins];
+
+    const [selectedSkins, setSelectedSkins] = useState(sel);
 
     return (
         <PickerDialog className="default-car-skin-picker">
@@ -43,8 +49,9 @@ function CarSkinPicker ({
                         multipleSelection={multipleSelection}
                         skins={car.skins}
                         highlightedSkin={highlightedSkin}
-                        onCheckEntry={handleClickSkin}
+                        selectedSkins={selectedSkins}
                         onClickEntry={handleClickSkin}
+                        onCheckEntry={handleCheckSkin}
                     />
                 </div>
             </div>
@@ -74,13 +81,13 @@ function CarSkinPicker ({
             const newValues = new Set<string>(prevState);
 
             if (checked) {
-                if (newValues.has(skin)) {
-                    newValues.delete(skin);
+                if (newValues.has(skin) === false) {
+                    newValues.add(skin);
                 }
             }
             else {
-                if (newValues.has(skin) === false) {
-                    newValues.add(skin);
+                if (newValues.has(skin)) {
+                    newValues.delete(skin);
                 }
             }
 
@@ -156,6 +163,7 @@ interface CarSkinListProps {
     multipleSelection: boolean;
     skins: AcCarSkinCollection;
     highlightedSkin: string | null;
+    selectedSkins: string[];
     onClickEntry: (skin: string) => void;
     onCheckEntry: (skin: string, checked: boolean) => void;
 }
@@ -164,6 +172,7 @@ function CarSkinList ({
     multipleSelection,
     skins,
     highlightedSkin,
+    selectedSkins,
     onClickEntry,
     onCheckEntry,
 }: CarSkinListProps) {
@@ -175,6 +184,7 @@ function CarSkinList ({
                     key={s.folderName}
                     skin={s}
                     highlighted={highlightedSkin === s.folderName}
+                    selected={selectedSkins.includes(s.folderName)}
                     multipleSelection={multipleSelection}
                     onClick={() => onClickEntry(s.folderName)}
                     onCheck={checked => onCheckEntry(s.folderName, checked)}
@@ -188,6 +198,7 @@ interface CarSkinListEntryProps {
     multipleSelection: boolean;
     skin: AcCarSkin;
     highlighted: boolean;
+    selected: boolean;
     onClick: () => void;
     onCheck: (checked: boolean) => void;
 }
@@ -196,6 +207,7 @@ function CarSkinListEntry ({
     multipleSelection,
     skin,
     highlighted,
+    selected,
     onClick,
     onCheck,
 }: CarSkinListEntryProps) {
@@ -222,6 +234,12 @@ function CarSkinListEntry ({
 
     return (
         <div className={classStr} onClick={onClick}>
+            {multipleSelection && <div className="skin-checkbox">
+                <Checkbox
+                    value={selected}
+                    onChange={value => onCheck(value)}
+                />
+            </div>}
             <div className="skin-icon">
                 <img src={getCarSkinIcon(skin.folderPath, true)} />
             </div>
