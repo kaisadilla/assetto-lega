@@ -27,6 +27,7 @@ export function PickerDialog_Image ({
     tabIndex,
 }: PickerDialog_ImageProps) {
     const classStr = getClassString(
+        "picker-dialog-gallery-item",
         "picker-dialog-image",
         className,
     )

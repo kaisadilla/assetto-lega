@@ -22,6 +22,7 @@ function PickerDialog_Thumbnail ({
     tabIndex,
 }: PickerDialog_ThumbnailProps) {
     const classStr = getClassString(
+        "picker-dialog-gallery-item",
         "picker-dialog-thumbnail",
         className,
     )
