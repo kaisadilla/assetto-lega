@@ -24,8 +24,12 @@ function CarSkinPicker ({
     onSelect,
     onCancel,
 }: CarSkinPickerProps) {
+    const firstSkin = Object.values(car.skins)[0];
+
     // the skin chosen to preview, not a skin that is actually selected.
-    const [highlightedSkin, setHighlightedSkin] = useState<string | null>(null);
+    const [highlightedSkin, setHighlightedSkin] = useState<string | null>(
+        firstSkin.folderName
+    );
     const [selectedSkins, setSelectedSkins] = useState([] as string[]);
 
     return (
