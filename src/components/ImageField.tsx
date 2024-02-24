@@ -4,8 +4,9 @@ import { Files } from 'data/files';
 import WindowPopup from 'elements/WindowPopup';
 import React, { useState } from 'react';
 import { getClassString } from 'utils';
-import ImagePicker, { ImageBackgroundColor } from './ImagePicker';
+import ImagePicker from './ImagePicker';
 import CoverPanel from 'elements/CoverPanel';
+import { PickerImageBackgroundColor } from './PickerDialog';
 
 export interface ImageFieldProps {
     /**
@@ -21,7 +22,7 @@ export interface ImageFieldProps {
      * The background color to show behind transparencies in the images of
      * the gallery.
      */
-    defaultImageBackgroundColor?: ImageBackgroundColor;
+    defaultImageBackgroundColor?: PickerImageBackgroundColor;
     /**
      * The size of the images in the gallery when the gallery is opened.
      */
@@ -55,7 +56,7 @@ function ImageField ({
     )
 
     const $img = (() => {
-        if (image === null) {
+        if (!image) {
             return (
                 <div className="no-image">
                     (no image selected)

@@ -116,13 +116,13 @@ function ImagePicker ({
                 <PickerDialog.SectionTitle>
                     Default images
                 </PickerDialog.SectionTitle>
-                <PickerDialog.Gallery>
+                <PickerDialog.Gallery className="image-picker-gallery">
                     {$defaultImgs}
                 </PickerDialog.Gallery>
                 <PickerDialog.SectionTitle>
                     Custom images
                 </PickerDialog.SectionTitle>
-                <PickerDialog.Gallery>
+                <PickerDialog.Gallery className="image-picker-gallery">
                     {$userImgs}
                 </PickerDialog.Gallery>
             </PickerDialog.GalleriesSection>

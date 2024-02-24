@@ -48,6 +48,7 @@ export interface LeagueTeamDriver {
     name: string;
     initials: string;
     country: string;
+    picture: string | null;
     skins: string[];
     defaultSkin: string;
     strength: number;

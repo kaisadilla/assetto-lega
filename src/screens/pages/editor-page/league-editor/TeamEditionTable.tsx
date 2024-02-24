@@ -307,7 +307,7 @@ function DriverCard ({
                 <ImageField
                     className="photo-image-field"
                     directory={AssetFolder.teamLogos}
-                    image={"@red-bull"}
+                    image={driver.picture}
                     defaultImageSize={96}
                 />
             </Form.Section>
@@ -315,21 +315,25 @@ function DriverCard ({
                 <LabeledControl label="Name" required>
                     <Textbox
                         value={driver.name}
+                        onChange={str => handleFieldChange('name', str)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Number" required>
                     <Textbox
                         value={driver.number}
+                        onChange={str => handleFieldChange('number', str)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Initials" required>
                     <Textbox
                         value={driver.initials}
+                        onChange={str => handleFieldChange('initials', str)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Country" required>
                     <CountryField
                         value={driver.country}
+                        onChange={country => handleFieldChange('country', country)}
                     />
                 </LabeledControl>
             </Form.Section>
@@ -341,6 +345,7 @@ function DriverCard ({
                         maxValue={100}
                         allowDecimals={true}
                         maxDecimalPlaces={1}
+                        onChange={val => handleFieldChange('strength', val)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Aggression" required>
@@ -350,6 +355,7 @@ function DriverCard ({
                         maxValue={100}
                         allowDecimals={true}
                         maxDecimalPlaces={1}
+                        onChange={val => handleFieldChange('aggression', val)}
                     />
                 </LabeledControl>
             </Form.Section>
