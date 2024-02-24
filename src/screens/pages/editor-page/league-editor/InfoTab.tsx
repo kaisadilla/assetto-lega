@@ -2,6 +2,7 @@ import ColorField from 'components/ColorField';
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
 import MultiTagField from 'components/MultiTagField';
+import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { League } from 'data/schemas';
 import LabeledControl from 'elements/LabeledControl';
@@ -19,6 +20,8 @@ function InfoTab ({
     league,
     onChange,
 }: InfoTabProps) {
+    const { suggestions } = useDataContext();
+
     return (
         <div className="editor-tab info-tab">
             <Form>
@@ -55,17 +58,7 @@ function InfoTab ({
                         <Textbox
                             value={league.series}
                             onChange={handleChange_series}
-                            suggestions={[
-                                "DTM",
-                                "Formula 1",
-                                "Formula 2",
-                                "IMSA SportsCar Championship",
-                                "Indycar",
-                                "NASCAR",
-                                "Super Formula",
-                                "Supercars",
-                                "WEC",
-                            ]}
+                            suggestions={suggestions.series}
                         />
                     </LabeledControl>
                     <LabeledControl label="Year" required>
@@ -84,11 +77,7 @@ function InfoTab ({
                         <Textbox
                             value={league.era}
                             onChange={handleChange_era}
-                            suggestions={[
-                                "V6 hybrid",
-                                "V8",
-                                "V10",
-                            ]}
+                            suggestions={suggestions.eras[league.series]}
                         />
                     </LabeledControl>
                     <LabeledControl label="Makers">

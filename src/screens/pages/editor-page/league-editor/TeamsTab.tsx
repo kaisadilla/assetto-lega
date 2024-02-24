@@ -33,6 +33,8 @@ function TeamsTab ({
             {mode === TeamsTabMode.Edit && (
                 <TeamEditModePanel
                     teams={league.teams}
+                    onSave={handleSaveTeams}
+                    onClose={handleCloseEdit}
                 />
             )}
         </div>
@@ -40,6 +42,14 @@ function TeamsTab ({
 
     function handleEdit () {
         setMode(TeamsTabMode.Edit);
+    }
+
+    function handleSaveTeams (teams: LeagueTeam[]) {
+        onChange('teams', teams);
+    }
+
+    function handleCloseEdit () {
+        setMode(TeamsTabMode.View);
     }
 }
 
@@ -77,19 +87,39 @@ function TeamViewModePanel ({
 
 export interface TeamEditModePanelProps {
     teams: LeagueTeam[];
+    onSave: (teams: LeagueTeam[]) => void;
+    onClose: () => void;
 }
 
 function TeamEditModePanel ({
     teams,
+    onSave,
+    onClose,
 }: TeamEditModePanelProps) {
 
     return (
         <div className="teams-tab-edit">
             <TeamEditionTable 
                 teams={teams}
+                onCommit={handleCommit}
+                onCancel={handleCancel}
+                onSaveAndEnd={handleSaveAndExit}
             />
         </div>
     );
+
+    function handleCommit (teams: LeagueTeam[]) {
+        onSave(teams);
+    }
+
+    function handleCancel () {
+        onClose();
+    }
+
+    function handleSaveAndExit (teams: LeagueTeam[]) {
+        onSave(teams);
+        onClose();
+    }
 }
 
 export default TeamsTab;

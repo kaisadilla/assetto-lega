@@ -4,6 +4,7 @@ import { League, UserSettings } from "data/schemas";
 import { isFolderAssettoCorsa } from "game/assettoCorsa";
 import Ipc from "main/ipc/ipcRenderer";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { LOCALE } from "utils";
 
 type LeagueCollection = {[key: string]: League};
 
@@ -12,6 +13,43 @@ export enum AppStatus {
     //LocatingAcFolder = 1,
     ReadingAcContent = 1,
     Ready = 2,
+}
+
+export interface SuggestionCollections {
+    /**
+     * An array containing the names of existing series.
+     */
+    series: string[];
+    /**
+     * An object where each key contains the name of a series, and each
+     * value is the different values for 'eras' within that series.
+     */
+    eras: {[series: string]: string[]};
+    /**
+     * An array containing the names of makers.
+     */
+    makers: string[];
+    /**
+     * An array containing values for fields within the LeagueTeam object.
+     */
+    team: {
+        /**
+         * An array containing values for teams' full names.
+         */
+        fullNames: string[];
+        /**
+         * An array containing values for teams' short names.
+         */
+        shortNames: string[];
+        /**
+         * An array containing values for teams' constructors names.
+         */
+        constructorNames: string[];
+        /**
+         * An array containing values for drivers' names.
+         */
+        driverNames: string[];
+    }
 }
 
 const DataContext = createContext({} as DataContextState);
@@ -27,6 +65,7 @@ interface DataContextState {
     leagues: League[];
     leaguesById: LeagueCollection;
     isACFolderValid: boolean;
+    suggestions: SuggestionCollections;
     updateSettings: (settings: UserSettings) => void;
     readAcContent: () => void;
     getDataFolder: (folder: AssetFolder) => string;
@@ -124,6 +163,8 @@ export const DataContextProvider = ({ children }: any) => {
 
         const isACFolderValid = await validateACFolder(settings);
 
+        const suggestions = _buildSuggestions(leagues);
+
         setState({
             appStatus: AppStatus.ReadingAcContent,
             dataPath,
@@ -131,6 +172,7 @@ export const DataContextProvider = ({ children }: any) => {
             leagues,
             leaguesById,
             isACFolderValid,
+            suggestions,
         } as DataContextState);
     }
 
@@ -164,5 +206,64 @@ export const DataContextProvider = ({ children }: any) => {
 
             return true;
         }
+    }
+}
+
+function _buildSuggestions (leagues: League[]) : SuggestionCollections {
+    const series = new Set<string>();
+    const eras = {} as {[series: string]: Set<string>}
+    const makers = new Set<string>();
+    const team = {
+        fullNames: new Set<string>(),
+        shortNames: new Set<string>(),
+        constructorNames: new Set<string>(),
+        driverNames: new Set<string>(),
+    }
+
+    for (const l of leagues) {
+        series.add(l.series);
+
+        if (l.makers) makers.add(l.makers);
+
+        if (l.era) {
+            if (eras[l.series] === undefined) {
+                eras[l.series] = new Set<string>();
+            }
+    
+            eras[l.series].add(l.era);
+        }
+
+        for (const t of l.teams) {
+            team.fullNames.add(t.name);
+            team.shortNames.add(t.shortName);
+
+            if (t.constructorName) team.constructorNames.add(t.constructorName);
+            
+            for (const d of t.drivers) {
+                team.driverNames.add(d.name);
+            }
+        }
+    }
+
+    const erasArr = {} as {[series: string]: string[]};
+
+    for (const era of Object.keys(eras)) {
+        erasArr[era] = sortArray(Array.from(eras[era]));
+    }
+
+    return {
+        series: sortArray(Array.from(series)),
+        eras: erasArr,
+        makers: sortArray(Array.from(makers)),
+        team: {
+            fullNames: sortArray(Array.from(team.fullNames)),
+            shortNames: sortArray(Array.from(team.shortNames)),
+            constructorNames: sortArray(Array.from(team.constructorNames)),
+            driverNames: sortArray(Array.from(team.driverNames)),
+        }
+    }
+
+    function sortArray (arr: string[]) {
+        return arr.sort((a, b) => a.localeCompare(b, LOCALE));
     }
 }

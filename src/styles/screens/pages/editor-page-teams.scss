@@ -244,6 +244,12 @@
                                 }
                             }
                         }
+
+                        .driver-name-textbox {
+                            > .textbox-suggestions {
+                                max-height: 120px;
+                            }
+                        }
                     }
 
                     .stats-section {

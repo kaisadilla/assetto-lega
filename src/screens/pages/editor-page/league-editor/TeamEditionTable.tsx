@@ -1,8 +1,10 @@
 import CarField from 'components/CarField';
+import CarSkinDropdownField from 'components/CarSkinDropdownField';
 import ColorField from 'components/ColorField';
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
 import MultipleCarSkinField from 'components/MultipleCarSkinField';
+import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { LeagueTeam, LeagueTeamDriver } from 'data/schemas';
 import Button from 'elements/Button';
@@ -23,10 +25,16 @@ enum TeamEditorTab {
 
 export interface TeamEditionTableProps {
     teams: LeagueTeam[];
+    onCommit?: (teams: LeagueTeam[]) => void;
+    onCancel?: (teams: LeagueTeam[]) => void;
+    onSaveAndEnd?: (teams: LeagueTeam[]) => void;
 }
 
 function TeamEditionTable ({
     teams,
+    onCommit,
+    onCancel,
+    onSaveAndEnd,
 }: TeamEditionTableProps) {
     const [editedTeams, setEditedTeams] = useState(cloneTeamArray(teams));
     // an array that mirrors 'edited teams'. Each boolean represents whether a
@@ -60,13 +68,32 @@ function TeamEditionTable ({
                 </div>
             </div>
             <ToolboxRow className="team-toolbar">
-                <Button>Reset</Button>
-                <Button>Commit changes</Button>
-                <Button>Discard</Button>
-                <Button highlighted>Save and end</Button>
+                <Button onClick={handleReset}>Reset</Button>
+                <Button onClick={handleCommit}>Commit changes</Button>
+                <Button onClick={handleDiscard}>Discard</Button>
+                <Button onClick={handleSaveAndExit} highlighted>
+                    Save and end
+                </Button>
             </ToolboxRow>
         </div>
     );
+    
+    function handleReset () {
+        setEditedTeams(cloneTeamArray(teams));
+        setEditFlags(editedTeams.map(() => false));
+    }
+
+    function handleCommit () {
+        onCommit?.(editedTeams);
+    }
+
+    function handleDiscard () {
+        onCancel?.(editedTeams);
+    }
+
+    function handleSaveAndExit () {
+        onSaveAndEnd?.(editedTeams);
+    }
 
     function handleTeamSelect (index: number) {
         setSelectedTeam(index);
@@ -169,6 +196,8 @@ function TabInfo ({
     team,
     onChange,
 }: TabInfoProps) {
+    const { suggestions } = useDataContext();
+
     return (
         <Form className="tab-info">
             <Form.Section className="images-section" horizontalAlignment='center'>
@@ -199,18 +228,21 @@ function TabInfo ({
                     <Textbox
                         value={team.name}
                         onChange={str => handleFieldChange('name', str)}
+                        suggestions={suggestions.team.fullNames}
                     />
                 </LabeledControl>
                 <LabeledControl label="Short name">
                     <Textbox
                         value={team.shortName}
                         onChange={str => handleFieldChange('shortName', str)}
+                        suggestions={suggestions.team.shortNames}
                     />
                 </LabeledControl>
                 <LabeledControl label="Constructor">
                     <Textbox
                         value={team.constructorName}
                         onChange={str => handleFieldChange('constructorName', str)}
+                        suggestions={suggestions.team.constructorNames}
                     />
                 </LabeledControl>
                 <LabeledControl label="Car" required>
@@ -266,7 +298,7 @@ function TabDrivers ({
         <div className="tab-drivers">
             <div className="driver-list">
                 {team.drivers.map((d, i) => <DriverCard
-                    key={d.name}
+                    key={i}
                     driver={d}
                     carId={team.car}
                     onChange={(field, value) => handleDriverChange(i, field, value)}
@@ -299,6 +331,7 @@ function DriverCard ({
     carId,
     onChange,
 }: DriverCardProps) {
+    const { suggestions } = useDataContext();
 
     return (
         <Form className="driver">
@@ -314,8 +347,10 @@ function DriverCard ({
             <Form.Section className="info-section">
                 <LabeledControl label="Name" required>
                     <Textbox
+                        className="driver-name-textbox"
                         value={driver.name}
                         onChange={str => handleFieldChange('name', str)}
+                        suggestions={suggestions.team.driverNames}
                     />
                 </LabeledControl>
                 <LabeledControl label="Number" required>
@@ -361,7 +396,12 @@ function DriverCard ({
             </Form.Section>
             <Form.Section className="skins-section">
                 <LabeledControl label="Default skin" required>
-                    <span>{driver.defaultSkin}</span>
+                    <CarSkinDropdownField
+                        carId={carId}
+                        availableSkins={driver.skins}
+                        value={driver.defaultSkin}
+                        onChange={skin => handleFieldChange('defaultSkin', skin)}
+                    />
                 </LabeledControl>
                 <LabeledControl label="Skins" required>
                     <MultipleCarSkinField
@@ -369,7 +409,6 @@ function DriverCard ({
                         carId={carId}
                         onChange={skins => handleFieldChange('skins', skins)}
                     />
-                    {/*<span>{driver.skins.join(", ")}</span>*/}
                 </LabeledControl>
             </Form.Section>
         </Form>

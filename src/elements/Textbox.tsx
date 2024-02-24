@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { getClassString, smartFilterArray } from 'utils';
+import Dropdown from './Dropdown';
 
 export interface TextboxProps {
     value?: string;
@@ -114,12 +115,12 @@ function TextboxSuggestions ({
     ));
 
     return (
-        <div
+        <Dropdown
             className="textbox-suggestions"
             tabIndex={1}
         >
             {$suggestions}
-        </div>
+        </Dropdown>
     );
 }
 
