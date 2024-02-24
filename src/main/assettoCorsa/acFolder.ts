@@ -1,6 +1,6 @@
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { AcCar, CarSkin, CarSkinUi, CarUi } from "data/schemas";
+import { AcCar, AcCarSkin, CarSkinUi, CarUi } from "data/schemas";
 
 const TEXT_FORMAT = "utf-8";
 
@@ -49,7 +49,7 @@ export const AssettoCorsa = {
         const ui = await readJsonFile<CarUi>(carUiFile);
 
         const skinFolders = await fsAsync.readdir(carSkinFolder);
-        const skins: {[folderName: string]: CarSkin} = {};
+        const skins: {[folderName: string]: AcCarSkin} = {};
 
         for (const f of skinFolders) {
             const skinFolder = carSkinFolder + "/" + f;

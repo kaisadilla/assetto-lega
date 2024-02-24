@@ -2,6 +2,7 @@ import CarField from 'components/CarField';
 import ColorField from 'components/ColorField';
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
+import MultipleCarSkinField from 'components/MultipleCarSkinField';
 import { AssetFolder } from 'data/assets';
 import { LeagueTeam, LeagueTeamDriver } from 'data/schemas';
 import Button from 'elements/Button';
@@ -256,7 +257,11 @@ function TabDrivers ({
     return (
         <div className="tab-drivers">
             <div className="driver-list">
-                {team.drivers.map(d => <DriverCard key={d.name} driver={d} />)}
+                {team.drivers.map(d => <DriverCard
+                    key={d.name}
+                    driver={d}
+                    carId={team.car}
+                />)}
             </div>
         </div>
     );
@@ -264,10 +269,12 @@ function TabDrivers ({
 
 interface DriverCardProps {
     driver: LeagueTeamDriver;
+    carId: string;
 }
 
 function DriverCard ({
-    driver
+    driver,
+    carId,
 }: DriverCardProps) {
 
     return (
@@ -302,6 +309,8 @@ function DriverCard ({
                         value={driver.country}
                     />
                 </LabeledControl>
+            </Form.Section>
+            <Form.Section className="stats-section">
                 <LabeledControl label="Strength" required>
                     <NumericBox
                         value={driver.strength}
@@ -319,6 +328,18 @@ function DriverCard ({
                         allowDecimals={true}
                         maxDecimalPlaces={1}
                     />
+                </LabeledControl>
+            </Form.Section>
+            <Form.Section className="skins-section">
+                <LabeledControl label="Default skin" required>
+                    <span>{driver.defaultSkin}</span>
+                </LabeledControl>
+                <LabeledControl label="Skins" required>
+                    <MultipleCarSkinField
+                        skins={driver.skins}
+                        carId={carId}
+                    />
+                    {/*<span>{driver.skins.join(", ")}</span>*/}
                 </LabeledControl>
             </Form.Section>
         </Form>

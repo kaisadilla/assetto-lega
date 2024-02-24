@@ -46,10 +46,5 @@ export const Files = {
         else {
             return FILE_PROTOCOL + dataPath + "/" + folder + "/" + name;
         }
-    },
-
-    getCarSkinIcon (acPath: string, carFolder: string, skinFolder: string) : string {
-        return FILE_PROTOCOL + acPath + "/content/cars/" + carFolder + "/skins/"
-            + skinFolder + "/livery.png";
     }
 }

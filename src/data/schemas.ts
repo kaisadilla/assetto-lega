@@ -98,6 +98,10 @@ export interface AcCarCollection {
     tags: string[],
 }
 
+export interface AcCarSkinCollection {
+    [folderName: string]: AcCarSkin;
+}
+
 export interface AcCar {
     folderName: string;
     /**
@@ -109,7 +113,7 @@ export interface AcCar {
      * The skins present in this car's folder. Each key corresponds to the name
      * of a folder, and each value holds information about that skin.
      */
-    skins: {[folderName: string]: CarSkin};
+    skins: AcCarSkinCollection;
 }
 
 export function getCarDefaultSkin (carData: AcCar) {
@@ -144,7 +148,7 @@ export interface CarUiSpecs {
     pwratio?: string;
 }
 
-export interface CarSkin {
+export interface AcCarSkin {
     folderName: string;
     folderPath: string;
     ui: CarSkinUi;

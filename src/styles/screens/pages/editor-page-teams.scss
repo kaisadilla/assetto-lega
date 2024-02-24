@@ -228,8 +228,8 @@
                         }
                     }
 
-                    > .info-section {
-                        width: 100%;
+                    > .info-section, .stats-section, .skins-section {
+                        flex: 1;
                         padding: 12px 0;
                         
                         > .default-labeled-control {
@@ -244,6 +244,10 @@
                                 }
                             }
                         }
+                    }
+
+                    .stats-section {
+                        max-width: 200px;
                     }
                 }
             }

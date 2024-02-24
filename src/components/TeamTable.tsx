@@ -12,6 +12,7 @@ import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { getClassString } from 'utils';
 import Ipc from 'main/ipc/ipcRenderer';
+import { getCarSkinIconFromId } from 'paths';
 
 export interface TeamTableProps {
     teams: LeagueTeam[];
@@ -190,8 +191,8 @@ function DriverEntryCarSkinCollection ({
             <img
                 key={skin}
                 className={classStr}
-                src={Files.getCarSkinIcon(
-                    settings.assettoCorsaFolder!, car.folderName, skin
+                src={getCarSkinIconFromId(
+                    settings.assettoCorsaFolder!, car.folderName, skin, true
                 )}
             />
         );
