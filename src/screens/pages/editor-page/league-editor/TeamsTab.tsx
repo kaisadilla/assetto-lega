@@ -101,23 +101,17 @@ function TeamEditModePanel ({
         <div className="teams-tab-edit">
             <TeamEditionTable 
                 teams={teams}
-                onCommit={handleCommit}
-                onCancel={handleCancel}
-                onSaveAndEnd={handleSaveAndExit}
+                onSave={handleSave}
+                onClose={handleClose}
             />
         </div>
     );
 
-    function handleCommit (teams: LeagueTeam[]) {
+    function handleSave (teams: LeagueTeam[]) {
         onSave(teams);
     }
 
-    function handleCancel () {
-        onClose();
-    }
-
-    function handleSaveAndExit (teams: LeagueTeam[]) {
-        onSave(teams);
+    function handleClose () {
         onClose();
     }
 }

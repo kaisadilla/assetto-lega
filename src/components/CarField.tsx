@@ -7,7 +7,7 @@ import CarPicker from './CarPicker';
 import { AcCar } from 'data/schemas';
 
 export interface CarFieldProps {
-    value: string;
+    value?: string;
     onChange?: (value: string) => void;
     className?: string;
     tabIndex?: number;
@@ -19,6 +19,7 @@ function CarField ({
     className,
     tabIndex = 1,
 }: CarFieldProps) {
+    const [fieldLoaded, setFieldLoaded] = useState(false);
     const [car, setCar] = useState<AcCar | null>(null);
     const [isPickerOpen, setPickerOpen] = useState(false);
 
@@ -32,7 +33,7 @@ function CarField ({
         className,
     )
 
-    if (car === null) {
+    if (fieldLoaded === false) {
         return (
             <div className={classStr} tabIndex={tabIndex}>
                 <div className="loading">Loading...</div>
@@ -40,14 +41,15 @@ function CarField ({
         )
     }
 
+    const displayName = car ? (car.ui.name ?? car.folderName) : "<no car>";
 
     return (
         <div className={classStr} tabIndex={tabIndex}>
             <div className="car-content" onClick={handleClick}>
-                <div className="car-image">
+                {value && <div className="car-image">
                     <CarLogoImage carFolderName={value} />
-                </div>
-                <div className="car-name">{car!.ui.name}</div>
+                </div>}
+                <div className="car-name">{displayName}</div>
             </div>
             {isPickerOpen && (
             <CoverPanel>
@@ -71,8 +73,14 @@ function CarField ({
     }
 
     async function loadCar () {
-        const car = await Ipc.getCar(value);
-        setCar(car);
+        if (value) {
+            const car = await Ipc.getCar(value);
+            setCar(car);
+        }
+        else {
+            setCar(null);
+        }
+        setFieldLoaded(true);
     }
 }
 

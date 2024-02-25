@@ -6,17 +6,19 @@ import ImageField from 'components/ImageField';
 import MultipleCarSkinField from 'components/MultipleCarSkinField';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
-import { LeagueTeam, LeagueTeamDriver, createNewTeam } from 'data/schemas';
+import { AcCarCollection, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverRequiredFields, LeagueTeamRequiredFields, createNewTeam, getTeamName } from 'data/schemas';
 import Button from 'elements/Button';
 import ConfirmDialog from 'elements/ConfirmDialog';
 import LabeledControl from 'elements/LabeledControl';
 import MaterialSymbol from 'elements/MaterialSymbol';
+import MessageDialog from 'elements/MessageDialog';
 import NavBar from 'elements/NavBar';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
 import ToolboxRow from 'elements/ToolboxRow';
 import Form from 'elements/form/Form';
-import React, { useState } from 'react';
+import Ipc from 'main/ipc/ipcRenderer';
+import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 
 enum TeamEditorTab {
@@ -26,17 +28,23 @@ enum TeamEditorTab {
 
 export interface TeamEditionTableProps {
     teams: LeagueTeam[];
-    onCommit?: (teams: LeagueTeam[]) => void;
+    onSave?: (teams: LeagueTeam[]) => void;
     onCancel?: (teams: LeagueTeam[]) => void;
-    onSaveAndEnd?: (teams: LeagueTeam[]) => void;
+    onClose?: () => void;
 }
 
 function TeamEditionTable ({
     teams,
-    onCommit,
+    onSave,
     onCancel,
-    onSaveAndEnd,
+    onClose,
 }: TeamEditionTableProps) {
+    const [carData, setCarData] = useState<AcCarCollection | null>(null);
+
+    useEffect(() => {
+        loadAcData();
+    }, []);
+
     const [editedTeams, setEditedTeams] = useState(cloneTeamArray(teams));
     // an array that mirrors 'edited teams'. Each boolean represents whether a
     // team has been edited or not.
@@ -46,6 +54,8 @@ function TeamEditionTable ({
     
     const [isDialogResetOpen, setDialogResetOpen] = useState(false);
     const [isDialogDiscardOpen, setDialogDiscardOpen] = useState(false);
+    const [openMessage, setOpenMessage] =
+        useState<{title: string, message: string} | null>(null);
 
     const teamCount = teams.length;
     const driverCount = teams.reduce(
@@ -63,7 +73,7 @@ function TeamEditionTable ({
                     onSelect={handleTeamSelect}
                 />
                 <div className="team-list-toolbar">
-                    <Button onClick={handleAddTeam}>
+                    <Button onClick={handleAddTeam} disabled={carData === null}>
                         <MaterialSymbol symbol='add' />
                         Add team
                     </Button>
@@ -119,6 +129,11 @@ function TeamEditionTable ({
                 onAccept={handleDiscardDialog}
                 setOpen={setDialogDiscardOpen}
             />}
+            {openMessage !== null && <MessageDialog
+                title={openMessage.title}
+                message={openMessage.message}
+                setOpen={() => setOpenMessage(null)}
+            />}
         </div>
     );
     
@@ -132,8 +147,7 @@ function TeamEditionTable ({
     }
 
     function handleCommit () {
-        // TODO: Verify required fields.
-        onCommit?.(editedTeams);
+        saveIfChangesAreValid();
         setEditFlags(editedTeams.map(() => false));
     }
 
@@ -148,10 +162,13 @@ function TeamEditionTable ({
 
     function handleDiscardDialog () {
         onCancel?.(editedTeams);
+        onClose?.();
     }
 
     function handleSaveAndExit () {
-        onSaveAndEnd?.(editedTeams);
+        if (saveIfChangesAreValid()) {
+            onClose?.();
+        }
     }
 
     function handleTeamSelect (index: number) {
@@ -163,7 +180,7 @@ function TeamEditionTable ({
         // TODO: probably don't inform any fields.
         const teamUpdate = [
             ...editedTeams,
-            createNewTeam("abarth500", "0_white_scorpion"),
+            createNewTeam(),
         ];
         setEditedTeams(teamUpdate);
         
@@ -202,6 +219,80 @@ function TeamEditionTable ({
 
     function areThereChanges () {
         return editFlags.some(f => f);
+    }
+
+    /**
+     * Validates all fields in all teams and returns an array containing any
+     * validation errors found. An empty array means that no errors were found.
+     */
+    function validateChanges () : string[] {
+        const errorList = [] as string[];
+
+        for (const t in editedTeams) {
+            const team = editedTeams[t];
+            const teamNames = `#${t} (${getTeamName(team)})`;
+
+            for (const field of LeagueTeamRequiredFields) {
+                if (valueNullOrEmpty(team[field])) {
+                    errorList.push(
+                        `- Team ${teamNames} is missing field '${field}'.`
+                    );
+                }
+            }
+
+            if (team.drivers.length === 0) {
+                errorList.push(
+                    `- Team ${teamNames} has no drivers.`
+                );
+            }
+
+            for (const d in team.drivers) {
+                const driver = team.drivers[d];
+                const driverNames = `#${d} (${driver.name})`;
+
+                for (const field of LeagueTeamDriverRequiredFields) {
+                    if (valueNullOrEmpty(driver[field])) {
+                        errorList.push(
+                            `- Driver ${driverNames} in team #${teamNames} ` +
+                            `is missing field '${field}'.`
+                        );
+                    }
+                }
+            }
+        }
+
+        return errorList;
+
+        function valueNullOrEmpty (value: any) {
+            return value === undefined
+                || (typeof value === 'string' && value === "");
+        }
+    }
+
+    /**
+     * Saves the changes made to the teams if they are valid, or shows a pop-up
+     * indicating that saving is not possible otherwise. Returns true if changes
+     * were saved, or false if they weren't.
+     */
+    function saveIfChangesAreValid () {
+        const errors = validateChanges();
+        if (errors.length === 0) {
+            onSave?.(editedTeams);
+            return true;
+        }
+        else {
+            setOpenMessage({
+                title: "Invalid info",
+                message: "The following errors must be fixed before changes are "
+                    + `saved:\n${errors.join("\n")}`,
+            });
+            return false;
+        }
+    }
+
+    async function loadAcData () {
+        const _data = await Ipc.getCarData();
+        setCarData(_data);
     }
 }
 
@@ -246,7 +337,7 @@ function TeamEntry ({
     edited,
     onSelect,
 }: TeamEntryProps) {
-    const displayName = team.shortName ?? team.name;
+    const displayName = team.shortName ? team.shortName : team.name;
 
     const classStr = getClassString(
         "team-entry",
@@ -255,15 +346,14 @@ function TeamEntry ({
     )
 
     return (
-            <div className={classStr}>
-                <div className="team-name" onClick={() => onSelect()}>
-                    {edited && <span className="edit-mark">*</span>}
-                    <span>{displayName}</span>
-                </div>
-                <Button className="delete-button">
-                    <MaterialSymbol symbol='close' />
-                </Button>
+        <div className={classStr}>
+            <div className="team-name" onClick={() => onSelect()}>
+                <span>{edited && "*"} {displayName}</span>
             </div>
+            <Button className="delete-button">
+                <MaterialSymbol symbol='close' />
+            </Button>
+        </div>
     );
 }
 

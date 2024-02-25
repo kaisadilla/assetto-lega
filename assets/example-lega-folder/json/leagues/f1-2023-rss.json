@@ -164,8 +164,13 @@
                     "defaultSkin": "SF23_55_Sainz",
                     "strength": 90.2,
                     "aggression": 90.5,
-                    "miracleChance": 0.1,
-                    "disasterChance": 0.1
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.2,
+                        "consistency": 0.8,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 }
             ]
         },
@@ -195,8 +200,13 @@
                     "defaultSkin": "MCL60_4_Norris",
                     "strength": 90.0,
                     "aggression": 88.6,
-                    "miracleChance": 0.1,
-                    "disasterChance": 0.1
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.2,
+                        "consistency": 0.8,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 },
                 {
                     "number": "81",
@@ -211,8 +221,13 @@
                     "defaultSkin": "MCL60_81_Piastri",
                     "strength": 85.2,
                     "aggression": 83.9,
-                    "miracleChance": 0.1,
-                    "disasterChance": 0.1
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.2,
+                        "consistency": 0.8,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 }
             ]
         },
@@ -241,8 +256,13 @@
                     "defaultSkin": "AMR23_14_Alonso",
                     "strength": 97.9,
                     "aggression": 99.2,
-                    "miracleChance": 0.1,
-                    "disasterChance": 0.1
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.2,
+                        "consistency": 0.8,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 },
                 {
                     "number": "18",
@@ -256,8 +276,13 @@
                     "defaultSkin": "AMR23_18_Stroll",
                     "strength": 72.2,
                     "aggression": 97.1,
-                    "miracleChance": 0.1,
-                    "disasterChance": 0.1
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.2,
+                        "consistency": 0.8,
+                        "miracleChance": 0.1,
+                        "disasterChance": 0.1
+                    }
                 }
             ]
         }

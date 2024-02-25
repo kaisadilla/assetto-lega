@@ -13,7 +13,7 @@ export interface League {
     internalName: string;
     series: string;
     year: number;
-    displayName: string;
+    displayName?: string;
     era?: string;
     makers?: string;
     region: string;
@@ -27,9 +27,24 @@ export interface League {
     scoreSystem: LeagueScoreSystem[];
 }
 
+export const LeagueRequiredFields: (keyof League)[] = [
+    'internalName',
+    'series',
+    'year',
+    'region',
+    'color',
+    'categories',
+    'logo',
+    'background',
+    'teams',
+    'tracks',
+    'calendar',
+    'scoreSystem',
+];
+
 export interface LeagueTeam {
     name: string;
-    shortName: string;
+    shortName?: string;
     constructorName?: string;
     car: string;
     country: string;
@@ -41,6 +56,19 @@ export interface LeagueTeam {
     mainDriver: number;
     drivers: LeagueTeamDriver[];
 }
+
+export const LeagueTeamRequiredFields: (keyof LeagueTeam)[] = [
+    'name',
+    'car',
+    'country',
+    'logo',
+    'badge',
+    'color',
+    'ballast',
+    'restrictor',
+    'mainDriver',
+    'drivers',
+];
 
 export interface LeagueTeamDriver {
     number: string; // a driver's number is a string because it includes
@@ -61,6 +89,18 @@ export interface LeagueTeamDriver {
         disasterChance: number;
     }
 }
+
+export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
+    'number',
+    'name',
+    'initials',
+    'country',
+    'skins',
+    'defaultSkin',
+    'strength',
+    'aggression',
+    'classifying',
+];
 
 export interface LeagueCalendaryEntry {
     name: string;
@@ -169,11 +209,11 @@ export interface AcCarBrand {
     badgePath: string;
 }
 
-export function createNewTeam (carId: string, skinId: string) : LeagueTeam {
+export function createNewTeam () : LeagueTeam {
     return {
-        name: "(new team)",
-        shortName: "(new team)",
-        car: carId,
+        //name: "(new team)",
+        //shortName: "(new team)",
+        //car: carId,
         country: "world",
         logo: "@default",
         badge: "@default",
@@ -183,13 +223,13 @@ export function createNewTeam (carId: string, skinId: string) : LeagueTeam {
         mainDriver: 0,
         drivers: [
             {
-                number: "1",
-                name: "(no name)",
-                initials: "???",
+                //number: "1",
+                //name: "(no name)",
+                //initials: "???",
                 country: "world",
                 picture: null,
-                skins: [skinId],
-                defaultSkin: skinId,
+                //skins: [skinId],
+                //defaultSkin: skinId,
                 strength: 85,
                 aggression: 50,
                 classifying: {
@@ -201,5 +241,17 @@ export function createNewTeam (carId: string, skinId: string) : LeagueTeam {
                 }
             }
         ],
-    };
+    } as LeagueTeam;
+}
+
+export function getTeamName (team: LeagueTeam) {
+    return team.shortName ? team.shortName : team.name;
+}
+
+export function getCarName (car: AcCar) {
+    return car.ui.name ? car.ui.name : car.folderName;
+}
+
+export function getCarSkinName (skin: AcCarSkin) {
+    return skin.ui.skinname ? skin.ui.skinname : skin.folderName;
 }

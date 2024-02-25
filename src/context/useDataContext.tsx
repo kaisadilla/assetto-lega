@@ -235,8 +235,8 @@ function _buildSuggestions (leagues: League[]) : SuggestionCollections {
 
         for (const t of l.teams) {
             team.fullNames.add(t.name);
-            team.shortNames.add(t.shortName);
 
+            if (t.shortName) team.shortNames.add(t.shortName);
             if (t.constructorName) team.constructorNames.add(t.constructorName);
             
             for (const d of t.drivers) {

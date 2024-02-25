@@ -191,3 +191,7 @@ export function truncateNumber (num: number, decimalPlaces: number) {
     const truncated = Math[numToTrim < 0 ? 'ceil' : 'floor'](numToTrim);
     return truncated / multiplier;
 }
+
+export function isStringNullOrEmpty (str: string | null | undefined) {
+    return str !== null && str !== undefined && str !== "";
+}
