@@ -67,66 +67,81 @@
         border-bottom: 1px solid $color-primary;
     }
 
-    > .team-list {
-        //background: green;
+    > .team-list-container {
         grid-area: lis;
-        
+
+        height: 100%;
+        min-height: 0;
         display: flex;
         flex-direction: column;
-        justify-content: start;
-        gap: 2px;
-        overflow-x: hidden;
-        overflow-y: auto;
-
+    
         > h3 {
             margin-top: 4px;
         }
 
-        > .team-entry {
-            position: relative;
-            height: 24px;
-
-            &:hover {
-                background-color: $bg-color-dark-l1;
-            }
-            &:not(:hover) > .delete-button {
-                visibility: hidden;
-            }
-
-            &.selected {
-                background-color: $color-primary;
-            }
-
-            &.edited {
-                font-style: italic;
-            }
-
-            > .team-name {
-                display: flex;
-                align-items: center;
-                
-                width: 100%;
-                height: 100%;
-                padding-left: 8px;
-            }
-
-            > .delete-button {
-                @include center-content();
-
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 100%;
-                width: 32px;
-
-                &:not(:hover) {
-                    background-color: transparent;
+        > .team-list {            
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            gap: 2px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: fit-content;
+    
+            > .team-entry {
+                position: relative;
+                height: 24px;
+                flex-shrink: 0;
+    
+                &:hover {
+                    background-color: $bg-color-dark-l1;
                 }
-
-                > .material-symbol {
-                    font-size: 16pt;
-                    font-weight: $w-extralight;
+                &:not(:hover) > .delete-button {
+                    visibility: hidden;
                 }
+    
+                &.selected {
+                    background-color: $color-primary;
+                }
+    
+                &.edited {
+                    font-style: italic;
+                }
+    
+                > .team-name {
+                    display: flex;
+                    align-items: center;
+                    
+                    width: 100%;
+                    height: 100%;
+                    padding-left: 8px;
+                }
+    
+                > .delete-button {
+                    @include center-content();
+    
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                    width: 32px;
+    
+                    &:not(:hover) {
+                        background-color: transparent;
+                    }
+    
+                    > .material-symbol {
+                        font-size: 16pt;
+                        font-weight: $w-extralight;
+                    }
+                }
+            }
+        }
+
+        > .team-list-toolbar {
+            .default-button .material-symbol {
+                font-size: 12pt;
             }
         }
     }

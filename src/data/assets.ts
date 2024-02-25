@@ -22,6 +22,7 @@ export const Assets: {[key in AssetFolder]: {[resource: string]: string}} = {
         "@wec": require("@assets/img/league-logos/wec.png"),
     },
     [AssetFolder.teamBadges]: {
+        "@default": require("@assets/img/team-badges/default.png"),
         "@alfa-romeo": require("@assets/img/team-badges/alfa-romeo.png"),
         "@alpha-tauri": require("@assets/img/team-badges/alpha-tauri.png"),
         "@alpine": require("@assets/img/team-badges/alpine.png"),
@@ -34,6 +35,7 @@ export const Assets: {[key in AssetFolder]: {[resource: string]: string}} = {
         "@williams": require("@assets/img/team-badges/williams.png"),
     },
     [AssetFolder.teamLogos]: {
+        "@default": require("@assets/img/team-logos/default.png"),
         "@alfa-romeo": require("@assets/img/team-logos/alfa-romeo.png"),
         "@alpha-tauri": require("@assets/img/team-logos/alpha-tauri.png"),
         "@alpine": require("@assets/img/team-logos/alpine.png"),

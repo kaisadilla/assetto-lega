@@ -168,3 +168,38 @@ export interface AcCarBrand {
     displayName: string;
     badgePath: string;
 }
+
+export function createNewTeam (carId: string, skinId: string) : LeagueTeam {
+    return {
+        name: "(new team)",
+        shortName: "(new team)",
+        car: carId,
+        country: "world",
+        logo: "@default",
+        badge: "@default",
+        color: "#ffffff",
+        ballast: 0,
+        restrictor: 0,
+        mainDriver: 0,
+        drivers: [
+            {
+                number: "1",
+                name: "(no name)",
+                initials: "???",
+                country: "world",
+                picture: null,
+                skins: [skinId],
+                defaultSkin: skinId,
+                strength: 85,
+                aggression: 50,
+                classifying: {
+                    value: 1.5,
+                    delta: 0.25,
+                    consistency: 1,
+                    miracleChance: 0,
+                    disasterChance: 0,
+                }
+            }
+        ],
+    };
+}

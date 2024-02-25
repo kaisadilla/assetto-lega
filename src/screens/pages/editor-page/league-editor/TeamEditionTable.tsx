@@ -6,7 +6,7 @@ import ImageField from 'components/ImageField';
 import MultipleCarSkinField from 'components/MultipleCarSkinField';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
-import { LeagueTeam, LeagueTeamDriver } from 'data/schemas';
+import { LeagueTeam, LeagueTeamDriver, createNewTeam } from 'data/schemas';
 import Button from 'elements/Button';
 import ConfirmDialog from 'elements/ConfirmDialog';
 import LabeledControl from 'elements/LabeledControl';
@@ -54,12 +54,21 @@ function TeamEditionTable ({
 
     return (
         <div className="team-edition-table">
-            <TeamList
-                teams={teams}
-                editFlags={editFlags}
-                selectedIndex={selectedTeam}
-                onSelect={handleTeamSelect}
-            />
+            <div className="team-list-container">
+                <h3 className="cell-header">Teams</h3>
+                <TeamList
+                    teams={editedTeams}
+                    editFlags={editFlags}
+                    selectedIndex={selectedTeam}
+                    onSelect={handleTeamSelect}
+                />
+                <div className="team-list-toolbar">
+                    <Button onClick={handleAddTeam}>
+                        <MaterialSymbol symbol='add' />
+                        Add team
+                    </Button>
+                </div>
+            </div>
             <div className="team-panel">
                 <NavBar className="team-panel-nav-bar" get={tab} set={setTab}>
                     <NavBar.Item text="info" index={TeamEditorTab.INFO} />
@@ -123,6 +132,7 @@ function TeamEditionTable ({
     }
 
     function handleCommit () {
+        // TODO: Verify required fields.
         onCommit?.(editedTeams);
         setEditFlags(editedTeams.map(() => false));
     }
@@ -146,6 +156,24 @@ function TeamEditionTable ({
 
     function handleTeamSelect (index: number) {
         setSelectedTeam(index);
+    }
+
+    function handleAddTeam () {
+        // TODO: Dynamically choose these values to cars that exist.
+        // TODO: probably don't inform any fields.
+        const teamUpdate = [
+            ...editedTeams,
+            createNewTeam("abarth500", "0_white_scorpion"),
+        ];
+        setEditedTeams(teamUpdate);
+        
+        const editUpdate = [
+            ...editFlags,
+            true,
+        ];
+        setEditFlags(editUpdate);
+
+        setSelectedTeam(teamUpdate.length - 1);
     }
 
     function handleInfoChange (field: keyof LeagueTeam, value: any) {
@@ -192,7 +220,6 @@ function TeamList ({
 }: TeamListProps) {
     return (
         <div className="team-list">
-            <h3 className="cell-header">Teams</h3>
             {
                 teams.map((t, i) => <TeamEntry
                     key={i}
