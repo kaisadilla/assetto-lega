@@ -1,6 +1,10 @@
 .league-editor > .teams-tab {
     padding: 16px;
 
+    .default-button .material-symbol {
+        font-size: 12pt;
+    }
+
     > .teams-tab-view {
         width: 100%;
         height: 100%;
@@ -74,12 +78,14 @@
         min-height: 0;
         display: flex;
         flex-direction: column;
+        gap: 8px;
     
         > h3 {
             margin-top: 4px;
+            margin-bottom: 0;
         }
 
-        > .team-list {            
+        > .team-list {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -140,12 +146,6 @@
                         font-weight: $w-extralight;
                     }
                 }
-            }
-        }
-
-        > .team-list-toolbar {
-            .default-button .material-symbol {
-                font-size: 12pt;
             }
         }
     }
@@ -215,13 +215,16 @@
 
             > .tab-drivers {
                 height: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
 
                 .driver-list {
+                    flex: 1;
                     display: flex;
                     flex-direction: column;
                     overflow-y: auto;
                     width: 100%;
-                    height: 100%;
                     min-height: 0;
                     //gap: 8px;
                 }

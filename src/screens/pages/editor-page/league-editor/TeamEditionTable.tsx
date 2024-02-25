@@ -6,7 +6,7 @@ import ImageField from 'components/ImageField';
 import MultipleCarSkinField from 'components/MultipleCarSkinField';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
-import { AcCarCollection, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverRequiredFields, LeagueTeamRequiredFields, createNewTeam, getTeamName } from 'data/schemas';
+import { AcCarCollection, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverRequiredFields, LeagueTeamRequiredFields, createNewDriver, createNewTeam, getTeamName } from 'data/schemas';
 import Button from 'elements/Button';
 import ConfirmDialog from 'elements/ConfirmDialog';
 import LabeledControl from 'elements/LabeledControl';
@@ -176,8 +176,6 @@ function TeamEditionTable ({
     }
 
     function handleAddTeam () {
-        // TODO: Dynamically choose these values to cars that exist.
-        // TODO: probably don't inform any fields.
         const teamUpdate = [
             ...editedTeams,
             createNewTeam(),
@@ -248,12 +246,12 @@ function TeamEditionTable ({
 
             for (const d in team.drivers) {
                 const driver = team.drivers[d];
-                const driverNames = `#${d} (${driver.name})`;
+                const driverNames = `#${d} (${driver.name ?? "<no-name>"})`;
 
                 for (const field of LeagueTeamDriverRequiredFields) {
                     if (valueNullOrEmpty(driver[field])) {
                         errorList.push(
-                            `- Driver ${driverNames} in team #${teamNames} ` +
+                            `- Driver ${driverNames} in team ${teamNames} ` +
                             `is missing field '${field}'.`
                         );
                     }
@@ -474,6 +472,12 @@ function TabDrivers ({
                     onChange={(field, value) => handleDriverChange(i, field, value)}
                 />)}
             </div>
+            <div className="driver-list-toolbar">
+                <Button onClick={handleAddDriver}>
+                    <MaterialSymbol symbol='add' />
+                    Add team
+                </Button>
+            </div>
         </div>
     );
 
@@ -486,6 +490,14 @@ function TabDrivers ({
             [field]: value,
         };
 
+        onChange(updatedDrivers);
+    }
+
+    function handleAddDriver () {
+        const updatedDrivers = [
+            ...team.drivers,
+            createNewDriver(),
+        ];
         onChange(updatedDrivers);
     }
 }

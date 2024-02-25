@@ -10,7 +10,7 @@ import skinEx from "@assets/skin-icon.png";
 import { Files } from 'data/files';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
-import { getClassString } from 'utils';
+import { chooseW3CTextColor, getClassString } from 'utils';
 import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIconFromId } from 'paths';
 
@@ -54,9 +54,16 @@ function TeamEntry ({
     const badgeImg = Files.getFilePath(dataPath, AssetFolder.teamBadges, team.badge);
 
     // TODO: Check if team color deserves white or black text.
+    const calcTextColor = chooseW3CTextColor(team.color);
+
+    const classStr = getClassString(
+        "team",
+        calcTextColor === 'black' && "text-black",
+        calcTextColor === 'white' && "text-white",
+    )
 
     return (
-        <div className="team text-white">
+        <div className={classStr}>
             <div className="team-info" style={teamInfoStyle}>
                 <div className="team-color" style={teamColorStyle} />
                 <div className="team-logo">

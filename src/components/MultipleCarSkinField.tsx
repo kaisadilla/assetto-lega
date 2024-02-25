@@ -10,7 +10,7 @@ import CarSkinPicker from './CarSkinPicker';
 import { getCarSkinIcon } from 'paths';
 
 export interface MultipleCarSkinFieldProps {
-    skins: string[];
+    skins?: string[];
     carId: string;
     onChange?: (skins: string[]) => void;
     className?: string;
@@ -24,6 +24,8 @@ function MultipleCarSkinField ({
     className,
     tabIndex = 1,
 }: MultipleCarSkinFieldProps) {
+    skins ??= [];
+
     const [car, setCar] = useState<AcCar | null>(null);
     const [isPickerOpen, setPickerOpen] = useState(false);
 
@@ -43,7 +45,13 @@ function MultipleCarSkinField ({
     return (
         <div className={classStr} tabIndex={tabIndex}>
             <div className="skin-container" onClick={handleClick}>
-                <CarSkinCollection skins={car!.skins} selectedSkins={skins} />
+                {skins.length > 0 && <CarSkinCollection
+                    skins={car!.skinsById}
+                    selectedSkins={skins}
+                />}
+                {skins.length === 0 && <div className="skin-container-error">
+                    {"<No skins selected>"}
+                </div>}
             </div>
             {isPickerOpen && (
             <CoverPanel>

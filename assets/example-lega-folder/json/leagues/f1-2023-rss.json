@@ -5,7 +5,10 @@
     "era": "V6 hybrid",
     "color": "#19C71C",
     "region": "world",
-    "categories": ["Open-wheel", "Open cockpit"],
+    "categories": [
+        "Open-wheel",
+        "Open cockpit"
+    ],
     "logo": "f1_2023.png",
     "background": "f1_2023.jpg",
     "teams": [
@@ -33,7 +36,7 @@
                     ],
                     "defaultSkin": "RB19_1_Verstappen",
                     "strength": 99.3,
-                    "aggression": 98.0,
+                    "aggression": 98,
                     "classifying": {
                         "value": 1,
                         "delta": 0.1,
@@ -74,7 +77,7 @@
             "badge": "@mercedes",
             "color": "#1fb2a7",
             "ballast": 10,
-            "restrictor": 5,
+            "restrictor": 6,
             "mainDriver": 0,
             "drivers": [
                 {
@@ -184,7 +187,7 @@
             "badge": "@mclaren",
             "color": "#ff8000",
             "ballast": 12,
-            "restrictor": 5,
+            "restrictor": 6,
             "mainDriver": 0,
             "drivers": [
                 {
@@ -198,7 +201,7 @@
                         "MCL60_Triple_Crown_4_Norris"
                     ],
                     "defaultSkin": "MCL60_4_Norris",
-                    "strength": 90.0,
+                    "strength": 90,
                     "aggression": 88.6,
                     "classifying": {
                         "value": 1.5,
@@ -241,7 +244,7 @@
             "badge": "@aston-martin",
             "color": "#00665e",
             "ballast": 18,
-            "restrictor": 5,
+            "restrictor": 6,
             "mainDriver": 0,
             "drivers": [
                 {
@@ -285,6 +288,331 @@
                     }
                 }
             ]
+        },
+        {
+            "country": "france",
+            "logo": "@alpine",
+            "badge": "@alpine",
+            "color": "#005ba9",
+            "ballast": 20,
+            "restrictor": 12,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "country": "france",
+                    "picture": null,
+                    "strength": 100,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Pierre Gasly",
+                    "number": "10",
+                    "initials": "GAS",
+                    "skins": [
+                        "A523_10_Gasly",
+                        "A523_Pink_10_Gasly"
+                    ],
+                    "defaultSkin": "A523_10_Gasly"
+                },
+                {
+                    "country": "france",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "skins": [
+                        "A523_31_Ocon",
+                        "A523_Pink_31_Ocon"
+                    ],
+                    "defaultSkin": "A523_31_Ocon",
+                    "name": "Esteban Ocon",
+                    "number": "31",
+                    "initials": "OCO"
+                }
+            ],
+            "name": "BWT Alpine F1 Team",
+            "shortName": "Alpine",
+            "constructorName": "Alpine-Renault",
+            "car": "rss_formula_hybrid_2023"
+        },
+        {
+            "country": "united_kingdom",
+            "logo": "@williams",
+            "badge": "@williams",
+            "color": "#041e42",
+            "ballast": 22,
+            "restrictor": 6,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "country": "thailand",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Alexander Albon",
+                    "number": "23",
+                    "initials": "ALB",
+                    "skins": [
+                        "FW_23_Albon",
+                        "FW45_Silverstone_23_Albon"
+                    ],
+                    "defaultSkin": "FW_23_Albon"
+                },
+                {
+                    "country": "united_states",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Logan Sargeant",
+                    "number": "2",
+                    "initials": "SAR",
+                    "skins": [
+                        "FW45_2_Sargeant",
+                        "FW45_Silverstone_2_Sargeant"
+                    ],
+                    "defaultSkin": "FW45_2_Sargeant"
+                }
+            ],
+            "name": "Williams Racing",
+            "shortName": "Williams",
+            "constructorName": "Williams-Mercedes",
+            "car": "rss_formula_hybrid_2023"
+        },
+        {
+            "country": "italy",
+            "logo": "@alpha-tauri",
+            "badge": "@alpha-tauri",
+            "color": "#f1f3f4",
+            "ballast": 28,
+            "restrictor": 0,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "country": "japan",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Yuki Tsunoda",
+                    "number": "22",
+                    "initials": "TSU",
+                    "skins": [
+                        "AT04_22_Tsunoda"
+                    ],
+                    "defaultSkin": "AT04_22_Tsunoda"
+                },
+                {
+                    "country": "netherlands",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Nyck de Vries",
+                    "number": "21",
+                    "initials": "DEV",
+                    "skins": [
+                        "AT04_21_DeVries"
+                    ],
+                    "defaultSkin": "AT04_21_DeVries"
+                },
+                {
+                    "country": "australia",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Daniel Ricciardo",
+                    "number": "3",
+                    "initials": "RIC",
+                    "skins": [
+                        "AT04_3_Ricciardo"
+                    ],
+                    "defaultSkin": "AT04_3_Ricciardo"
+                },
+                {
+                    "country": "new_zealand",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Liam Lawson",
+                    "number": "40",
+                    "initials": "LAW",
+                    "skins": [
+                        "AT04_40_Lawson"
+                    ],
+                    "defaultSkin": "AT04_40_Lawson"
+                }
+            ],
+            "name": "Scuderia AlphaTauri",
+            "shortName": "AlphaTauri",
+            "constructorName": "AlphaTauri-Honda RBPT",
+            "car": "rss_formula_hybrid_2023"
+        },
+        {
+            "country": "switzerland",
+            "logo": "@alfa-romeo",
+            "badge": "@alfa-romeo",
+            "color": "#a50f2d",
+            "ballast": 28,
+            "restrictor": 4,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "country": "finland",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Valtteri Bottas",
+                    "number": "77",
+                    "initials": "BOT",
+                    "skins": [
+                        "C43_77_Bottas",
+                        "C43_Monza_77_Bottas",
+                        "C43_Zandvoort_77_Bottas"
+                    ],
+                    "defaultSkin": "C43_77_Bottas"
+                },
+                {
+                    "country": "china",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Zhou Guanyu",
+                    "number": "24",
+                    "initials": "ZHO",
+                    "skins": [
+                        "C43_24_Zhou",
+                        "C43_Monza_24_Zhou",
+                        "C43_Zandvoort_24_Zhou"
+                    ],
+                    "defaultSkin": "C43_24_Zhou"
+                }
+            ],
+            "name": "Alfa Romeo F1 Team Stake",
+            "shortName": "Alfa Romeo",
+            "constructorName": "Alfa Romeo-Ferrari",
+            "car": "rss_formula_hybrid_2023"
+        },
+        {
+            "country": "united_states",
+            "logo": "@haas",
+            "badge": "@haas",
+            "color": "#777777",
+            "ballast": 34,
+            "restrictor": 4,
+            "mainDriver": 0,
+            "drivers": [
+                {
+                    "country": "germany",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Nico Hülkenberg",
+                    "number": "27",
+                    "initials": "HUL",
+                    "skins": [
+                        "VF23_27_Hulkenberg",
+                        "VF23_COTA_27_Hulkenberg"
+                    ],
+                    "defaultSkin": "VF23_27_Hulkenberg"
+                },
+                {
+                    "country": "denmark",
+                    "picture": null,
+                    "strength": 85,
+                    "aggression": 50,
+                    "classifying": {
+                        "value": 1.5,
+                        "delta": 0.25,
+                        "consistency": 1,
+                        "miracleChance": 0,
+                        "disasterChance": 0
+                    },
+                    "name": "Kevin Magnussen",
+                    "number": "20",
+                    "initials": "MAG",
+                    "skins": [
+                        "VF23_20_Magnussen",
+                        "VF23_COTA_20_Magnussen"
+                    ],
+                    "defaultSkin": "VF23_20_Magnussen"
+                }
+            ],
+            "name": "MoneyGram Haas F1 Team",
+            "shortName": "Haas",
+            "constructorName": "Haas-Ferrari",
+            "car": "rss_formula_hybrid_2023"
         }
     ],
     "tracks": [
@@ -322,5 +650,6 @@
         "minimumPointsPerRace": 0,
         "fastestLap": 1,
         "qualifying": null
-    }
+    },
+    "internalName": "f1-2023-rss"
 }

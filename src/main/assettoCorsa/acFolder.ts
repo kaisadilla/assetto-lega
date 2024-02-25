@@ -49,7 +49,7 @@ export const AssettoCorsa = {
         const ui = await readJsonFile<CarUi>(carUiFile);
 
         const skinFolders = await fsAsync.readdir(carSkinFolder);
-        const skins: {[folderName: string]: AcCarSkin} = {};
+        const skinsById: {[folderName: string]: AcCarSkin} = {};
 
         for (const f of skinFolders) {
             const skinFolder = carSkinFolder + "/" + f;
@@ -70,14 +70,14 @@ export const AssettoCorsa = {
             }
 
             if (skinUi) {
-                skins[f] = {
+                skinsById[f] = {
                     folderName: f,
                     folderPath: skinFolder,
                     ui: skinUi,
                 };
             }
             else {
-                skins[f] = {
+                skinsById[f] = {
                     folderName: f,
                     folderPath: skinFolder,
                     ui: {
@@ -87,14 +87,25 @@ export const AssettoCorsa = {
             }
         }
 
-        if (Object.keys(skins).length === 0) {
+        if (Object.keys(skinsById).length === 0) {
             throw `Couldn't find any valid skin for car '${folderName}'.`;
         }
+
+        const skins = Object.values(skinsById).sort((a, b) => {
+            const anum = parseInt(a.ui.number ?? "");
+            const bnum = parseInt(b.ui.number ?? "");
+
+            if (Number.isNaN(anum)) return 1;
+            if (Number.isNaN(bnum)) return -1;
+
+            return anum - bnum;
+        });
 
         return {
             folderName,
             folderPath: carFolder,
             ui,
+            skinsById,
             skins,
         }
     },

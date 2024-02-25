@@ -79,8 +79,13 @@
                 > .default-labeled-control {
                     &.hex-control {
                         width: 100px;
+                        
                         > .label {
                             width: 36px;
+                        }
+
+                        > .value > .default-textbox > .input-field {
+                            text-align: left;
                         }
                     }
 

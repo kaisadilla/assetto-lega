@@ -1,7 +1,9 @@
 .default-car-skin-dropdown-field {
+    $-height: 24px;
+    
     position: relative;
 
-    > .car-skin-dropdown-field-display-value {
+    > .field-display-value {
         cursor: pointer;
         height: 100%;
 
@@ -10,14 +12,23 @@
         }
     }
 
+    > .field-error-message {
+        height: $-height;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 8px;
+    }
+
+    > .car-skin
+
     .car-skin-dropdown-field-menu {
         max-height: 120px;
     }
 
     .skin-name-container {
-        $-size: 24px;
 
-        height: $-size;
+        height: $-height;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -25,8 +36,8 @@
         gap: 4px;
 
         > .icon {
-            width: $-size;
-            height: $-size;
+            width: $-height;
+            height: $-height;
             padding: 2px;
 
             > img {

@@ -40,10 +40,12 @@ function ColorPicker ({
     onCancel,
 }: ColorPickerProps) {
     const colorObj = tinycolor2(defaultColor);
-    const [hex, setHex] = useState("#" + colorObj.toHex());
+    const [hex, setHex] = useState(colorObj.toHex());
     const [rgb, setRgb] = useState(colorObj.toRgb());
     const [hsl, setHsl] = useState(colorObj.toHsl());
     const [hsv, setHsv] = useState(colorObj.toHsv());
+
+    const [tempHex, setTempHex] = useState(hex);
 
     const CustomPointer = () => <div className="color-picker-pointer" />
     const CustomSlider = () => <div className="color-picker-slider" />
@@ -87,16 +89,16 @@ function ColorPicker ({
                         />
                         <div
                             className="color-new"
-                            style={{backgroundColor: hex}}
+                            style={{backgroundColor: "#" + hex}}
                         />
                     </div>
                     <Form className="color-parameters">
                         <Form.Title title="Color" />
                         <LabeledControl className="hex-control" label="Hex">
                             <Textbox
-                                value={hex}
-                                pattern={/^\#[0-9a-fA-F]*$/}
-                                onChange={() => {}}
+                                value={tempHex}
+                                pattern={/^[0-9a-fA-F]*$/}
+                                onChange={handleHexInput}
                             />
                         </LabeledControl>
                         <Form.Title title="RGB" />
@@ -169,11 +171,11 @@ function ColorPicker ({
     );
 
     function handleSelect () {
-        onSelect(hex);
+        onSelect("#" + hex);
     }
 
     function handleCancel () {
-        onCancel?.(hex);
+        onCancel?.("#" + hex);
     }
 
     function handleHueChange (hue: HSLColor) {
@@ -182,7 +184,7 @@ function ColorPicker ({
         setHsl(hue as tinycolor2.ColorFormats.HSLA);
         //setHsv(colorObj.toHsv());
         setRgb(colorObj.toRgb());
-        setHex("#" + colorObj.toHex());
+        setHexAndTempHex(colorObj.toHex());
     }
 
     function handleSaturationChange (res: HSVColor) {
@@ -190,7 +192,7 @@ function ColorPicker ({
 
         setHsv(res);
         setRgb(colorObj.toRgb());
-        setHex("#" + colorObj.toHex());
+        setHexAndTempHex(colorObj.toHex());
 
         // prevent saturation from changing the hue.
         const newHsl = colorObj.toHsl();
@@ -203,7 +205,18 @@ function ColorPicker ({
         setHsl(colorObj.toHsl());
         setHsv(colorObj.toHsv());
         setRgb(colorObj.toRgb());
-        setHex("#" + colorObj.toHex());
+        setHexAndTempHex(colorObj.toHex());
+    }
+
+    function handleHexInput (str: string) {
+        setTempHex(str);
+        if (str.length === 6) {
+            const colorObj = tinycolor2(str);
+            setHsl(colorObj.toHsl());
+            setHsv(colorObj.toHsv());
+            setRgb(colorObj.toRgb());
+            setHexAndTempHex(colorObj.toHex());
+        }
     }
 
     function handleRgbInput (field: 'r' | 'g' | 'b', value: number) {
@@ -214,7 +227,7 @@ function ColorPicker ({
         setHsl(colorObj.toHsl());
         setHsv(colorObj.toHsv());
         setRgb(newRgb);
-        setHex("#" + colorObj.toHex());
+        setHexAndTempHex(colorObj.toHex());
     }
 
     function handleHslInput (field: 'h' | 's' | 'l', value: number) {
@@ -225,7 +238,12 @@ function ColorPicker ({
         setHsl(newHsl);
         setHsv(colorObj.toHsv());
         setRgb(colorObj.toRgb());
-        setHex("#" + colorObj.toHex());
+        setHexAndTempHex(colorObj.toHex());
+    }
+
+    function setHexAndTempHex (hex: string) {
+        setHex(hex);
+        setTempHex(hex);
     }
 }
 

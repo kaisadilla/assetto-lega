@@ -25,7 +25,7 @@ function CarSkinPicker ({
     onSelect,
     onCancel,
 }: CarSkinPickerProps) {
-    const firstSkin = Object.values(car.skins)[0];
+    const firstSkin = Object.values(car.skinsById)[0];
 
     // the skin chosen to preview, not a skin that is actually selected.
     const [highlightedSkin, setHighlightedSkin] = useState<string | null>(
@@ -42,7 +42,7 @@ function CarSkinPicker ({
         <PickerDialog className="default-car-skin-picker">
             <div className="car-skin-picker-gallery">
                 <div className="skin-preview-container">
-                    {highlightedSkin && <CarSkinInfo skin={car.skins[highlightedSkin]} />}
+                    {highlightedSkin && <CarSkinInfo skin={car.skinsById[highlightedSkin]} />}
                 </div>
                 <div className="skin-selection-container">
                     <CarSkinList
@@ -130,6 +130,12 @@ function CarSkinInfo ({
             </div>
             <div className="skin-preview-info">
                 <div className="info-entry">
+                    <span className="info-title">Folder: </span>
+                    <span className="info-value">
+                        {skin.folderName}
+                    </span>
+                </div>
+                <div className="info-entry">
                     <span className="info-title">Name: </span>
                     <span className="info-value">
                         {skin.ui.skinname ?? "<no-skin>"}
@@ -161,7 +167,7 @@ function CarSkinInfo ({
 
 interface CarSkinListProps {
     multipleSelection: boolean;
-    skins: AcCarSkinCollection;
+    skins: AcCarSkin[];
     highlightedSkin: string | null;
     selectedSkins: string[];
     onClickEntry: (skin: string) => void;
@@ -180,7 +186,7 @@ function CarSkinList ({
     return (
         <div className="skin-list">
             {
-                Object.values(skins).map(s => <CarSkinListEntry
+                skins.map(s => <CarSkinListEntry
                     key={s.folderName}
                     skin={s}
                     highlighted={highlightedSkin === s.folderName}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { clampNumber, getClassString } from 'utils';
 
 export interface NumericBoxProps {
@@ -12,6 +12,7 @@ export interface NumericBoxProps {
     maxValue?: number;
     onChange?: (value: number | null) => void;
     className?: string;
+    tabIndex?: number;
 }
 
 function NumericBox ({
@@ -25,7 +26,22 @@ function NumericBox ({
     maxValue,
     onChange,
     className,
+    tabIndex = 1,
 }: NumericBoxProps) {
+    // the value typed by the user, which may or may not be a valid number.
+    const [tempValue, setTempValue] = useState((value ?? "").toString());
+
+    useEffect(() => {
+        // update the displayed text when the value given in the props changes,
+        // but only if the current text isn't a valid representation of such
+        // value.
+        if (parseFloat(tempValue) !== value) {
+            setTempValue((value ?? "").toString());
+        }
+    }, [value]);
+
+    const validChars = allowDecimals ? /^[0-9\.]*$/ : /^[0-9]*$/;
+
     const classStr = getClassString(
         "default-control",
         "default-typebox",
@@ -33,58 +49,64 @@ function NumericBox ({
         className,
     );
 
-    // TODO: better handling of decimal period.
-    let valueStr = value?.toString() ?? "";
-    if (value !== undefined && allowDecimals && valueStr.indexOf(".") === -1) {
-        valueStr += ".";
-    }
-
     return (
-        <div className={classStr}>
+        <div className={classStr} onBlur={handleBlur} tabIndex={tabIndex}>
             <input
                 className="input-field"
                 type="numeric"
-                value={valueStr}
+                value={tempValue}
                 onChange={handleChange}
             />
         </div>
     );
 
     function handleChange (evt: React.ChangeEvent<HTMLInputElement>) {
-        if (onChange === undefined) return;
-
         const str = evt.target.value;
+        
+        // when there's an invalid character, ignore changes.
+        if (validChars.test(str) === false) return;
 
-        if (str === "") {
-            if (allowEmpty) {
-                onChange(null);
-            }
-        }
-
-        // if the string contains a decimal point.
-        if (str.includes('.')) {
-            // if it can't.
-            if (!allowDecimals) return;
-
-            const points = str.match(/\./g);
-            // when there's more than one decimal point.
-            if (!points || points.length && points.length > 1) {
+        const points = str.match(/\./g);
+        // find decimal points.
+        if (points && points.length) {
+            // when there's more than one decimal point, ignore changes.
+            if (points?.length > 1) {
                 return;
             }
-
+            // if there's a point, check max amount of decimal places
             if (maxDecimalPlaces !== undefined) {
                 const decimalPart = str.split('.')[1];
-                // when there's more decimals than allowed.
+                // when there's more decimals than allowed, ignore changes.
                 if (decimalPart.length > maxDecimalPlaces) {
                     return;
                 }
             }
         }
 
+        setTempValue(str);
+
+        // trigger onChange value if the current value is a valid one.
         let num = parseFloat(str);
 
         if (isNaN(num)) {
-            if (!allowEmpty && str === "") {
+            return;
+        }
+
+        if (minValue && num < minValue) {
+            return;
+        }
+        if (maxValue && num > maxValue) {
+            return;
+        }
+
+        onChange?.(num);
+    }
+
+    function handleBlur () {
+        let num = parseFloat(tempValue);
+
+        if (isNaN(num)) {
+            if (!allowEmpty && tempValue === "") {
                 num = 0;
             }
             else {
@@ -99,7 +121,9 @@ function NumericBox ({
             num = maxValue;
         }
 
-        onChange(num);
+        onChange?.(num);
+
+        setTempValue((value ?? "").toString());
     }
 }
 

@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 
 export interface CarSkinDropdownFieldProps {
-    carId: string;
-    availableSkins: string[];
+    carId?: string;
+    availableSkins?: string[];
     value: string | null;
     onChange?: (skin: string) => void;
     className?: string;
@@ -22,7 +22,21 @@ function CarSkinDropdownField ({
     className,
     tabIndex = 1,
 }: CarSkinDropdownFieldProps) {
-    value ??= availableSkins[0];
+    const classStr = getClassString(
+        "default-control",
+        "default-car-skin-dropdown-field",
+        className,
+    )
+
+    if (carId === undefined || availableSkins == undefined) {
+        return (
+            <div className={classStr}>
+                <div className="field-error-message">
+                    No skins available.
+                </div>
+            </div>
+        )
+    }
 
     const [car, setCar] = useState<AcCar | null>(null);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -31,17 +45,11 @@ function CarSkinDropdownField ({
         loadCar();
     }, []);
 
-    const classStr = getClassString(
-        "default-control",
-        "default-car-skin-dropdown-field",
-        className,
-    )
-
     if (car === null) {
         return <div className={classStr}>Loading...</div>
     }
 
-    const selectedSkin = value === null ? null : car.skins[value];
+    const selectedSkin = value === null ? null : car.skinsById[value];
 
     //const $value = (() => {
     //    if
@@ -50,7 +58,7 @@ function CarSkinDropdownField ({
     return (
         <div className={classStr} tabIndex={tabIndex} onBlur={handleBlur}>
             <div
-                className="car-skin-dropdown-field-display-value skin-name-container"
+                className="field-display-value skin-name-container"
                 onClick={() => setDropdownOpen(true)}
             >
                 {selectedSkin && <>
@@ -64,7 +72,8 @@ function CarSkinDropdownField ({
             </div>
             {isDropdownOpen && <Dropdown className="car-skin-dropdown-field-menu">
                 {availableSkins.map(s => <CarSkinDropdownFieldEntry
-                    skin={car!.skins[s]}
+                    key={s}
+                    skin={car!.skinsById[s]}
                     onSelect={() => handleOptionSelect(s)}
                 />)}
             </Dropdown>}
@@ -72,8 +81,17 @@ function CarSkinDropdownField ({
     );
 
     async function loadCar () {
-        const car = await Ipc.getCar(carId);
-        setCar(car);
+        if (carId === undefined) {
+            console.warn(
+                "Called loadCar() in CarSkinDropdownField while 'carId'"
+                + "is undefined."
+            );
+            setCar(null);
+        }
+        else {
+            const car = await Ipc.getCar(carId);
+            setCar(car);
+        }
     }
 
     function handleBlur (evt: React.FocusEvent<HTMLDivElement, HTMLElement>) {

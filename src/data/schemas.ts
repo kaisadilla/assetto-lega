@@ -154,12 +154,16 @@ export interface AcCar {
      * The skins present in this car's folder. Each key corresponds to the name
      * of a folder, and each value holds information about that skin.
      */
-    skins: AcCarSkinCollection;
+    skinsById: AcCarSkinCollection;
+    /**
+     * An array with all the skins present in this car's folder.
+     */
+    skins: AcCarSkin[];
 }
 
 export function getCarDefaultSkin (carData: AcCar) {
-    const firstSkin = Object.keys(carData.skins)[0];
-    return carData.skins[firstSkin];
+    const firstSkin = Object.keys(carData.skinsById)[0];
+    return carData.skinsById[firstSkin];
 }
 
 // Assetto Corsa's game data.
@@ -222,36 +226,40 @@ export function createNewTeam () : LeagueTeam {
         restrictor: 0,
         mainDriver: 0,
         drivers: [
-            {
-                //number: "1",
-                //name: "(no name)",
-                //initials: "???",
-                country: "world",
-                picture: null,
-                //skins: [skinId],
-                //defaultSkin: skinId,
-                strength: 85,
-                aggression: 50,
-                classifying: {
-                    value: 1.5,
-                    delta: 0.25,
-                    consistency: 1,
-                    miracleChance: 0,
-                    disasterChance: 0,
-                }
-            }
+            createNewDriver(),
         ],
     } as LeagueTeam;
 }
 
+export function createNewDriver () : LeagueTeamDriver {
+    return {
+        //number: "1",
+        //name: "(no name)",
+        //initials: "???",
+        country: "world",
+        picture: null,
+        //skins: [skinId],
+        //defaultSkin: skinId,
+        strength: 85,
+        aggression: 50,
+        classifying: {
+            value: 1.5,
+            delta: 0.25,
+            consistency: 1,
+            miracleChance: 0,
+            disasterChance: 0,
+        }
+    } as LeagueTeamDriver;
+}
+
 export function getTeamName (team: LeagueTeam) {
-    return team.shortName ? team.shortName : team.name;
+    return (team.shortName ? team.shortName : team.name) ?? "<no name>";
 }
 
 export function getCarName (car: AcCar) {
-    return car.ui.name ? car.ui.name : car.folderName;
+    return (car.ui.name ? car.ui.name : car.folderName) ?? "<no name>";
 }
 
 export function getCarSkinName (skin: AcCarSkin) {
-    return skin.ui.skinname ? skin.ui.skinname : skin.folderName;
+    return (skin.ui.skinname ? skin.ui.skinname : skin.folderName) ?? "<no name>";
 }
