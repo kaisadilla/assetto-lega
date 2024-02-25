@@ -8,6 +8,7 @@ import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { LeagueTeam, LeagueTeamDriver } from 'data/schemas';
 import Button from 'elements/Button';
+import ConfirmDialog from 'elements/ConfirmDialog';
 import LabeledControl from 'elements/LabeledControl';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import NavBar from 'elements/NavBar';
@@ -42,6 +43,14 @@ function TeamEditionTable ({
     const [editFlags, setEditFlags] = useState(editedTeams.map(() => false));
     const [selectedTeam, setSelectedTeam] = useState(0);
     const [tab, setTab] = useState(TeamEditorTab.INFO);
+    
+    const [isDialogResetOpen, setDialogResetOpen] = useState(false);
+    const [isDialogDiscardOpen, setDialogDiscardOpen] = useState(false);
+
+    const teamCount = teams.length;
+    const driverCount = teams.reduce(
+        (acc, t) => acc += t.drivers.length, 0
+    );
 
     return (
         <div className="team-edition-table">
@@ -67,27 +76,67 @@ function TeamEditionTable ({
                     />}
                 </div>
             </div>
-            <ToolboxRow className="team-toolbar">
-                <Button onClick={handleReset}>Reset</Button>
-                <Button onClick={handleCommit}>Commit changes</Button>
-                <Button onClick={handleDiscard}>Discard</Button>
-                <Button onClick={handleSaveAndExit} highlighted>
-                    Save and end
-                </Button>
+            <ToolboxRow className="teams-tab-toolbar">
+                <div className="teams-datum">{teamCount} teams</div>
+                <div className="teams-datum">{driverCount} drivers</div>
+                <div className="tools">
+                    <Button
+                        onClick={handleReset}
+                        disabled={areThereChanges() === false}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        onClick={handleCommit}
+                        disabled={areThereChanges() === false}
+                    >
+                        Commit changes
+                    </Button>
+                    <Button onClick={handleDiscard}>Discard changes</Button>
+                    <Button onClick={handleSaveAndExit} highlighted>
+                        Save and end
+                    </Button>
+                </div>
             </ToolboxRow>
+            {isDialogResetOpen && <ConfirmDialog
+                title="Undo all changes?"
+                message="Do you want to undo all changes made to the teams?"
+                onAccept={handleResetDialog}
+                setOpen={setDialogResetOpen}
+            />}
+            {isDialogDiscardOpen && <ConfirmDialog
+                title="Discard changes?"
+                message="Do you want to discard all changes made to the teams?"
+                onAccept={handleDiscardDialog}
+                setOpen={setDialogDiscardOpen}
+            />}
         </div>
     );
     
     function handleReset () {
+        setDialogResetOpen(true);
+    }
+    
+    function handleResetDialog () {
         setEditedTeams(cloneTeamArray(teams));
         setEditFlags(editedTeams.map(() => false));
     }
 
     function handleCommit () {
         onCommit?.(editedTeams);
+        setEditFlags(editedTeams.map(() => false));
     }
 
     function handleDiscard () {
+        if (areThereChanges() === false) {
+            handleDiscardDialog();
+        }
+        else {
+            setDialogDiscardOpen(true);
+        }
+    }
+
+    function handleDiscardDialog () {
         onCancel?.(editedTeams);
     }
 
@@ -121,6 +170,10 @@ function TeamEditionTable ({
         const newEdits = [...editFlags]
         newEdits[selectedTeam] = true;
         setEditFlags(newEdits);
+    }
+
+    function areThereChanges () {
+        return editFlags.some(f => f);
     }
 }
 

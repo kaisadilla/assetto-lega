@@ -10,31 +10,12 @@
         > .teams-table-container {
             min-height: 0;
         }
-    
+
         > .teams-tab-toolbar {
-            margin-top: 8px;
             border-top: 1px solid $color-primary;
-            padding-top: 8px;
     
-            display: flex;
-            flex-direction: row;
-            justify-content: left;
-            align-items: start;
-            gap: 8px;
-    
-            > .teams-datum {
-                font-style: italic;
-                color: $text-color-dark-d1;
-            }
-    
-            > .tools {
-                flex: 1;
-                display: flex;
-                justify-content: right;
-    
-                .default-button {
-                    width: 180px;
-                }
+            .default-button {
+                width: 180px;
             }
         }
     }
@@ -42,6 +23,29 @@
     .teams-tab-edit {
         width: 100%;
         height: 100%;
+    }
+    
+    .teams-tab-toolbar {
+        margin-top: 8px;
+        padding-top: 8px;
+    
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: start;
+        gap: 8px;
+    
+        > .teams-datum {
+            font-style: italic;
+            color: $text-color-dark-d1;
+        }
+    
+        > .tools {
+            flex: 1;
+            display: flex;
+            justify-content: right;
+            gap: 8px;
+        }
     }
 }
 
@@ -260,12 +264,12 @@
         }
     }
 
-    > .team-toolbar {
+    > .teams-tab-toolbar {
         grid-area: too;
         border-top: 1px solid $color-primary;
         padding-top: 8px;
 
-        > .default-button {
+        > .tools > .default-button {
             width: 140px;
         }
     }

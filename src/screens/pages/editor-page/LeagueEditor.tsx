@@ -6,6 +6,7 @@ import { League } from 'data/schemas';
 import ToolboxRow from 'elements/ToolboxRow';
 import Button from 'elements/Button';
 import TeamsTab from './league-editor/TeamsTab';
+import ConfirmDialog from 'elements/ConfirmDialog';
 
 enum EditorTab {
     INFO,
@@ -40,6 +41,8 @@ function LeagueEditor ({
     const [editorTab, setEditorTab] = useState(EditorTab.INFO);
     const [isEdited, setEdited] = useState(false);
 
+    const [isDialogCancelOpen, setDialogCancelOpen] = useState(false);
+
     const $screen = (() => {
         if (editorTab === EditorTab.INFO) {
             return (
@@ -67,10 +70,18 @@ function LeagueEditor ({
             </NavBar>
             {$screen}
             <ToolboxRow>
-                <Button onClick={handleCancel}>Cancel</Button>
+                <Button onClick={handleCancel}>Exit</Button>
                 <Button onClick={handleSave}>Save</Button>
                 <Button onClick={handleSaveAndExit} highlighted>Save and exit</Button>
             </ToolboxRow>
+            {isDialogCancelOpen && <ConfirmDialog
+                title="Exit without saving?"
+                message="Do you want to close this league without saving any changes?"
+                acceptText="Discard changes"
+                cancelText="Keep open"
+                onAccept={handleCancelDialog}
+                setOpen={setDialogCancelOpen}
+            />}
         </div>
     );
 
@@ -83,6 +94,15 @@ function LeagueEditor ({
     }
 
     function handleCancel () {
+        if (isEdited) {
+            setDialogCancelOpen(true);
+        }
+        else {
+            onCancel?.(editedLeague);
+        }
+    }
+
+    function handleCancelDialog () {
         onCancel?.(editedLeague);
     }
 

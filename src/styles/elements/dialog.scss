@@ -1,15 +1,34 @@
 .default-dialog {
     background: $bg-color-dark;
     border: 1px solid $color-primary;
-    width: 80%;
-    height: 80%;
-    min-width: 400px;
-    min-height: 400px;
     display: flex;
     flex-direction: column;
     min-height: 0;
 
     h2 {
         padding-bottom: 12px;
+    }
+}
+
+.default-window-dialog {
+    width: 80%;
+    height: 80%;
+    min-width: 400px;
+    min-height: 400px;
+}
+
+.default-message-dialog {
+    padding: 16px 16px 8px 16px;
+    max-width: 500px;
+
+    > .message-toolbar {
+        padding-top: 16px;
+
+        .default-button {
+            white-space: nowrap;
+            min-width: fit-content;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
     }
 }

@@ -12,6 +12,7 @@ function Dialog ({
 }: DialogProps) {
     const classStr = getClassString(
         "default-dialog",
+        "default-window-dialog",
         className,
     )
 
