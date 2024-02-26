@@ -4,8 +4,9 @@ import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
 import { League } from 'data/schemas';
 import Slider from 'elements/Slider';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { useResizeDetector } from 'react-resize-detector';
 import { Gaussian } from 'ts-gaussian';
 import { truncateNumber } from 'utils';
 
@@ -93,6 +94,17 @@ function QualifyingGaussianChart ({
     const [xValues, setXValues] = useState([] as number[]);
     const [yValues, setYValues] = useState([] as (number | null)[]);
 
+    const resizeCallback = () => {
+        console.log(width);
+    };
+
+    const { width, height, ref } = useResizeDetector({
+        handleHeight: true,
+        refreshMode: 'debounce',
+        refreshRate: 1000,
+        onResize: resizeCallback,
+    })
+
     useEffect(() => {
         const leftLimit = -0.5;
         const rightLimit = 1.5;
@@ -118,9 +130,9 @@ function QualifyingGaussianChart ({
     }, [mean, stDev]);
 
     return (
-        <div className="qualifying-gaussian-chart">
+        <div className="qualifying-gaussian-chart" ref={ref}>
             {xValues && yValues && <Line
-                height={40}
+                //height={40}
                 //width={300}
                 options={{
                     elements: {
@@ -146,6 +158,7 @@ function QualifyingGaussianChart ({
                         }
                     },
                     responsive: true,
+                    maintainAspectRatio: false,
                 }}
                 data={{
                     labels: xValues.map(x => truncateNumber(x, 2)),
