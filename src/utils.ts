@@ -192,6 +192,16 @@ export function truncateNumber (num: number, decimalPlaces: number) {
     return truncated / multiplier;
 }
 
+export function countDecimalPlaces (num: number) {
+    if (isInteger(num)) return 0;
+
+    return num.toString().split(".")[1].length || 0;
+}
+
+export function isInteger (num: number) {
+    return Math.floor(num) === num;
+}
+
 export function isStringNullOrEmpty (str: string | null | undefined) {
     return str !== null && str !== undefined && str !== "";
 }
@@ -212,15 +222,11 @@ export function chooseW3CTextColor (background: string) : 'black' | 'white' {
     const g = parseInt(background.substring(2, 4), 16);
     const b = parseInt(background.substring(4, 6), 16);
 
-    console.log(background, r, g, b);
-
     let rVal = calculateVal(r);
     let gVal = calculateVal(g);
     let bVal = calculateVal(b);
 
     const l = (0.2126 * rVal) + (0.7152 * gVal) + (0.0722 * bVal);
-
-    console.log(`For ${background} L = ${l}`);
 
     return l > 0.179 ? 'black' : 'white';
 

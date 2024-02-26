@@ -8,8 +8,8 @@ export interface NumericBoxProps {
     maxDecimalPlaces?: number;
     showArrows?: boolean;
     step?: number;
-    minValue?: number;
-    maxValue?: number;
+    min?: number;
+    max?: number;
     onChange?: (value: number | null) => void;
     className?: string;
     tabIndex?: number;
@@ -22,8 +22,8 @@ function NumericBox ({
     maxDecimalPlaces,
     showArrows,
     step,
-    minValue,
-    maxValue,
+    min,
+    max,
     onChange,
     className,
     tabIndex = 1,
@@ -33,7 +33,7 @@ function NumericBox ({
 
     useEffect(() => {
         // update the displayed text when the value given in the props changes,
-        // but only if the current text isn't a valid representation of such
+        // but only if the current text isn't a valid representation of that
         // value.
         if (parseFloat(tempValue) !== value) {
             setTempValue((value ?? "").toString());
@@ -92,10 +92,10 @@ function NumericBox ({
             return;
         }
 
-        if (minValue && num < minValue) {
+        if (min && num < min) {
             return;
         }
-        if (maxValue && num > maxValue) {
+        if (max && num > max) {
             return;
         }
 
@@ -114,11 +114,11 @@ function NumericBox ({
             }
         }
 
-        if (minValue && num < minValue) {
-            num = minValue;
+        if (min && num < min) {
+            num = min;
         }
-        if (maxValue && num > maxValue) {
-            num = maxValue;
+        if (max && num > max) {
+            num = max;
         }
 
         onChange?.(num);

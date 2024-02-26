@@ -105,24 +105,24 @@ function ColorPicker ({
                         <LabeledControl className="rgb-control" label="R">
                             <NumericBox
                                 value={rgb.r}
-                                minValue={0}
-                                maxValue={255}
+                                min={0}
+                                max={255}
                                 onChange={n => handleRgbInput('r', n!)}
                             />
                         </LabeledControl>
                         <LabeledControl className="rgb-control" label="G">
                             <NumericBox
                                 value={rgb.g}
-                                minValue={0}
-                                maxValue={255}
+                                min={0}
+                                max={255}
                                 onChange={n => handleRgbInput('g', n!)}
                             />
                         </LabeledControl>
                         <LabeledControl className="rgb-control" label="B">
                             <NumericBox
                                 value={rgb.b}
-                                minValue={0}
-                                maxValue={255}
+                                min={0}
+                                max={255}
                                 onChange={n => handleRgbInput('b', n!)}
                             />
                         </LabeledControl>
@@ -130,8 +130,8 @@ function ColorPicker ({
                         <LabeledControl className="hsl-control" label="H" afterLabel="°">
                             <NumericBox
                                 value={truncateNumber(hsl.h, 1)}
-                                minValue={0}
-                                maxValue={256}
+                                min={0}
+                                max={256}
                                 allowDecimals
                                 onChange={n => handleHslInput('h', n!)}
                             />
@@ -139,8 +139,8 @@ function ColorPicker ({
                         <LabeledControl className="hsl-control" label="S" afterLabel="%">
                             <NumericBox
                                 value={truncateNumber(hsl.s, 2)}
-                                minValue={0}
-                                maxValue={1}
+                                min={0}
+                                max={1}
                                 allowDecimals
                                 onChange={n => handleHslInput('s', n!)}
                             />
@@ -148,8 +148,8 @@ function ColorPicker ({
                         <LabeledControl className="hsl-control" label="L" afterLabel="%">
                             <NumericBox
                                 value={truncateNumber(hsl.l, 2)}
-                                minValue={0}
-                                maxValue={1}
+                                min={0}
+                                max={1}
                                 allowDecimals
                                 onChange={n => handleHslInput('l', n!)}
                             />

@@ -37,10 +37,9 @@
                     "defaultSkin": "RB19_1_Verstappen",
                     "strength": 99.3,
                     "aggression": 98,
-                    "classifying": {
-                        "value": 1,
-                        "delta": 0.1,
-                        "consistency": 0.9,
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
                         "miracleChance": 0.2,
                         "disasterChance": 0.05
                     }
@@ -57,12 +56,11 @@
                     "defaultSkin": "RB19_11_Perez",
                     "strength": 88.4,
                     "aggression": 84.2,
-                    "classifying": {
-                        "value": 1.3,
-                        "delta": 0.3,
-                        "consistency": 0.4,
-                        "miracleChance": 0.06,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 }
             ]
@@ -91,12 +89,11 @@
                     "defaultSkin": "W14_44_Hamilton",
                     "strength": 96.1,
                     "aggression": 92.5,
-                    "classifying": {
-                        "value": 1.25,
-                        "delta": 0.16,
-                        "consistency": 0.65,
-                        "miracleChance": 0.18,
-                        "disasterChance": 0.07
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 },
                 {
@@ -110,12 +107,11 @@
                     "defaultSkin": "W14_63_Russell",
                     "strength": 90.7,
                     "aggression": 97.3,
-                    "classifying": {
-                        "value": 1.18,
-                        "delta": 0.25,
-                        "consistency": 0.8,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 }
             ]
@@ -146,12 +142,11 @@
                     "defaultSkin": "SF23_16_Leclerc",
                     "strength": 92.8,
                     "aggression": 94.4,
-                    "classifying": {
-                        "value": 1.1,
-                        "delta": 0.16,
-                        "consistency": 0.85,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 },
                 {
@@ -167,12 +162,11 @@
                     "defaultSkin": "SF23_55_Sainz",
                     "strength": 90.2,
                     "aggression": 90.5,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.2,
-                        "consistency": 0.8,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 }
             ]
@@ -203,12 +197,11 @@
                     "defaultSkin": "MCL60_4_Norris",
                     "strength": 90,
                     "aggression": 88.6,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.2,
-                        "consistency": 0.8,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 },
                 {
@@ -224,12 +217,11 @@
                     "defaultSkin": "MCL60_81_Piastri",
                     "strength": 85.2,
                     "aggression": 83.9,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.2,
-                        "consistency": 0.8,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 }
             ]
@@ -259,12 +251,11 @@
                     "defaultSkin": "AMR23_14_Alonso",
                     "strength": 97.9,
                     "aggression": 99.2,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.2,
-                        "consistency": 0.8,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 },
                 {
@@ -279,12 +270,11 @@
                     "defaultSkin": "AMR23_18_Stroll",
                     "strength": 72.2,
                     "aggression": 97.1,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.2,
-                        "consistency": 0.8,
-                        "miracleChance": 0.1,
-                        "disasterChance": 0.1
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     }
                 }
             ]
@@ -303,12 +293,11 @@
                     "picture": null,
                     "strength": 100,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Pierre Gasly",
                     "number": "10",
@@ -324,12 +313,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "skins": [
                         "A523_31_Ocon",
@@ -360,12 +348,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Alexander Albon",
                     "number": "23",
@@ -381,12 +368,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Logan Sargeant",
                     "number": "2",
@@ -417,12 +403,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Yuki Tsunoda",
                     "number": "22",
@@ -437,12 +422,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Nyck de Vries",
                     "number": "21",
@@ -457,12 +441,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Daniel Ricciardo",
                     "number": "3",
@@ -477,12 +460,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Liam Lawson",
                     "number": "40",
@@ -512,12 +494,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Valtteri Bottas",
                     "number": "77",
@@ -534,12 +515,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Zhou Guanyu",
                     "number": "24",
@@ -571,12 +551,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Nico Hülkenberg",
                     "number": "27",
@@ -592,12 +571,11 @@
                     "picture": null,
                     "strength": 85,
                     "aggression": 50,
-                    "classifying": {
-                        "value": 1.5,
-                        "delta": 0.25,
-                        "consistency": 1,
-                        "miracleChance": 0,
-                        "disasterChance": 0
+                    "qualifying": {
+                        "mean": 0.5,
+                        "deviation": 0.2,
+                        "miracleChance": 0.2,
+                        "disasterChance": 0.05
                     },
                     "name": "Kevin Magnussen",
                     "number": "20",

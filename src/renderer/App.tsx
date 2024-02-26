@@ -9,6 +9,21 @@ import { Tooltip } from 'react-tooltip';
 import darkTheme from 'styles/main.scss';
 import 'react-tooltip/dist/react-tooltip.css';
 import { DEFAULT_TOOLTIP_ID } from 'names';
+    
+
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip as ChartJSTooltip,
+    Legend,
+    Filler,
+} from 'chart.js';
+
+registerChartJs();
 
 export default function App () {
     // TODO: Themes!
@@ -34,5 +49,18 @@ export default function App () {
                 className="tooltip default-tooltip"
             />
         </>
+    );
+}
+
+function registerChartJs () {
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        ChartJSTooltip,
+        Legend,
+        Filler,
     );
 }

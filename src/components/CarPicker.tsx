@@ -23,8 +23,10 @@ const DEFAULT_IMAGE_SIZE = 196;
 enum FilterType {
     Brand,
     Tag,
+    Category,
     Name,
     Country,
+    Decade,
     Tier,
 }
 
@@ -109,8 +111,10 @@ function CarPicker ({
                 >
                     <NavBar.Item text="by brand" index={FilterType.Brand} />
                     <NavBar.Item text="by tag" index={FilterType.Tag} />
+                    <NavBar.Item text="by category" index={FilterType.Category} />
                     <NavBar.Item text="by name" index={FilterType.Name} />
                     <NavBar.Item text="by country" index={FilterType.Country} />
+                    <NavBar.Item text="by decade" index={FilterType.Decade} />
                     <NavBar.Item text="by tier" index={FilterType.Tier} />
                 </NavBar>
                 <Textbox

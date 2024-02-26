@@ -558,8 +558,8 @@ function DriverCard ({
                 <LabeledControl label="Strength" required>
                     <NumericBox
                         value={driver.strength}
-                        minValue={70}
-                        maxValue={100}
+                        min={70}
+                        max={100}
                         allowDecimals={true}
                         maxDecimalPlaces={1}
                         onChange={val => handleFieldChange('strength', val)}
@@ -568,8 +568,8 @@ function DriverCard ({
                 <LabeledControl label="Aggression" required>
                     <NumericBox
                         value={driver.aggression}
-                        minValue={0}
-                        maxValue={100}
+                        min={0}
+                        max={100}
                         allowDecimals={true}
                         maxDecimalPlaces={1}
                         onChange={val => handleFieldChange('aggression', val)}

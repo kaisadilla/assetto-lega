@@ -1,0 +1,72 @@
+.league-editor > .drivers-tab {
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .drivers-section {
+        flex: 2;
+        //background: red;
+
+        > .driver-list {
+
+            > .driver-entry {
+                background: $bg-color-dark-l2;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                gap: 8px;
+                padding: 0 8px;
+                width: 100%;
+                height: 72px;
+                border: 3px solid green;
+
+                .driver-team-badge {
+                    height: 32px;
+                    width: 32px;
+
+                    > img {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: contain;
+                    }
+                }
+
+                .driver-name {
+                    color: $text-color-dark-d1;
+                }
+
+                .driver-stat {
+                    width: 132px;
+                    height: 18px;
+                    min-height: 0;
+                    min-width: 0;
+                }
+
+                .driver-qualifying-graph {
+                    flex: 1;
+                    //background: purple;
+                    height: 100%;
+                    // padding: 2px 0;
+                }
+
+                .driver-chance {
+                    width: 48px;
+                }
+            }
+        }
+    }
+
+    .simulator-section {
+        background: blue;
+        flex: 1;
+        max-width: 300px;
+    }
+
+    .qualifying-gaussian-chart {
+        width: 100%;
+        height: 100%;
+        background: #ffffff10;
+    }
+}

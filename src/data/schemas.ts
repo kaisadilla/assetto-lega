@@ -14,6 +14,7 @@ export interface League {
     series: string;
     year: number;
     displayName?: string;
+    // TODO: classes: string[]; a checkmark that indicates whether the league has classes
     era?: string;
     makers?: string;
     region: string;
@@ -31,6 +32,7 @@ export const LeagueRequiredFields: (keyof League)[] = [
     'internalName',
     'series',
     'year',
+    // TODO 'classes',
     'region',
     'color',
     'categories',
@@ -46,6 +48,7 @@ export interface LeagueTeam {
     name: string;
     shortName?: string;
     constructorName?: string;
+    // TODO class?: string;
     car: string;
     country: string;
     logo: string;
@@ -81,7 +84,7 @@ export interface LeagueTeamDriver {
     defaultSkin: string;
     strength: number;
     aggression: number;
-    classifying: {
+    qualifying: {
         value: number;
         delta: number;
         consistency: number;
@@ -99,7 +102,7 @@ export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
     'defaultSkin',
     'strength',
     'aggression',
-    'classifying',
+    'qualifying',
 ];
 
 export interface LeagueCalendaryEntry {
@@ -242,7 +245,7 @@ export function createNewDriver () : LeagueTeamDriver {
         //defaultSkin: skinId,
         strength: 85,
         aggression: 50,
-        classifying: {
+        qualifying: {
             value: 1.5,
             delta: 0.25,
             consistency: 1,

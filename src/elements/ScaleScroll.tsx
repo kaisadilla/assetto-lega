@@ -30,7 +30,6 @@ function ScaleScroll ({
                 min={min}
                 max={max}
                 value={value}
-                defaultValue={defaultValue}
                 onChange={handleChange}
                 marks={marks}
                 trackClassName="scroll-track"
