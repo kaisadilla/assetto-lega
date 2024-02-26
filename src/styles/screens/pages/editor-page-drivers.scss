@@ -6,35 +6,59 @@
 
     .drivers-section {
         flex: 2;
-        //background: red;
+        display: flex;
+        flex-direction: column;
 
         > .driver-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
 
             > .driver-entry {
+                $-no-color-bg: $bg-color-dark-l2;
+
                 background: $bg-color-dark-l2;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
                 align-items: center;
                 gap: 8px;
-                padding: 0 8px;
+                padding: 0 6px;
                 width: 100%;
-                height: 72px;
-                border: 3px solid green;
+                height: 64px;
+                border: 2px solid;
+
+                &.driver-entry-text-black {
+                    .driver-name {
+                        color: $text-color-light-1;
+                    }
+                }
+                &.driver-entry-text-white {
+                    .driver-name {
+                        color: $text-color-dark-d1;
+                    }
+                }
 
                 .driver-team-badge {
-                    height: 32px;
-                    width: 32px;
+                    background-color: $-no-color-bg;
+                    height: 100%;
+                    width: 48px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
 
                     > img {
-                        height: 100%;
-                        width: 100%;
+                        height: 32px;
+                        width: 32px;
                         object-fit: contain;
                     }
                 }
 
                 .driver-name {
-                    color: $text-color-dark-d1;
+                    @include ellipsis();
+                    min-width: 100px;
                 }
 
                 .driver-stat {
@@ -42,13 +66,49 @@
                     height: 18px;
                     min-height: 0;
                     min-width: 0;
+
+                    > .default-slider .slider-container {
+                        border: 1px solid $bg-color-dark-l3;
+                    }
                 }
 
                 .driver-qualifying-graph {
+                    background-color: $-no-color-bg;
+                    position: relative;
                     flex: 1;
                     //background: purple;
                     height: 100%;
                     // padding: 2px 0;
+
+                    .range-slider-full-range-viz {
+                        position: absolute;
+                        background: #ffffff0b;
+                        width: 100%;
+                        padding: 0 calc(25% - 4px);
+                        height: 100%;
+                        top: 0;// calc(50% - 12px);
+                        left: 0;
+                        .range-slider-mean-range-viz {
+                            background: #ffffff0b;
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+
+                            .range-slider-container {
+                                width: 100%;
+                                height: 24px;
+                            }
+                        }
+                    }
+                }
+
+                > .driver-qualifying-stats {
+                    width: 48px;
+
+                    > .stat {
+                        @include ellipsis();
+                    }
                 }
 
                 .driver-chance {
@@ -59,7 +119,6 @@
     }
 
     .simulator-section {
-        background: blue;
         flex: 1;
         max-width: 300px;
     }
@@ -68,5 +127,94 @@
         width: 100%;
         height: 100%;
         background: #ffffff10;
+    }
+
+    .simulator-section {
+        padding: 8px;
+        padding-bottom: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: none;
+        gap: 8px;
+
+        > .title {
+            padding: 0;
+            margin: 0;
+            font-weight: $w-semibold;
+            font-size: 10pt;
+            padding: 6px 0 0 0;
+        }
+
+        > .qualifying-list {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            gap: 1px;
+            background-color: $bg-color-dark-l1;
+
+            > .qualifying-table-entry {
+                $-size: 36px;
+
+                background: white;
+                width: 100%;
+                height: $-size;
+                flex-shrink: 0;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+
+                &.first-position > .position {
+                    background-color: $color-success;
+                }
+                &.highlight > .driver > .name {
+                    font-weight: $w-semibold;
+                }
+
+                > .position {
+                    width: $-size;
+                    height: 100%;
+                    background-color: $bg-color-dark-l2;
+                    font-size: 16pt;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: $w-bold;
+                }
+
+                > .driver {
+                    flex: 1;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    gap: 8px;
+                    color: $text-color-light;
+
+                    > .team-badge {
+                        background-color: $bg-color-dark-l5;
+                        height: 100%;
+                        padding: 0 8px;
+                        display: flex;
+                        align-items: center;
+
+                        img {
+                            width: 24px;
+                            height: 24px;
+                            object-fit: contain;
+                        }
+                    }
+                    > .name {
+
+                    }
+                }
+            }
+        }
+
+        > .simulator-toolbox {
+            padding: 0;
+        }
     }
 }

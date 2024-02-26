@@ -613,10 +613,4 @@ function cloneTeamArray (teams: LeagueTeam[]) {
     return newArr;
 }
 
-// todo remove
-function cloneDriver (driver: LeagueTeamDriver) {
-    const newObj = structuredClone(driver);
-    return newObj;
-}
-
 export default TeamEditionTable;

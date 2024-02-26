@@ -47,17 +47,26 @@ function LeagueEditor ({
     const $screen = (() => {
         if (editorTab === EditorTab.INFO) {
             return (
-                <InfoTab league={editedLeague} onChange={handleLeagueFieldChange} />
+                <InfoTab
+                    league={editedLeague}
+                    onChange={handleLeagueFieldChange}
+                />
             );
         }
         if (editorTab === EditorTab.TEAMS) {
             return (
-                <TeamsTab league={editedLeague} onChange={handleLeagueFieldChange} />
+                <TeamsTab
+                    league={editedLeague}
+                    onChange={handleLeagueFieldChange}
+                />
             );
         }
         if (editorTab === EditorTab.DRIVERS) {
             return (
-                <DriversTab league={editedLeague} onChange={handleLeagueFieldChange} />
+                <DriversTab
+                    league={editedLeague}
+                    onChange={teams => handleLeagueFieldChange('teams', teams)}
+                />
             );
         }
         return <></>;

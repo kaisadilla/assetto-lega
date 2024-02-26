@@ -84,13 +84,14 @@ export interface LeagueTeamDriver {
     defaultSkin: string;
     strength: number;
     aggression: number;
-    qualifying: {
-        value: number;
-        delta: number;
-        consistency: number;
-        miracleChance: number;
-        disasterChance: number;
-    }
+    qualifying: LeagueTeamDriverQualifying;
+}
+
+export interface LeagueTeamDriverQualifying {
+    mean: number;
+    deviation: number;
+    miracleChance: number;
+    disasterChance: number;
 }
 
 export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
@@ -246,9 +247,8 @@ export function createNewDriver () : LeagueTeamDriver {
         strength: 85,
         aggression: 50,
         qualifying: {
-            value: 1.5,
-            delta: 0.25,
-            consistency: 1,
+            mean: 1.5,
+            deviation: 0.25,
             miracleChance: 0,
             disasterChance: 0,
         }

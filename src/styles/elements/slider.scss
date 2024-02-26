@@ -24,6 +24,13 @@
                     background: $color-primary;
                 }
             }
+
+            > .slider-thumb {
+                margin-left: -1px;
+                width: 1px;
+                height: 100%;
+                background: $color-primary;
+            }
         }
     }
 
@@ -33,5 +40,70 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+
+.default-range-slider {
+    $-main-thumb-width: 10px;
+    $-range-thumb-width: 5px;
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .slider-main-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        > .slider-main {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+    
+            > .slider-track {
+                height: 0;
+            }
+    
+            > .slider-thumb {
+                position: relative;
+                width: $-main-thumb-width;
+                height: 24px;
+                background: $color-primary;
+
+                > .slider-range {
+                    position: absolute !important;
+                    width: 60px;
+                    height: 24px;
+            
+                    > .slider-track {
+                        height: 0;
+                    }
+            
+                    > .slider-thumb {
+                        width: $-range-thumb-width;
+                        height: 24px;
+                        background: $color-primary-d3;
+                        //background: transparent;
+                        //font-weight: $w-bold;
+                        //font-size: 18pt;
+                    }
+                }
+
+                .slider-range-left {
+                    left: -60px;
+                }
+
+                .slider-range-right {
+                    left: $-main-thumb-width;
+                }
+            }
+        }
+    }
+
+    .slider-range-left-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
     }
 }
