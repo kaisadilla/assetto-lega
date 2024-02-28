@@ -62,15 +62,6 @@
                    "too too" auto / 160px 1fr;
     gap: 0 16px;
 
-    .cell-header {
-        padding: 0 0 3px 0;
-        margin: 0 0 9px 0;
-        font-size: 10pt;
-        font-weight: $w-regular;
-        text-align: center;
-        border-bottom: 1px solid $color-primary;
-    }
-
     > .team-list-container {
         grid-area: lis;
 
@@ -79,11 +70,6 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-    
-        > h3 {
-            margin-top: 4px;
-            margin-bottom: 0;
-        }
 
         > .team-list {
             flex: 1;
@@ -157,12 +143,6 @@
         min-height: 0;
         display: flex;
         flex-direction: column;
-
-        .team-panel-nav-bar {
-            padding: 0 12px 3px 12px;
-            margin: 0 0 9px 0;
-            border-bottom: 1px solid $color-primary;
-        }
 
         > .team-editor-tab {
             min-height: 0;

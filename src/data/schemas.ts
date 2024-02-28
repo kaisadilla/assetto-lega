@@ -80,6 +80,7 @@ export interface LeagueTeamDriver {
     initials: string;
     country: string;
     picture: string | null;
+    enabledByDefault: boolean; // TODO: Implement.
     skins: string[];
     defaultSkin: string;
     strength: number;

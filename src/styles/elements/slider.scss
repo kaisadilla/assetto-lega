@@ -41,6 +41,16 @@
         justify-content: center;
         align-items: center;
     }
+
+    &.readonly > .slider-container > .slider-main {
+        > .slider-track.slider-track-0 {
+            background-color: $bg-color-dark-l3;
+        }
+
+        > .slider-thumb {
+            background-color: $bg-color-dark-l3;
+        }
+    }
 }
 
 .default-range-slider {

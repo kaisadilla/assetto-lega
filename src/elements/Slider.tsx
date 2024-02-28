@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactSlider from 'react-slider';
-import { countDecimalPlaces, getClassString, isInteger } from 'utils';
+import { TextColor, countDecimalPlaces, getClassString, isInteger } from 'utils';
 import NumericBox from './NumericBox';
 
 export interface SliderProps {
@@ -13,6 +13,7 @@ export interface SliderProps {
     showNumberBox?: boolean;
     className?: string;
     tabIndex?: number;
+    textColor?: TextColor;
 }
 
 function Slider ({
@@ -25,10 +26,14 @@ function Slider ({
     showNumberBox = false,
     className,
     tabIndex = 1,
+    textColor,
 }: SliderProps) {
     const classStr = getClassString(
         "default-control",
         "default-slider",
+        readonly && "readonly",
+        textColor === 'black' && "text-black",
+        textColor === 'white' && "text-white",
         className,
     )
 
@@ -57,6 +62,8 @@ function Slider ({
                     maxDecimalPlaces={countDecimalPlaces(step)}
                     step={step}
                     onChange={handleChange}
+                    readonly={readonly}
+                    textColor={textColor}
                 />
             </div>}
         </div>

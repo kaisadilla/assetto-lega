@@ -2,6 +2,8 @@ import { saveAs } from "file-saver";
 
 export const LOCALE = "en-US";
 
+export type TextColor = 'black' | 'white';
+
 export interface ConditionalClass {
     [className: string]: boolean;
 }
@@ -211,7 +213,7 @@ export function isStringNullOrEmpty (str: string | null | undefined) {
  * contrast for text in that background is black or white.
  * @param background 
  */
-export function chooseW3CTextColor (background: string) : 'black' | 'white' {
+export function chooseW3CTextColor (background: string) : TextColor {
     // Done according to this: https://stackoverflow.com/a/3943023/23342298
 
     if (background.startsWith("#")) background = background.substring(1, 7);

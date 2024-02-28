@@ -65,7 +65,7 @@ function TeamEditionTable ({
     return (
         <div className="team-edition-table">
             <div className="team-list-container">
-                <h3 className="cell-header">Teams</h3>
+                <h3 className="h3-header">Teams</h3>
                 <TeamList
                     teams={editedTeams}
                     editFlags={editFlags}
@@ -80,7 +80,7 @@ function TeamEditionTable ({
                 </div>
             </div>
             <div className="team-panel">
-                <NavBar className="team-panel-nav-bar" get={tab} set={setTab}>
+                <NavBar className="nav-bar-header" get={tab} set={setTab}>
                     <NavBar.Item text="info" index={TeamEditorTab.INFO} />
                     <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
                 </NavBar>

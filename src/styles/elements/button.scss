@@ -14,20 +14,6 @@
         //font-size: 12pt;
     }
 
-    &:not(.disabled):not(.highlighted) {
-        &:focus {
-            outline: 1px solid $color-primary;
-        }
-    
-        &:hover:not(:disabled):not(:active) {
-            background-color: $bg-color-dark-l2;
-        }
-    
-        &:active {
-            background-color: $color-primary;
-        }
-    }
-
     &.disabled {
         color: #ffffff60;
     }
@@ -45,6 +31,47 @@
 
         &:active {
             background-color: $color-primary-d2;
+        }
+    }
+
+    span.material-symbol {
+        font-size: 12pt;
+        font-weight: $w-light;
+    }
+}
+
+.default-regular-button {
+    &:not(.disabled):not(.highlighted) {
+        &:focus {
+            outline: 1px solid $color-primary;
+        }
+    
+        &:hover:not(:disabled):not(:active) {
+            background-color: $bg-color-dark-l2;
+        }
+    
+        &:active {
+            background-color: $color-primary;
+        }
+    }
+}
+
+.default-toggle-button {
+    &.toggled-on {
+        background-color: $color-primary;
+    
+        &:hover:not(:disabled) {
+            background-color: $color-primary-l2;
+        }
+    }
+
+    &:not(.disabled):not(.toggled-on) {
+        &:focus {
+            outline: 1px solid $color-primary;
+        }
+    
+        &:hover:not(:disabled):not(:active) {
+            background-color: $bg-color-dark-l2;
         }
     }
 }

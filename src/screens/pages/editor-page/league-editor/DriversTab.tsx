@@ -4,12 +4,15 @@ import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
 import { League, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying } from 'data/schemas';
 import Button from 'elements/Button';
+import MaterialSymbol from 'elements/MaterialSymbol';
 import NavBar from 'elements/NavBar';
+import NumericBox from 'elements/NumericBox';
 import RangeSlider from 'elements/RangeSlider';
 import Slider from 'elements/Slider';
+import ToggleButton from 'elements/ToggleButton';
 import ToolboxRow from 'elements/ToolboxRow';
 import { DriverRanking, generateQualifyingTable, getLeagueDrivers } from 'logic/raceStats';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useResizeDetector } from 'react-resize-detector';
 import { Gaussian } from 'ts-gaussian';
@@ -42,13 +45,10 @@ function DriversTab ({
     return (
         <div className="editor-tab drivers-tab">
             <div className="drivers-section">
-                <NavBar get={section} set={setSection}>
+                <NavBar className="nav-bar-header" get={section} set={setSection}>
                     <NavBar.Item text="edit drivers" index={DriversTabSection.Editor} />
                     <NavBar.Item text="chart" index={DriversTabSection.Chart} />
                 </NavBar>
-                <div className="drivers-list-header">
-                    (header)
-                </div>
                 <DriverList teams={league.teams} onChange={onChange} />
             </div>
             <SimulatorSection teams={league.teams} />
@@ -65,21 +65,83 @@ function DriverList ({
     teams,
     onChange,
 }: DriverListProps) {
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+    const [isListScrollShown, setListScrollShown] = useState(false);
+
+    const [isStrengthUnlocked, setStrengthUnlocked] = useState(false);
+    const [isAggressionUnlocked, setAggressionUnlocked] = useState(false);
+
+    const $div = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowResize)
+        return (() => {
+            window.removeEventListener('resize', handleWindowResize);
+        });
+    });
+
+    useEffect(() => {
+        const n = $div.current;
+        if (!n) return;
+
+        const scrollShown = n.scrollHeight > n.clientHeight;
+        setListScrollShown(scrollShown);
+    }, [windowHeight, teams.length, $div.current]);
+
+    const headerClassStr = getClassString(
+        "driver-list-header",
+        "driver-list-row",
+        isListScrollShown && "scroll-shown"
+    );
+
     return (
         <div className="driver-list">
-            {teams.map((team, t) => (
-                <>
-                    {team.drivers.map((driver, d) => (
-                        <DriverEntry
-                            driver={driver}
-                            team={team}
-                            onChange={(field, value) => handleDriverChange(
-                                t, d, field, value
-                            )}
+            <div className={headerClassStr}>
+                <div className="cell-badge">Team</div>
+                <div className="cell-name">Name</div>
+                <div className="cell-strength unlockable-field">
+                    <span>Strength</span>
+                    <ToggleButton
+                        value={isStrengthUnlocked}
+                        onChange={setStrengthUnlocked}
+                    >
+                        <MaterialSymbol
+                            symbol={isStrengthUnlocked ? 'lock_open' : 'lock'}
                         />
-                    ))}
-                </>
-            ))}
+                    </ToggleButton>
+                </div>
+                <div className="cell-aggression unlockable-field">
+                    <span>Aggression</span>
+                    <ToggleButton
+                        value={isAggressionUnlocked}
+                        onChange={setAggressionUnlocked}
+                    >
+                        <MaterialSymbol
+                            symbol={isAggressionUnlocked ? 'lock_open' : 'lock'}
+                        />
+                    </ToggleButton>
+                </div>
+                <div className="cell-qualifying">Qualifying</div>
+                {/*<div className="cell-qualifying-numbers"></div>*/}
+                <div className="cell-disaster">Disaster</div>
+            </div>
+            <div ref={$div} className="driver-list-body">
+                {teams.map((team, t) => (
+                    <>
+                        {team.drivers.map((driver, d) => (
+                            <DriverEntry
+                                driver={driver}
+                                team={team}
+                                onChange={(field, value) => handleDriverChange(
+                                    t, d, field, value
+                                )}
+                                strengthEnabled={isStrengthUnlocked}
+                                aggressionEnabled={isAggressionUnlocked}
+                            />
+                        ))}
+                    </>
+                ))}
+            </div>
         </div>
     );
 
@@ -96,6 +158,10 @@ function DriverList ({
 
         onChange(updatedTeams);
     }
+
+    function handleWindowResize () {
+        setWindowHeight(window.innerHeight);
+    }
 }
 
 
@@ -103,28 +169,30 @@ interface DriverEntryProps {
     driver: LeagueTeamDriver;
     team: LeagueTeam;
     onChange: (field: keyof LeagueTeamDriver, value: any) => void;
+    strengthEnabled: boolean,
+    aggressionEnabled: boolean,
 }
 
 function DriverEntry ({
     driver,
     team,
     onChange,
+    strengthEnabled,
+    aggressionEnabled,
 }: DriverEntryProps) {
     const { dataPath } = useDataContext();
-
-    const [mean, setMean] = useState(0.05);
-    const [dev, setDev] = useState(0.12);
 
     const badgeImg = Files.getFilePath(
         dataPath, AssetFolder.teamBadges, team.badge
     );
 
-    const calcTextColor = chooseW3CTextColor(team.color);
+    const textColor = chooseW3CTextColor(team.color);
 
     const classStr = getClassString(
         "driver-entry",
-        calcTextColor === 'black' && "driver-entry-text-black",
-        calcTextColor === 'white' && "driver-entry-text-white",
+        "driver-list-row",
+        textColor === 'black' && "driver-entry-text-black",
+        textColor === 'white' && "driver-entry-text-white",
     );
 
     const style = {
@@ -134,31 +202,35 @@ function DriverEntry ({
 
     return (
         <div className={classStr} style={style}>
-            <div className="driver-team-badge">
+            <div className="cell-badge driver-team-badge">
                 <img src={badgeImg} />
             </div>
-            <div className="driver-name">
+            <div className="cell-name driver-name">
                 {driver.name}
             </div>
-            <div className="driver-stat">
+            <div className="cell-strength driver-stat">
                 <Slider
                     value={driver.strength}
                     min={70}
                     max={100}
-                    onChange={val => {}}
+                    onChange={val => handleChange('strength', val)}
                     showNumberBox
+                    readonly={strengthEnabled === false}
+                    textColor={textColor}
                 />
             </div>
-            <div className="driver-stat">
+            <div className="cell-strength driver-stat">
                 <Slider
                     value={driver.aggression}
                     min={0}
                     max={100}
-                    onChange={val => {}}
+                    onChange={val => handleChange('aggression', val)}
                     showNumberBox
+                    readonly={aggressionEnabled === false}
+                    textColor={textColor}
                 />
             </div>
-            <div className="driver-qualifying-graph">
+            <div className="cell-qualifying driver-qualifying-graph">
                 <QualifyingGaussianChart
                     mean={driver.qualifying.mean}
                     standardDeviation={driver.qualifying.deviation}
@@ -185,33 +257,50 @@ function DriverEntry ({
                     </div>
                 </div>
             </div>
-            <div className="driver-qualifying-stats">
+            <div className="cell-qualifying-numbers driver-qualifying-stats">
                 <div className="stat">
                     <span className="symbol">μ: </span>
-                    <span className="value">{driver.qualifying.mean}</span>
+                    <span className="value">
+                        <NumericBox
+                            className="value-input"
+                            value={driver.qualifying.mean}
+                            allowDecimals
+                            maxDecimalPlaces={2}
+                            min={GAUSSIAN_MIN_MEAN}
+                            max={GAUSSIAN_MAX_MEAN}
+                            step={GAUSSIAN_SLIDER_STEP}
+                            onChange={n => handleQualifyingChange('mean', n ?? 0.5)}
+                            textColor={textColor}
+                        />
+                    </span>
                 </div>
                 <div className="stat">
                     <span className="symbol">σ: </span>
-                    <span className="value">{driver.qualifying.deviation}</span>
+                    <span className="value">
+                        <NumericBox
+                            className="value-input"
+                            value={driver.qualifying.deviation}
+                            allowDecimals
+                            maxDecimalPlaces={2}
+                            min={GAUSSIAN_MIN_MEAN}
+                            max={GAUSSIAN_MAX_MEAN}
+                            step={GAUSSIAN_SLIDER_STEP}
+                            onChange={
+                                n => handleQualifyingChange('deviation', n ?? 0.25)
+                            }
+                            textColor={textColor}
+                        />
+                    </span>
                 </div>
             </div>
-            <div className="driver-chance">
-                <div className="value">0.125</div>
-                <div className="proportion">1/8</div>
-            </div>
-            <div className="driver-chance">
+            <div className="cell-disaster driver-chance">
                 <div className="value">0.05</div>
                 <div className="proportion">1/20</div>
             </div>
         </div>
     );
 
-    function handleDevChange (value: number) {
-        console.log(value);
-        setDev(value);
-    }
-
-    function handleFieldChange (field: keyof LeagueTeamDriver, value: any) {
+    function handleChange (field: keyof LeagueTeamDriver, value: number) {
         onChange(field, value);
     }
 
@@ -334,7 +423,7 @@ function SimulatorSection ({
 
     return (
         <div className="simulator-section">
-            <div className="title">Simulator</div>
+            <h3 className="h3-header">Simulator</h3>
             <div className="qualifying-list">
                 {positions.map(p => <SimulatorSectionDriver
                     driver={p}

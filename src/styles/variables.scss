@@ -52,12 +52,14 @@ $font-mono:
 /****************
  * Font weights *
  ****************/
- $w-thin: 100;
- $w-extralight: 200;
- $w-light: 300;
- $w-regular: 400;
- $w-medium: 500;
- $w-semibold: 600;
- $w-bold: 700;
- $w-black: 800; // aka extrabold
- $w-extrablack: 900;
+$w-thin: 100;
+$w-extralight: 200;
+$w-light: 300;
+$w-regular: 400;
+$w-medium: 500;
+$w-semibold: 600;
+$w-bold: 700;
+$w-black: 800; // aka extrabold
+$w-extrablack: 900;
+
+$vertical-scroll-width: 17px;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { clampNumber, getClassString } from 'utils';
+import { TextColor, clampNumber, getClassString } from 'utils';
 
 export interface NumericBoxProps {
     value?: number | null;
@@ -10,9 +10,11 @@ export interface NumericBoxProps {
     step?: number;
     min?: number;
     max?: number;
+    readonly?: boolean;
     onChange?: (value: number | null) => void;
     className?: string;
     tabIndex?: number;
+    textColor?: TextColor;
 }
 
 function NumericBox ({
@@ -24,9 +26,11 @@ function NumericBox ({
     step,
     min,
     max,
+    readonly = false,
     onChange,
     className,
     tabIndex = 1,
+    textColor,
 }: NumericBoxProps) {
     // the value typed by the user, which may or may not be a valid number.
     const [tempValue, setTempValue] = useState((value ?? "").toString());
@@ -46,6 +50,9 @@ function NumericBox ({
         "default-control",
         "default-typebox",
         "default-numeric-box",
+        readonly && "readonly",
+        textColor === 'black' && "text-black",
+        textColor === 'white' && "text-white",
         className,
     );
 
@@ -56,6 +63,7 @@ function NumericBox ({
                 type="numeric"
                 value={tempValue}
                 onChange={handleChange}
+                readOnly={readonly}
             />
         </div>
     );

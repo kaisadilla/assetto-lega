@@ -1,34 +1,34 @@
 import React from 'react';
 import { getClassString } from 'utils';
 
-export interface ButtonProps {
+export interface ToggleButtonProps {
+    value: boolean;
     disabled?: boolean;
-    highlighted?: boolean;
-    onClick?: (evt: any) => void;
+    onChange?: (value: boolean) => void;
     className?: string;
     children?: React.ReactNode;
 }
 
-function Button ({
+function ToggleButton ({
+    value,
     disabled,
-    highlighted,
-    onClick,
+    onChange,
     className,
     children,
-}: ButtonProps) {
+}: ToggleButtonProps) {
     const classStr = getClassString(
         "default-control",
         "default-button",
-        "default-regular-button",
+        "default-toggle-button",
         disabled && "disabled",
-        highlighted && "highlighted",
+        value && "toggled-on",
         className,
     );
 
     return (
         <button
             className={classStr}
-            onClick={(evt) => onClick?.(evt)}
+            onClick={() => onChange?.(!value)}
             disabled={disabled}
         >
             {children}
@@ -36,4 +36,4 @@ function Button ({
     );
 }
 
-export default Button;
+export default ToggleButton;
