@@ -38,8 +38,8 @@
                     "strength": 99.3,
                     "aggression": 98,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0,
+                        "deviation": 0.02,
                         "miracleChance": 0.2,
                         "disasterChance": 0.05
                     }
@@ -57,10 +57,10 @@
                     "strength": 88.4,
                     "aggression": 84.2,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.32,
+                        "deviation": 0.22,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.1
                     }
                 }
             ]
@@ -90,10 +90,10 @@
                     "strength": 96.1,
                     "aggression": 92.5,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.21,
+                        "deviation": 0.11,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.062
                     }
                 },
                 {
@@ -108,10 +108,10 @@
                     "strength": 90.7,
                     "aggression": 97.3,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.26,
+                        "deviation": 0.14,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.083
                     }
                 }
             ]
@@ -143,10 +143,10 @@
                     "strength": 92.8,
                     "aggression": 94.4,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.07,
+                        "deviation": 0.1,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.125
                     }
                 },
                 {
@@ -163,10 +163,10 @@
                     "strength": 90.2,
                     "aggression": 90.5,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.16,
+                        "deviation": 0.1,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.055
                     }
                 }
             ]
@@ -198,10 +198,10 @@
                     "strength": 90,
                     "aggression": 88.6,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.13,
+                        "deviation": 0.13,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.09
                     }
                 },
                 {
@@ -218,10 +218,10 @@
                     "strength": 85.2,
                     "aggression": 83.9,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.23,
+                        "deviation": 0.12,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.1
                     }
                 }
             ]
@@ -252,8 +252,8 @@
                     "strength": 97.9,
                     "aggression": 99.2,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.14,
+                        "deviation": 0.15,
                         "miracleChance": 0.2,
                         "disasterChance": 0.05
                     }
@@ -268,13 +268,13 @@
                         "AMR23_Silverstone_18_Stroll"
                     ],
                     "defaultSkin": "AMR23_18_Stroll",
-                    "strength": 72.2,
+                    "strength": 81.4,
                     "aggression": 97.1,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.48,
+                        "deviation": 0.26,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.016
                     }
                 }
             ]
@@ -291,13 +291,13 @@
                 {
                     "country": "france",
                     "picture": null,
-                    "strength": 100,
+                    "strength": 86.1,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.52,
+                        "deviation": 0.19,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.071
                     },
                     "name": "Pierre Gasly",
                     "number": "10",
@@ -311,13 +311,13 @@
                 {
                     "country": "france",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 85.8,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.53,
+                        "deviation": 0.19,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.062
                     },
                     "skins": [
                         "A523_31_Ocon",
@@ -346,13 +346,13 @@
                 {
                     "country": "thailand",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 87.3,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.53,
+                        "deviation": 0.21,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.083
                     },
                     "name": "Alexander Albon",
                     "number": "23",
@@ -366,13 +366,13 @@
                 {
                     "country": "united_states",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 78,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.96,
+                        "deviation": 0.08,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.2
                     },
                     "name": "Logan Sargeant",
                     "number": "2",
@@ -401,13 +401,13 @@
                 {
                     "country": "japan",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 84.3,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.68,
+                        "deviation": 0.1,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.083
                     },
                     "name": "Yuki Tsunoda",
                     "number": "22",
@@ -420,13 +420,13 @@
                 {
                     "country": "netherlands",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 77.6,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.89,
+                        "deviation": 0.08,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.1
                     },
                     "name": "Nyck de Vries",
                     "number": "21",
@@ -439,13 +439,13 @@
                 {
                     "country": "australia",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 88.8,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.64,
+                        "deviation": 0.13,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.071
                     },
                     "name": "Daniel Ricciardo",
                     "number": "3",
@@ -458,13 +458,13 @@
                 {
                     "country": "new_zealand",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 85.7,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.62,
+                        "deviation": 0.06,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.055
                     },
                     "name": "Liam Lawson",
                     "number": "40",
@@ -492,13 +492,13 @@
                 {
                     "country": "finland",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 86.1,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.83,
+                        "deviation": 0.15,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.076
                     },
                     "name": "Valtteri Bottas",
                     "number": "77",
@@ -513,13 +513,13 @@
                 {
                     "country": "china",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 83.8,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.86,
+                        "deviation": 0.11,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.071
                     },
                     "name": "Zhou Guanyu",
                     "number": "24",
@@ -549,13 +549,13 @@
                 {
                     "country": "germany",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 85.5,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
-                        "deviation": 0.2,
+                        "mean": 0.89,
+                        "deviation": 0.22,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.1
                     },
                     "name": "Nico Hülkenberg",
                     "number": "27",
@@ -569,13 +569,13 @@
                 {
                     "country": "denmark",
                     "picture": null,
-                    "strength": 85,
+                    "strength": 85.2,
                     "aggression": 50,
                     "qualifying": {
-                        "mean": 0.5,
+                        "mean": 0.93,
                         "deviation": 0.2,
                         "miracleChance": 0.2,
-                        "disasterChance": 0.05
+                        "disasterChance": 0.09
                     },
                     "name": "Kevin Magnussen",
                     "number": "20",
@@ -599,17 +599,185 @@
     ],
     "calendar": [
         {
-            "name": "Germany Grand Prix",
-            "officialName": "Formula 1 Mercedes-Benz Grosser Preis von Deutschland 2019",
-            "track": "ks_nurburgring",
-            "layout": "layout_gp_a",
-            "laps": 67
+            "name": "Bahrain Grand Prix",
+            "officialName": "Formula 1 Gulf Air Bahrain Grand Prix 2023",
+            "country": "bahrain",
+            "date": "2023-03-05",
+            "track": "bahrain_international_circuit",
+            "layout": "grandprix",
+            "laps": 57,
+            "qualifyingStartHour": "18:00",
+            "raceStartHour": "18:00",
+            "weathers": []
+        },
+        {
+            "name": "Saudi Arabian Grand Prix",
+            "officialName": "Formula 1 STC Saudi Arabian Grand Prix 2023",
+            "country": "saudi_arabia",
+            "date": "2023-03-19",
+            "track": "jeddah21",
+            "layout": "jeddah21_2022",
+            "laps": 50,
+            "qualifyingStartHour": "20:00",
+            "raceStartHour": "20:00",
+            "weathers": []
+        },
+        {
+            "name": "Australian Grand Prix",
+            "officialName": "Formula 1 Rolex Australian Grand Prix 2023",
+            "country": "australia",
+            "date": "2023-04-02",
+            "track": "albert-park_acu",
+            "laps": 58,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Azerbaijan Grand Prix",
+            "officialName": "Formula 1 Azerbaijan Grand Prix 2023",
+            "country": "azerbaijan",
+            "date": "2023-04-30",
+            "track": "baku_2019",
+            "laps": 51,
+            "qualifyingStartHour": "17:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Miami Grand Prix",
+            "officialName": "Formula 1 Crypto.com Miami Grand Prix 2023",
+            "country": "united_states",
+            "date": "2023-05-07",
+            "track": "miami_f1",
+            "laps": 57,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "15:30",
+            "weathers": []
+        },
+        {
+            "name": "Emilia Romagna Grand Prix",
+            "country": "italy",
+            "date": "2023-05-21",
+            "track": "imola",
+            "laps": 63,
+            "qualifyingStartHour": "17:00",
+            "raceStartHour": "15:30",
+            "weathers": []
+        },
+        {
+            "name": "Monaco Grand Prix",
+            "officialName": "Formula 1 Grand Prix de Monaco 2023",
+            "country": "monaco",
+            "date": "2023-05-28",
+            "track": "monaco",
+            "laps": 78,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Spanish Grand Prix",
+            "officialName": "Formula 1 AWS Gran Premio de España 2023",
+            "country": "spain",
+            "date": "2023-06-04",
+            "track": "ks_barcelona",
+            "layout": "layout_moto",
+            "laps": 66,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Canadian Grand Prix",
+            "officialName": "Formula 1 Pirelli Grand Prix du Canada 2023",
+            "country": "canada",
+            "date": "2023-06-18",
+            "track": "montreal",
+            "laps": 70,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "14:00",
+            "weathers": []
+        },
+        {
+            "name": "Austrian Grand Prix",
+            "officialName": "Formula 1 Rolex Großer Preis von Österreich 2023",
+            "country": "austria",
+            "date": "2023-07-02",
+            "track": "ks_red_bull_ring",
+            "layout": "layout_gp",
+            "laps": 71,
+            "qualifyingStartHour": "17:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "British Grand Prix",
+            "officialName": "Formula 1 Aramco British Grand Prix 2023",
+            "country": "united_kingdom",
+            "date": "2023-07-09",
+            "track": "ks_silverstone",
+            "layout": "gp",
+            "laps": 52,
+            "qualifyingStartHour": "15:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Hungarian Grand Prix",
+            "officialName": "Formula 1 Qatar Airways Hungarian Grand Prix 2023",
+            "country": "hungary",
+            "date": "2023-07-23",
+            "track": "acu_hungaroring",
+            "laps": 70,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Belgian Grand Prix",
+            "officialName": "Formula 1 MSC Cruises Belgian Grand Prix 2023",
+            "country": "belgium",
+            "date": "2023-07-30",
+            "track": "spa",
+            "laps": 44,
+            "qualifyingStartHour": "17:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Dutch Grand Prix",
+            "officialName": "Formula 1 Heineken Dutch Grand Prix 2023",
+            "country": "netherlands",
+            "date": "2023-08-27",
+            "track": "ks_zandvoort",
+            "laps": 72,
+            "qualifyingStartHour": "15:00",
+            "raceStartHour": "15:00",
+            "weathers": []
         },
         {
             "name": "Italian Grand Prix",
-            "officialName": "Italian Grand Prix",
+            "officialName": "Formula 1 Pirelli Gran Premio d'Italia 2023",
+            "country": "italy",
+            "date": "2023-09-03",
             "track": "monza",
-            "laps": 53
+            "laps": 53,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "15:00",
+            "weathers": []
+        },
+        {
+            "name": "Singapore Grand Prix",
+            "officialName": "Formula 1 Singapore Airlines Singapore Grand Prix 2023",
+            "country": "singapore",
+            "date": "2023-09-17",
+            "track": "singapore_2020",
+            "layout": "layout_f1_2023",
+            "laps": 62,
+            "qualifyingStartHour": "21:00",
+            "raceStartHour": "20:00",
+            "weathers": []
         }
     ],
     "scoreSystem": {

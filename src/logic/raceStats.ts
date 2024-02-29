@@ -12,6 +12,7 @@ export interface DriverRanking {
     driver: number;
     driverInfo: LeagueTeamDriver;
     position: number;
+    disaster: boolean;
 }
 
 export function getLeagueDrivers (teams: LeagueTeam[]) {
@@ -35,19 +36,27 @@ export function getLeagueDrivers (teams: LeagueTeam[]) {
 }
 
 export function generateQualifyingTable (drivers: LeagueDriver[]) {
+    const DISASTER_OFFSET = 1_000_000;
+
     let driversByPos = [] as DriverRanking[];
 
     for (const d of drivers) {
         const mean = d.driverInfo.qualifying.mean;
         const variance = d.driverInfo.qualifying.deviation ** 2;
         const gaussian = new Gaussian(mean, variance);
-        const val = gaussian.ppf(Math.random());
+        let val = gaussian.ppf(Math.random());
+        const disaster = Math.random() < d.driverInfo.qualifying.disasterChance;
+
+        if (disaster) {
+            val += DISASTER_OFFSET;
+        }
 
         const driverObj = {
             team: d.team,
             driver: d.driver,
             driverInfo: d.driverInfo,
             position: val,
+            disaster,
         }
 
         driversByPos.push(driverObj);

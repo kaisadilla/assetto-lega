@@ -50,6 +50,7 @@ function Slider ({
                     thumbClassName="slider-thumb"
                     markClassName="slider-mark"
                     step={step}
+                    disabled={readonly}
                 />
             </div>
             {showNumberBox && <div className="number-box-container">
@@ -71,6 +72,7 @@ function Slider ({
 
     function handleChange (value: number | null) {
         if (value === null) return;
+        if (readonly) return;
 
         onChange?.(value);
     }

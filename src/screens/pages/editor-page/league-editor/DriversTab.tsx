@@ -7,6 +7,7 @@ import Button from 'elements/Button';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import NavBar from 'elements/NavBar';
 import NumericBox from 'elements/NumericBox';
+import ProportionNumericBox from 'elements/ProportionNumericBox';
 import RangeSlider from 'elements/RangeSlider';
 import Slider from 'elements/Slider';
 import ToggleButton from 'elements/ToggleButton';
@@ -294,8 +295,11 @@ function DriverEntry ({
                 </div>
             </div>
             <div className="cell-disaster driver-chance">
-                <div className="value">0.05</div>
-                <div className="proportion">1/20</div>
+                <ProportionNumericBox
+                    value={driver.qualifying.disasterChance}
+                    onChange={n => handleQualifyingChange('disasterChance', n)}
+                    textColor={textColor}
+                />
             </div>
         </div>
     );
@@ -476,6 +480,10 @@ function SimulatorSectionDriver ({
                 </div>
                 <div className="name">
                     {driver.driverInfo.name}
+                    {driver.disaster && <MaterialSymbol
+                        className="disaster-symbol"
+                        symbol='brightness_alert'
+                    />}
                 </div>
             </div>
         </div>

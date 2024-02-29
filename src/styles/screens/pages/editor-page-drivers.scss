@@ -178,6 +178,10 @@
                                         font-size: 10pt;
                                         font-weight: $w-regular;
                                         padding: 0;
+
+                                        &:focus {
+                                            padding: 0;
+                                        }
                                     }
                                 }
                             }
@@ -279,7 +283,17 @@
                         }
                     }
                     > .name {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        align-items: center;
+                        gap: 4px;
 
+                        .material-symbol {
+                            font-weight: $w-regular;
+                            font-size: 14pt;
+                            color: $color-danger;
+                        }
                     }
                 }
             }

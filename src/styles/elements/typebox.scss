@@ -12,7 +12,7 @@
             &:focus {
                 border: 1px solid $color-primary;
                 background-color: $color-transparent-w2;
-                padding: 0 5px;
+                //padding: 0 5px;
             }
 
             &:hover {
@@ -49,7 +49,6 @@
         background: 0;
 
         color: white;
-        font-weight: $w-light;
         padding: 0 6px;
         border: 1px solid transparent;
 
@@ -73,6 +72,37 @@
 
             &:hover {
                 background-color: $color-primary;
+            }
+        }
+    }
+}
+
+.default-proportion-numeric-box {
+    > .value {
+
+    }
+    > .proportion {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        > .proportion-dividend {
+            padding-left: 6px;
+            font-weight: $w-semibold;
+        }
+
+        > .proportion-divisor {
+            flex: 1;
+
+            .input-field {
+                padding: 0;
+    
+                &:focus {
+                    padding: 0;
+                }
             }
         }
     }

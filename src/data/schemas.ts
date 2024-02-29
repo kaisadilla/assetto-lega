@@ -24,7 +24,7 @@ export interface League {
     background: string;
     teams: LeagueTeam[];
     tracks: string[];
-    calendar: LeagueCalendaryEntry[];
+    calendar: LeagueCalendarEntry[];
     scoreSystem: LeagueScoreSystem[];
 }
 
@@ -107,12 +107,17 @@ export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
     'qualifying',
 ];
 
-export interface LeagueCalendaryEntry {
+export interface LeagueCalendarEntry {
     name: string;
-    officialName: string;
+    officialName?: string;
+    country: string;
+    date: string;
     track: string;
     layout?: string;
     laps: number;
+    qualifyingStartHour?: string;
+    raceStartHour?: string;
+    weathers: string[];
 }
 
 export interface LeagueScoreSystem {
@@ -216,6 +221,33 @@ export interface CarSkinUi {
 export interface AcCarBrand {
     displayName: string;
     badgePath: string;
+}
+
+export interface AcTrack {
+    folderName: string;
+    /**
+     * The absolute path to the folder containing this track.
+     */
+    folderPath: string;
+    /**
+     * Whether this track has multiple layouts.
+     */
+    hasLayouts: boolean;
+    /**
+     * The ui_track.json of this track, if it doesn't have any layout.
+     */
+    ui: AcTrackUi;
+    
+}
+
+export interface AcTrackUi {
+    
+}
+
+export interface AcTrackLayout {
+    folderName: string;
+    folderPath: string;
+    ui: AcTrackUi;
 }
 
 export function createNewTeam () : LeagueTeam {

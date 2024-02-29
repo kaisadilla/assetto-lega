@@ -1,11 +1,12 @@
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { AcCar, AcCarSkin, CarSkinUi, CarUi } from "data/schemas";
+import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack } from "data/schemas";
 
 const TEXT_FORMAT = "utf-8";
 
 export const AssettoCorsa = {
     acPath: "",
+
     async getCarList () : Promise<AcCar[]> {
         const start = Date.now();
 
@@ -32,6 +33,7 @@ export const AssettoCorsa = {
 
         return cars;
     },
+
     async getCar (folderName: string) : Promise<AcCar> {
         // TODO: Extremely important: fix malformed AC json files.
         const carFolder = this.acPath + "/content/cars/" + folderName;
@@ -109,6 +111,10 @@ export const AssettoCorsa = {
             skins,
         }
     },
+
+    async getTrack (folderName: string) : Promise<AcTrack> {
+
+    }
 };
 
 async function readJsonFile<T extends object> (path: string) : Promise<T> {

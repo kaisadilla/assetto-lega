@@ -1,3 +1,4 @@
+import { MONTHS } from "al_constants";
 import { saveAs } from "file-saver";
 
 export const LOCALE = "en-US";
@@ -242,4 +243,12 @@ export function chooseW3CTextColor (background: string) : TextColor {
             return ((c + 0.055) / 1.055) ** 2.4;
         }
     }
+}
+
+export function dateToDisplayName (date: Date) {
+    const day = date.getDate();
+    const month = MONTHS[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
 }

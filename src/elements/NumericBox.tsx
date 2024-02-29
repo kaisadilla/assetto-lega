@@ -12,6 +12,7 @@ export interface NumericBoxProps {
     max?: number;
     readonly?: boolean;
     onChange?: (value: number | null) => void;
+    onBlur?: (value: number | null) => void;
     className?: string;
     tabIndex?: number;
     textColor?: TextColor;
@@ -28,6 +29,7 @@ function NumericBox ({
     max,
     readonly = false,
     onChange,
+    onBlur,
     className,
     tabIndex = 1,
     textColor,
@@ -130,6 +132,7 @@ function NumericBox ({
         }
 
         onChange?.(num);
+        onBlur?.(num);
 
         setTempValue((value ?? "").toString());
     }

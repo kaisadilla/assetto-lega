@@ -8,6 +8,7 @@ import Button from 'elements/Button';
 import TeamsTab from './league-editor/TeamsTab';
 import ConfirmDialog from 'elements/ConfirmDialog';
 import DriversTab from './league-editor/DriversTab';
+import CalendarTab from './league-editor/CalendarTab';
 
 enum EditorTab {
     INFO,
@@ -66,6 +67,13 @@ function LeagueEditor ({
                 <DriversTab
                     league={editedLeague}
                     onChange={teams => handleLeagueFieldChange('teams', teams)}
+                />
+            );
+        }
+        if (editorTab === EditorTab.CALENDAR) {
+            return (
+                <CalendarTab
+                    league={editedLeague}
                 />
             );
         }
