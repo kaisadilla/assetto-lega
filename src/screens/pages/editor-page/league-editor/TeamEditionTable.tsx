@@ -95,7 +95,7 @@ function TeamEditionTable ({
                     />}
                 </div>
             </div>
-            <ToolboxRow className="teams-tab-toolbar">
+            <ToolboxRow className="status-bar teams-tab-toolbar">
                 <div className="teams-datum">{teamCount} teams</div>
                 <div className="teams-datum">{driverCount} drivers</div>
                 <div className="tools">

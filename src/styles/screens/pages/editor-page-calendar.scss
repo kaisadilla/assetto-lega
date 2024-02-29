@@ -1,5 +1,9 @@
 .league-editor > .calendar-tab {
+    padding: 16px;
     min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
     .calendar-list {
         display: flex;

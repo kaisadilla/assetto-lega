@@ -21,3 +21,6 @@ export const HANDLER_AC_GET_CAR_DATA = "ac/get-car-data";
 export const HANDLER_AC_GET_CAR_LIST = "ac/get-car-list";
 export const HANDLER_AC_GET_CAR = "ac/get-car";
 export const HANDLER_AC_GET_CAR_BRAND_LIST = "ac/get-car-brand-list";
+export const HANDLER_AC_GET_TRACK_DATA = "ac/get-track-data";
+export const HANDLER_AC_GET_TRACK_LIST = "ac/get-track-list";
+export const HANDLER_AC_GET_TRACK = "ac/get-track";

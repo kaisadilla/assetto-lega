@@ -1,6 +1,6 @@
-import { League, UserSettings, AcCarCollection, AcCar, AcCarBrand } from "data/schemas";
+import { League, UserSettings, AcCarCollection, AcCar, AcCarBrand, AcTrackCollection, AcTrack, } from "data/schemas";
 import { AssetFolder } from "data/assets";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_GET_TRACK } from "./ipcNames";
 
 const Ipc = {
     async getDataFolderPath () : Promise<string> {
@@ -76,12 +76,24 @@ const Ipc = {
         return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR_LIST);
     },
 
-    async getCar (folderPath: string) {
+    async getCar (folderPath: string) : Promise<AcCar | null> {
         return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR, folderPath);
     },
 
     async getBrandList () : Promise<AcCarBrand[]> {
         return await getIpcRenderer().invoke(HANDLER_AC_GET_CAR_BRAND_LIST);
+    },
+
+    async getTrackData () : Promise<AcTrackCollection> {
+        return await getIpcRenderer().invoke(HANDLER_AC_GET_TRACK_DATA);
+    },
+
+    async getTrackList () : Promise<AcTrack[]> {
+        return await getIpcRenderer().invoke(HANDLER_AC_GET_TRACK_LIST);
+    },
+
+    async getTrack (folderPath: string) : Promise<AcTrack | null> {
+        return await getIpcRenderer().invoke(HANDLER_AC_GET_TRACK, folderPath);
     },
 };
 

@@ -1,12 +1,13 @@
 import { Data } from "../userdata";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { AcCarCollection, AcCarBrand, AcCar, League, UserSettings } from "data/schemas";
+import { AcCarCollection, AcCarBrand, AcCar, League, UserSettings, AcTrackCollection, AcTrack } from "data/schemas";
 import { AssetFolder } from "data/assets";
 import { AssettoCorsa } from "../assettoCorsa/acFolder";
 import Cars, { loadAcCarCollection } from "../assettoCorsa/cars";
+import Tracks, { loadAcTrackCollection } from "../assettoCorsa/tracks";
 
 interface UploadFilesArgs {
     format: Electron.FileFilter[],
@@ -94,6 +95,7 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         : Promise<boolean> =>
     {
         await loadAcCarCollection();
+        await loadAcTrackCollection();
         return true;
     });
 
@@ -119,5 +121,23 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         : AcCarBrand[] =>
     {
         return Cars.brands;
+    });
+
+    ipcMain.handle(HANDLER_AC_GET_TRACK_DATA, (evt, arg)
+        : AcTrackCollection =>
+    {
+        return Tracks;
+    });
+
+    ipcMain.handle(HANDLER_AC_GET_TRACK_LIST, (evt, arg)
+        : AcTrack[] =>
+    {
+        return Tracks.trackList;
+    });
+
+    ipcMain.handle(HANDLER_AC_GET_TRACK, (evt, folderName: string)
+        : AcTrack | null =>
+    {
+        return Tracks.tracksById[folderName] ?? null;
     });
 }

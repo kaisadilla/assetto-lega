@@ -1,6 +1,6 @@
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack } from "data/schemas";
+import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack, AcTrackLayout, AcTrackUi, AcTrackLayoutCollection } from "data/schemas";
 
 const TEXT_FORMAT = "utf-8";
 
@@ -10,8 +10,8 @@ export const AssettoCorsa = {
     async getCarList () : Promise<AcCar[]> {
         const start = Date.now();
 
-        const carFolder = this.acPath + "/content/cars";
-        const carFolders = await fsAsync.readdir(carFolder);
+        const carsRoot = this.acPath + "/content/cars";
+        const carFolders = await fsAsync.readdir(carsRoot);
 
         const cars = [];
 
@@ -23,7 +23,7 @@ export const AssettoCorsa = {
             catch (ex) {
                 console.error(
                     `An error occurred while trying to load car '${f}'`,
-                    ex
+                    ex,
                 );
             }
         }
@@ -34,8 +34,34 @@ export const AssettoCorsa = {
         return cars;
     },
 
+    async getTrackList () : Promise<AcTrack[]> {
+        const start = Date.now();
+
+        const tracksRoot = this.acPath + "/content/tracks";
+        const trackFolders = await fsAsync.readdir(tracksRoot);
+
+        const tracks = [];
+
+        for (const f of trackFolders) {
+            try {
+                const trackData = await this.getTrack(f);
+                tracks.push(trackData);
+            }
+            catch (ex) {
+                console.error(
+                    `An error occurred while trying to load track '${f}'`,
+                    ex,
+                );
+            }
+        }
+
+        const end = Date.now();
+        console.info(`All tracks read in ${end - start} ms.`);
+
+        return tracks;
+    },
+
     async getCar (folderName: string) : Promise<AcCar> {
-        // TODO: Extremely important: fix malformed AC json files.
         const carFolder = this.acPath + "/content/cars/" + folderName;
         const carUiFile = carFolder + "/ui/ui_car.json";
         const carSkinFolder = carFolder + "/skins";
@@ -113,9 +139,119 @@ export const AssettoCorsa = {
     },
 
     async getTrack (folderName: string) : Promise<AcTrack> {
+        const folderPath = this.acPath + "/content/tracks/" + folderName;
+        const uiFolderPath = folderPath + "/ui";
 
+        if (fs.existsSync(folderPath) === false) {
+            throw `Folder '${folderPath}' for track '${folderName}' does not exist.`;
+        }
+
+        const uiFolderContent = fs.readdirSync(uiFolderPath, {withFileTypes: true});
+        const uiLayoutFolders = uiFolderContent.filter(el => el.isDirectory());
+
+        const hasDefaultLayout = uiFolderContent.find(
+            el => el.name === "ui_track.json"
+        ) !== undefined;
+        const hasExtraLayouts = uiLayoutFolders.length > 0;
+
+        if (hasDefaultLayout === false && hasExtraLayouts === false) {
+            throw `Track '${folderName}' has no layouts.`;
+        }
+
+        let defaultLayout: AcTrackLayout | null = null;
+        let layouts: AcTrackLayout[] | null = null;
+        let layoutsById: AcTrackLayoutCollection = {};
+
+        const layoutDisplayNames = [];
+
+        if (hasDefaultLayout) {
+            defaultLayout = await buildTrackLayoutObject(uiFolderPath, "");
+            layoutsById[""] = defaultLayout;
+
+            if (defaultLayout.ui.name) {
+                layoutDisplayNames.push(defaultLayout.ui.name)
+            }
+        }
+
+        if (hasExtraLayouts) {
+            layouts = [];
+
+            for (const folder of uiLayoutFolders) {
+                const layoutPath = uiFolderPath + "/" + folder.name;
+                
+                const obj = await buildTrackLayoutObject(layoutPath, folder.name);
+                layouts.push(obj);
+                layoutsById[obj.folderName] = obj;
+
+                if (obj.ui.name) {
+                    layoutDisplayNames.push(obj.ui.name)
+                }
+            }
+        }
+
+        const displayName = buildTrackDisplayName(folderName, layoutDisplayNames);
+
+        return {
+            folderName: folderName,
+            folderPath: folderPath,
+            displayName: displayName,
+            defaultLayout: defaultLayout,
+            layouts: layouts,
+            layoutsById: layoutsById,
+        } as AcTrack;
     }
 };
+
+async function buildTrackLayoutObject (folderPath: string, folderName: string) {
+    const uiFile = folderPath + "/ui_track.json";
+    const ui = await readJsonFile<AcTrackUi>(uiFile);
+
+    return {
+        folderName: folderName,
+        folderPath: folderPath,
+        previewPath: folderPath + "/preview.png",
+        outlinePath: folderPath + "/outline.png",
+        ui: ui,
+    } as AcTrackLayout;
+}
+
+function buildTrackDisplayName (folderName: string, layoutNames: string[]) {
+    // A regex to find unnecessary characters at the end of a string.
+    // Currently matches the characters ` `, `-`, `(`, `|`, `/` and `:`.
+    const trimEndRegex = /[-\s\(\|\/\:]+$/g;
+
+    const shortestName = layoutNames.reduce((prev, curr) => {
+        return (curr && curr.length < prev.length)
+            ? curr
+            : prev;
+    }, layoutNames[0]);
+
+    let end = 0;
+    const shortestLength = shortestName.length;
+    
+    CharLoop:
+    while (end < shortestLength) {
+        const refChar = shortestName.charAt(end);
+
+        for (const n of layoutNames) {
+            if (n.charAt(end) !== refChar) {
+                break CharLoop;
+            }
+        }
+
+        end++;
+    }
+
+    // The common part of the string, trimming unecessary characters at the end.
+    let name = shortestName.substring(0, end).replace(trimEndRegex, "");
+    // If the selected name is an empty string, use the name of the first layout
+    // that has a name. If no layout has names, use the folder's name.
+    if (!name) {
+        name = layoutNames.find(n => !!n) ?? folderName;
+    }
+
+    return name;
+}
 
 async function readJsonFile<T extends object> (path: string) : Promise<T> {
     const str = await fsAsync.readFile(path, TEXT_FORMAT); // Todo: detect-file-encoding-and-language

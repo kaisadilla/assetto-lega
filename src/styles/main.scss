@@ -74,3 +74,31 @@
     margin-top: 4px;
     margin-bottom: 0;
 }
+
+.status-bar {
+    margin-top: 8px;
+    padding-top: 8px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: start;
+    gap: 8px;
+    border-top: 1px solid $color-primary;
+
+    .default-button {
+        width: 180px;
+    }
+
+    > .teams-datum {
+        font-style: italic;
+        color: $text-color-dark-d1;
+    }
+
+    > .tools {
+        flex: 1;
+        display: flex;
+        justify-content: right;
+        gap: 8px;
+    }
+}

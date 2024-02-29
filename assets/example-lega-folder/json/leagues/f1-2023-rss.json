@@ -778,6 +778,86 @@
             "qualifyingStartHour": "21:00",
             "raceStartHour": "20:00",
             "weathers": []
+        },
+        {
+            "name": "Japanese Grand Prix",
+            "officialName": "Formula 1 Lenovo Japanese Grand Prix 2023",
+            "country": "japan",
+            "date": "2023-09-24",
+            "track": "rt_suzuka",
+            "layout": "suzukagp",
+            "laps": 53,
+            "qualifyingStartHour": "15:00",
+            "raceStartHour": "14:00",
+            "weathers": []
+        },
+        {
+            "name": "Qatar Grand Prix",
+            "officialName": "Formula 1 Qatar Airways Qatar Grand Prix 2023",
+            "country": "qatar",
+            "date": "2023-10-08",
+            "track": "losail23",
+            "laps": 57,
+            "qualifyingStartHour": "20:00",
+            "raceStartHour": "20:00",
+            "weathers": []
+        },
+        {
+            "name": "United States Grand Prix",
+            "officialName": "Formula 1 Lenovo United States Grand Prix 2023",
+            "country": "united_states",
+            "date": "2023-10-22",
+            "track": "acu_unitedstates",
+            "laps": 56,
+            "qualifyingStartHour": "16:00",
+            "raceStartHour": "14:00",
+            "weathers": []
+        },
+        {
+            "name": "Mexico City Grand Prix",
+            "officialName": "Formula 1 Gran Premio de la Ciudad de México 2023",
+            "country": "mexico",
+            "date": "2023-10-29",
+            "track": "acu_mexico_2021",
+            "laps": 71,
+            "qualifyingStartHour": "15:00",
+            "raceStartHour": "14:00",
+            "weathers": []
+        },
+        {
+            "name": "São Paulo Grand Prix",
+            "officialName": "Formula 1 Rolex Grande Prêmio de São Paulo 2023",
+            "country": "brazil",
+            "date": "2023-11-05",
+            "track": "vhe_interlagos",
+            "layout": "gp",
+            "laps": 71,
+            "qualifyingStartHour": "15:00",
+            "raceStartHour": "14:00",
+            "weathers": []
+        },
+        {
+            "name": "Las Vegas Grand Prix",
+            "officialName": "Formula 1 Heineken Silver Las Vegas Grand Prix 2023",
+            "country": "united_states",
+            "date": "2023-11-18",
+            "track": "lasvegas23",
+            "laps": 50,
+            "qualifyingStartHour": "00:00",
+            "raceStartHour": "22:00",
+            "weathers": []
+        },
+        {
+            "name": "Abu Dhabi Grand Prix",
+            "officialName": "Formula 1 Etihad Airways Abu Dhabi Grand Prix 2023",
+            "country": "united_arab_emirates",
+            "date": "2023-11-26",
+            "track": "acu_yasmarina",
+            "layout": "alternate",
+            "laps": 58,
+            "qualifyingStartHour": "18:00",
+            "raceStartHour": "17:00",
+            "weathers": []
         }
     ],
     "scoreSystem": {

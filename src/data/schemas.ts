@@ -142,15 +142,24 @@ export interface LeagueScoreSystem {
 }
 
 export interface AcCarCollection {
-    carList: AcCar[],
-    carsById: {[folderName: string]: AcCar},
-    brands: AcCarBrand[],
-    brandsById: {[brandName: string]: AcCarBrand},
-    tags: string[],
+    carList: AcCar[];
+    carsById: {[folderName: string]: AcCar};
+    brands: AcCarBrand[];
+    brandsById: {[brandName: string]: AcCarBrand};
+    tags: string[];
+}
+
+export interface AcTrackCollection {
+    trackList: AcTrack[];
+    tracksById: {[folderName: string]: AcTrack};
+    tags: string[];
 }
 
 export interface AcCarSkinCollection {
     [folderName: string]: AcCarSkin;
+}
+export interface AcTrackLayoutCollection {
+    [folderName: string]: AcTrackLayout;
 }
 
 export interface AcCar {
@@ -230,24 +239,39 @@ export interface AcTrack {
      */
     folderPath: string;
     /**
-     * Whether this track has multiple layouts.
+     * The display name of the track, calculated from the names in the layouts.
      */
-    hasLayouts: boolean;
+    displayName: string;
     /**
      * The ui_track.json of this track, if it doesn't have any layout.
      */
-    ui: AcTrackUi;
-    
-}
-
-export interface AcTrackUi {
-    
+    defaultLayout: AcTrackLayout | null;
+    layouts: AcTrackLayout[] | null;
+    layoutsById: AcTrackLayoutCollection;
 }
 
 export interface AcTrackLayout {
     folderName: string;
     folderPath: string;
+    previewPath: string;
+    outlinePath: string;
     ui: AcTrackUi;
+}
+
+export interface AcTrackUi {
+    name?: string;
+    description?: string;
+    tags?: string[];
+    geotags?: string[],
+    country?: string;
+    city?: string;
+    length?: string;
+    width?: string;
+    pitboxes?: string;
+    run?: string;
+    author?: string;
+    version?: string;
+    url?: string;
 }
 
 export function createNewTeam () : LeagueTeam {

@@ -1,6 +1,8 @@
 import { Countries } from 'data/countries';
-import { League, LeagueCalendarEntry } from 'data/schemas';
-import React from 'react';
+import { AcTrackCollection, League, LeagueCalendarEntry } from 'data/schemas';
+import Button from 'elements/Button';
+import Ipc from 'main/ipc/ipcRenderer';
+import React, { useEffect, useState } from 'react';
 import { dateToDisplayName } from 'utils';
 
 export interface CalendarTabProps {
@@ -11,24 +13,53 @@ function CalendarTab ({
     league,
 }: CalendarTabProps) {
 
+    const [tracks, setTracks] = useState<AcTrackCollection | null>(null);
+
+    useEffect(() => {
+        loadTracks();
+    }, []);
+
+    if (tracks === null) {
+        return <div className="editor-tab calendar-tab">Loading...</div>
+    }
+
+    const entryCount = league.calendar.length;
+
     return (
         <div className="editor-tab calendar-tab">
             <div className="calendar-list">
                 {league.calendar.map((c, i) => <CalendarEntry
                     key={i}
                     entry={c}
+                    tracks={tracks}
                 />)}
+            </div>
+            <div className="status-bar">
+                <div className="teams-datum">{entryCount} calendar entries</div>
+                <div className="tools">
+                    <Button highlighted>
+                        Edit teams
+                    </Button>
+                </div>
             </div>
         </div>
     );
+
+    async function loadTracks () {
+        const tracks = await Ipc.getTrackData();
+        console.log(tracks.trackList.map(t => t.displayName));
+        setTracks(tracks);
+    }
 }
 
 interface CalendarEntryProps {
-    entry: LeagueCalendarEntry
+    entry: LeagueCalendarEntry;
+    tracks: AcTrackCollection;
 }
 
 function CalendarEntry ({
     entry,
+    tracks,
 }: CalendarEntryProps) {
     const countryData = Countries[entry.country];
 
@@ -41,6 +72,10 @@ function CalendarEntry ({
             return `${path}/${entry.track}/ui/outline.png`;
         }
     })();
+
+    const track = tracks.tracksById[entry.track];
+    // the default track's id is an empty string.
+    const trackName = track.layoutsById[entry.layout ?? ""].ui.name ?? track.displayName;
 
     return (
         <div className="calendar-entry">
@@ -57,7 +92,7 @@ function CalendarEntry ({
                 <img src={layoutImg} />
             </div>
             <div className="layout-name">
-                {entry.track} {entry.layout && "(" + entry.layout + ")"}
+                {trackName}
             </div>
             <div className="laps">
                 {entry.laps} laps

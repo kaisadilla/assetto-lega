@@ -72,7 +72,7 @@ function TeamViewModePanel ({
             <div className="teams-table-container">
                 <TeamTable teams={teams} />
             </div>
-            <div className="teams-tab-toolbar">
+            <div className="status-bar">
                 <div className="teams-datum">{teamCount} teams</div>
                 <div className="teams-datum">{driverCount} drivers</div>
                 <div className="tools">
