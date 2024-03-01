@@ -1,77 +1,32 @@
 .league-editor > .calendar-tab {
-    padding: 16px;
-    min-height: 0;
     display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    .calendar-list {
+    
+    .calendar-tab-view {
+        height: 100%;
+        width: 100%;
+        padding: 16px;
+        min-height: 0;
         display: flex;
         flex-direction: column;
-        flex-wrap: nowrap;
-        gap: 8px;
-        overflow-y: auto;
-        height: 100%;
+        overflow: hidden;
 
-        .calendar-entry {
-            background: $bg-color-dark-l1;
+        .calendar-table-container {
             display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-items: center;
-            gap: 16px;
-            padding: 0 16px;
-    
-            > .date {
-                width: 124px;
-            }
-    
-            > .country {
-                width: 64px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            min-height: 0;
+        }
+    }
 
-                > img {
-                    box-sizing: content-box;
-                    border: 1px solid $text-color-dark-d2;
-                    max-width: 48px;
-                    max-height: 32px;
-                }
-            }
-    
-            > .name {
-                @include ellipsis();
-                flex: 1;
-                font-weight: $w-semibold;
-            }
-    
-            > .layout {
-                padding: 4px;
-                > img {
-                    max-width: 112px;
-                    max-height: 59px;
-                }
-            }
-    
-            > .layout-name {
-                @include ellipsis();
-                flex: 1;
-            }
-    
-            > .laps {
-                width: 72px;
-            }
-    
-            > .start-hours {
-                width: 72px;
-            }
-    
-            > .selected-weathers {
-                @include ellipsis();
-                min-width: 64px;
-                max-width: 200px;
-            }
+    .calendar-tab-edit {
+        height: 100%;
+        width: 100%;
+        padding: 16px;
+    }
+}
+
+.calendar-edition-table {
+    .entry-panel {
+        .info-section {
+            width: 100%;
         }
     }
 }

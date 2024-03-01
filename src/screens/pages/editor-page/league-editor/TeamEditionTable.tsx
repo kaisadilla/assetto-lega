@@ -63,8 +63,8 @@ function TeamEditionTable ({
     );
 
     return (
-        <div className="team-edition-table">
-            <div className="team-list-container">
+        <div className="edition-table team-edition-table">
+            <div className="list-container team-list-container">
                 <h3 className="h3-header">Teams</h3>
                 <TeamList
                     teams={editedTeams}
@@ -79,7 +79,7 @@ function TeamEditionTable ({
                     </Button>
                 </div>
             </div>
-            <div className="team-panel">
+            <div className="item-panel team-panel">
                 <NavBar className="nav-bar-header" get={tab} set={setTab}>
                     <NavBar.Item text="info" index={TeamEditorTab.INFO} />
                     <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
@@ -95,9 +95,9 @@ function TeamEditionTable ({
                     />}
                 </div>
             </div>
-            <ToolboxRow className="status-bar teams-tab-toolbar">
-                <div className="teams-datum">{teamCount} teams</div>
-                <div className="teams-datum">{driverCount} drivers</div>
+            <ToolboxRow className="status-bar toolbar-panel teams-tab-toolbar">
+                <div className="datum">{teamCount} teams</div>
+                <div className="datum">{driverCount} drivers</div>
                 <div className="tools">
                     <Button
                         onClick={handleReset}
@@ -308,7 +308,7 @@ function TeamList ({
     onSelect,
 }: TeamListProps) {
     return (
-        <div className="team-list">
+        <div className="edition-items-list team-list">
             {
                 teams.map((t, i) => <TeamEntry
                     key={i}
@@ -338,14 +338,16 @@ function TeamEntry ({
     const displayName = team.shortName ? team.shortName : team.name;
 
     const classStr = getClassString(
+        "list-item",
         "team-entry",
         selected && "selected",
         edited && "edited",
     )
 
+    // TODO: Implement delete teams.
     return (
         <div className={classStr}>
-            <div className="team-name" onClick={() => onSelect()}>
+            <div className="item-name team-name" onClick={() => onSelect()}>
                 <span>{edited && "*"} {displayName}</span>
             </div>
             <Button className="delete-button">

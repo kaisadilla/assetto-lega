@@ -30,12 +30,10 @@ function TeamTable ({
 
 interface TeamEntryProps {
     team: LeagueTeam;
-    setTeam?: (t: LeagueTeam) => void;
 }
 
 function TeamEntry ({
     team,
-    setTeam
 }: TeamEntryProps
 ) {
     const { dataPath } = useDataContext();

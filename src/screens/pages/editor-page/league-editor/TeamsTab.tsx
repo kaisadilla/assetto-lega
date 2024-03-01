@@ -6,7 +6,7 @@ import Ipc from 'main/ipc/ipcRenderer';
 import React, { useState } from 'react';
 import TeamEditionTable from './TeamEditionTable';
 
-enum TeamsTabMode {
+enum TabMode {
     View,
     Edit,
 }
@@ -20,17 +20,17 @@ function TeamsTab ({
     league,
     onChange,
 }: TeamsTabProps) {
-    const [mode, setMode] = useState(TeamsTabMode.View);
+    const [mode, setMode] = useState(TabMode.View);
 
     return (
         <div className="editor-tab teams-tab">
-            {mode === TeamsTabMode.View && (
+            {mode === TabMode.View && (
                 <TeamViewModePanel
                     teams={league.teams}
                     onEdit={handleEdit}
                 />
             )}
-            {mode === TeamsTabMode.Edit && (
+            {mode === TabMode.Edit && (
                 <TeamEditModePanel
                     teams={league.teams}
                     onSave={handleSaveTeams}
@@ -41,7 +41,7 @@ function TeamsTab ({
     );
 
     function handleEdit () {
-        setMode(TeamsTabMode.Edit);
+        setMode(TabMode.Edit);
     }
 
     function handleSaveTeams (teams: LeagueTeam[]) {
@@ -49,7 +49,7 @@ function TeamsTab ({
     }
 
     function handleCloseEdit () {
-        setMode(TeamsTabMode.View);
+        setMode(TabMode.View);
     }
 }
 

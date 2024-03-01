@@ -599,7 +599,7 @@
     ],
     "calendar": [
         {
-            "name": "Bahrain Grand Prix",
+            "name": "Bahrain GP",
             "officialName": "Formula 1 Gulf Air Bahrain Grand Prix 2023",
             "country": "bahrain",
             "date": "2023-03-05",
@@ -611,7 +611,7 @@
             "weathers": []
         },
         {
-            "name": "Saudi Arabian Grand Prix",
+            "name": "Saudi Arabian GP",
             "officialName": "Formula 1 STC Saudi Arabian Grand Prix 2023",
             "country": "saudi_arabia",
             "date": "2023-03-19",
@@ -623,7 +623,7 @@
             "weathers": []
         },
         {
-            "name": "Australian Grand Prix",
+            "name": "Australian GP",
             "officialName": "Formula 1 Rolex Australian Grand Prix 2023",
             "country": "australia",
             "date": "2023-04-02",
@@ -634,7 +634,7 @@
             "weathers": []
         },
         {
-            "name": "Azerbaijan Grand Prix",
+            "name": "Azerbaijan GP",
             "officialName": "Formula 1 Azerbaijan Grand Prix 2023",
             "country": "azerbaijan",
             "date": "2023-04-30",
@@ -645,7 +645,7 @@
             "weathers": []
         },
         {
-            "name": "Miami Grand Prix",
+            "name": "Miami GP",
             "officialName": "Formula 1 Crypto.com Miami Grand Prix 2023",
             "country": "united_states",
             "date": "2023-05-07",
@@ -656,7 +656,7 @@
             "weathers": []
         },
         {
-            "name": "Emilia Romagna Grand Prix",
+            "name": "Emilia Romagna GP",
             "country": "italy",
             "date": "2023-05-21",
             "track": "imola",
@@ -666,7 +666,7 @@
             "weathers": []
         },
         {
-            "name": "Monaco Grand Prix",
+            "name": "Monaco GP",
             "officialName": "Formula 1 Grand Prix de Monaco 2023",
             "country": "monaco",
             "date": "2023-05-28",
@@ -677,7 +677,7 @@
             "weathers": []
         },
         {
-            "name": "Spanish Grand Prix",
+            "name": "Spanish GP",
             "officialName": "Formula 1 AWS Gran Premio de España 2023",
             "country": "spain",
             "date": "2023-06-04",
@@ -689,7 +689,7 @@
             "weathers": []
         },
         {
-            "name": "Canadian Grand Prix",
+            "name": "Canadian GP",
             "officialName": "Formula 1 Pirelli Grand Prix du Canada 2023",
             "country": "canada",
             "date": "2023-06-18",
@@ -700,7 +700,7 @@
             "weathers": []
         },
         {
-            "name": "Austrian Grand Prix",
+            "name": "Austrian GP",
             "officialName": "Formula 1 Rolex Großer Preis von Österreich 2023",
             "country": "austria",
             "date": "2023-07-02",
@@ -712,7 +712,7 @@
             "weathers": []
         },
         {
-            "name": "British Grand Prix",
+            "name": "British GP",
             "officialName": "Formula 1 Aramco British Grand Prix 2023",
             "country": "united_kingdom",
             "date": "2023-07-09",
@@ -724,7 +724,7 @@
             "weathers": []
         },
         {
-            "name": "Hungarian Grand Prix",
+            "name": "Hungarian GP",
             "officialName": "Formula 1 Qatar Airways Hungarian Grand Prix 2023",
             "country": "hungary",
             "date": "2023-07-23",
@@ -735,7 +735,7 @@
             "weathers": []
         },
         {
-            "name": "Belgian Grand Prix",
+            "name": "Belgian GP",
             "officialName": "Formula 1 MSC Cruises Belgian Grand Prix 2023",
             "country": "belgium",
             "date": "2023-07-30",
@@ -746,7 +746,7 @@
             "weathers": []
         },
         {
-            "name": "Dutch Grand Prix",
+            "name": "Dutch GP",
             "officialName": "Formula 1 Heineken Dutch Grand Prix 2023",
             "country": "netherlands",
             "date": "2023-08-27",
@@ -757,7 +757,7 @@
             "weathers": []
         },
         {
-            "name": "Italian Grand Prix",
+            "name": "Italian GP",
             "officialName": "Formula 1 Pirelli Gran Premio d'Italia 2023",
             "country": "italy",
             "date": "2023-09-03",
@@ -768,7 +768,7 @@
             "weathers": []
         },
         {
-            "name": "Singapore Grand Prix",
+            "name": "Singapore GP",
             "officialName": "Formula 1 Singapore Airlines Singapore Grand Prix 2023",
             "country": "singapore",
             "date": "2023-09-17",
@@ -780,7 +780,7 @@
             "weathers": []
         },
         {
-            "name": "Japanese Grand Prix",
+            "name": "Japanese GP",
             "officialName": "Formula 1 Lenovo Japanese Grand Prix 2023",
             "country": "japan",
             "date": "2023-09-24",
@@ -792,7 +792,7 @@
             "weathers": []
         },
         {
-            "name": "Qatar Grand Prix",
+            "name": "Qatar GP",
             "officialName": "Formula 1 Qatar Airways Qatar Grand Prix 2023",
             "country": "qatar",
             "date": "2023-10-08",
@@ -803,7 +803,7 @@
             "weathers": []
         },
         {
-            "name": "United States Grand Prix",
+            "name": "United States GP",
             "officialName": "Formula 1 Lenovo United States Grand Prix 2023",
             "country": "united_states",
             "date": "2023-10-22",
@@ -814,7 +814,7 @@
             "weathers": []
         },
         {
-            "name": "Mexico City Grand Prix",
+            "name": "Mexico City GP",
             "officialName": "Formula 1 Gran Premio de la Ciudad de México 2023",
             "country": "mexico",
             "date": "2023-10-29",
@@ -825,7 +825,7 @@
             "weathers": []
         },
         {
-            "name": "São Paulo Grand Prix",
+            "name": "São Paulo GP",
             "officialName": "Formula 1 Rolex Grande Prêmio de São Paulo 2023",
             "country": "brazil",
             "date": "2023-11-05",
@@ -837,7 +837,7 @@
             "weathers": []
         },
         {
-            "name": "Las Vegas Grand Prix",
+            "name": "Las Vegas GP",
             "officialName": "Formula 1 Heineken Silver Las Vegas Grand Prix 2023",
             "country": "united_states",
             "date": "2023-11-18",
@@ -848,7 +848,7 @@
             "weathers": []
         },
         {
-            "name": "Abu Dhabi Grand Prix",
+            "name": "Abu Dhabi GP",
             "officialName": "Formula 1 Etihad Airways Abu Dhabi Grand Prix 2023",
             "country": "united_arab_emirates",
             "date": "2023-11-26",
