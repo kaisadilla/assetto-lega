@@ -5,6 +5,7 @@ export interface ButtonProps {
     disabled?: boolean;
     highlighted?: boolean;
     onClick?: (evt: any) => void;
+    isIconButton?: boolean;
     className?: string;
     children?: React.ReactNode;
 }
@@ -13,6 +14,7 @@ function Button ({
     disabled,
     highlighted,
     onClick,
+    isIconButton = false,
     className,
     children,
 }: ButtonProps) {
@@ -20,6 +22,7 @@ function Button ({
         "default-control",
         "default-button",
         "default-regular-button",
+        isIconButton && "icon-button",
         disabled && "disabled",
         highlighted && "highlighted",
         className,

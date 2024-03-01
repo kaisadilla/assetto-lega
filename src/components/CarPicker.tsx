@@ -49,7 +49,7 @@ function CarPicker ({
     const [carData, setCarData] = useState<AcCarCollection | null>(null);
 
     const [selectedCar, setSelectedCar] = useState(preSelectedCar ?? null);
-    const [imgScale, setImgScale] = useState(DEFAULT_IMAGE_SIZE);
+    const [scale, setScale] = useState(DEFAULT_IMAGE_SIZE);
 
     const [carSearchValue, setCarSearchValue] = useState("");
     const [filterType, setFilterType] = useState(FilterType.Brand);
@@ -72,7 +72,7 @@ function CarPicker ({
             return <SelectorByBrand
                 carList={carData!.carList}
                 brandList={carData!.brands}
-                thumbnailScale={imgScale}
+                thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
             />
@@ -81,7 +81,7 @@ function CarPicker ({
             return <SelectorByTag
                 carList={carData!.carList}
                 tagList={carData!.tags}
-                thumbnailScale={imgScale}
+                thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
             />
@@ -89,7 +89,7 @@ function CarPicker ({
         if (filterType === FilterType.Name) {
             return <SelectorByName
                 carList={carData!.carList}
-                thumbnailScale={imgScale}
+                thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
             />
@@ -131,14 +131,14 @@ function CarPicker ({
                     min={MIN_IMAGE_SIZE}
                     max={MAX_IMAGE_SIZE}
                     defaultValue={DEFAULT_IMAGE_SIZE}
-                    value={imgScale}
-                    onChange={v => setImgScale(v)}
+                    value={scale}
+                    onChange={v => setScale(v)}
                     showReset
                 />
-                <Button className="view-style-button">
+                <Button isIconButton>
                     <MaterialSymbol symbol='gallery_thumbnail' />
                 </Button>
-                <Button className="view-style-button">
+                <Button isIconButton>
                     <MaterialSymbol symbol='list' />
                 </Button>
                 <Button onClick={handleCancel}>Cancel</Button>

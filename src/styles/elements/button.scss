@@ -38,6 +38,15 @@
         font-size: 12pt;
         font-weight: $w-light;
     }
+
+    &.icon-button.icon-button {
+        width: 34px;
+        height: 26px;
+        
+        > span {
+            font-weight: $w-thin;
+        }
+    }
 }
 
 .default-regular-button {

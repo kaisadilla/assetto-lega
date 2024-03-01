@@ -1,4 +1,4 @@
-.default-car-picker {
+.default-track-picker {
     .filter-navbar-container {
         padding: 16px 16px 0 16px;
         display: flex;
@@ -24,16 +24,6 @@
         .filters-container {
             flex: 1;
             min-width: 200px;
-        }
-
-        .car-list-container {
-            flex: 4.5;
-            height: 100%;
-            overflow-y: auto;
-
-            .car-gallery {
-                padding: 0;
-            }
         }
     }
 }

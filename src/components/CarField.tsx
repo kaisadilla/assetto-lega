@@ -29,6 +29,7 @@ function CarField ({
 
     const classStr = getClassString(
         "default-control",
+        "default-picker-field",
         "default-car-field",
         className,
     )
@@ -45,11 +46,11 @@ function CarField ({
 
     return (
         <div className={classStr} tabIndex={tabIndex}>
-            <div className="car-content" onClick={handleClick}>
-                {value && <div className="car-image">
+            <div className="picker-content car-content" onClick={handleClick}>
+                {value && <div className="picker-image car-image">
                     <CarLogoImage carFolderName={value} />
                 </div>}
-                <div className="car-name">{displayName}</div>
+                <div className="picker-name car-name">{displayName}</div>
             </div>
             {isPickerOpen && (
             <CoverPanel>

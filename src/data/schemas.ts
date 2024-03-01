@@ -243,10 +243,11 @@ export interface AcTrack {
      */
     displayName: string;
     /**
-     * The ui_track.json of this track, if it doesn't have any layout.
+     * Whether the first layout in the layouts array is in the root "ui" folder,
+     * rather than an extra layout.
      */
-    defaultLayout: AcTrackLayout | null;
-    layouts: AcTrackLayout[] | null;
+    firstLayoutIsDefault: boolean;
+    layouts: AcTrackLayout[];
     layoutsById: AcTrackLayoutCollection;
 }
 

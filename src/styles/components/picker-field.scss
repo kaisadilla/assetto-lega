@@ -1,0 +1,35 @@
+.default-picker-field {
+    height: 100%;
+
+    &:hover {
+        background-color: $color-transparent-w2;
+    }
+
+    > .picker-content {
+        cursor: pointer;
+
+        height: 100%;
+        width: fit-content;
+        min-width: min(160px, 100%);
+        padding: 0 6px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    
+        &:hover {
+            color: $color-primary-l2;
+            text-decoration: underline;
+        }
+
+        > .picker-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        > .picker-name {
+            padding-right: 16px;
+        }
+    }
+}

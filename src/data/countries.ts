@@ -18,6 +18,7 @@ export enum CountryCategory {
     caribbean = "Caribbean",
     subnational = "Sub-national",
     unrecognized = "Unrecognized",
+    historical = "Historical",
 }
 
 interface CorsaCountry {
@@ -26,20 +27,7 @@ interface CorsaCountry {
     isMod?: boolean;
 }
 
-export const COUNTRIES_ASSETTO_TO_LEGA: {[key: string]: string} = {
-    "Austria": "austria",
-    "Europe": "eu",
-    "France": "france",
-    "Germany": "germany",
-    "Italy": "italy",
-    "Japan": "japan",
-    "Mexico": "mexico",
-    "Netherlands": "netherlands",
-    "South Korea": "south_korea",
-    "Spain": "spain",
-    "Great Britain": "united_kingdom",
-    "United States": "united_states",
-};
+let initialized = false;
 
 export const Countries: { [key: string]: Country } = {
     "assetto_corsa": {
@@ -170,7 +158,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.caribbean,
         "flag": require("@assets/flags/bahamas.png"),
         "assettoCorsa": {
-            "name": "The Bahamas",
+            "name": "Bahamas",
             "code": "BHS",
         },
     },
@@ -359,7 +347,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.africa,
         "flag": require("@assets/flags/central_african_republic.png"),
         "assettoCorsa": {
-            "name": "Central Africa R.",
+            "name": "Central African Republic",
             "code": "CAF",
         },
     },
@@ -413,7 +401,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.africa,
         "flag": require("@assets/flags/congo_kinsasha.png"),
         "assettoCorsa": {
-            "name": "Congo, Dem. Rep.",
+            "name": "Congo",
             "code": "COD",
         },
     },
@@ -584,7 +572,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.africa,
         "flag": require("@assets/flags/eswatini.png"),
         "assettoCorsa": {
-            "name": "Eswatini",
+            "name": "Swaziland",
             "code": "SWZ",
         },
     },
@@ -638,7 +626,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.africa,
         "flag": require("@assets/flags/gambia.png"),
         "assettoCorsa": {
-            "name": "The Gambia",
+            "name": "Gambia",
             "code": "GMB",
         },
     },
@@ -827,7 +815,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.africa,
         "flag": require("@assets/flags/ivory_coast.png"),
         "assettoCorsa": {
-            "name": "Côte d'Ivoire",
+            "name": "Côte d’Ivoire",
             "code": "CIV",
         },
     },
@@ -1143,7 +1131,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.asia,
         "flag": require("@assets/flags/myanmar.png"),
         "assettoCorsa": {
-            "name": "Myanmar",
+            "name": "Burma",
             "code": "MMR",
         },
     },
@@ -1244,7 +1232,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.europe,
         "flag": require("@assets/flags/north_macedonia.png"),
         "assettoCorsa": {
-            "name": "North Macedonia",
+            "name": "Macedonia",
             "code": "MKD",
         },
     },
@@ -1777,7 +1765,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.americas,
         "flag": require("@assets/flags/united_states.png"),
         "assettoCorsa": {
-            "name": "United States",
+            "name": "USA",
             "code": "USA",
         },
     },
@@ -1813,7 +1801,7 @@ export const Countries: { [key: string]: Country } = {
         "category": CountryCategory.europe,
         "flag": require("@assets/flags/vatican_city.png"),
         "assettoCorsa": {
-            "name": "Vatican City",
+            "name": "Holy see",
             "code": "VAT",
             "isMod": true,
         },
@@ -1934,6 +1922,19 @@ export const Countries: { [key: string]: Country } = {
             "name": "Transnistria",
             "code": "TRA",
             "isMod": true,
+        },
+    },
+    /*******************************/
+    /* Historical states (extinct) */
+    /*******************************/
+    
+    "soviet_union": {
+        "displayName": "Soviet Union",
+        "category": CountryCategory.historical,
+        "flag": require("@assets/flags/soviet_union.png"),
+        "assettoCorsa": {
+            "name": "Soviet Union",
+            "code": "",
         },
     },
     /************************/
@@ -2138,6 +2139,17 @@ export const Countries: { [key: string]: Country } = {
             "code": "PYF",
         },
     },
+    "martinique": {
+        "displayName": "Martinique",
+        "category": CountryCategory.caribbean,
+        "isPseudo": true,
+        "flag": require("@assets/flags/martinique.png"),
+        "assettoCorsa": {
+            "name": "Martinique",
+            "code": "MTQ",
+            "isMod": true,
+        },
+    },
     "new_caledonia": {
         "displayName": "New Caledonia",
         "category": CountryCategory.oceania,
@@ -2209,7 +2221,7 @@ export const Countries: { [key: string]: Country } = {
         "isPseudo": true,
         "flag": require("@assets/flags/curacao.png"),
         "assettoCorsa": {
-            "name": "Curaçao",
+            "name": "Curacao",
             "code": "CUW",
             "isMod": true,
         },
@@ -2335,7 +2347,7 @@ export const Countries: { [key: string]: Country } = {
         "isPseudo": true,
         "flag": require("@assets/flags/virgin_islands_gb.png"),
         "assettoCorsa": {
-            "name": "Virgin Islands (Great Britain)",
+            "name": "British Virgin Islands",
             "code": "VGB",
         },
     },
@@ -2380,4 +2392,32 @@ export const Countries: { [key: string]: Country } = {
             "code": "VIR",
         },
     },
+}
+
+/**
+ * A dictionary that maps Assetto Corsa's country names to Lega's country objects.
+ */
+export const CountriesByAssettoName: {[assettoName: string]: Country} = {};
+/**
+ * A dictionary that maps Assetto Corsa's country names to Lega's internal names.
+ */
+export const AssettoToLegaCountries: {[assettoName: string]: string} = {};
+
+export function InitializeCountryData () {
+    if (initialized) return;
+
+    Object.keys(AssettoToLegaCountries).forEach(
+        k => delete AssettoToLegaCountries[k]
+    );
+    
+    for (const c in Countries) {
+        const legaCountry = Countries[c];
+
+        if (!legaCountry.assettoCorsa) continue;
+
+        CountriesByAssettoName[legaCountry.assettoCorsa.name] = legaCountry;
+        AssettoToLegaCountries[legaCountry.assettoCorsa.name] = c;
+    }
+
+    initialized = true;
 }

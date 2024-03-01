@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { COUNTRIES_ASSETTO_TO_LEGA, Countries } from 'data/countries';
+import { Countries } from 'data/countries';
 import { loadImage } from 'game/files';
 import Icon from 'elements/Icon';
 import { useSettingsContext } from 'context/useSettings';

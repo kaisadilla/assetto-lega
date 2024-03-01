@@ -1,6 +1,7 @@
 import fsAsync from "fs/promises";
 import fs from "fs";
 import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack, AcTrackLayout, AcTrackUi, AcTrackLayoutCollection } from "data/schemas";
+import DetectFileEncodingAndLanguage from "detect-file-encoding-and-language";
 
 const TEXT_FORMAT = "utf-8";
 
@@ -157,15 +158,14 @@ export const AssettoCorsa = {
         if (hasDefaultLayout === false && hasExtraLayouts === false) {
             throw `Track '${folderName}' has no layouts.`;
         }
-
-        let defaultLayout: AcTrackLayout | null = null;
-        let layouts: AcTrackLayout[] | null = null;
+        let layouts: AcTrackLayout[] = [];
         let layoutsById: AcTrackLayoutCollection = {};
 
         const layoutDisplayNames = [];
 
         if (hasDefaultLayout) {
-            defaultLayout = await buildTrackLayoutObject(uiFolderPath, "");
+            const defaultLayout = await buildTrackLayoutObject(uiFolderPath, "");
+            layouts.push(defaultLayout);
             layoutsById[""] = defaultLayout;
 
             if (defaultLayout.ui.name) {
@@ -174,8 +174,6 @@ export const AssettoCorsa = {
         }
 
         if (hasExtraLayouts) {
-            layouts = [];
-
             for (const folder of uiLayoutFolders) {
                 const layoutPath = uiFolderPath + "/" + folder.name;
                 
@@ -191,11 +189,15 @@ export const AssettoCorsa = {
 
         const displayName = buildTrackDisplayName(folderName, layoutDisplayNames);
 
+        if (layouts.length === 0) {
+            throw `No valid layout was found for track '${folderName}'`
+        }
+
         return {
             folderName: folderName,
             folderPath: folderPath,
             displayName: displayName,
-            defaultLayout: defaultLayout,
+            firstLayoutIsDefault: hasDefaultLayout,
             layouts: layouts,
             layoutsById: layoutsById,
         } as AcTrack;
@@ -254,7 +256,11 @@ function buildTrackDisplayName (folderName: string, layoutNames: string[]) {
 }
 
 async function readJsonFile<T extends object> (path: string) : Promise<T> {
-    const str = await fsAsync.readFile(path, TEXT_FORMAT); // Todo: detect-file-encoding-and-language
+    // replace removes UTF-8 with BOM characters.
+    const str = fs.readFileSync(path, TEXT_FORMAT).replace(/^\uFEFF/, ""); // Todo: detect-file-encoding-and-language
+    //const buffer = await fsAsync.readFile(path);
+    //const format = await DetectFileEncodingAndLanguage(buffer);
+    //const str = buffer.toString(format.encoding);
 
     try {
         return JSON.parse(str) as T;

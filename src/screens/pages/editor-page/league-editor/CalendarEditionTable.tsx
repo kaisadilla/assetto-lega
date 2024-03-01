@@ -1,4 +1,5 @@
 import CountryField from 'components/CountryField';
+import TrackField from 'components/TrackField';
 import { AcTrackCollection, LeagueCalendarEntry } from 'data/schemas';
 import Button from 'elements/Button';
 import LabeledControl from 'elements/LabeledControl';
@@ -49,6 +50,7 @@ function CalendarEditionTable ({
             </div>
             <div className="item-panel entry-panel">
                 <EntryPanel
+                    key={selectedEntry}
                     entry={calendar[selectedEntry]}
                 />
             </div>
@@ -202,7 +204,7 @@ function EntryPanel ({
                         value={entry.name}
                     />
                 </LabeledControl>
-                <LabeledControl label="Ifficial name">
+                <LabeledControl label="Official name">
                     <Textbox
                         value={entry.officialName}
                     />
@@ -216,7 +218,10 @@ function EntryPanel ({
                     {entry.date}
                 </LabeledControl>
                 <LabeledControl label="Track" required>
-                    {entry.track}
+                    <TrackField
+                        track={entry.track}
+                        layout={entry.layout}
+                    />
                 </LabeledControl>
                 <LabeledControl label="Laps" required>
                     <NumericBox
