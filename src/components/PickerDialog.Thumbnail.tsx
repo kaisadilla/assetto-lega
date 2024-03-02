@@ -1,7 +1,7 @@
 import CarThumbnail from 'elements/CarThumbnail';
 import DefaultHighlighter from 'elements/Highlighter';
 import Thumbnail from 'elements/Thumbnail';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { getClassString } from 'utils';
 
 export interface PickerDialog_ThumbnailProps {
@@ -29,8 +29,17 @@ function PickerDialog_Thumbnail ({
         className,
     )
 
+    const $div = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (selected) {
+            $div.current?.scrollIntoView();
+        }
+    }, [$div]);
+
     return (
         <div
+            ref={$div}
             className={classStr}
             onClick={onClick}
             onDoubleClick={onDoubleClick}

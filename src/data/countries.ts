@@ -2427,20 +2427,24 @@ export function InitializeCountryData () {
 
         if (!legaCountry.assettoCorsa) continue;
 
-        CountriesByAssettoName[legaCountry.assettoCorsa.name] = legaCountry;
-        AssettoToLegaCountries[legaCountry.assettoCorsa.name] = c;
+        const assettoCorsaName = normalizeAcCountry(legaCountry.assettoCorsa.name);
+
+        CountriesByAssettoName[assettoCorsaName] = legaCountry;
+        AssettoToLegaCountries[assettoCorsaName] = c;
     }
 
     initialized = true;
 }
 
 export function getCountryByAssettoName (assettoName: string | undefined) {
-    const country = CountriesByAssettoName[assettoName ?? "unknown"];
+    assettoName = normalizeAcCountry(assettoName ?? "unknown");
+    const country = CountriesByAssettoName[assettoName];
     return country ?? Countries["unknown"];
 }
 
 export function getCountryIdByAssettoName (assettoName: string | undefined) {
-    const country = AssettoToLegaCountries[assettoName ?? "unknown"];
+    assettoName = normalizeAcCountry(assettoName ?? "unknown");
+    const country = AssettoToLegaCountries[assettoName];
     return country ?? "unknown";
 }
 
@@ -2511,4 +2515,16 @@ export function groupObjectsByCountryCategory<T> (
     }
 
     return objByCategory;
+}
+
+function normalizeAcCountry (countryName: string) {
+    let normalized = countryName.replaceAll(".", "").toLowerCase();
+
+    // special cases
+    if (normalized === "uae") normalized = "united arab emirates";
+    if (normalized === "united kingdom") normalized = "great britain";
+    if (normalized === "united states") normalized = "usa";
+    if (normalized === "united states of america") normalized = "usa";
+
+    return normalized;
 }

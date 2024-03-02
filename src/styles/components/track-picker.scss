@@ -59,33 +59,108 @@
         overflow: hidden;
 
         .image-section {
-            background: green;
+            //background: green;
             flex: 3;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            gap: 12px;
 
             .image-container {
+                @include thumbnail-aspect-ratio();
+                
                 position: relative;
                 width: 100%;
-                height: 100%;
 
                 > img {
+                    @include thumbnail-aspect-ratio();
+
                     position: absolute;
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
                 }
             }
+
+            .basic-info-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+                overflow-y: auto;
+                min-height: 0;
+                width: 100%;
+
+                .description-container {
+                    color: $text-color-dark-d2;
+                }
+            }
         }
 
         .layout-data-section {
-            background: white;
-            flex: 2;
+            flex: 3;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            .datum {
+                > .name {
+                    color: $text-color-dark;
+
+                    &::after {
+                        content: "\00a0";
+                    }
+                }
+                > .value {
+                    color: $text-color-dark-d2;
+
+                    &.country {
+                        display: inline-block;
+                        
+                        > img {
+                            //border: 1px solid $text-color-dark-d2;
+                            max-width: 20px;
+                        }
+
+                        > span {
+                            &::before {
+                                content: "\00a0";
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         .layout-menu-section {
-            background: red;
-            flex: 4;
+            flex: 3;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            .layout-entry {
+                height: 48px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+
+                &:hover {
+                    background-color: $color-transparent-w2;
+                }
+
+                &.selected {
+                    background-color: $color-primary;
+                }
+
+                .layout-outline {
+                    height: 100%;
+                    padding: 2px;
+
+                    > img {
+                        height: 100%;
+                    }
+                }
+            }
         }
     }
 }

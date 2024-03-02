@@ -1,4 +1,4 @@
-import { AcTrack } from 'data/schemas';
+import { AcTrack, AcTrackLayout } from 'data/schemas';
 import CoverPanel from 'elements/CoverPanel';
 import FlagImage from 'elements/images/FlagImage';
 import Ipc from 'main/ipc/ipcRenderer';
@@ -10,7 +10,7 @@ import { getCountryIdByAssettoName } from 'data/countries';
 export interface TrackFieldProps {
     track?: string;
     layout?: string;
-    onChange?: (value: string) => void;
+    onChange?: (value: TrackPickerValue) => void;
     className?: string;
     tabIndex?: number;
 }
@@ -23,12 +23,13 @@ function TrackField ({
     tabIndex = 1,
 }: TrackFieldProps) {
     const [fieldLoaded, setFieldLoaded] = useState(false);
-    const [trackData, setTrackData] = useState<AcTrack | null>(null);
+    const [layoutData, setLayoutData] = useState<AcTrackLayout | null>(null);
     const [isPickerOpen, setPickerOpen] = useState(false);
+    console.log(track);
 
     useEffect(() => {
-        loadTrack();
-    }, [track]);
+        loadLayout();
+    }, [track, layout]);
 
     const classStr = getClassString(
         "default-control",
@@ -47,12 +48,12 @@ function TrackField ({
 
     return (
         <div className={classStr} tabIndex={tabIndex}>
-            {trackData === null && <TrackFieldLabel_NoTrack
+            {layoutData === null && <TrackFieldLabel_NoTrack
                 onClick={handleClick}
             />}
-            {trackData !== null && <TrackFieldLabel
-                trackData={trackData}
-                layout={layout}
+            {layoutData !== null && <TrackFieldLabel
+                key={[track, layout].join("")}
+                layoutData={layoutData}
                 onClick={handleClick}
             />}
             {isPickerOpen && (
@@ -73,16 +74,27 @@ function TrackField ({
 
     function handlePickerSelect (value: TrackPickerValue) {
         setPickerOpen(false);
-        //onChange?.(value);
+        onChange?.(value);
     }
 
-    async function loadTrack () {
+    async function loadLayout () {
         if (track) {
             const trackData = await Ipc.getTrack(track);
-            setTrackData(trackData);
+
+            if (trackData === null) {
+                throw `Couldn't find track '${track}.'`;
+            }
+
+            const _layoutData = trackData?.layoutsById[layout ?? ""];
+
+            if (_layoutData === null) {
+                throw `Couldn't find layout '${layout}' for track ${track}.`;
+            }
+
+            setLayoutData(_layoutData);
         }
         else {
-            setTrackData(null);
+            setLayoutData(null);
         }
 
         setFieldLoaded(true);
@@ -105,32 +117,20 @@ function TrackFieldLabel_NoTrack ({
 }
 
 interface TrackFieldLabelProps {
-    trackData: AcTrack;
-    layout: string | undefined;
+    layoutData: AcTrackLayout;
     onClick: () => void;
 }
 
 function TrackFieldLabel ({
-    trackData,
-    layout,
+    layoutData,
     onClick,
 }: TrackFieldLabelProps) {
-    const layoutId = layout ?? "";
-    const layoutInfo = trackData.layoutsById[layoutId];
-
-    if (!layoutInfo) {
-        console.log(
-            `Cannot find layout '${layoutId}' for track '${trackData.folderName}'`,
-            trackData
-        );
-    }
-
-    const displayName = layoutInfo?.ui.name ?? trackData.displayName;
-    const country = getCountryIdByAssettoName(layoutInfo.ui.country);
+    const displayName = layoutData.ui.name ?? layoutData.folderName;
+    const country = getCountryIdByAssettoName(layoutData.ui.country);
 
     return (
         <div className="picker-content track-content" onClick={onClick}>
-            {trackData && <div className="picker-image track-image">
+            {layoutData && <div className="picker-image track-image">
                 <FlagImage country={country} />
             </div>}
             <div className="picker-name track-name">{displayName}</div>

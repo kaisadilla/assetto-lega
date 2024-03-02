@@ -52,6 +52,7 @@ export enum Page {
     EDITOR,
     CONTENT,
     STATS,
+    IMPORT,
 };
 
 export enum LeagueScreenPage {

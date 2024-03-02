@@ -1,5 +1,6 @@
 import CountryField from 'components/CountryField';
 import TrackField from 'components/TrackField';
+import { TrackPickerValue } from 'components/TrackPicker';
 import { AcTrackCollection, LeagueCalendarEntry } from 'data/schemas';
 import Button from 'elements/Button';
 import LabeledControl from 'elements/LabeledControl';
@@ -51,7 +52,8 @@ function CalendarEditionTable ({
             <div className="item-panel entry-panel">
                 <EntryPanel
                     key={selectedEntry}
-                    entry={calendar[selectedEntry]}
+                    entry={editedCalendar[selectedEntry]}
+                    onChange={handleEntryChange}
                 />
             </div>
             <ToolboxRow className="status-bar toolbar-panel entry-tab-toolbar">
@@ -124,6 +126,13 @@ function CalendarEditionTable ({
         const tracks = await Ipc.getTrackData();
         setTracks(tracks);
     }
+
+    function handleEntryChange (entry: LeagueCalendarEntry) {
+        const update = [...editedCalendar];
+        update[selectedEntry] = entry;
+
+        setEditedCalendar(update);
+    }
 }
 
 interface EntryListProps {
@@ -191,10 +200,12 @@ function Entry ({
 
 interface EntryPanelProps {
     entry: LeagueCalendarEntry;
+    onChange: (update: LeagueCalendarEntry) => void;
 }
 
 function EntryPanel ({
-    entry
+    entry,
+    onChange,
 }: EntryPanelProps) {
     return (
         <Form className="entry-panel">
@@ -202,16 +213,19 @@ function EntryPanel ({
                 <LabeledControl label="Name" required>
                     <Textbox
                         value={entry.name}
+                        onChange={str => handleFieldChange('name', str)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Official name">
                     <Textbox
                         value={entry.officialName}
+                        onChange={str => handleFieldChange('officialName', str)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Country" required>
                     <CountryField
                         value={entry.country}
+                        onChange={ctry => handleFieldChange('country', ctry)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Date">
@@ -221,6 +235,7 @@ function EntryPanel ({
                     <TrackField
                         track={entry.track}
                         layout={entry.layout}
+                        onChange={handleTrackChange}
                     />
                 </LabeledControl>
                 <LabeledControl label="Laps" required>
@@ -228,6 +243,7 @@ function EntryPanel ({
                         value={entry.laps}
                         min={1}
                         max={100_000}
+                        onChange={n => handleFieldChange('laps', n)}
                     />
                 </LabeledControl>
                 <LabeledControl label="Weather">
@@ -247,6 +263,27 @@ function EntryPanel ({
             </Form.Section>
         </Form>
     );
+
+    function handleFieldChange (field: keyof LeagueCalendarEntry, value: any) {
+        const update: LeagueCalendarEntry = {
+            ...entry,
+            [field]: value,
+        };
+
+        onChange(update);
+    }
+
+    function handleTrackChange (value: TrackPickerValue) {
+        if (!value.track) return;
+
+        const update: LeagueCalendarEntry = {
+            ...entry,
+            track: value.track,
+            layout: value.layout ?? undefined,
+        };
+
+        onChange(update);
+    }
 }
 
 

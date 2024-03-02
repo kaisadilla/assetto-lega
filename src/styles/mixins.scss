@@ -3,6 +3,10 @@
     height: 100%;
 }
 
+@mixin thumbnail-aspect-ratio () {
+    aspect-ratio: 355 / 200;
+}
+
 @mixin no-highlight () {
     -moz-user-select: -moz-none;
     -khtml-user-select: none;

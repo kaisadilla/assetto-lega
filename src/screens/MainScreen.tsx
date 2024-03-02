@@ -5,7 +5,6 @@ import FreeSessionPage from './pages/FreeSessionPage';
 import { Page, useNavigationContext } from '../context/useNavigation';
 import { AppStatus, useDataContext } from 'context/useDataContext';
 import InitializeAppScreen from './InitializeAppScreen';
-import { isFolderAssettoCorsa } from 'game/assettoCorsa';
 import EditorPage from './pages/EditorPage';
 import ReadingAcContentScreen from './ReadingAcContent';
 import DragRegion from 'elements/DragRegion';
@@ -61,6 +60,7 @@ function MainScreen () {
                     <NavBar.Item text="editor" index={Page.EDITOR} />
                     <NavBar.Item text="content" index={Page.CONTENT} />
                     <NavBar.Item text="stats" index={Page.STATS} />
+                    <NavBar.Item text="import / export" index={Page.IMPORT} />
                 </NavBar>
                 <DragRegion />
             </div>

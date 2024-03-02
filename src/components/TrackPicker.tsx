@@ -5,15 +5,16 @@ import ScaleScroll from 'elements/ScaleScroll';
 import Button from 'elements/Button';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import Ipc from 'main/ipc/ipcRenderer';
-import { AcTrack, AcTrackCollection } from 'data/schemas';
+import { AcTrack, AcTrackCollection, AcTrackLayout, AcTrackLayoutUi } from 'data/schemas';
 import NavBar from 'elements/NavBar';
 import Textbox from 'elements/Textbox';
-import { getCountriesWithTracks } from 'utils';
-import { Countries, getCountryIdByAssettoName, groupCountriesByCategory, groupObjectsByCountryCategory } from 'data/countries';
+import { LOCALE, getClassString, getCountriesWithTracks } from 'utils';
+import { Countries, getCountryByAssettoName, getCountryIdByAssettoName, groupCountriesByCategory, groupObjectsByCountryCategory } from 'data/countries';
 import { CountryFilterElement } from './PickerDialog.Filter';
 import { PickerElement, PickerElementSection } from './PickerDialog.ThumbnailGallery';
 import TrackThumbnail from 'elements/TrackThumbnail';
 import { FILE_PROTOCOL } from 'data/files';
+import TagList from 'elements/TagList';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -177,7 +178,7 @@ function TrackPicker ({
     function createCallbackObject () {
         return {
             track: selectedTrack ?? undefined,
-            layout: selectedLayout ?? undefined,
+            layout: selectedLayout ?? "",
         };
     }
 }
@@ -330,15 +331,126 @@ function SelectedTrackShowcase ({
                         src={FILE_PROTOCOL +layout.outlinePath}
                     />
                 </div>
+                <div className="basic-info-container">
+                    <TagList tags={layout.ui.tags ?? []} />
+                    <div className="description-container">
+                        {layout.ui.description ?? ""}
+                    </div>
+                </div>
             </div>
-            <div className="layout-data-section">
-
-            </div>
+            <TrackInfo layout={layout} />
             <div className="layout-menu-section">
-                {trackData.tracksById[selectedTrack].layouts.map(l => <div>{l.folderName}</div>)}
+                {trackData.tracksById[selectedTrack].layouts.map((l, i) => (
+                    <LayoutEntry
+                        key={i}
+                        layout={l}
+                        selected={l.folderName === selectedLayout}
+                        onSelect={() => onSelect(l.folderName)}
+                    />
+                ))}
             </div>
         </div>
     );
+}
+
+interface TrackInfoProps {
+    layout: AcTrackLayout;
+}
+
+function TrackInfo ({
+    layout,
+}: TrackInfoProps) {
+    const ctry = getCountryByAssettoName(layout.ui.country);
+
+    return (
+        <div className="layout-data-section">
+            <div className="datum">
+                <span className="name">Full name:</span>
+                <span className="value">{layout.ui.name ?? "<no name>"}</span>
+            </div>
+            <div className="datum">
+                <span className="name">Country:</span>
+                <div className="value country">
+                    <img src={ctry.flag} />
+                    <span>{ctry.displayName}</span>
+                </div>
+            </div>
+            <div className="datum">
+                <span className="name">City:</span>
+                <span className="value">{layout.ui.city ?? "<unknown>"}</span>
+            </div>
+            <div className="datum">
+                <span className="name">Length:</span>
+                <span className="value">
+                    {layout.length
+                        ? `${layout.length.toLocaleString(LOCALE)} m`
+                        : "<unknown>"}
+                </span>
+            </div>
+            <div className="datum">
+                <span className="name">Width:</span>
+                <span className="value">{getWidthString(layout.width)}</span>
+            </div>
+            <div className="datum">
+                <span className="name">Pitboxes:</span>
+                <span className="value">{layout.ui.pitboxes ?? "<unknown>"}</span>
+            </div>
+            <div className="datum">
+                <span className="name">Direction:</span>
+                <span className="value">{layout.ui.run ?? "<unknown>"}</span>
+            </div>
+            <div className="datum">
+                <span className="name">Author:</span>
+                <span className="value">{layout.ui.author ?? "<unknown>"}</span>
+            </div>
+            <div className="datum">
+                <span className="name">Version:</span>
+                <span className="value">{layout.ui.version ?? "<unknown>"}</span>
+            </div>
+            {layout.ui.geotags && layout.ui.geotags.length === 2 && (<>
+                <div className="datum">
+                    <span className="name">Lat:</span>
+                    <span className="value">{layout.ui.geotags[0]}</span>
+                </div>
+                <div className="datum">
+                    <span className="name">Lat:</span>
+                    <span className="value">{layout.ui.geotags[1]}</span>
+                </div>
+            </>)}
+        </div>
+    );
+}
+
+interface LayoutEntryProps {
+    layout: AcTrackLayout;
+    selected: boolean;
+    onSelect: () => void;
+}
+
+function LayoutEntry ({
+    layout,
+    selected,
+    onSelect,
+}: LayoutEntryProps) {
+    const classStr = getClassString(
+        "layout-entry",
+        selected && "selected",
+    )
+
+    return (
+        <div className={classStr} onClick={handleSelect}>
+            <div className="layout-outline">
+                <img src={FILE_PROTOCOL + layout.outlinePath} />
+            </div>
+            <div className="layout-name">
+                {layout.layoutName}
+            </div>
+        </div>
+    );
+
+    function handleSelect () {
+        onSelect();
+    }
 }
 
 
@@ -372,6 +484,18 @@ function buildTrackPickerItems (trackList: AcTrack[], width: number) {
             )
         } as PickerElement;
     })
+}
+
+function getWidthString (width: {min: number, max: number} | null) {
+    if (width === null) {
+        return "<unknown>";
+    }
+    else if (width.min === width.max) {
+        return `${width.min} m`;
+    }
+    else {
+        return `${width.min} - ${width.max} m`;
+    }
 }
 
 export default TrackPicker;

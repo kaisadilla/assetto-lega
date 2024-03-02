@@ -74,7 +74,7 @@ export const AssettoCorsa = {
             throw `Car ${folderName} has no './ui/ui_car.json' file.`;
         }
 
-        console.info(`Loading UI json for car '${folderName}'...`);
+        //console.info(`Loading UI json for car '${folderName}'...`);
         const ui = await readJsonFile<CarUi>(carUiFile);
 
         const skinFolders = await fsAsync.readdir(carSkinFolder);
@@ -88,7 +88,7 @@ export const AssettoCorsa = {
                 console.error(`Car ${folderName} has no './ui_skin.json' file.`);
             }
 
-            console.info(`Loading UI json for car skin '${f}'...`);
+            //console.info(`Loading UI json for car skin '${f}'...`);
             let skinUi: CarSkinUi | null = null;
 
             try {
@@ -187,10 +187,25 @@ export const AssettoCorsa = {
             }
         }
 
-        const displayName = buildTrackDisplayName(folderName, layoutDisplayNames);
+        const [displayName, substrEnd] = buildTrackDisplayName(
+            folderName, layoutDisplayNames
+        );
 
         if (layouts.length === 0) {
             throw `No valid layout was found for track '${folderName}'`
+        }
+
+        for (const l of layouts) {
+            const layoutName = l.ui.name;
+
+            if (!layoutName) continue;
+            if (layoutName.startsWith(displayName) === false) continue;
+
+            l.layoutName = layoutName.substring(substrEnd);
+
+            if (l.layoutName === "") {
+                l.layoutName = l.ui.name ?? l.folderName;
+            }
         }
 
         const country = layouts.find(l => l.ui.country !== undefined)?.ui.country;
@@ -207,20 +222,78 @@ export const AssettoCorsa = {
     }
 };
 
-async function buildTrackLayoutObject (folderPath: string, folderName: string) {
+async function buildTrackLayoutObject (
+    folderPath: string, folderName: string
+) : Promise<AcTrackLayout> {
     const uiFile = folderPath + "/ui_track.json";
     const ui = await readJsonFile<AcTrackLayoutUi>(uiFile);
+
+    let length = null; // always in metters
+    let width = null;
+
+    if (ui.length) {
+        // whether there's the sequence 'km' somewhere in the string.
+        const kmHint = ui.length.includes("km");
+        // remove everything other than numbers from the string, including points.
+        // This is because most AC tracks incorrectly use points to divide
+        // decimals, which makes them unreliable as a decimal separator.
+        const numberStr = ui.length.replaceAll(/\D/g, "");
+        if (numberStr !== "") {
+            const number = parseInt(numberStr);
+    
+            // sometimes values with the "km" hint are shown like "3.671 km",
+            // while others they are like "5 km". Because we got rid of the
+            // decimal point earlier, as it was unreliable, we set an arbitrary
+            // threshold to whether we consider the number given as meters or
+            // kilometers.
+            if (number < 999 && kmHint) {
+                // "number" contains a value in km, so we turn it into meters.
+                length = number * 1_000;
+            }
+            else {
+                // "number" contains a value in m.
+                length = number;
+            }
+        }
+    }
+
+    if (ui.width) {
+        const numberStr = ui.width.replaceAll(/[^\-0-9]/g, "");
+        const substrs = numberStr.split("-");
+
+        if (substrs.length === 1) {
+            if (substrs[0] !== "") {
+                const val = parseInt(substrs[0]);
+                width = { min: val, max: val };
+            }
+        }
+        else {
+            if (substrs[0] !== "" || substrs[1] !== "") {
+                if (substrs[0] === "") substrs[0] = substrs[1];
+                if (substrs[1] === "") substrs[1] = substrs[0];
+
+                const val0 = parseInt(substrs[0]);
+                const val1 = parseInt(substrs[1]);
+
+                width = { min: val0, max: val1 };
+            }
+        }
+    }
 
     return {
         folderName: folderName,
         folderPath: folderPath,
         previewPath: folderPath + "/preview.png",
         outlinePath: folderPath + "/outline.png",
+        layoutName: ui.name ?? folderName,
+        length: length,
+        width: width,
         ui: ui,
-    } as AcTrackLayout;
+    };
 }
 
-function buildTrackDisplayName (folderName: string, layoutNames: string[]) {
+function buildTrackDisplayName (folderName: string, layoutNames: string[])
+: [string, number] {
     // A regex to find unnecessary characters at the end of a string.
     // Currently matches the characters ` `, `-`, `(`, `|`, `/` and `:`.
     const trimEndRegex = /[-\s\(\|\/\:]+$/g;
@@ -255,7 +328,7 @@ function buildTrackDisplayName (folderName: string, layoutNames: string[]) {
         name = layoutNames.find(n => !!n) ?? folderName;
     }
 
-    return name;
+    return [name, end];
 }
 
 async function readJsonFile<T extends object> (path: string) : Promise<T> {

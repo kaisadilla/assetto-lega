@@ -1,0 +1,12 @@
+.default-tag-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 6px;
+    
+    .default-tag {
+        background: $bg-color-dark-l2;
+        padding: 3px 6px;
+    }
+}

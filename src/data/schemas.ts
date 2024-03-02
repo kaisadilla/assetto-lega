@@ -261,6 +261,12 @@ export interface AcTrackLayout {
     folderPath: string;
     previewPath: string;
     outlinePath: string;
+    /**
+     * The name of the layout itself, removing the part that names the track.
+     */
+    layoutName: string;
+    length: number | null; // in meters
+    width: {min: number, max: number} | null; // in meters
     ui: AcTrackLayoutUi;
 }
 
