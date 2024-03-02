@@ -7,6 +7,7 @@ import { getClassString } from 'utils';
 export interface PickerDialog_ThumbnailProps {
     content: JSX.Element;
     selected: boolean;
+    width: number;
     onClick: () => void;
     onDoubleClick: () => void;
     className?: string;
@@ -16,6 +17,7 @@ export interface PickerDialog_ThumbnailProps {
 function PickerDialog_Thumbnail ({
     content,
     selected,
+    width,
     onClick,
     onDoubleClick,
     className,
@@ -33,6 +35,7 @@ function PickerDialog_Thumbnail ({
             onClick={onClick}
             onDoubleClick={onDoubleClick}
             tabIndex={tabIndex}
+            style={{width: `${width}px`}}
         >
             <div className="content-container">
                 {content}

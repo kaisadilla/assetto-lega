@@ -15,6 +15,7 @@ import CarThumbnail from 'elements/CarThumbnail';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import { LETTERS } from 'al_constants';
 import { LOCALE } from 'utils';
+import { BrandFilterElement } from './PickerDialog.Filter';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -193,9 +194,9 @@ function SelectorByBrand ({
         for (const b of brandList) {
             sections.push({
                 title: b.displayName,
+                id: b.displayName,
                 elements: buildCarPickerItems(
-                    carList.filter(c => c.ui.brand === b.displayName),
-                    thumbnailScale,
+                    carList.filter(c => c.ui.brand === b.displayName)
                 ),
             })
         }
@@ -218,6 +219,7 @@ function SelectorByBrand ({
                 <PickerDialog.ThumbnailGallery
                     className="car-gallery"
                     sections={carEntries}
+                    width={thumbnailScale}
                     selectedElement={selectedCar}
                     onSelect={c => onSelect(c)}
                     onDoubleClickItem={c => onSelect(c)}
@@ -231,7 +233,7 @@ function SelectorByBrand ({
         setSelectedBrand(value);
     }
 
-    function buildBrandFilterItems () {
+    function buildBrandFilterItems () : BrandFilterElement[] {
         return brandList.map(b => ({
             name: b.displayName,
             value: b.displayName,
@@ -265,12 +267,12 @@ function SelectorByTag ({
 
         sections.push({
             title: selectedTag,
+            id: selectedTag,
             elements: buildCarPickerItems(
                 carList.filter(c =>
                     // if the ALL tag is selected, then all cars are shown.
                     c.ui.tags?.includes(selectedTag) || selectedTag === ALL_TAG
                 ),
-                thumbnailScale,
             ),
         })
 
@@ -292,6 +294,7 @@ function SelectorByTag ({
                 <PickerDialog.ThumbnailGallery
                     className="car-gallery"
                     sections={carEntries}
+                    width={thumbnailScale}
                     selectedElement={selectedCar}
                     onSelect={c => onSelect(c)}
                     onDoubleClickItem={c => onSelect(c)}
@@ -343,6 +346,7 @@ function SelectorByName ({
         for (const l of letters) {
             sections.push({
                 title: l,
+                id: l,
                 elements: buildCarPickerItems(
                     carList.filter(c => {
                         const carName = c.ui.name ?? c.folderName;
@@ -354,7 +358,6 @@ function SelectorByName ({
                             return filterName.charAt(0) === l;
                         }
                     }),
-                    thumbnailScale,
                 ),
             })
         }
@@ -377,6 +380,7 @@ function SelectorByName ({
                 <PickerDialog.ThumbnailGallery
                     className="car-gallery"
                     sections={carEntries}
+                    width={thumbnailScale}
                     selectedElement={selectedCar}
                     onSelect={c => onSelect(c)}
                     onDoubleClickItem={c => onSelect(c)}
@@ -412,7 +416,7 @@ function FilterTagItem ({tag}: FilterTagItemProps) {
     );
 }
 
-function buildCarPickerItems (carList: AcCar[], width: number) {
+function buildCarPickerItems (carList: AcCar[]) {
     return carList.map(c => {
         const defaultSkin = getCarDefaultSkin(c);
         const previewPath = getCarPreviewFile(defaultSkin.folderPath, true);
@@ -424,7 +428,6 @@ function buildCarPickerItems (carList: AcCar[], width: number) {
                     name={c.ui.name ?? c.folderName}
                     badgePath={getCarBadgeFile(c.folderPath, true)}
                     previewPath={previewPath}
-                    width={width}
                 />
             )
         } as PickerElement;

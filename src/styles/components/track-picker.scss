@@ -21,9 +21,71 @@
         gap: 16px;
         padding: 16px;
 
+        .country-category-title {
+            &:hover {
+                background-color: $bg-color-dark-l1;
+            }
+        }
+
         .filters-container {
             flex: 1;
             min-width: 200px;
+        }
+
+        .track-selector-container {
+            flex: 4.5;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .track-list-container {
+                flex: 4;
+                overflow-y: auto;
+            }
+
+            .selected-track-showcase {
+                flex: 3;
+                // all other css specified below.
+            }
+        }
+    }
+
+    .selected-track-showcase {
+        // flex size specified above.
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow: hidden;
+
+        .image-section {
+            background: green;
+            flex: 3;
+            display: flex;
+            align-items: center;
+
+            .image-container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+
+                > img {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+        }
+
+        .layout-data-section {
+            background: white;
+            flex: 2;
+        }
+
+        .layout-menu-section {
+            background: red;
+            flex: 4;
         }
     }
 }

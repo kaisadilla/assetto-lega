@@ -153,6 +153,7 @@ export interface AcTrackCollection {
     trackList: AcTrack[];
     tracksById: {[folderName: string]: AcTrack};
     tags: string[];
+    presentCountries: string[];
 }
 
 export interface AcCarSkinCollection {
@@ -243,6 +244,10 @@ export interface AcTrack {
      */
     displayName: string;
     /**
+     * The country to display, taken from the default (or first) layout available.
+     */
+    displayCountry: string;
+    /**
      * Whether the first layout in the layouts array is in the root "ui" folder,
      * rather than an extra layout.
      */
@@ -256,10 +261,10 @@ export interface AcTrackLayout {
     folderPath: string;
     previewPath: string;
     outlinePath: string;
-    ui: AcTrackUi;
+    ui: AcTrackLayoutUi;
 }
 
-export interface AcTrackUi {
+export interface AcTrackLayoutUi {
     name?: string;
     description?: string;
     tags?: string[];

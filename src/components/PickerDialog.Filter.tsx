@@ -1,4 +1,5 @@
 import BrandSelectorList, { BrandSelectorListEntryData } from 'elements/BrandSelectorList';
+import CountrySelectorList from 'elements/CountrySelectorList';
 import TextSelectorList from 'elements/TextSelectorList';
 import Textbox from 'elements/Textbox';
 import React, { useState } from 'react';
@@ -15,11 +16,17 @@ export interface TextFilterElement {
     value: string;
 }
 
+export interface CountryFilterElement {
+    name: string;
+    value: string;
+}
+
 export interface PickerDialog_FilterProps {
     title: string;
     selectorListStyle: 'text' | 'brand' | 'country';
     brandItems?: BrandFilterElement[];
     textItems?: TextFilterElement[];
+    countryItems?: CountryFilterElement[];
     selectedValue?: string | null;
     onSelect?: (value: string) => void;
 }
@@ -29,6 +36,7 @@ function PickerDialog_Filter ({
     selectorListStyle,
     brandItems,
     textItems,
+    countryItems,
     selectedValue,
     onSelect,
 }: PickerDialog_FilterProps) {
@@ -39,6 +47,10 @@ function PickerDialog_Filter ({
     if (selectorListStyle === 'text' && textItems === undefined) {
         throw `Error when building PickerDialog.Filter: selectorListStyle `
             + `'text' requires prop 'textItems' to be informed.`;
+    }
+    if (selectorListStyle === 'country' && countryItems === undefined) {
+        throw `Error when building PickerDialog.Filter: selectorListStyle `
+            + `'country' requires prop 'countryItems' to be informed.`;
     }
 
     const [searchVal, setSearchVal] = useState("");
@@ -75,6 +87,20 @@ function PickerDialog_Filter ({
                 selectorListStyle === 'text' && <TextSelectorList
                     entries={
                         smartFilterObjectArray(textItems ?? [], searchVal, i => i.name)
+                            .map(it => ({
+                                name: it.name,
+                                value: it.value,
+                                selected: selectedValue === it.value,
+                                onSelect: () => onSelect?.(it.value)
+                            })
+                        )
+                    }
+                />
+            }
+            {
+                selectorListStyle === 'country' && <CountrySelectorList
+                    entries={
+                        smartFilterObjectArray(countryItems ?? [], searchVal, i => i.name)
                             .map(it => ({
                                 name: it.name,
                                 value: it.value,

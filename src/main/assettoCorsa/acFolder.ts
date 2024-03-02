@@ -1,6 +1,6 @@
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack, AcTrackLayout, AcTrackUi, AcTrackLayoutCollection } from "data/schemas";
+import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack, AcTrackLayout, AcTrackLayoutUi, AcTrackLayoutCollection } from "data/schemas";
 import DetectFileEncodingAndLanguage from "detect-file-encoding-and-language";
 
 const TEXT_FORMAT = "utf-8";
@@ -193,10 +193,13 @@ export const AssettoCorsa = {
             throw `No valid layout was found for track '${folderName}'`
         }
 
+        const country = layouts.find(l => l.ui.country !== undefined)?.ui.country;
+
         return {
             folderName: folderName,
             folderPath: folderPath,
             displayName: displayName,
+            displayCountry: country ?? "Unknown",
             firstLayoutIsDefault: hasDefaultLayout,
             layouts: layouts,
             layoutsById: layoutsById,
@@ -206,7 +209,7 @@ export const AssettoCorsa = {
 
 async function buildTrackLayoutObject (folderPath: string, folderName: string) {
     const uiFile = folderPath + "/ui_track.json";
-    const ui = await readJsonFile<AcTrackUi>(uiFile);
+    const ui = await readJsonFile<AcTrackLayoutUi>(uiFile);
 
     return {
         folderName: folderName,

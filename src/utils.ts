@@ -1,4 +1,6 @@
 import { MONTHS } from "al_constants";
+import { getCountryIdByAssettoName } from "data/countries";
+import { AcTrack } from "data/schemas";
 import { saveAs } from "file-saver";
 
 export const LOCALE = "en-US";
@@ -251,4 +253,29 @@ export function dateToDisplayName (date: Date) {
     const year = date.getFullYear();
 
     return `${day} ${month} ${year}`;
+}
+
+/**
+ * Returns an object that contains a key for each country that has, at least,
+ * one track. The value of each field is equal to the number of tracks in that
+ * country.
+ * @param trackList The tracklist to scan.
+ */
+export function getCountriesWithTracks (
+    trackList: AcTrack[]
+) : {[name: string]: number} {
+    const countries: {[name: string]: number} = {};
+    
+    for (const t of trackList) {
+        const countryId = getCountryIdByAssettoName(t.displayCountry);
+
+        if (countries[countryId]) {
+            countries[countryId]++;
+        }
+        else {
+            countries[countryId] = 1;
+        }
+    }
+
+    return countries;
 }

@@ -64,6 +64,9 @@ function CountryPicker ({
         for (const key in CountryCategory) {
             const value = CountryCategory[key as keyof typeof CountryCategory];
 
+            if (value === CountryCategory.pseudo) {
+                continue;
+            }
             // skip category 'pseudo' if regions are not allowed.
             if (!allowRegions && value === CountryCategory.regions) {
                 continue;

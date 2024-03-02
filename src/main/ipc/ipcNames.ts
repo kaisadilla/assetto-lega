@@ -24,3 +24,5 @@ export const HANDLER_AC_GET_CAR_BRAND_LIST = "ac/get-car-brand-list";
 export const HANDLER_AC_GET_TRACK_DATA = "ac/get-track-data";
 export const HANDLER_AC_GET_TRACK_LIST = "ac/get-track-list";
 export const HANDLER_AC_GET_TRACK = "ac/get-track";
+
+export const HANDLER_AC_INITIALIZE_RENDER_STEP = "ac/initialize-render-step";

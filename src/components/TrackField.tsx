@@ -1,4 +1,3 @@
-import { AssettoToLegaCountries } from 'data/countries';
 import { AcTrack } from 'data/schemas';
 import CoverPanel from 'elements/CoverPanel';
 import FlagImage from 'elements/images/FlagImage';
@@ -6,6 +5,7 @@ import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 import TrackPicker, { TrackPickerValue } from './TrackPicker';
+import { getCountryIdByAssettoName } from 'data/countries';
 
 export interface TrackFieldProps {
     track?: string;
@@ -126,7 +126,7 @@ function TrackFieldLabel ({
     }
 
     const displayName = layoutInfo?.ui.name ?? trackData.displayName;
-    const country = AssettoToLegaCountries[layoutInfo.ui.country ?? ""];
+    const country = getCountryIdByAssettoName(layoutInfo.ui.country);
 
     return (
         <div className="picker-content track-content" onClick={onClick}>

@@ -18,7 +18,7 @@ export interface TextSelectorListProps {
 }
 
 function TextSelectorList ({
-    entries
+    entries,
 }: TextSelectorListProps) {
     return (
         <div className="default-text-selector-list">
@@ -35,7 +35,7 @@ interface TextSelectorListEntryProps {
 }
 
 function TextSelectorListEntry ({
-    data
+    data,
 }: TextSelectorListEntryProps) {
     const classStr = getClassString(
         "text-selector-list-entry",

@@ -5,7 +5,6 @@ export interface CarThumbnailProps {
     name: string;
     badgePath: string;
     previewPath: string;
-    width: number;
     className?: string;
 }
 
@@ -13,7 +12,6 @@ function CarThumbnail ({
     name,
     badgePath,
     previewPath,
-    width,
     className,
 }: CarThumbnailProps) {
     const classStr = getClassString(
@@ -23,7 +21,7 @@ function CarThumbnail ({
     )
 
     return (
-        <div className={classStr} style={{width: `${width}px`}}>
+        <div className={classStr}>
             <div className="thumbnail-background">
                 <img src={previewPath} />
             </div>

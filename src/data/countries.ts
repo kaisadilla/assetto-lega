@@ -1,3 +1,5 @@
+import { LOCALE } from "utils";
+
 export interface Country {
     displayName: string;
     category: CountryCategory;
@@ -19,6 +21,7 @@ export enum CountryCategory {
     subnational = "Sub-national",
     unrecognized = "Unrecognized",
     historical = "Historical",
+    pseudo = "Special",
 }
 
 interface CorsaCountry {
@@ -30,6 +33,15 @@ interface CorsaCountry {
 let initialized = false;
 
 export const Countries: { [key: string]: Country } = {
+    "unknown": {
+        "displayName": "Unknown",
+        "category": CountryCategory.pseudo,
+        "flag": require("@assets/flags/unknown.png"),
+        "assettoCorsa": {
+            "name": "Unknown",
+            "code": "AC",
+        },
+    },
     "assetto_corsa": {
         "displayName": "Assetto Corsa",
         "category": CountryCategory.regions,
@@ -2397,11 +2409,11 @@ export const Countries: { [key: string]: Country } = {
 /**
  * A dictionary that maps Assetto Corsa's country names to Lega's country objects.
  */
-export const CountriesByAssettoName: {[assettoName: string]: Country} = {};
+const CountriesByAssettoName: {[assettoName: string]: Country} = {};
 /**
  * A dictionary that maps Assetto Corsa's country names to Lega's internal names.
  */
-export const AssettoToLegaCountries: {[assettoName: string]: string} = {};
+const AssettoToLegaCountries: {[assettoName: string]: string} = {};
 
 export function InitializeCountryData () {
     if (initialized) return;
@@ -2420,4 +2432,83 @@ export function InitializeCountryData () {
     }
 
     initialized = true;
+}
+
+export function getCountryByAssettoName (assettoName: string | undefined) {
+    const country = CountriesByAssettoName[assettoName ?? "unknown"];
+    return country ?? Countries["unknown"];
+}
+
+export function getCountryIdByAssettoName (assettoName: string | undefined) {
+    const country = AssettoToLegaCountries[assettoName ?? "unknown"];
+    return country ?? "unknown";
+}
+
+/**
+ * Given an array of strings representing country ids, groups them by their
+ * category.
+ * @param countries The countries to group.
+ * @param sort If true, each group will be sorted alphabetically.
+ * @returns 
+ */
+export function groupCountriesByCategory (
+    countries: string[], sort: boolean = true
+) : {[key in CountryCategory]?: string[]}
+{
+    return groupObjectsByCountryCategory(countries, c => c, sort);
+}
+
+/**
+ * Given an array of objects, groups them by the category of whichever country
+ * they pertain to.
+ * @param objects The array to group.
+ * @param selector A callback to select the field in each object that specifies
+ * their country.
+ * @param sort If true, each group will be sorted alphabetically.
+ * @returns 
+ */
+export function groupObjectsByCountryCategory<T> (
+    objects: T[], selector: (obj: T) => string, sort: boolean = true
+) : {[key in CountryCategory]?: T[]}
+{
+    // a construct to store all the necessary data to create each group.
+    const references: {[key in CountryCategory]?: (Country & {value: T})[]} = {};
+    // the object containing the final result.
+    const objByCategory: {[key in CountryCategory]?: T[]} = {};
+
+    for (const o of objects) {
+        // extract the country from the object.
+        const c = selector(o);
+        const country = Countries[c];
+
+        // if the country received doens't exist, fail.
+        if (!country) {
+            throw `Couldn't find country with name '${c}'.`;
+        }
+
+        if (references[country.category] === undefined) {
+            references[country.category] = [];
+        }
+
+        references[country.category]?.push({...country, value: o});
+    }
+
+    // Iterate the CountryCategory enumerator, rather than object keys, so the
+    // categories in the resulting object are sorted just like in the enum.
+    for (const cat of Object.values(CountryCategory)) {
+        const key = cat as CountryCategory;
+        if (!references[key]) continue;
+
+        // sort the contents of this category alphabetically.
+        if (sort) {
+            references[key] = references[key]!.sort(
+                (a, b) => a.displayName.localeCompare(b.displayName, LOCALE)
+            );
+        }
+
+        // extract the original object from the construct.
+        objByCategory[key] = references[key]?.map(obj => obj.value);
+    }
+
+    return objByCategory;
 }

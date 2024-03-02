@@ -7,6 +7,7 @@ import { clampNumber, getClassString } from 'utils';
 
 export interface PickerElementSection {
     title: string;
+    id: string;
     elements: PickerElement[];
 }
 
@@ -18,6 +19,7 @@ export interface PickerElement {
 export interface PickerDialog_ThumbnailGalleryProps {
     sections: PickerElementSection[];
     selectedElement: string | null;
+    width: number;
     onSelect: (value: string) => void;
     onDoubleClickItem: (value: string) => void;
     focusedSection?: string | null;
@@ -27,6 +29,7 @@ export interface PickerDialog_ThumbnailGalleryProps {
 function PickerDialog_ThumbnailGallery ({
     sections,
     selectedElement,
+    width,
     onSelect,
     onDoubleClickItem,
     focusedSection,
@@ -44,6 +47,7 @@ function PickerDialog_ThumbnailGallery ({
                     <Section
                         key={i}
                         section={s}
+                        width={width}
                         selectedElement={selectedElement}
                         onSelect={onSelect}
                         onDoubleClick={onDoubleClickItem}
@@ -58,6 +62,7 @@ function PickerDialog_ThumbnailGallery ({
 interface SectionProps {
     section: PickerElementSection;
     selectedElement: string | null;
+    width: number;
     onSelect: (value: string) => void;
     onDoubleClick: (value: string) => void;
     focusedSection?: string | null;
@@ -67,6 +72,7 @@ interface SectionProps {
 function Section ({
     section,
     selectedElement,
+    width,
     onSelect,
     onDoubleClick,
     focusedSection,
@@ -77,7 +83,7 @@ function Section ({
     
     useEffect(() => {
         //console.info("new ref for " + section.title, $title);
-        if (focusedSection === section.title) {
+        if (focusedSection === section.id) {
             $title.current?.scrollIntoView({behavior: 'instant'});
         }
     }, [$title, focusedSection])
@@ -92,6 +98,7 @@ function Section ({
                     <PickerDialog.Thumbnail
                         key={el.value}
                         content={el.thumbnail}
+                        width={width}
                         selected={selectedElement === el.value}
                         onClick={() => onSelect(el.value)}
                         onDoubleClick={() => onDoubleClick(el.value)}
