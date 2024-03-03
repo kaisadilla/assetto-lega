@@ -19,7 +19,10 @@ import ToolboxRow from 'elements/ToolboxRow';
 import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
-import { getClassString } from 'utils';
+import { deleteAt, getClassString } from 'utils';
+
+type EditableTeam = LeagueTeam & {deleted: boolean};
+type EditableDriver = LeagueTeamDriver & {deleted: boolean};
 
 enum TeamEditorTab {
     INFO,
@@ -45,7 +48,7 @@ function TeamEditionTable ({
         loadAcData();
     }, []);
 
-    const [editedTeams, setEditedTeams] = useState(cloneTeamArray(teams));
+    const [editedTeams, setEditedTeams] = useState(generateEditable(teams));
     // an array that mirrors 'edited teams'. Each boolean represents whether a
     // team has been edited or not.
     const [editFlags, setEditFlags] = useState(editedTeams.map(() => false));
@@ -62,6 +65,10 @@ function TeamEditionTable ({
         (acc, t) => acc += t.drivers.length, 0
     );
 
+    useEffect(() => {
+        setEditedTeams(generateEditable(teams));
+    }, [teams]);
+
     return (
         <div className="edition-table team-edition-table">
             <div className="list-container team-list-container">
@@ -70,7 +77,9 @@ function TeamEditionTable ({
                     teams={editedTeams}
                     editFlags={editFlags}
                     selectedIndex={selectedTeam}
-                    onSelect={handleTeamSelect}
+                    onSelect={handleSelectTeam}
+                    onDelete={i => handleSetDeletedTeam(i, true)}
+                    onRestore={i => handleSetDeletedTeam(i, false)}
                 />
                 <div className="team-list-toolbar">
                     <Button onClick={handleAddTeam} disabled={carData === null}>
@@ -136,13 +145,75 @@ function TeamEditionTable ({
             />}
         </div>
     );
+
+    // #region edition handlers (add, delete, select, etc.)
+    function handleAddTeam () {
+        const update = [
+            ...editedTeams,
+            createNewTeam() as EditableTeam,
+        ];
+        update[update.length - 1].deleted = false;
+        setEditedTeams(update);
+        
+        const editUpdate = [
+            ...editFlags,
+            true,
+        ];
+        setEditFlags(editUpdate);
+
+        setSelectedTeam(update.length - 1);
+    }
+
+    function handleSetDeletedTeam (index: number, deleted: boolean) {
+        const update = [...editedTeams];
+        update[index].deleted = deleted;
+        setEditedTeams(update);
+        flagAsEdited(index);
+    }
+
+    function handleTeamChange (field: keyof LeagueTeam, value: any) {
+        const update = {
+            ...editedTeams[selectedTeam],
+            [field]: value,
+        };
+
+        const newTeams = [...editedTeams];
+        newTeams[selectedTeam] = update;
+
+        setEditedTeams(newTeams);
+        flagAsEdited(selectedTeam);
+    }
+
+    function handleSelectTeam (index: number) {
+        setSelectedTeam(index);
+    }
+
+    function handleInfoChange (field: keyof LeagueTeam, value: any) {
+        handleTeamChange(field, value);
+    }
+
+    function handleDriversChange (drivers: LeagueTeamDriver[]) {
+        handleTeamChange('drivers', drivers);
+    }
+
+    function flagAsEdited (index: number) {
+        const editUpdate = [...editFlags];
+        editUpdate[index] = true;
+        setEditFlags(editUpdate);
+    }
+
+    function areThereChanges () {
+        return editFlags.some(f => f);
+    }
+    // #endregion
     
+    // #region toolbox button handlers
     function handleReset () {
         setDialogResetOpen(true);
     }
     
     function handleResetDialog () {
-        setEditedTeams(cloneTeamArray(teams));
+        setEditedTeams(generateEditable(teams));
         setEditFlags(editedTeams.map(() => false));
     }
 
@@ -172,112 +243,18 @@ function TeamEditionTable ({
             onClose?.();
         }
     }
+    // #endregion
 
-    function handleTeamSelect (index: number) {
-        setSelectedTeam(index);
-    }
-
-    function handleAddTeam () {
-        const teamUpdate = [
-            ...editedTeams,
-            createNewTeam(),
-        ];
-        setEditedTeams(teamUpdate);
-        
-        const editUpdate = [
-            ...editFlags,
-            true,
-        ];
-        setEditFlags(editUpdate);
-
-        setSelectedTeam(teamUpdate.length - 1);
-    }
-
-    function handleInfoChange (field: keyof LeagueTeam, value: any) {
-        handleTeamChange(field, value);
-    }
-
-    function handleDriversChange (drivers: LeagueTeamDriver[]) {
-        handleTeamChange('drivers', drivers);
-    }
-
-    function handleTeamChange (field: keyof LeagueTeam, value: any) {
-        const team = {
-            ...editedTeams[selectedTeam],
-            [field]: value,
-        };
-
-        const newTeams = [...editedTeams];
-        newTeams[selectedTeam] = team;
-
-        setEditedTeams(newTeams);
-
-        const newEdits = [...editFlags]
-        newEdits[selectedTeam] = true;
-        setEditFlags(newEdits);
-    }
-
-    function areThereChanges () {
-        return editFlags.some(f => f);
-    }
-
-    /**
-     * Validates all fields in all teams and returns an array containing any
-     * validation errors found. An empty array means that no errors were found.
-     */
-    function validateChanges () : string[] {
-        const errorList = [] as string[];
-
-        for (const t in editedTeams) {
-            const team = editedTeams[t];
-            const teamNames = `#${t} '${getTeamName(team)}'`;
-
-            for (const field of LeagueTeamRequiredFields) {
-                if (valueNullOrEmpty(team[field])) {
-                    errorList.push(
-                        `- Team ${teamNames} is missing field '${field}'.`
-                    );
-                }
-            }
-
-            if (team.drivers.length === 0) {
-                errorList.push(
-                    `- Team ${teamNames} has no drivers.`
-                );
-            }
-
-            for (const d in team.drivers) {
-                const driver = team.drivers[d];
-                const driverNames = `#${d} '${driver.name ?? "<no-name>"}'`;
-
-                for (const field of LeagueTeamDriverRequiredFields) {
-                    if (valueNullOrEmpty(driver[field])) {
-                        errorList.push(
-                            `- Driver ${driverNames} in team ${teamNames} ` +
-                            `is missing field '${field}'.`
-                        );
-                    }
-                }
-            }
-        }
-
-        return errorList;
-
-        function valueNullOrEmpty (value: any) {
-            return value === undefined
-                || (typeof value === 'string' && value === "");
-        }
-    }
-
+    // #region saving procedure
     /**
      * Saves the changes made to the teams if they are valid, or shows a pop-up
      * indicating that saving is not possible otherwise. Returns true if changes
      * were saved, or false if they weren't.
      */
     function saveIfChangesAreValid () {
-        const errors = validateChanges();
+        const errors = validateChanges(editedTeams);
         if (errors.length === 0) {
-            onSave?.(editedTeams);
+            onSave?.(generateResult(editedTeams));
             return true;
         }
         else {
@@ -289,6 +266,7 @@ function TeamEditionTable ({
             return false;
         }
     }
+    // #endregion
 
     async function loadAcData () {
         const _data = await Ipc.getCarData();
@@ -297,10 +275,12 @@ function TeamEditionTable ({
 }
 
 interface TeamListProps {
-    teams: LeagueTeam[];
+    teams: EditableTeam[];
     editFlags: boolean[];
     selectedIndex: number;
     onSelect: (index: number) => void;
+    onDelete: (index: number) => void;
+    onRestore: (index: number) => void;
 }
 
 function TeamList ({
@@ -308,6 +288,8 @@ function TeamList ({
     editFlags,
     selectedIndex,
     onSelect,
+    onDelete,
+    onRestore,
 }: TeamListProps) {
     return (
         <div className="edition-items-list team-list">
@@ -318,6 +300,8 @@ function TeamList ({
                     selected={selectedIndex === i}
                     edited={editFlags[i]}
                     onSelect={() => onSelect(i)}
+                    onDelete={() => onDelete(i)}
+                    onRestore={() => onRestore(i)}
                 />)
             }
         </div>
@@ -325,10 +309,12 @@ function TeamList ({
 }
 
 interface TeamEntryProps {
-    team: LeagueTeam;
+    team: EditableTeam;
     selected: boolean;
     edited: boolean;
     onSelect: () => void;
+    onDelete: () => void;
+    onRestore: () => void;
 }
 
 function TeamEntry ({
@@ -336,6 +322,8 @@ function TeamEntry ({
     selected,
     edited,
     onSelect,
+    onDelete,
+    onRestore,
 }: TeamEntryProps) {
     const displayName = team.shortName ? team.shortName : team.name;
 
@@ -350,17 +338,27 @@ function TeamEntry ({
     return (
         <div className={classStr}>
             <div className="item-name team-name" onClick={() => onSelect()}>
-                <span>{edited && "*"} {displayName}</span>
+                <span className="name">{edited && "*"} {displayName}</span>
+                {team.deleted && <span>(deleted)</span>}
             </div>
-            <Button className="delete-button">
+            {!team.deleted && <Button
+                className="button delete-button"
+                onClick={() => onDelete()}
+            >
                 <MaterialSymbol symbol='close' />
-            </Button>
+            </Button>}
+            {team.deleted && <Button
+                className="button restore-button"
+                onClick={() => onRestore()}
+            >
+                <MaterialSymbol symbol='history' />
+            </Button>}
         </div>
     );
 }
 
 export interface TabInfoProps {
-    team: LeagueTeam,
+    team: EditableTeam,
     onChange: (field: keyof LeagueTeam, value: any) => void;
 }
 
@@ -457,7 +455,7 @@ function TabInfo ({
 }
 
 interface TabDriversProps {
-    team: LeagueTeam,
+    team: EditableTeam,
     onChange: (drivers: LeagueTeamDriver[]) => void;
 }
 
@@ -474,12 +472,13 @@ function TabDrivers ({
                     driver={d}
                     carId={team.car}
                     onChange={(field, value) => handleDriverChange(i, field, value)}
+                    onDelete={() => handleDriverDelete(i)}
                 />)}
             </div>
             <div className="driver-list-toolbar">
                 <Button onClick={handleAddDriver}>
                     <MaterialSymbol symbol='add' />
-                    Add team
+                    Add driver
                 </Button>
             </div>
         </div>
@@ -488,13 +487,19 @@ function TabDrivers ({
     function handleDriverChange (
         index: number, field: keyof LeagueTeamDriver, value: any
     ) {
-        const updatedDrivers = [...team.drivers];
-        updatedDrivers[index] = {
-            ...updatedDrivers[index],
+        const update = [...team.drivers];
+        update[index] = {
+            ...update[index],
             [field]: value,
         };
 
-        onChange(updatedDrivers);
+        onChange(update);
+    }
+
+    function handleDriverDelete (index: number) {
+        const update = [...team.drivers];
+        deleteAt(update, index);
+        onChange(update);
     }
 
     function handleAddDriver () {
@@ -510,12 +515,14 @@ interface DriverCardProps {
     driver: LeagueTeamDriver;
     carId: string;
     onChange: (field: keyof LeagueTeamDriver, value: any) => void;
+    onDelete: () => void;
 }
 
 function DriverCard ({
     driver,
     carId,
     onChange,
+    onDelete,
 }: DriverCardProps) {
     const { suggestions } = useDataContext();
 
@@ -597,6 +604,11 @@ function DriverCard ({
                     />
                 </LabeledControl>
             </Form.Section>
+            <div className="floating-toolbox">
+                <Button className="delete-button" onClick={onDelete}>
+                    <MaterialSymbol symbol='close' />
+                </Button>
+            </div>
         </Form>
     );
 
@@ -605,16 +617,80 @@ function DriverCard ({
     }
 }
 
-
-
-function cloneTeamArray (teams: LeagueTeam[]) {
-    const newArr = [];
+function generateEditable (teams: LeagueTeam[]) {
+    const newArr = [] as EditableTeam[];
 
     for (const t of teams) {
-        newArr.push(structuredClone(t));
+        const clone = structuredClone(t) as EditableTeam;
+        clone.deleted = false;
+        newArr.push(clone);
     }
 
     return newArr;
+}
+
+function generateResult (teams: EditableTeam[]) {
+    const newArr = [] as LeagueTeam[];
+
+    for (const t of teams) {
+        // discard deleted entries.
+        if (t.deleted) continue;
+
+        const clone = structuredClone(t);
+        // @ts-ignore
+        delete clone.deleted;
+        newArr.push(clone as LeagueTeam);
+    }
+
+    return newArr;
+}
+
+/**
+ * Validates all fields in all teams and returns an array containing any
+ * validation errors found. An empty array means that no errors were found.
+ */
+function validateChanges (editedTeams: EditableTeam[]) : string[] {
+    const errorList = [] as string[];
+
+    for (const t in editedTeams) {
+        const team = editedTeams[t];
+        const teamNames = `#${t} '${getTeamName(team)}'`;
+
+        for (const field of LeagueTeamRequiredFields) {
+            if (valueNullOrEmpty(team[field])) {
+                errorList.push(
+                    `- Team ${teamNames} is missing field '${field}'.`
+                );
+            }
+        }
+
+        if (team.drivers.length === 0) {
+            errorList.push(
+                `- Team ${teamNames} has no drivers.`
+            );
+        }
+
+        for (const d in team.drivers) {
+            const driver = team.drivers[d];
+            const driverNames = `#${d} '${driver.name ?? "<no-name>"}'`;
+
+            for (const field of LeagueTeamDriverRequiredFields) {
+                if (valueNullOrEmpty(driver[field])) {
+                    errorList.push(
+                        `- Driver ${driverNames} in team ${teamNames} ` +
+                        `is missing field '${field}'.`
+                    );
+                }
+            }
+        }
+    }
+
+    return errorList;
+
+    function valueNullOrEmpty (value: any) {
+        return value === undefined
+            || (typeof value === 'string' && value === "");
+    }
 }
 
 export default TeamEditionTable;

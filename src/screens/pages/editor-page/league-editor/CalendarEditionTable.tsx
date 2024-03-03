@@ -18,6 +18,8 @@ import { deleteAt, getClassString, valueNullOrEmpty } from 'utils';
 const DATE_REGEX = /^[0-9]{4}[\/\-][0-9]{2}[\/\-][0-9]{2}$/g;
 const HOUR_REGEX = /^[0-2][0-9][:][0-5][0-9]$/g;
 
+type EditableCalendarEntry = LeagueCalendarEntry & {deleted: boolean};
+
 export interface CalendarEditionTableProps {
     calendar: LeagueCalendarEntry[];
     onSave?: (teams: LeagueCalendarEntry[]) => void;
@@ -37,7 +39,7 @@ function CalendarEditionTable ({
         loadTracks();
     }, []);
 
-    const [editedCalendar, setEditedCalendar] = useState(cloneCalendar(calendar));
+    const [editedCalendar, setEditedCalendar] = useState(generateEditable(calendar));    
     const [editFlags, setEditFlags] = useState(editedCalendar.map(() => false));
     const [selectedEntry, setSelectedEntry] = useState(0);
     
@@ -48,6 +50,10 @@ function CalendarEditionTable ({
 
     const entryCount = calendar.length;
 
+    useEffect(() => {
+        setEditedCalendar(generateEditable(calendar));
+    }, [calendar]);
+
     return (
         <div className="edition-table calendar-edition-table">
             <div className="list-container">
@@ -57,7 +63,8 @@ function CalendarEditionTable ({
                     editFlags={editFlags}
                     selectedIndex={selectedEntry}
                     onSelect={handleSelectEntry}
-                    onDelete={handleDeleteEntry}
+                    onDelete={i => handleSetDeletedEntry(i, true)}
+                    onRestore={i => handleSetDeletedEntry(i, false)}
                 />
                 <div className="calendar-list-toolbar">
                     <Button onClick={handleAddEntry} disabled={tracks === null}>
@@ -114,11 +121,13 @@ function CalendarEditionTable ({
         </div>
     );
 
+    // #region edition handlers (add, delete, select, etc.)
     function handleAddEntry () {
         const update = [
             ...editedCalendar,
-            createNewCalendarEntry(),
+            createNewCalendarEntry() as EditableCalendarEntry,
         ]
+        update[update.length - 1].deleted = false;
 
         setEditedCalendar(update);
         
@@ -131,26 +140,43 @@ function CalendarEditionTable ({
         setSelectedEntry(editUpdate.length - 1);
     }
 
-    function handleDeleteEntry (index: number) {
+    function handleSetDeletedEntry (index: number, deleted: boolean) {
         const update = [...editedCalendar];
-        deleteAt(update, index);
+        update[index].deleted = deleted;
         setEditedCalendar(update);
-        
-        const editUpdate = [...editFlags];
-        editUpdate[0] = true;
-        setEditFlags(editUpdate);
-
-        if (selectedEntry >= editUpdate.length) {
-            setSelectedEntry(editUpdate.length - 1);
-        }
+        flagAsEdited(index);
     }
     
+    function handleSelectEntry (index: number) {
+        setSelectedEntry(index);
+    }
+
+    function handleEntryChange (entry: EditableCalendarEntry) {
+        const update = [...editedCalendar];
+        update[selectedEntry] = entry;
+
+        setEditedCalendar(update);
+        flagAsEdited(selectedEntry);
+    }
+
+    function flagAsEdited (index: number) {
+        const editUpdate = [...editFlags];
+        editUpdate[index] = true;
+        setEditFlags(editUpdate);
+    }
+
+    function areThereChanges () {
+        return editFlags.some(f => f);
+    }
+    // #endregion
+    
+    // #region toolbox button handlers
     function handleReset () {
         setDialogResetOpen(true);
     }
     
     function handleResetDialog () {
-        setEditedCalendar(cloneCalendar(calendar));
+        setEditedCalendar(generateEditable(calendar));
         setEditFlags(editedCalendar.map(() => false));
     }
 
@@ -180,15 +206,9 @@ function CalendarEditionTable ({
             onClose?.();
         }
     }
+    // #endregion
 
-    function handleSelectEntry (index: number) {
-        setSelectedEntry(index);
-    }
-
-    function areThereChanges () {
-        return editFlags.some(f => f);
-    }
-
+    // #region saving procedure
     /**
      * Saves the changes made to the calendar if they are valid, or shows a pop-up
      * indicating that saving is not possible otherwise. Returns true if changes
@@ -197,7 +217,7 @@ function CalendarEditionTable ({
     function saveIfChangesAreValid () {
         const errors = validateChanges(editedCalendar);
         if (errors.length === 0) {
-            onSave?.(editedCalendar);
+            onSave?.(generateResult(editedCalendar));
             return true;
         }
         else {
@@ -210,29 +230,21 @@ function CalendarEditionTable ({
         }
     }
 
+    // #endregion
+
     async function loadTracks () {
         const tracks = await Ipc.getTrackData();
         setTracks(tracks);
     }
-
-    function handleEntryChange (entry: LeagueCalendarEntry) {
-        const update = [...editedCalendar];
-        update[selectedEntry] = entry;
-
-        setEditedCalendar(update);
-
-        const newEdits = [...editFlags]
-        newEdits[selectedEntry] = true;
-        setEditFlags(newEdits);
-    }
 }
 
 interface EntryListProps {
-    entries: LeagueCalendarEntry[];
+    entries: EditableCalendarEntry[];
     editFlags: boolean[];
     selectedIndex: number;
     onSelect: (index: number) => void;
     onDelete: (index: number) => void;
+    onRestore: (index: number) => void;
 }
 
 function EntryList ({
@@ -241,6 +253,7 @@ function EntryList ({
     selectedIndex,
     onSelect,
     onDelete,
+    onRestore,
 }: EntryListProps) {
     return (
         <div className="edition-items-list calendar-list">
@@ -252,6 +265,7 @@ function EntryList ({
                     edited={editFlags[i]}
                     onSelect={() => onSelect(i)}
                     onDelete={() => onDelete(i)}
+                    onRestore={() => onRestore(i)}
                 />)
             }
         </div>
@@ -259,11 +273,12 @@ function EntryList ({
 }
 
 interface EntryProps {
-    entry: LeagueCalendarEntry;
+    entry: EditableCalendarEntry;
     selected: boolean;
     edited: boolean;
     onSelect: () => void;
     onDelete: () => void;
+    onRestore: () => void;
 }
 
 function Entry ({
@@ -272,6 +287,7 @@ function Entry ({
     edited,
     onSelect,
     onDelete,
+    onRestore,
 }: EntryProps) {
     const displayName = entry.name;
 
@@ -280,24 +296,34 @@ function Entry ({
         "calendar-entry",
         selected && "selected",
         edited && "edited",
+        entry.deleted && "deleted",
     )
 
-    // TODO: Implement delete teams.
     return (
         <div className={classStr}>
             <div className="item-name calendar-name" onClick={() => onSelect()}>
-                <span>{edited && "*"} {displayName}</span>
+                <span className="name">{edited && "*"} {displayName}</span>
+                {entry.deleted && <span>(deleted)</span>}
             </div>
-            <Button className="delete-button" onClick={() => onDelete()}>
+            {!entry.deleted && <Button
+                className="button delete-button"
+                onClick={() => onDelete()}
+            >
                 <MaterialSymbol symbol='close' />
-            </Button>
+            </Button>}
+            {entry.deleted && <Button
+                className="button restore-button"
+                onClick={() => onRestore()}
+            >
+                <MaterialSymbol symbol='history' />
+            </Button>}
         </div>
     );
 }
 
 interface EntryPanelProps {
-    entry: LeagueCalendarEntry;
-    onChange: (update: LeagueCalendarEntry) => void;
+    entry: EditableCalendarEntry;
+    onChange: (update: EditableCalendarEntry) => void;
 }
 
 function EntryPanel ({
@@ -367,7 +393,7 @@ function EntryPanel ({
     );
 
     function handleFieldChange (field: keyof LeagueCalendarEntry, value: any) {
-        const update: LeagueCalendarEntry = {
+        const update: EditableCalendarEntry = {
             ...entry,
             [field]: value,
         };
@@ -378,7 +404,7 @@ function EntryPanel ({
     function handleTrackChange (value: TrackPickerValue) {
         if (!value.track) return;
 
-        const update: LeagueCalendarEntry = {
+        const update: EditableCalendarEntry = {
             ...entry,
             track: value.track,
             layout: value.layout ?? "",
@@ -388,21 +414,44 @@ function EntryPanel ({
     }
 }
 
-function cloneCalendar (calendar: LeagueCalendarEntry[]) {
-    const newArr = [];
+function generateEditable (calendar: LeagueCalendarEntry[]) {
+    console.log("cloning new!");
+    const newArr = [] as EditableCalendarEntry[];
 
     for (const e of calendar) {
-        newArr.push(structuredClone(e));
+        const clone = structuredClone(e) as EditableCalendarEntry;
+        clone.deleted = false;
+        newArr.push(clone);
     }
 
     return newArr;
 }
 
-function validateChanges (editedCalendar: LeagueCalendarEntry[]) : string[] {
+function generateResult (calendar: EditableCalendarEntry[]) {
+    const newArr = [] as LeagueCalendarEntry[];
+
+    for (const e of calendar) {
+        // discard deleted entries.
+        if (e.deleted) continue;
+
+        const clone = structuredClone(e);
+        // @ts-ignore
+        delete clone.deleted;
+        newArr.push(clone as LeagueCalendarEntry);
+    }
+
+    return newArr;
+}
+
+function validateChanges (editedCalendar: EditableCalendarEntry[]) : string[] {
     const errorList = [] as string[];
 
     for (const e in editedCalendar) {
         const entry = editedCalendar[e];
+
+        // no need to check the validity of entries that will be discarded.
+        if (entry.deleted) continue;
+
         const entryNames = `#${e} '${entry.name}'`;
 
         for (const field of LeagueCalendarEntryRequiredFields) {
@@ -454,7 +503,7 @@ function validateChanges (editedCalendar: LeagueCalendarEntry[]) : string[] {
     return errorList;
 
     function validateHourField (
-        entry: LeagueCalendarEntry, field: keyof LeagueCalendarEntry,
+        entry: EditableCalendarEntry, field: keyof LeagueCalendarEntry,
         entryNames: string,
     ) {
         if (entry[field]) {

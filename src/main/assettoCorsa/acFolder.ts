@@ -201,7 +201,8 @@ export const AssettoCorsa = {
             if (!layoutName) continue;
             if (layoutName.startsWith(displayName) === false) continue;
 
-            l.layoutName = layoutName.substring(substrEnd);
+            const trimStartRegex = /^[-\s\(\|\/\:]+/g;
+            l.layoutName = layoutName.substring(substrEnd).replace(trimStartRegex, "");
 
             if (l.layoutName === "") {
                 l.layoutName = l.ui.name ?? l.folderName;

@@ -40,11 +40,13 @@
 
             .track-list-container {
                 flex: 4;
+                order: 2;
                 overflow-y: auto;
             }
 
             .selected-track-showcase {
                 flex: 3;
+                order: 1;
                 // all other css specified below.
             }
         }

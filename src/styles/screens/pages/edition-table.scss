@@ -33,7 +33,7 @@
                 &:hover {
                     background-color: $bg-color-dark-l1;
                 }
-                &:not(:hover) > .delete-button {
+                &:not(:hover) > .button {
                     visibility: hidden;
                 }
     
@@ -43,6 +43,10 @@
     
                 &.edited {
                     font-style: italic;
+                }
+
+                &.deleted {
+                    color: $text-color-light-2;
                 }
 
                 > .item-name {
@@ -56,9 +60,15 @@
                     > span {
                         @include ellipsis();
                     }
+                    
+                    > .name {                        
+                        &::after {
+                            content: "\00a0";
+                        }
+                    }
                 }
     
-                > .delete-button {
+                > .delete-button, .restore-button {
                     @include center-content();
     
                     position: absolute;
@@ -75,6 +85,10 @@
                         font-size: 16pt;
                         font-weight: $w-extralight;
                     }
+                }
+
+                > .restore-button:hover {
+                    background-color: $color-success-d1;
                 }
             }
         }
