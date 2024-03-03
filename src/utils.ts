@@ -279,3 +279,16 @@ export function getCountriesWithTracks (
 
     return countries;
 }
+
+/**
+ * Returns true if the value given is null, undefined or is an empty string.
+ * @param value 
+ * @returns 
+ */
+export function valueNullOrEmpty<T> (value: T | null | undefined) {
+    return value === null || value === undefined || value === "";
+}
+
+export function deleteAt<T> (arr: T[], index: number) {
+    arr.splice(index, 1);
+}

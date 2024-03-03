@@ -147,8 +147,10 @@ function TeamEditionTable ({
     }
 
     function handleCommit () {
-        saveIfChangesAreValid();
-        setEditFlags(editedTeams.map(() => false));
+        const saved = saveIfChangesAreValid();
+        if (saved) {
+            setEditFlags(editedTeams.map(() => false));
+        }
     }
 
     function handleDiscard () {
@@ -228,7 +230,7 @@ function TeamEditionTable ({
 
         for (const t in editedTeams) {
             const team = editedTeams[t];
-            const teamNames = `#${t} (${getTeamName(team)})`;
+            const teamNames = `#${t} '${getTeamName(team)}'`;
 
             for (const field of LeagueTeamRequiredFields) {
                 if (valueNullOrEmpty(team[field])) {
@@ -246,7 +248,7 @@ function TeamEditionTable ({
 
             for (const d in team.drivers) {
                 const driver = team.drivers[d];
-                const driverNames = `#${d} (${driver.name ?? "<no-name>"})`;
+                const driverNames = `#${d} '${driver.name ?? "<no-name>"}'`;
 
                 for (const field of LeagueTeamDriverRequiredFields) {
                     if (valueNullOrEmpty(driver[field])) {

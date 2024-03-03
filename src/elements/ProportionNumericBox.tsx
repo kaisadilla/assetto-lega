@@ -81,7 +81,6 @@ function ProportionNumericBox ({
         if (proportion === null) return;
 
         const value = truncateNumber(1 / proportion, decimalPlaces);
-        console.log(proportion, value);
         onChange?.(value);
     }
 }

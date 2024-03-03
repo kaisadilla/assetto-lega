@@ -14,10 +14,12 @@ enum TabMode {
 
 export interface CalendarTabProps {
     league: League;
+    onChange: (field: keyof League, value: any) => void;
 }
 
 function CalendarTab ({
     league,
+    onChange,
 }: CalendarTabProps) {
     const [mode, setMode] = useState(TabMode.View);
 
@@ -29,13 +31,22 @@ function CalendarTab ({
             />}
             {mode === TabMode.Edit && <CalendarEditModePanel
                 calendar={league.calendar}
-                onEdit={() => {}}
+                onSave={handleSaveCalendar}
+                onClose={handleCloseEdit}
             />}
         </div>
     );
 
     function handleEdit () {
         setMode(TabMode.Edit);
+    }
+
+    function handleSaveCalendar (calendar: LeagueCalendarEntry[]) {
+        onChange('calendar', calendar);
+    }
+
+    function handleCloseEdit () {
+        setMode(TabMode.View);
     }
 }
 
@@ -71,21 +82,33 @@ function CalendarViewModePanel ({
 
 interface CalendarEditModePanelProps {
     calendar: LeagueCalendarEntry[];
-    onEdit: () => void;
+    onSave: (calendar: LeagueCalendarEntry[]) => void;
+    onClose: () => void;
 }
 
 function CalendarEditModePanel ({
     calendar,
-    onEdit,
+    onSave,
+    onClose,
 }: CalendarEditModePanelProps) {
 
     return (
         <div className="calendar-tab-edit">
             <CalendarEditionTable
                 calendar={calendar}
+                onSave={handleSave}
+                onClose={handleClose}
             />
         </div>
     );
+
+    function handleSave (calendar: LeagueCalendarEntry[]) {
+        onSave(calendar);
+    }
+
+    function handleClose () {
+        onClose();
+    }
 }
 
 

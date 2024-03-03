@@ -74,6 +74,7 @@ function LeagueEditor ({
             return (
                 <CalendarTab
                     league={editedLeague}
+                    onChange={handleLeagueFieldChange}
                 />
             );
         }

@@ -25,7 +25,6 @@ function TrackField ({
     const [fieldLoaded, setFieldLoaded] = useState(false);
     const [layoutData, setLayoutData] = useState<AcTrackLayout | null>(null);
     const [isPickerOpen, setPickerOpen] = useState(false);
-    console.log(track);
 
     useEffect(() => {
         loadLayout();

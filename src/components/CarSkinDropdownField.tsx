@@ -96,7 +96,6 @@ function CarSkinDropdownField ({
 
     function handleBlur (evt: React.FocusEvent<HTMLDivElement, HTMLElement>) {
         const target = evt.currentTarget;
-        console.log("blur!");
 
         // Give the app time to focus the next element.
         requestAnimationFrame(() => {

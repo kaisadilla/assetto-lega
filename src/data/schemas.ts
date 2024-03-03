@@ -111,14 +111,25 @@ export interface LeagueCalendarEntry {
     name: string;
     officialName?: string;
     country: string;
-    date: string;
+    date?: string;
     track: string;
-    layout?: string;
+    layout: string;
     laps: number;
     qualifyingStartHour?: string;
     raceStartHour?: string;
     weathers: string[];
 }
+
+export const LeagueCalendarEntryRequiredFields: (keyof LeagueCalendarEntry)[] = [
+    'name',
+    'country',
+    'track',
+    'layout',
+    'laps',
+    'qualifyingStartHour',
+    'raceStartHour',
+    'weathers',
+];
 
 export interface LeagueScoreSystem {
     /**
@@ -322,6 +333,21 @@ export function createNewDriver () : LeagueTeamDriver {
             disasterChance: 0,
         }
     } as LeagueTeamDriver;
+}
+
+export function createNewCalendarEntry () : LeagueCalendarEntry {
+    return {
+        //name: "(no name)",
+        //officialName: "(no official name)",
+        country: "world",
+        date: "2000-01-31",
+        //track: trackId,
+        //layout: layoutId,
+        laps: 70,
+        qualifyingStartHour: "16:00",
+        raceStartHour: "16:00",
+        weathers: [] as string[],
+    } as LeagueCalendarEntry;
 }
 
 export function getTeamName (team: LeagueTeam) {
