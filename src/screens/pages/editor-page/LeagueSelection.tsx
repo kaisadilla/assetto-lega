@@ -7,10 +7,12 @@ import react from "react";
 
 export interface LeagueSelectionProps {
     onSelect: (leagueId: string) => void;
+    onCreate: () => void;
 }
 
 function LeagueSelection ({
     onSelect,
+    onCreate,
 }: LeagueSelectionProps) {
     const { leagues } = useDataContext();
 
@@ -23,7 +25,7 @@ function LeagueSelection ({
                 />
             </div>
             <div className="toolbar-bottom">
-                <Button onClick={() => console.log("not implemented: create league")}>
+                <Button onClick={() => onCreate()}>
                     <Icon name="fa-plus" />
                     <span>Create league</span>
                 </Button>

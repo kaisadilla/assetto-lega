@@ -1,11 +1,16 @@
+import { useDataContext } from 'context/useDataContext';
 import { Countries, CountryCategory } from 'data/countries';
+import { Tier } from 'data/schemas';
 import Button from 'elements/Button';
+import CustomizableContextMenu from 'elements/CustomizableContextMenu';
 import Dialog from 'elements/Dialog';
 import DefaultHighlighter from 'elements/Highlighter';
+import Textbox from 'elements/Textbox';
+import TierContextMenu from 'elements/TierContextMenu';
 import ToolboxRow from 'elements/ToolboxRow';
 import { TAB_INDICES } from 'names';
-import React, { useState } from 'react';
-import { getClassString } from 'utils';
+import React, { useRef, useState } from 'react';
+import { getClassString, matchesSmartFilter, smartFilterObjectArray } from 'utils';
 
 export interface CountryPickerProps {
     preSelectedCountry: string | null;
@@ -20,6 +25,7 @@ function CountryPicker ({
     onSelect,
     onCancel,
 }: CountryPickerProps) {
+    const [searchValue, setSearchValue] = useState("");
     const [selectedCountry, setSelectedCountry] = useState(
         preSelectedCountry ?? null
     );
@@ -30,6 +36,14 @@ function CountryPicker ({
 
     return (
         <Dialog className="default-country-picker">
+            <div className="filter-navbar-container">
+                <Textbox
+                    className="country-search-textbox"
+                    placeholder="Search country..."
+                    value={searchValue}
+                    onChange={str => setSearchValue(str)}
+                />
+            </div>
             <div className="country-list">
                 {$containers}
             </div>
@@ -77,6 +91,7 @@ function CountryPicker ({
                     key={value}
                     category={value}
                     selectedCountry={selectedCountry}
+                    nameFilter={searchValue}
                     onChoose={country => setSelectedCountry(country)}
                     onSubmit={handleCountryDoubleClick}
                     getTabIndex={getTabIndex}
@@ -95,6 +110,7 @@ function CountryPicker ({
 export interface CategoryCountryContainerProps {
     category: CountryCategory;
     selectedCountry: string | null;
+    nameFilter: string;
     onChoose: (country: string) => void;
     onSubmit: (country: string) => void;
     getTabIndex: () => number;
@@ -103,6 +119,7 @@ export interface CategoryCountryContainerProps {
 function CategoryCountryContainer ({
     category,
     selectedCountry,
+    nameFilter,
     onChoose,
     onSubmit,
     getTabIndex,
@@ -110,8 +127,17 @@ function CategoryCountryContainer ({
     // contains both id and displayName to sort countries alphabetically.
     const filteredCountries = [];
 
+    const filteredCountriesv = smartFilterObjectArray(
+        Object.values(Countries), nameFilter, c => c.displayName
+    );
+
     for (const c in Countries) {
         const country = Countries[c];
+
+        if (matchesSmartFilter(country.displayName, nameFilter) === false) {
+            continue;
+        }
+
         if (country.category === category) {
             let sortingName = country.displayName;
             // ignore 'The' when sorting alphabetically.
@@ -129,6 +155,10 @@ function CategoryCountryContainer ({
     filteredCountries.sort((a, b) => a.sortingName.localeCompare(b.sortingName));
 
     const filteredCountryNames = filteredCountries.map(c => c.id);
+
+    if (filteredCountryNames.length === 0) {
+        return <></>;
+    }
 
     // CountryCategory[key as keyof typeof CountryCategory]
     return (
@@ -167,15 +197,20 @@ function SelectableCountry ({
     onDoubleClick,
     tabIndex
 }: SelectableCountryProps) {
+    const $div = useRef<HTMLDivElement>(null);
+    const { countryTiers } = useDataContext();
+
     const country = Countries[name];
+    const tier = countryTiers[name] ?? Tier.Regular;
 
     const nameClassStr = getClassString(
         "country-name",
-        country.isPseudo && "country-name-pseudo"
-    )
+        country.isPseudo && "country-name-pseudo",
+    );
 
     return (
         <div
+            ref={$div}
             className="selectable-country"
             onClick={onClick}
             onKeyDown={(evt) => {if (evt.key === "Enter") onClick()}}
@@ -190,7 +225,14 @@ function SelectableCountry ({
                         : country.displayName
                 }
             </div>
-            <DefaultHighlighter className="country-highlighter" highlight={selected} />
+            <DefaultHighlighter
+                className={"country-highlighter tier-" + tier}
+                highlight={selected}
+            />
+            <TierContextMenu
+                target={$div}
+                onSelect={(t) => console.log(name, t)}
+            />
         </div>
     );
 }

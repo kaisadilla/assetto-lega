@@ -55,6 +55,7 @@ function ColorPicker ({
             <div className="color-controls">
                 <div className="color-gadgets">
                     <div className="saturation-container">
+                        {/*@ts-ignore*/}
                         <Saturation
                             //@ts-ignore
                             hsl={hsl}
@@ -65,6 +66,7 @@ function ColorPicker ({
                         />
                     </div>
                     <div className="hue-container">
+                        {/*@ts-ignore*/}
                         <Hue
                             //@ts-ignore
                             hsl={hsl}
@@ -107,7 +109,7 @@ function ColorPicker ({
                                 value={rgb.r}
                                 min={0}
                                 max={255}
-                                onChange={n => handleRgbInput('r', n!)}
+                                onChange={n => handleRgbInput('r', n)}
                             />
                         </LabeledControl>
                         <LabeledControl className="rgb-control" label="G">
@@ -115,7 +117,7 @@ function ColorPicker ({
                                 value={rgb.g}
                                 min={0}
                                 max={255}
-                                onChange={n => handleRgbInput('g', n!)}
+                                onChange={n => handleRgbInput('g', n)}
                             />
                         </LabeledControl>
                         <LabeledControl className="rgb-control" label="B">
@@ -123,7 +125,7 @@ function ColorPicker ({
                                 value={rgb.b}
                                 min={0}
                                 max={255}
-                                onChange={n => handleRgbInput('b', n!)}
+                                onChange={n => handleRgbInput('b', n)}
                             />
                         </LabeledControl>
                         <Form.Title title="HSL" />
@@ -133,7 +135,7 @@ function ColorPicker ({
                                 min={0}
                                 max={256}
                                 allowDecimals
-                                onChange={n => handleHslInput('h', n!)}
+                                onChange={n => handleHslInput('h', n)}
                             />
                         </LabeledControl>
                         <LabeledControl className="hsl-control" label="S" afterLabel="%">
@@ -142,7 +144,7 @@ function ColorPicker ({
                                 min={0}
                                 max={1}
                                 allowDecimals
-                                onChange={n => handleHslInput('s', n!)}
+                                onChange={n => handleHslInput('s', n)}
                             />
                         </LabeledControl>
                         <LabeledControl className="hsl-control" label="L" afterLabel="%">
@@ -151,7 +153,7 @@ function ColorPicker ({
                                 min={0}
                                 max={1}
                                 allowDecimals
-                                onChange={n => handleHslInput('l', n!)}
+                                onChange={n => handleHslInput('l', n)}
                             />
                         </LabeledControl>
                     </Form>

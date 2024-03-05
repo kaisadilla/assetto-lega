@@ -13,11 +13,13 @@ import React from 'react';
 
 export interface InfoTabProps {
     league: League;
+    existingLeagueCategories: string[];
     onChange: (field: keyof League, value: any) => void;
 }
 
 function InfoTab ({
     league,
+    existingLeagueCategories,
     onChange,
 }: InfoTabProps) {
     const { suggestions } = useDataContext();
@@ -105,6 +107,7 @@ function InfoTab ({
                         <MultiTagField
                             values={league.categories}
                             onChange={handleChange_categories}
+                            existingTags={existingLeagueCategories}
                         />
                     </LabeledControl>
                 </Form.Section>
@@ -128,7 +131,7 @@ function InfoTab ({
         onChange('series', text);
     }
 
-    function handleChange_year (year: number | null) {
+    function handleChange_year (year: number) {
         if (year !== null) {
             onChange('year', year);
         }

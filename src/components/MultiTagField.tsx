@@ -6,12 +6,14 @@ import { getClassString } from 'utils';
 
 export interface MultiTagFieldProps {
     values: string[];
+    existingTags: string[];
     className?: string;
     onChange?: (values: string[]) => void;
 }
 
 function MultiTagField ({
     values,
+    existingTags,
     className,
     onChange,
 }: MultiTagFieldProps) {
@@ -32,7 +34,10 @@ function MultiTagField ({
     return (
         <div className={classStr}>
             {$tags}
-            <MultiTagAdder onSubmit={handleAddValue} />
+            <MultiTagAdder
+                onSubmit={handleAddValue}
+                suggestions={existingTags}
+            />
         </div>
     );
     
@@ -70,11 +75,13 @@ function MultiTagFieldTag ({
 }
 
 export interface MultiTagAdderProps {
+    suggestions: string[];
     onSubmit: (name: string) => void;
 }
 
 // todo: add suggestions.
 function MultiTagAdder ({
+    suggestions,
     onSubmit,
 }: MultiTagAdderProps) {
     const [name, setName] = useState("");
@@ -84,6 +91,7 @@ function MultiTagAdder ({
             <Textbox
                 className="tag-textbox"
                 value={name}
+                suggestions={suggestions}
                 onChange={name => setName(name)}
                 onBlur={handleBlur}
             />

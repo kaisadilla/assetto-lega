@@ -21,7 +21,7 @@ function Slider ({
     min,
     max,
     step = 0.1,
-    readonly = false, // TODO: Implement
+    readonly = false,
     onChange,
     showNumberBox = false,
     className,
@@ -70,8 +70,7 @@ function Slider ({
         </div>
     );
 
-    function handleChange (value: number | null) {
-        if (value === null) return;
+    function handleChange (value: number) {
         if (readonly) return;
 
         onChange?.(value);

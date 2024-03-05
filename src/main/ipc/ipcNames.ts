@@ -1,11 +1,15 @@
 
 export const HANDLER_GET_DATA_PATH = "data/get-path";
+
 export const HANDLER_DATA_LOAD_SETTINGS = "data/load/settings";
 export const HANDLER_DATA_LOAD_LEAGUES = "data/load/leagues";
 
-export const HANDLER_DATA_SAVE_SETTINGS = "data/save/settings";
+export const HANDLER_DATA_LOAD_COUNTRY_TIERS = "data/load/tiers/country";
 
-export const HANDLER_DATA_SAVE_LEAGUE = "data/save-league";
+export const HANDLER_DATA_SAVE_SETTINGS = "data/save/settings";
+export const HANDLER_DATA_SAVE_LEAGUE = "data/save/league";
+
+export const HANDLER_DATA_SAVE_COUNTRY_TIERS = "data/save/tiers/country";
 
 export const HANDLER_FILES_OPEN_DIRECTORY = "files/open-directory";
 export const HANDLER_FILES_VERIFY_PATH = "files/verify-path";

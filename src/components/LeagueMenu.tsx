@@ -1,7 +1,17 @@
+import { useDataContext } from 'context/useDataContext';
+import { AssetFolder } from 'data/assets';
+import { Files } from 'data/files';
 import { League, Tier } from 'data/schemas';
+import DefaultHighlighter from 'elements/Highlighter';
 import Icon from 'elements/Icon';
 import TextSelectorList from 'elements/TextSelectorList';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getClassString } from 'utils';
+
+const ALL_CATEGORY = "ALL";
+
+type SeriesCategoryMap = {[series: string]: string[]};
+type SeriesLeagueMap = {[series: string]: League[]};
 
 export interface LeagueMenuProps {
     leagues: League[];
@@ -10,8 +20,35 @@ export interface LeagueMenuProps {
 
 // todo: build with real data
 function LeagueMenu ({
+    leagues,
     onSelect,
 }: LeagueMenuProps) {
+    const [selectedCategory, setSelectedCategory] = useState(ALL_CATEGORY);
+    const [selectedSeries, setSelectedSeries] = useState("");
+
+    const [categories, setCategories]
+        = useState<string[] | null>(null);
+    const [seriesCategories, setSeriesCategories]
+        = useState<SeriesCategoryMap | null>(null);
+    const [seriesLeagues, setSeriesLeagues]
+        = useState<SeriesLeagueMap | null>(null);
+
+    const [thumbnailSize, setThumbnailSize] = useState(128);
+
+    useEffect(() => {
+        setCategories(getAllCategories(leagues));
+        setSeriesCategories(getAllSeriesCategories(leagues));
+        setSeriesLeagues(getAllSeriesLeagues(leagues));
+    }, [leagues]);
+
+    if (categories === null || seriesCategories === null || seriesLeagues === null) {
+        return (
+            <div className="league-menu">
+                Loading...
+            </div>
+        );
+    }
+
     const __icon = require("@assets/league_icon.png");
     const __bg = require("@assets/preview.png");
 
@@ -21,8 +58,6 @@ function LeagueMenu ({
         backgroundImage: `linear-gradient(#00000060, #00000060), url(${__bg})`,
     }
 
-    // TODO - Important: include "maker" or something like that to distinguish
-    // F1 by VRC from F1 by RSS.
     return (
         <div className="league-menu">
             <div className="section categories">
@@ -31,252 +66,280 @@ function LeagueMenu ({
                     <TextSelectorList
                         entries={[
                             {
-                                name: "ALL",
-                                value: "ALL",
+                                name: ALL_CATEGORY,
+                                value: ALL_CATEGORY,
                                 isAll: true,
+                                selected: selectedCategory === ALL_CATEGORY,
+                                onSelect: setSelectedCategory,
                             },
-                            {
-                                name: "GT3",
-                                value: "GT3",
-                                tier: Tier.Legendary,
-                            },
-                            {
-                                name: "Hypercar",
-                                value: "Hypercar",
-                                tier: Tier.Legendary,
-                            },
-                            {
-                                name: "Open-wheel",
-                                value: "Open-wheel",
-                                tier: Tier.Legendary,
-                                selected: true,
-                            },
-                            {
-                                name: "Spec series",
-                                value: "Spec series",
-                                tier: Tier.Epic,
-                            },
-                            {
-                                name: "Karts",
-                                value: "Karts",
-                                tier: Tier.Epic,
-                            },
-                            {
-                                name: "LMP1",
-                                value: "LMP1",
-                                tier: Tier.Distinguished,
-                            },
-                            {
-                                name: "LMP2",
-                                value: "LMP2",
-                                tier: Tier.Distinguished,
-                            },
-                            {
-                                name: "Open cockpit",
-                                value: "Open cockpit",
-                            }
+                            ...categories.map(c => ({
+                                name: c,
+                                value: c,
+                                tier: Tier.Regular,
+                                selected: selectedCategory === c,
+                                onSelect: setSelectedCategory,
+                            }))
                         ]}
                     />
                 </div>
             </div>
             <div className="section series">
                 <h3>series</h3>
-                <div className="series-container">
-                    <div className="series-icon selected" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula 1</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Indycar</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula 2</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula 3</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula E</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Super Formula</span>
-                        </div>
-                    </div>
-                    <div className="series-icon" style={seriesIconStyle}>
-                        <div className="series-highlighter" />
-                        <div className="logo-container">
-                            <img src={__icon} />
-                        </div>
-                        <div className="name-container">
-                            <span>Formula Renault</span>
-                        </div>
-                    </div>
-                </div>
+                <SeriesPanel
+                    series={seriesCategories}
+                    leagues={seriesLeagues}
+                    category={selectedCategory}
+                    thumbnailSize={thumbnailSize}
+                    selectedSeries={selectedSeries}
+                    onSelect={setSelectedSeries}
+                />
             </div>
             <div className="section seasons">
                 <h3>seasons</h3>
-                <div className="season-container">
-                    <div className="season" onClick={() => onSelect?.("f1-2023-rss")}>
-                        <div className="season-color" style={{backgroundColor: "#00ffff"}} />
-                        <div className="season-logo">
-                            <img src={__icon} />
-                        </div>
-                        <div className="season-name">
-                            <span className="name">2023</span>
-                        </div>
-                        <div className="season-fact season-teams">
-                            <span>10 teams</span>
-                        </div>
-                        <div className="season-fact season-drivers">
-                            <span>20 drivers</span>
-                        </div>
-                        <div className="season-fact season-tracks">
-                            <span>24 tracks</span>
-                        </div>
-                        <div className="season-fact season-era">
-                            <span>V6 hybrid</span>
-                        </div>
-                        <div className="season-fact season-makers">
-                            <span>RSS</span>
-                        </div>
-                    </div>
-                    <div className="season">
-                        <div className="season-color" style={{backgroundColor: "#00ffff"}} />
-                        <div className="season-logo">
-                            <img src={__icon} />
-                        </div>
-                        <div className="season-name">
-                            <span className="name">2022</span>
-                        </div>
-                        <div className="season-fact season-teams">
-                            <span>10 teams</span>
-                        </div>
-                        <div className="season-fact season-drivers">
-                            <span>20 drivers</span>
-                        </div>
-                        <div className="season-fact season-tracks">
-                            <span>22 tracks</span>
-                        </div>
-                        <div className="season-fact season-era">
-                            <span>V6 hybrid</span>
-                        </div>
-                        <div className="season-fact season-makers">
-                            <span>SimDream</span>
-                        </div>
-                    </div>
-                    <div className="season">
-                        <div className="season-color" style={{backgroundColor: "#00ffff"}} />
-                        <div className="season-logo">
-                            <img src={__icon} />
-                        </div>
-                        <div className="season-name">
-                            <span className="name">Super series '21</span>
-                            <span className="year">2021</span>
-                        </div>
-                        <div className="season-fact season-teams">
-                            <span>11 teams</span>
-                        </div>
-                        <div className="season-fact season-drivers">
-                            <span>22 drivers</span>
-                        </div>
-                        <div className="season-fact season-tracks">
-                            <span>20 tracks</span>
-                        </div>
-                        <div className="season-fact season-era">
-                            <span>V6 hybrid</span>
-                        </div>
-                        <div className="season-fact season-makers">
-                            <span>SuzQ</span>
-                        </div>
-                    </div>
-                    <div className="season">
-                        <div className="season-color" style={{backgroundColor: "#640096"}} />
-                        <div className="season-logo">
-                            <img src={__icon} />
-                        </div>
-                        <div className="season-name">
-                            <span className="name">Super series '20</span>
-                            <span className="year">2020</span>
-                        </div>
-                        <div className="season-fact season-teams">
-                            <span>12 teams</span>
-                        </div>
-                        <div className="season-fact season-drivers">
-                            <span>24 drivers</span>
-                        </div>
-                        <div className="season-fact season-tracks">
-                            <span>20 tracks</span>
-                        </div>
-                        <div className="season-fact season-era">
-                            <span>V8</span>
-                        </div>
-                        <div className="season-fact season-makers">
-                            <span>SuzQ</span>
-                        </div>
-                    </div>
-                    <div className="season">
-                        <div className="season-color" style={{backgroundColor: "#640096"}} />
-                        <div className="season-logo">
-                            <img src={__icon} />
-                        </div>
-                        <div className="season-name">
-                            <span className="name">Super series '19</span>
-                            <span className="year">2019</span>
-                        </div>
-                        <div className="season-fact season-teams">
-                            <span>12 teams</span>
-                        </div>
-                        <div className="season-fact season-drivers">
-                            <span>24 drivers</span>
-                        </div>
-                        <div className="season-fact season-tracks">
-                            <span>18 tracks</span>
-                        </div>
-                        <div className="season-fact season-era">
-                            <span>V8</span>
-                        </div>
-                        <div className="season-fact season-makers">
-                            <span>SuzQ</span>
-                        </div>
-                    </div>
-                </div>
+                <SeasonsPanel
+                    leagues={seriesLeagues[selectedSeries] ?? []}
+                    category={selectedCategory}
+                    onSelect={l => onSelect?.(l)}
+                />
             </div>
         </div>
     );
+}
+
+interface SeriesPanelProps {
+    series: SeriesCategoryMap;
+    leagues: SeriesLeagueMap;
+    category: string;
+    thumbnailSize: number;
+    selectedSeries: string;
+    onSelect: (series: string) => void;
+}
+
+function SeriesPanel ({
+    series,
+    leagues,
+    category,
+    thumbnailSize,
+    selectedSeries,
+    onSelect,
+}: SeriesPanelProps) {
+    const validSeries: string[] = [];
+
+    for (const s in series) {
+        if (category === ALL_CATEGORY || series[s].includes(category)) {
+            validSeries.push(s);
+        }
+    }
+
+    return (
+        <div className="series-container">
+            {validSeries.map(s => (<SeriesPanelThumbnail
+                series={s}
+                league={leagues[s][0]}
+                thumbnailSize={thumbnailSize}
+                selected={selectedSeries === s}
+                onSelect={() => onSelect(s)}
+            />))}
+        </div>
+    );
+}
+
+interface SeriesPanelThumbnailProps {
+    series: string;
+    league: League;
+    thumbnailSize: number;
+    selected: boolean;
+    onSelect: () => void;
+}
+
+function SeriesPanelThumbnail ({
+    series,
+    league,
+    thumbnailSize,
+    selected,
+    onSelect,
+}: SeriesPanelThumbnailProps) {
+    const { dataPath } = useDataContext();
+
+    const classStr = getClassString(
+        "series-icon",
+        selected && "selected",
+    );
+
+    const imgBackground = Files.getFilePath(
+        dataPath, AssetFolder.leagueBackgrounds, league.background
+    );
+    const imgLogo = Files.getFilePath(
+        dataPath, AssetFolder.leagueLogos, league.logo
+    );
+
+    const seriesIconStyle = {
+        width: `${thumbnailSize}px`,
+        height: `${thumbnailSize}px`,
+        backgroundImage: `linear-gradient(#00000060, #00000060), url(${imgBackground})`,
+    }
+
+    return (
+        <div
+            className={classStr}
+            style={seriesIconStyle}
+            onClick={() => onSelect()}>
+            <div className="series-highlighter"
+        />
+            <div className="logo-container">
+                <img src={imgLogo} />
+            </div>
+            <div className="name-container">
+                <span>{series}</span>
+            </div>
+        </div>
+    );
+}
+
+interface SeasonsPanelProps {
+    leagues: League[];
+    category: string;
+    onSelect: (league: string) => void;
+}
+
+function SeasonsPanel ({
+    leagues,
+    category,
+    onSelect
+}: SeasonsPanelProps) {
+    const validLeagues: League[] = [];
+
+    for (const l of leagues) {
+        if (category === ALL_CATEGORY || l.categories.includes(category)) {
+            validLeagues.push(l);
+        }
+    }
+
+    return (
+        <div className="season-container">
+            {leagues.map(l => <SeasonsPanelEntry
+                league={l}
+                onSelect={() => onSelect(l.internalName)}
+            />)}
+        </div>
+    );
+}
+
+interface SeasonsPanelEntryProps {
+    league: League,
+    onSelect: () => void;
+}
+
+function SeasonsPanelEntry ({
+    league,
+    onSelect,
+}: SeasonsPanelEntryProps) {
+    const { dataPath } = useDataContext();
+
+    const imgLogo = Files.getFilePath(
+        dataPath, AssetFolder.leagueLogos, league.logo
+    );
+
+    const teamCount = league.teams.length;
+    const driverCount = league.teams.reduce(
+        (acc, t) => acc += t.drivers.length, 0
+    );
+    const trackCount = league.calendar.length;
+
+    return (
+        <div className="season" onClick={() => onSelect()}>
+            <div
+                className="season-color"
+                style={{backgroundColor: league.color}}
+            />
+            <div className="season-logo">
+                <img src={imgLogo} />
+            </div>
+            <div className="season-name">
+                <span className="name">{league.displayName ?? league.year}</span>
+            </div>
+            <div className="season-fact season-teams">
+                <span>{teamCount} teams</span>
+            </div>
+            <div className="season-fact season-drivers">
+                <span>{driverCount} drivers</span>
+            </div>
+            <div className="season-fact season-tracks">
+                <span>{trackCount} tracks</span>
+            </div>
+            <div className="season-fact season-era">
+                <span>{league.era ?? ""}</span>
+            </div>
+            <div className="season-fact season-makers">
+                <span>{league.makers ?? ""}</span>
+            </div>
+        </div>
+    );
+}
+
+// TODO: getAllCategories copied in two places total.
+/**
+ * Generates an array of strings containing all different categories within the
+ * leagues given.
+ */
+function getAllCategories (leagues: League[]) : string[] {
+    const catSet = new Set<string>();
+
+    for (const l of leagues) {
+        for (const c of l.categories) {
+            catSet.add(c);
+        }
+    }
+
+    return Array.from(catSet);
+}
+
+/**
+ * Generates an object where each key is a series, and each value is an array of
+ * categories that have, at least, one league in that series. Note that different
+ * leagues of the same series may not be in the same categories.
+ */
+function getAllSeriesCategories (leagues: League[]) {
+    const seriesSets: {[seies: string]: Set<string>} = {};
+    const series: SeriesCategoryMap = {};
+
+    for (const l of leagues) {        
+        if (seriesSets[l.series] === undefined) {
+            seriesSets[l.series] = new Set<string>();
+        }
+
+        for (const c of l.categories) {
+            seriesSets[l.series].add(c);
+        }
+    }
+
+    for (const s in seriesSets) {
+        series[s] = Array.from(seriesSets[s]);
+    }
+
+    return series;
+}
+
+/**
+ * Generates an object where each key is a series, and each value is an array of
+ * leagues that belong to that series.
+ */
+function getAllSeriesLeagues (leagues: League[]) {
+    const series: {[series: string]: League[]} = {};
+
+    for (const l of leagues) {     
+        if (series[l.series] === undefined) {
+            series[l.series] = [];
+        }
+        
+        series[l.series].push(l);
+    }
+
+    for (const s in series) {
+        series[s] = series[s].sort((a, b) => b.year - a.year);
+    }
+
+    return series;
 }
 
 export default LeagueMenu;

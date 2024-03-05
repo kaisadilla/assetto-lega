@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextColor, clampNumber, getClassString } from 'utils';
 
-export interface NumericBoxProps {
-    value?: number | null;
+export interface NumericBoxProps<T extends number | null> {
+    value?: T;
     allowEmpty?: boolean;
     allowDecimals?: boolean;
     maxDecimalPlaces?: number;
@@ -11,15 +11,15 @@ export interface NumericBoxProps {
     min?: number;
     max?: number;
     readonly?: boolean;
-    onChange?: (value: number | null) => void;
-    onBlur?: (value: number | null) => void;
+    onChange?: (value: T) => void;
+    onBlur?: (value: T) => void;
     className?: string;
     tabIndex?: number;
     textColor?: TextColor;
 }
 
-function NumericBox ({
-    value = 0,
+function NumericBox<T extends number | null> ({
+    value,
     allowEmpty,
     allowDecimals,
     maxDecimalPlaces,
@@ -33,7 +33,7 @@ function NumericBox ({
     className,
     tabIndex = 1,
     textColor,
-}: NumericBoxProps) {
+}: NumericBoxProps<T>) {
     // the value typed by the user, which may or may not be a valid number.
     const [tempValue, setTempValue] = useState((value ?? "").toString());
 
@@ -109,7 +109,7 @@ function NumericBox ({
             return;
         }
 
-        onChange?.(num);
+        onChange?.(num as T);
     }
 
     function handleBlur () {
@@ -131,8 +131,8 @@ function NumericBox ({
             num = max;
         }
 
-        onChange?.(num);
-        onBlur?.(num);
+        onChange?.(num as T);
+        onBlur?.(num as T);
 
         setTempValue((value ?? "").toString());
     }

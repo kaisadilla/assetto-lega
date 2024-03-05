@@ -98,6 +98,7 @@ function TrackPicker ({
                 selectedLayout={selectedLayout}
                 thumbnailScale={scale}
                 onSelect={handleTrackAndLayoutSelect}
+                onSubmit={handleTrackAndLayoutSubmit}
             />
         }
     })();
@@ -160,6 +161,16 @@ function TrackPicker ({
         setSelectedLayout(value.layout ?? null);
     }
 
+    function handleTrackAndLayoutSubmit (value: TrackPickerValue) {
+        console.log(value);
+        if (value.track) {
+            onSelect({
+                track: value.track,
+                layout: value.layout ?? "",
+            })
+        }
+    }
+
     async function handleSelect () {
         if (selectedTrack) {
             onSelect(createCallbackObject());
@@ -190,6 +201,7 @@ interface SelectorByCountryProps {
     selectedTrack: string | null;
     selectedLayout: string | null;
     onSelect: (track: TrackPickerValue) => void;
+    onSubmit: (track: TrackPickerValue) => void;
 }
 
 function SelectorByCountry ({
@@ -199,6 +211,7 @@ function SelectorByCountry ({
     selectedTrack,
     selectedLayout,
     onSelect,
+    onSubmit,
 }: SelectorByCountryProps) {
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [trackEntries, setTrackEntries] = useState<PickerElementSection[]>([]);
@@ -242,7 +255,6 @@ function SelectorByCountry ({
                         width={thumbnailScale}
                         selectedElement={selectedTrack ?? ""}
                         onSelect={handleSelectTrack}
-                        onDoubleClickItem={() => {}}
                         focusedSection={selectedCountry}
                     />
                 </div>
@@ -251,6 +263,7 @@ function SelectorByCountry ({
                     selectedTrack={selectedTrack}
                     selectedLayout={selectedLayout}
                     onSelect={handleSelectLayout}
+                    onSubmit={handleSubmitLayout}
                 />
             </div>
         </div>
@@ -290,6 +303,13 @@ function SelectorByCountry ({
             layout: value,
         })
     }
+
+    async function handleSubmitLayout (value: string) {
+        onSubmit({
+            track: selectedTrack ?? undefined,
+            layout: value,
+        })
+    }
 }
 
 interface SelectedTrackShowcaseProps {
@@ -297,6 +317,7 @@ interface SelectedTrackShowcaseProps {
     selectedTrack: string | null;
     selectedLayout: string | null;
     onSelect: (layout: string) => void;
+    onSubmit: (layout: string) => void;
 }
 
 function SelectedTrackShowcase ({
@@ -304,6 +325,7 @@ function SelectedTrackShowcase ({
     selectedTrack,
     selectedLayout,
     onSelect,
+    onSubmit,
 }: SelectedTrackShowcaseProps) {
     if (selectedTrack === null) {
         return (
@@ -346,6 +368,7 @@ function SelectedTrackShowcase ({
                         layout={l}
                         selected={l.folderName === selectedLayout}
                         onSelect={() => onSelect(l.folderName)}
+                        onSubmit={() => onSubmit(l.folderName)}
                     />
                 ))}
             </div>
@@ -425,12 +448,14 @@ interface LayoutEntryProps {
     layout: AcTrackLayout;
     selected: boolean;
     onSelect: () => void;
+    onSubmit: () => void;
 }
 
 function LayoutEntry ({
     layout,
     selected,
     onSelect,
+    onSubmit,
 }: LayoutEntryProps) {
     const classStr = getClassString(
         "layout-entry",
@@ -438,7 +463,10 @@ function LayoutEntry ({
     )
 
     return (
-        <div className={classStr} onClick={handleSelect}>
+        <div className={classStr}
+            onClick={handleSelect}
+            onDoubleClick={() => onSubmit()}
+        >
             <div className="layout-outline">
                 <img src={FILE_PROTOCOL + layout.outlinePath} />
             </div>

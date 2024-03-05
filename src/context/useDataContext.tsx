@@ -64,12 +64,14 @@ interface DataContextState {
     settings: UserSettings;
     leagues: League[];
     leaguesById: LeagueCollection;
+    countryTiers: {[country: string]: string};
     isACFolderValid: boolean;
     suggestions: SuggestionCollections;
-    updateSettings: (settings: UserSettings) => void;
     readAcContent: () => void;
     getDataFolder: (folder: AssetFolder) => string;
+    updateSettings: (settings: UserSettings) => void;
     updateLeague: (internalName: string | null, league: League) => void;
+    updateCountryTiers: (tiers: {[country: string]: string}) => void;
 }
 
 export const DataContextProvider = ({ children }: any) => {
@@ -136,7 +138,19 @@ export const DataContextProvider = ({ children }: any) => {
                 leaguesById,
             }));
 
-            console.log(leagues);
+            console.info("Leagues in memory: ", leagues);
+        }
+
+        async function updateCountryTiers (tiers: {[country: string]: string}) {
+            const saved = Ipc.saveCountryTiers(tiers);
+
+            setState(prevState => ({
+                ...prevState,
+                countryTiers: tiers,
+            }));
+            console.info("Country tiers in memory: ", tiers);
+
+            return await saved;
         }
 
         return {
@@ -145,6 +159,7 @@ export const DataContextProvider = ({ children }: any) => {
             readAcContent,
             getDataFolder,
             updateLeague,
+            updateCountryTiers,
         }
     }, [state]);
 
@@ -158,6 +173,8 @@ export const DataContextProvider = ({ children }: any) => {
         const dataPath = await Ipc.getDataFolderPath();
         const settings = await Ipc.loadSettings();
         const leagues = await Ipc.loadLeagues();
+
+        const countryTiers = await Ipc.loadCountryTiers();
         
         const leaguesById = generateLeagueCollection(leagues);
 
@@ -171,6 +188,7 @@ export const DataContextProvider = ({ children }: any) => {
             settings,
             leagues,
             leaguesById,
+            countryTiers,
             isACFolderValid,
             suggestions,
         } as DataContextState);

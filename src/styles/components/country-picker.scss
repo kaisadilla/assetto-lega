@@ -1,6 +1,16 @@
 .default-country-picker {
     min-height: 0;
 
+    .filter-navbar-container {
+        padding: 8px 16px;
+        display: flex;
+        justify-content: right;
+
+        .car-search-textbox {
+            width: 200px;
+        }
+    }
+
     > .country-list {
         flex: 1;
         padding: 24px;
@@ -47,6 +57,20 @@
 
         > .country-highlighter {            
             border: 1px solid $text-color-dark-d2;
+
+            // TODO: This is terrible and makes the menu both
+            // ugly and confusing.
+            &.tier-legendary {
+                border: 2px solid $color-tier-legendary;
+            }
+
+            &.tier-epic {
+                border: 2px solid $color-tier-epic;
+            }
+
+            &.tier-distinguished {
+                border: 2px solid $color-tier-distinguished;
+            }
         }
     }
 }

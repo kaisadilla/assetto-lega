@@ -21,7 +21,7 @@ export interface PickerDialog_ThumbnailGalleryProps {
     selectedElement: string | null;
     width: number;
     onSelect: (value: string) => void;
-    onDoubleClickItem: (value: string) => void;
+    onDoubleClickItem?: (value: string) => void;
     focusedSection?: string | null;
     className?: string;
 }
@@ -50,7 +50,7 @@ function PickerDialog_ThumbnailGallery ({
                         width={width}
                         selectedElement={selectedElement}
                         onSelect={onSelect}
-                        onDoubleClick={onDoubleClickItem}
+                        onDoubleClick={v => onDoubleClickItem?.(v)}
                         focusedSection={focusedSection}
                     />
                 ))

@@ -19,9 +19,10 @@ import ToolboxRow from 'elements/ToolboxRow';
 import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import { deleteAt, getClassString } from 'utils';
 
-type EditableTeam = LeagueTeam & {deleted: boolean};
+type EditableTeam = LeagueTeam & {id: string, deleted: boolean};
 type EditableDriver = LeagueTeamDriver & {deleted: boolean};
 
 enum TeamEditorTab {
@@ -75,6 +76,8 @@ function TeamEditionTable ({
                 <h3 className="h3-header">Teams</h3>
                 <TeamList
                     teams={editedTeams}
+                    setTeams={setEditedTeams}
+                    onSort={handleSortEntry}
                     editFlags={editFlags}
                     selectedIndex={selectedTeam}
                     onSelect={handleSelectTeam}
@@ -88,7 +91,7 @@ function TeamEditionTable ({
                     </Button>
                 </div>
             </div>
-            <div className="item-panel team-panel">
+            {editedTeams.length > 0 && <div className="item-panel team-panel">
                 <NavBar className="nav-bar-header" get={tab} set={setTab}>
                     <NavBar.Item text="info" index={TeamEditorTab.INFO} />
                     <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
@@ -103,7 +106,7 @@ function TeamEditionTable ({
                         onChange={handleDriversChange}
                     />}
                 </div>
-            </div>
+            </div>}
             <ToolboxRow className="status-bar toolbar-panel teams-tab-toolbar">
                 <div className="datum">{teamCount} teams</div>
                 <div className="datum">{driverCount} drivers</div>
@@ -152,6 +155,7 @@ function TeamEditionTable ({
             ...editedTeams,
             createNewTeam() as EditableTeam,
         ];
+        update[update.length - 1].id = crypto.randomUUID();
         update[update.length - 1].deleted = false;
         setEditedTeams(update);
         
@@ -182,6 +186,19 @@ function TeamEditionTable ({
 
         setEditedTeams(newTeams);
         flagAsEdited(selectedTeam);
+    }
+
+    function handleSortEntry (oldIndex?: number, newIndex?: number) {
+        if (oldIndex === undefined || newIndex === undefined) return;
+
+        setSelectedTeam(newIndex);
+        const flagUpd = [...editFlags];
+
+        [flagUpd[oldIndex], flagUpd[newIndex]] = [flagUpd[newIndex], flagUpd[oldIndex]];
+
+        setEditFlags(flagUpd);
+        console.log(flagUpd);
+        console.log(newIndex);
     }
 
     function handleSelectTeam (index: number) {
@@ -276,6 +293,8 @@ function TeamEditionTable ({
 
 interface TeamListProps {
     teams: EditableTeam[];
+    setTeams: (teams: EditableTeam[]) => void;
+    onSort: (oldIndex?: number, newIndex?: number) => void;
     editFlags: boolean[];
     selectedIndex: number;
     onSelect: (index: number) => void;
@@ -285,6 +304,8 @@ interface TeamListProps {
 
 function TeamList ({
     teams,
+    setTeams,
+    onSort,
     editFlags,
     selectedIndex,
     onSelect,
@@ -292,19 +313,24 @@ function TeamList ({
     onRestore,
 }: TeamListProps) {
     return (
-        <div className="edition-items-list team-list">
-            {
-                teams.map((t, i) => <TeamEntry
-                    key={i}
-                    team={t}
-                    selected={selectedIndex === i}
-                    edited={editFlags[i]}
-                    onSelect={() => onSelect(i)}
-                    onDelete={() => onDelete(i)}
-                    onRestore={() => onRestore(i)}
-                />)
-            }
-        </div>
+        <ReactSortable
+            className="edition-items-list team-list"
+            list={teams}
+            setList={setTeams}
+            onSort={(evt) => onSort(evt.oldIndex, evt.newIndex)}
+        >
+        {
+            teams.map((t, i) => <TeamEntry
+                key={t.id}
+                team={t}
+                selected={selectedIndex === i}
+                edited={editFlags[i]}
+                onSelect={() => onSelect(i)}
+                onDelete={() => onDelete(i)}
+                onRestore={() => onRestore(i)}
+            />)
+        }
+        </ReactSortable>
     );
 }
 
@@ -334,7 +360,6 @@ function TeamEntry ({
         edited && "edited",
     )
 
-    // TODO: Implement delete teams.
     return (
         <div className={classStr}>
             <div className="item-name team-name" onClick={() => onSelect()}>
@@ -620,8 +645,9 @@ function DriverCard ({
 function generateEditable (teams: LeagueTeam[]) {
     const newArr = [] as EditableTeam[];
 
-    for (const t of teams) {
-        const clone = structuredClone(t) as EditableTeam;
+    for (const t in teams) {
+        const clone = structuredClone(teams[t]) as EditableTeam;
+        clone.id = crypto.randomUUID();
         clone.deleted = false;
         newArr.push(clone);
     }
@@ -637,6 +663,8 @@ function generateResult (teams: EditableTeam[]) {
         if (t.deleted) continue;
 
         const clone = structuredClone(t);
+        // @ts-ignore
+        delete clone.id;
         // @ts-ignore
         delete clone.deleted;
         newArr.push(clone as LeagueTeam);

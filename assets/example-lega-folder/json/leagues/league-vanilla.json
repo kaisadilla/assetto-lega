@@ -82,7 +82,7 @@
             2,
             1
         ],
-        "minimumPointsPerRace": 0,
+        "defaultPointsPerRace": 0,
         "fastestLap": 1,
         "qualifying": null
     }

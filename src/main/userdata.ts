@@ -4,33 +4,42 @@ import fs from "fs";
 import { app, dialog, nativeImage } from "electron";
 import path from "path";
 import { AssetFolder } from "data/assets";
+import { DEFAULT_COUNTRY_TIERS } from "../data/countryTiers";
 
 export const USERDATA_FOLDER = "assetto-lega";
-export const FILE_SETTINGS = "settings.json";
 export const FOLDER_JSON = "json";
 export const FOLDER_LEAGUES = "json/leagues";
+export const FOLDER_TIERS = "json/tiers";
 export const FOLDER_IMAGES = "img";
 export const FOLDER_LEAGUE_LOGOS = "img/league-logos";
 export const FOLDER_LEAGUE_BG = "img/league-bg";
 export const FOLDER_TEAM_BADGES = "img/team-badges";
 export const FOLDER_TEAM_LOGOS = "img/team-logos";
 
+export const FILE_SETTINGS = "settings.json";
+export const FILE_COUNTRY_TIERS = "countries.json";
+
 const TEXT_FORMAT = "utf-8";
 const FILE_NOT_EXISTS = "ENOENT";
+const JSON_INDENT_SPACES = 4;
 
 export async function verifyUserDataFolder () {
+    console.info("Verifying user data folder...");
     createDataFolderIfNotExists("");
 
     await checkSettingsFile();
 
     createDataFolderIfNotExists(FOLDER_JSON);
     createDataFolderIfNotExists(FOLDER_LEAGUES);
+    createDataFolderIfNotExists(FOLDER_TIERS);
 
     createDataFolderIfNotExists(FOLDER_IMAGES);
     createDataFolderIfNotExists(FOLDER_LEAGUE_LOGOS);
     createDataFolderIfNotExists(FOLDER_LEAGUE_BG);
     createDataFolderIfNotExists(FOLDER_TEAM_BADGES);
     createDataFolderIfNotExists(FOLDER_TEAM_LOGOS);
+
+    createDataFileIfNotExists(FOLDER_TIERS, FILE_COUNTRY_TIERS, DEFAULT_COUNTRY_TIERS);
 }
 
 export const Data = {
@@ -89,12 +98,23 @@ export const Data = {
         return leagues;
     },
 
+    async loadCountryTiers () : Promise<{[country: string]: string}> {
+        console.info("Loading userdata > country tiers.");
+        
+        const path = getDataFolder(FOLDER_TIERS) + "/" + FILE_COUNTRY_TIERS;
+        const json = await fsAsync.readFile(path, {
+            encoding: TEXT_FORMAT,
+        });
+
+        return JSON.parse(json) as {[country: string]: string};
+    },
+
     async saveSettings (settings: UserSettings) {
         console.info("Saving userdata > settings.");
         const path = getDataFile(FILE_SETTINGS);
 
         try {
-            const content = JSON.stringify(settings, null, 2);
+            const content = JSON.stringify(settings, null, JSON_INDENT_SPACES);
             fsAsync.writeFile(path, content, TEXT_FORMAT);
             return true;
         }
@@ -107,12 +127,13 @@ export const Data = {
     async saveLeague (originalInternalName: string | null, league: League)
         : Promise<League | null>
     {
+        console.info(`"Saving userdata > league (${league.internalName})."`);
         const newFileName = league.internalName + ".json";
         const filePath = getDataFolder(FOLDER_LEAGUES) + "/" + newFileName;
         const backupPath = filePath.substring(0, filePath.length - 5) + ".backup";
         const isOverwriting = fs.existsSync(filePath);
 
-        const leagueJson = JSON.stringify(league, null, 4);
+        const leagueJson = JSON.stringify(league, null, JSON_INDENT_SPACES);
 
         if (isOverwriting) {
             // rename the old file to be a backup.
@@ -143,6 +164,21 @@ export const Data = {
                 
                 return await this.loadLeague(newFileName);
             }
+        }
+    },
+
+    async saveCountryTiers (tiers: {[country: string]: string}) {
+        console.info("Saving userdata > country tiers.");
+        const path = getDataFolder(FOLDER_TIERS) + "/" + FILE_COUNTRY_TIERS;
+
+        try {
+            const content = JSON.stringify(tiers, null, JSON_INDENT_SPACES);
+            fsAsync.writeFile(path, content, TEXT_FORMAT);
+            return true;
+        }
+        catch (err) {
+            console.error(`Couldn't write file '${path}'`, err);
+            return false;
         }
     },
 
@@ -218,6 +254,21 @@ function createDataFolderIfNotExists (folder: string) {
     }
 }
 
+function createDataFileIfNotExists<T extends object> (
+    folder: string, file: string, defaultContent: T
+) {
+    const filePath = getDataFolder(folder) + "/" + file;
+    if (fs.existsSync(filePath)) {
+        console.log("===" + "exists");
+        return;
+    }
+
+    const json = JSON.stringify(defaultContent, null, JSON_INDENT_SPACES);
+    fs.writeFileSync(filePath, json, {
+        encoding: TEXT_FORMAT,
+    });
+}
+
 async function checkSettingsFile () {
     const path = getDataFile(FILE_SETTINGS);
 
@@ -234,5 +285,5 @@ async function createSettingsFile () {
         assettoCorsaFolder: null,
     }
 
-    fs.writeFileSync(path, JSON.stringify(settings, null, 2));
+    fs.writeFileSync(path, JSON.stringify(settings, null, JSON_INDENT_SPACES));
 }

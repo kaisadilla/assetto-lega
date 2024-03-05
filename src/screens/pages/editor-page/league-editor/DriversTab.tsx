@@ -19,7 +19,7 @@ import { useResizeDetector } from 'react-resize-detector';
 import { Gaussian } from 'ts-gaussian';
 import { chooseW3CTextColor, getClassString, truncateNumber } from 'utils';
 
-const GAUSSIAN_MIN_MEAN = 0;
+const GAUSSIAN_MIN_MEAN = 0.01;
 const GAUSSIAN_MAX_MEAN = 1;
 const GAUSSIAN_MIN_DEV = 0.01;
 const GAUSSIAN_MAX_DEV = 0.5;
@@ -270,7 +270,7 @@ function DriverEntry ({
                             min={GAUSSIAN_MIN_MEAN}
                             max={GAUSSIAN_MAX_MEAN}
                             step={GAUSSIAN_SLIDER_STEP}
-                            onChange={n => handleQualifyingChange('mean', n ?? 0.5)}
+                            onChange={n => handleQualifyingChange('mean', n)}
                             textColor={textColor}
                         />
                     </span>
@@ -287,7 +287,7 @@ function DriverEntry ({
                             max={GAUSSIAN_MAX_MEAN}
                             step={GAUSSIAN_SLIDER_STEP}
                             onChange={
-                                n => handleQualifyingChange('deviation', n ?? 0.25)
+                                n => handleQualifyingChange('deviation', n)
                             }
                             textColor={textColor}
                         />
@@ -327,6 +327,8 @@ function QualifyingGaussianChart ({
     mean,
     standardDeviation: stDev,
 }: QualifyingGaussianChartProps) {
+    if (mean === 0) mean = 0.001;
+    if (stDev === 0) stDev = 0.001;
 
     const [xValues, setXValues] = useState([] as number[]);
     const [yValues, setYValues] = useState([] as (number | null)[]);

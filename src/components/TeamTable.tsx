@@ -51,7 +51,6 @@ function TeamEntry ({
     const countryData = Countries[team.country];
     const badgeImg = Files.getFilePath(dataPath, AssetFolder.teamBadges, team.badge);
 
-    // TODO: Check if team color deserves white or black text.
     const calcTextColor = chooseW3CTextColor(team.color);
 
     const classStr = getClassString(

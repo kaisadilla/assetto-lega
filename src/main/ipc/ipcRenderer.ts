@@ -1,6 +1,6 @@
 import { League, UserSettings, AcCarCollection, AcCar, AcCarBrand, AcTrackCollection, AcTrack, } from "data/schemas";
 import { AssetFolder } from "data/assets";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_GET_TRACK } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_GET_TRACK, HANDLER_DATA_LOAD_COUNTRY_TIERS, HANDLER_DATA_SAVE_COUNTRY_TIERS } from "./ipcNames";
 
 const Ipc = {
     async getDataFolderPath () : Promise<string> {
@@ -12,6 +12,9 @@ const Ipc = {
     },
     async loadLeagues () : Promise<League[]> {
         return await getIpcRenderer().invoke(HANDLER_DATA_LOAD_LEAGUES);
+    },
+    async loadCountryTiers () : Promise<{[country: string]: string}> {
+        return await getIpcRenderer().invoke(HANDLER_DATA_LOAD_COUNTRY_TIERS);
     },
 
     async saveSettings (settings: UserSettings) : Promise<boolean> {
@@ -31,6 +34,10 @@ const Ipc = {
             originalInternalName,
             league,
         });
+    },
+
+    async saveCountryTiers (tiers: {[country: string]: string}) : Promise<boolean> {
+        return await getIpcRenderer().invoke(HANDLER_DATA_SAVE_COUNTRY_TIERS, tiers);
     },
 
     async openDirectory () : Promise<string> {

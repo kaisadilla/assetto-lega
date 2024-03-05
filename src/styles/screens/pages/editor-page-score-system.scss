@@ -1,0 +1,116 @@
+.league-editor > .score-system-tab {
+    padding: 16px;
+    min-height: 0;
+
+    .info-form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 12px;
+
+        > .by-position-section {
+            height: 100%;
+            min-height: 0;
+
+            > .session-list {
+                flex: 1;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                gap: 12px;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+        }
+
+        > .other-fields-section {
+            .label {
+                width: 160px;
+            }
+        }
+    }
+
+    .score-array-field {
+        //width: fit-content;
+        width: 234px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        > .header {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            width: 100%;
+            gap: 8px;
+
+            .default-checkbox {
+                width: unset;
+            }
+
+            > .name {
+                flex: 1;
+                font-weight: $w-semibold;
+            }
+        }
+
+        > .amount {
+            .label, .after-label {
+                width: fit-content;
+            }
+
+            .value {
+                flex: unset;
+                width: 36px;
+                margin: 0 6px;
+            }
+        }
+
+        > .entries {
+            > .entry {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                gap: 8px;
+                align-items: center;
+                height: 24px;
+
+                > .position {
+                    width: 32px;
+                    font-weight: $w-semibold;
+                }
+
+                > .points-awarded {
+                    width: 50px;
+                }
+
+                > .default-numeric-box.points-awarded {
+                    height: 100%;
+                    .input-field {
+                        color: $text-color-dark-d1;
+                    }
+                }
+            
+                > .gap {
+                    width: 56px;
+
+                    &.positive {
+                        color: $color-success;
+                    }
+
+                    &.negative {
+                        color: $color-danger;
+                    }
+                }
+
+                &.entry-header {
+                    font-weight: $w-semibold;
+                }
+            }
+        }
+    }
+}

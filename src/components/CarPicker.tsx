@@ -76,6 +76,7 @@ function CarPicker ({
                 thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
+                onSubmit={car => onSelect(car)}
             />
         }
         if (filterType === FilterType.Tag) {
@@ -176,6 +177,7 @@ interface SelectorByBrandProps {
     thumbnailScale: number;
     selectedCar: string | null;
     onSelect: (car: string) => void;
+    onSubmit: (car: string) => void;
 }
 
 function SelectorByBrand ({
@@ -184,6 +186,7 @@ function SelectorByBrand ({
     thumbnailScale,
     selectedCar,
     onSelect,
+    onSubmit,
 }: SelectorByBrandProps) {
     const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
     const [carEntries, setCarEntries] = useState<PickerElementSection[]>([]);
@@ -222,7 +225,7 @@ function SelectorByBrand ({
                     width={thumbnailScale}
                     selectedElement={selectedCar}
                     onSelect={c => onSelect(c)}
-                    onDoubleClickItem={c => onSelect(c)}
+                    onDoubleClickItem={c => onSubmit(c)}
                     focusedSection={selectedBrand}
                 />
             </div>

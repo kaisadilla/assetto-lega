@@ -65,21 +65,15 @@ function ProportionNumericBox ({
         </div>
     );
 
-    function handleMagnitudeChange (magnitude: number | null) {
-        if (magnitude === null) return;
-
+    function handleMagnitudeChange (magnitude: number) {
         onChange?.(magnitude);
     }
 
-    function handleProportionChange (proportion: number | null) {
-        if (proportion === null) return;
-
+    function handleProportionChange (proportion: number) {
         setProportion(proportion);
     }
 
-    function handleProportionBlur (proportion: number | null) {
-        if (proportion === null) return;
-
+    function handleProportionBlur (proportion: number) {
         const value = truncateNumber(1 / proportion, decimalPlaces);
         onChange?.(value);
     }

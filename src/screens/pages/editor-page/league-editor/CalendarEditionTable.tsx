@@ -13,13 +13,15 @@ import ToolboxRow from 'elements/ToolboxRow';
 import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import { deleteAt, getClassString, valueNullOrEmpty } from 'utils';
 
 const DATE_REGEX = /^[0-9]{4}[\/\-][0-9]{2}[\/\-][0-9]{2}$/g;
 const HOUR_REGEX = /^[0-2][0-9][:][0-5][0-9]$/g;
 
-type EditableCalendarEntry = LeagueCalendarEntry & {deleted: boolean};
+type EditableCalendarEntry = LeagueCalendarEntry & {id: string, deleted: boolean};
 
+// TODO: Customize driver skins for each entry.
 export interface CalendarEditionTableProps {
     calendar: LeagueCalendarEntry[];
     onSave?: (teams: LeagueCalendarEntry[]) => void;
@@ -60,6 +62,8 @@ function CalendarEditionTable ({
                 <h3 className="h3-header">Entries</h3>
                 <EntryList
                     entries={editedCalendar}
+                    setEntries={setEditedCalendar}
+                    onSort={handleSortEntry}
                     editFlags={editFlags}
                     selectedIndex={selectedEntry}
                     onSelect={handleSelectEntry}
@@ -73,13 +77,13 @@ function CalendarEditionTable ({
                     </Button>
                 </div>
             </div>
-            <div className="item-panel entry-panel">
+            {editedCalendar.length > 0 && <div className="item-panel entry-panel">
                 <EntryPanel
                     key={selectedEntry}
                     entry={editedCalendar[selectedEntry]}
                     onChange={handleEntryChange}
                 />
-            </div>
+            </div>}
             <ToolboxRow className="status-bar toolbar-panel entry-tab-toolbar">
                 <div className="datum">{entryCount} entries</div>
                 <div className="tools">
@@ -127,6 +131,7 @@ function CalendarEditionTable ({
             ...editedCalendar,
             createNewCalendarEntry() as EditableCalendarEntry,
         ]
+        update[update.length - 1].id = crypto.randomUUID();
         update[update.length - 1].deleted = false;
 
         setEditedCalendar(update);
@@ -145,6 +150,19 @@ function CalendarEditionTable ({
         update[index].deleted = deleted;
         setEditedCalendar(update);
         flagAsEdited(index);
+    }
+
+    function handleSortEntry (oldIndex?: number, newIndex?: number) {
+        if (oldIndex === undefined || newIndex === undefined) return;
+
+        setSelectedEntry(newIndex);
+        const flagUpd = [...editFlags];
+
+        [flagUpd[oldIndex], flagUpd[newIndex]] = [flagUpd[newIndex], flagUpd[oldIndex]];
+
+        setEditFlags(flagUpd);
+        console.log(flagUpd);
+        console.log(newIndex);
     }
     
     function handleSelectEntry (index: number) {
@@ -240,6 +258,8 @@ function CalendarEditionTable ({
 
 interface EntryListProps {
     entries: EditableCalendarEntry[];
+    setEntries: (entries: EditableCalendarEntry[]) => void;
+    onSort: (oldIndex?: number, newIndex?: number) => void;
     editFlags: boolean[];
     selectedIndex: number;
     onSelect: (index: number) => void;
@@ -249,6 +269,8 @@ interface EntryListProps {
 
 function EntryList ({
     entries,
+    setEntries,
+    onSort,
     editFlags,
     selectedIndex,
     onSelect,
@@ -256,10 +278,15 @@ function EntryList ({
     onRestore,
 }: EntryListProps) {
     return (
-        <div className="edition-items-list calendar-list">
+        <ReactSortable
+            className="edition-items-list calendar-list"
+            list={entries}
+            setList={setEntries}
+            onSort={(evt) => onSort(evt.oldIndex, evt.newIndex)}
+        >
             {
                 entries.map((e, i) => <Entry
-                    key={[i, entries.length].join(",")}
+                    key={[e.id, entries.length].join(",")}
                     entry={e}
                     selected={selectedIndex === i}
                     edited={editFlags[i]}
@@ -268,7 +295,7 @@ function EntryList ({
                     onRestore={() => onRestore(i)}
                 />)
             }
-        </div>
+        </ReactSortable>
     );
 }
 
@@ -355,6 +382,7 @@ function EntryPanel ({
                     <Textbox
                         value={entry.date}
                         onChange={str => handleFieldChange('date', str)}
+                        placeholder="YYYY-MM-DD"
                     />
                 </LabeledControl>
                 <LabeledControl label="Track" required>
@@ -380,12 +408,14 @@ function EntryPanel ({
                     <Textbox
                         value={entry.qualifyingStartHour}
                         onChange={str => handleFieldChange('qualifyingStartHour', str)}
+                        placeholder="HH:MM"
                     />
                 </LabeledControl>
                 <LabeledControl label="Race" required>
                     <Textbox
                         value={entry.raceStartHour}
                         onChange={str => handleFieldChange('raceStartHour', str)}
+                        placeholder="HH:MM"
                     />
                 </LabeledControl>
             </Form.Section>
@@ -415,11 +445,11 @@ function EntryPanel ({
 }
 
 function generateEditable (calendar: LeagueCalendarEntry[]) {
-    console.log("cloning new!");
     const newArr = [] as EditableCalendarEntry[];
 
-    for (const e of calendar) {
-        const clone = structuredClone(e) as EditableCalendarEntry;
+    for (const e in calendar) {
+        const clone = structuredClone(calendar[e]) as EditableCalendarEntry;
+        clone.id = crypto.randomUUID();
         clone.deleted = false;
         newArr.push(clone);
     }

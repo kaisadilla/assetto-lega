@@ -3,10 +3,17 @@ export interface UserSettings {
 }
 
 export enum Tier {
-    Legendary = "Legendary",
-    Epic = "Epic",
-    Distinguished = "Distinguished",
-    Regular = "Regular",
+    Legendary = "legendary",
+    Epic = "epic",
+    Distinguished = "distinguished",
+    Regular = "regular",
+}
+
+export const TierNames = {
+    [Tier.Legendary]: "Legendary",
+    [Tier.Epic]: "Epic",
+    [Tier.Distinguished]: "Distinguished",
+    [Tier.Regular]: "Regular",
 }
 
 export interface League {
@@ -25,7 +32,7 @@ export interface League {
     teams: LeagueTeam[];
     tracks: string[];
     calendar: LeagueCalendarEntry[];
-    scoreSystem: LeagueScoreSystem[];
+    scoreSystem: LeagueScoreSystem;
 }
 
 export const LeagueRequiredFields: (keyof League)[] = [
@@ -140,11 +147,15 @@ export interface LeagueScoreSystem {
     /**
      * The minimum amount of points given to each participant in the race.
      */
-    minimumPointsPerRace: number;
+    defaultPointsPerRace: number;
     /**
      * The amount of points awarded to the participant with the fastest lap.
      */
     fastestLap: number;
+    /**
+     * The minimum position (inclusive) that awards points for the fastest lap.
+     */
+    fastestLapThreshold: number;
     /**
      * The amount of points given to each position of the qualifying.
      * Works the same as the 'position' array.
@@ -297,6 +308,33 @@ export interface AcTrackLayoutUi {
     url?: string;
 }
 
+export function createNewLeague () : League {
+    return {
+        internalName: "",
+        series: "",
+        year: 1900,
+        //displayName?: "",
+        // TODO: classes: string[],
+        //era?: "",
+        //makers?: "",
+        region: "world",
+        color: "#ffffff",
+        categories: [] as string[],
+        logo: "@f1-1994",
+        background: "@ac-spa",
+        teams: [] as LeagueTeam[],
+        tracks: [] as string[],
+        calendar: [] as LeagueCalendarEntry[],
+        scoreSystem: {
+            position: null,
+            defaultPointsPerRace: 0,
+            fastestLap: 0,
+            fastestLapThreshold: 0,
+            qualifying: null,
+        },
+    } as League;
+}
+
 export function createNewTeam () : LeagueTeam {
     return {
         //name: "(new team)",
@@ -327,10 +365,10 @@ export function createNewDriver () : LeagueTeamDriver {
         strength: 85,
         aggression: 50,
         qualifying: {
-            mean: 1.5,
+            mean: 0.5,
             deviation: 0.25,
-            miracleChance: 0,
-            disasterChance: 0,
+            miracleChance: 0.05,
+            disasterChance: 0.05,
         }
     } as LeagueTeamDriver;
 }

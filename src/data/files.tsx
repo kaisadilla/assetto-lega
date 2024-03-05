@@ -44,7 +44,7 @@ export const Files = {
             return Assets[folder][name];
         }
         else {
-            return FILE_PROTOCOL + dataPath + "/" + folder + "/" + name;
+            return FILE_PROTOCOL + dataPath.replaceAll("\\", "/") + "/" + folder + "/" + name;
         }
     }
 }

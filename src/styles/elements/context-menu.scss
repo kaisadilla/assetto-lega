@@ -1,0 +1,43 @@
+.customizable-context-menu {
+    position: fixed;
+    z-index: 1000000;
+
+    .default-dropdown {
+        position: relative;
+    }
+}
+
+.tier-context-menu {
+    background: $bg-color-dark;
+    border: 1px solid $color-primary;
+
+    .tier-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .tier {
+        padding: 4px 8px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
+        > .tier-icon {
+            @include tier-text-colors();
+        }
+
+        &:hover {
+            background: $bg-color-dark-l1;
+        }
+
+        &.selected {
+            background: $color-primary;
+        }
+    }
+}
+
+.default-context-menu {
+
+}

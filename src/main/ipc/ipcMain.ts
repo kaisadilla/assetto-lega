@@ -1,5 +1,5 @@
 import { Data } from "../userdata";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_INITIALIZE_RENDER_STEP } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_INITIALIZE_RENDER_STEP, HANDLER_DATA_LOAD_COUNTRY_TIERS, HANDLER_DATA_SAVE_COUNTRY_TIERS } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
@@ -37,6 +37,10 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         return await Data.loadLeagues();
     });
 
+    ipcMain.handle(HANDLER_DATA_LOAD_COUNTRY_TIERS, async (evt, arg) => {
+        return await Data.loadCountryTiers();
+    });
+
     ipcMain.handle(HANDLER_DATA_SAVE_SETTINGS, async (
         evt, settings: UserSettings
     ) => {
@@ -47,6 +51,12 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         evt, {originalInternalName, league}: SaveLeagueArgs
     ) => {
         Data.saveLeague(originalInternalName, league);
+    })
+
+    ipcMain.handle(HANDLER_DATA_SAVE_COUNTRY_TIERS, async (
+        evt, tiers: {[country: string]: string}
+    ) => {
+        Data.saveCountryTiers(tiers);
     })
 
     // Files and folders

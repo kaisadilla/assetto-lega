@@ -27,6 +27,18 @@
     .entry-panel {
         .info-section {
             width: 100%;
+            > .default-labeled-control {
+                > .label {
+                    width: 100px;
+                }
+                > .value {
+                    color: $text-color-dark-d1;
+    
+                    .default-typebox > input {
+                        color: $text-color-dark-d1;
+                    }
+                }
+            }
         }
     }
 }

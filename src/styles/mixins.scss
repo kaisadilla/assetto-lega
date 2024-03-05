@@ -7,6 +7,21 @@
     aspect-ratio: 355 / 200;
 }
 
+@mixin tier-text-colors {
+    &.tier-legendary {
+        color: $color-tier-legendary;
+    }
+    &.tier-epic {
+        color: $color-tier-epic;
+    }
+    &.tier-distinguished {
+        color: $color-tier-distinguished;
+    }
+    &.tier-regular {
+        //color: $color-tier-regular;
+    }
+}
+
 @mixin no-highlight () {
     -moz-user-select: -moz-none;
     -khtml-user-select: none;

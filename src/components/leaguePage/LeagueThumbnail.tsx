@@ -26,7 +26,7 @@ function LeagueThumbnail ({league, width}: LeagueThumbnailProps) {
                 width={width}
                 background={imgBackground}
                 logo={imgLogo}
-                name={league.displayName}
+                name={league.displayName ?? league.internalName}
                 flag={league.region}
             />
         </div>

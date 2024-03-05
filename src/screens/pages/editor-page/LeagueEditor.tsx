@@ -9,6 +9,7 @@ import TeamsTab from './league-editor/TeamsTab';
 import ConfirmDialog from 'elements/ConfirmDialog';
 import DriversTab from './league-editor/DriversTab';
 import CalendarTab from './league-editor/CalendarTab';
+import ScoreSystemTab from './league-editor/ScoreSystemTab';
 
 enum EditorTab {
     INFO,
@@ -28,6 +29,7 @@ export interface LeagueEditorProps {
      * passed as an argument in the onSave() and onCancel() callbacks.
      */
     league: League;
+    existingLeagueCategories: string[];
     onSave?: (currentVersion: League) => void;
     onSaveAndExit?: (currentVersion: League) => void;
     onCancel?: (currentVersion: League) => void;
@@ -35,6 +37,7 @@ export interface LeagueEditorProps {
 
 function LeagueEditor ({
     league,
+    existingLeagueCategories,
     onSave,
     onSaveAndExit,
     onCancel,
@@ -51,6 +54,7 @@ function LeagueEditor ({
                 <InfoTab
                     league={editedLeague}
                     onChange={handleLeagueFieldChange}
+                    existingLeagueCategories={existingLeagueCategories}
                 />
             );
         }
@@ -73,6 +77,14 @@ function LeagueEditor ({
         if (editorTab === EditorTab.CALENDAR) {
             return (
                 <CalendarTab
+                    league={editedLeague}
+                    onChange={handleLeagueFieldChange}
+                />
+            );
+        }
+        if (editorTab === EditorTab.SCORE_SYSTEM) {
+            return (
+                <ScoreSystemTab
                     league={editedLeague}
                     onChange={handleLeagueFieldChange}
                 />

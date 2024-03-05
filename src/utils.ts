@@ -149,7 +149,7 @@ export function smartFilterObjectArray<T> (
     arr: T[],
     filter: string,
     fieldSelector: (obj: T) => string,
-    caseSensitive?: boolean
+    caseSensitive: boolean = false
 ) {
     const regex = __buildSmartFilterRegex(filter, caseSensitive);
 
@@ -164,26 +164,15 @@ export function smartFilterObjectArray<T> (
     });
 }
 
-function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
-    let regexStr = "";
-    if (filter.length < 2) {
-        regexStr = filter;
-    }
-    // build a regex on the form of: C.*C.*C.*C.*C, where C is each character
-    // in the filter.
-    else {
-        for (let i = 0; i < filter.length - 1; i++) {
-            regexStr += filter[i] + ".*";
-        }
-        regexStr += filter[filter.length - 1];
-    }
-
+export function matchesSmartFilter (
+    value: string, filter: string, caseSensitive: boolean = false
+) {
+    const regex = __buildSmartFilterRegex(filter, caseSensitive);
     if (!caseSensitive) {
-        // todo: locale stuff.
-        regexStr = regexStr.toLocaleLowerCase(LOCALE);
+        value = value.toLocaleLowerCase(LOCALE);
     }
 
-    return new RegExp(regexStr);
+    return value.match(regex) !== null;
 }
 
 export function clampNumber (num: number, min: number, max: number) {
@@ -291,4 +280,26 @@ export function valueNullOrEmpty<T> (value: T | null | undefined) {
 
 export function deleteAt<T> (arr: T[], index: number) {
     arr.splice(index, 1);
+}
+
+function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
+    let regexStr = "";
+    if (filter.length < 2) {
+        regexStr = filter;
+    }
+    // build a regex on the form of: C.*C.*C.*C.*C, where C is each character
+    // in the filter.
+    else {
+        for (let i = 0; i < filter.length - 1; i++) {
+            regexStr += filter[i] + ".*";
+        }
+        regexStr += filter[filter.length - 1];
+    }
+
+    if (!caseSensitive) {
+        // todo: locale stuff.
+        regexStr = regexStr.toLocaleLowerCase(LOCALE);
+    }
+
+    return new RegExp(regexStr);
 }
