@@ -283,23 +283,35 @@ export function deleteAt<T> (arr: T[], index: number) {
 }
 
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
-    let regexStr = "";
-    if (filter.length < 2) {
-        regexStr = filter;
-    }
-    // build a regex on the form of: C.*C.*C.*C.*C, where C is each character
-    // in the filter.
-    else {
-        for (let i = 0; i < filter.length - 1; i++) {
-            regexStr += filter[i] + ".*";
+    try {
+        let regexStr = "";
+        if (filter.length < 2) {
+            regexStr = filter;
         }
-        regexStr += filter[filter.length - 1];
+        // build a regex on the form of: C.*C.*C.*C.*C, where C is each character
+        // in the filter.
+        else {
+            for (let i = 0; i < filter.length - 1; i++) {
+                regexStr += filter[i] + ".*";
+            }
+            regexStr += filter[filter.length - 1];
+        }
+    
+        if (!caseSensitive) {
+            // todo: locale stuff.
+            regexStr = regexStr.toLocaleLowerCase(LOCALE);
+        }
+    
+        // escape characters that need escaping in regex.
+        regexStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return new RegExp(regexStr);
     }
+    catch (ex) {
+        console.error(
+            `There was a problem while building a smart filter regex for ${filter}`,
+            ex
+        );
 
-    if (!caseSensitive) {
-        // todo: locale stuff.
-        regexStr = regexStr.toLocaleLowerCase(LOCALE);
+        return /^$/g;
     }
-
-    return new RegExp(regexStr);
 }

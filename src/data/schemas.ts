@@ -1,3 +1,5 @@
+import { CURRENT_VERSION } from "versioning";
+
 export interface UserSettings {
     assettoCorsaFolder: string | null;
 }
@@ -29,10 +31,12 @@ export interface League {
     categories: string[];
     logo: string;
     background: string;
+    useRandomSkins: boolean;
     teams: LeagueTeam[];
     tracks: string[];
     calendar: LeagueCalendarEntry[];
     scoreSystem: LeagueScoreSystem;
+    version: number;
 }
 
 export const LeagueRequiredFields: (keyof League)[] = [
@@ -322,6 +326,7 @@ export function createNewLeague () : League {
         categories: [] as string[],
         logo: "@f1-1994",
         background: "@ac-spa",
+        useRandomSkins: false,
         teams: [] as LeagueTeam[],
         tracks: [] as string[],
         calendar: [] as LeagueCalendarEntry[],
@@ -332,6 +337,7 @@ export function createNewLeague () : League {
             fastestLapThreshold: 0,
             qualifying: null,
         },
+        version: CURRENT_VERSION,
     } as League;
 }
 

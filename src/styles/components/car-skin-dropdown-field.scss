@@ -27,7 +27,6 @@
     }
 
     .skin-name-container {
-
         height: $-height;
         display: flex;
         flex-direction: row;
@@ -44,6 +43,11 @@
                 width: 100%;
                 height: 100%;
             }
+        }
+
+        > .name {
+            @include ellipsis();
+            width: calc(100% - $-height - 4px);
         }
 
         &:hover {

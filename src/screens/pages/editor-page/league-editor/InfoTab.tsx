@@ -5,6 +5,7 @@ import MultiTagField from 'components/MultiTagField';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { League } from 'data/schemas';
+import Checkbox from 'elements/Checkbox';
 import LabeledControl from 'elements/LabeledControl';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
@@ -100,6 +101,12 @@ function InfoTab ({
                         <ColorField
                             value={league.color}
                             onChange={handleChange_color}
+                        />
+                    </LabeledControl>
+                    <LabeledControl label="Use random skins" required>
+                        <Checkbox
+                            value={league.useRandomSkins}
+                            onChange={v => onChange('useRandomSkins', v)}
                         />
                     </LabeledControl>
                     {/* TODO change with an expandable checklist */}

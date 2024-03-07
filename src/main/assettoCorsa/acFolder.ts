@@ -2,6 +2,7 @@ import fsAsync from "fs/promises";
 import fs from "fs";
 import { AcCar, AcCarSkin, CarSkinUi, CarUi, AcTrack, AcTrackLayout, AcTrackLayoutUi, AcTrackLayoutCollection } from "data/schemas";
 import DetectFileEncodingAndLanguage from "detect-file-encoding-and-language";
+import { LOCALE } from "../mainProcessUtils";
 
 const TEXT_FORMAT = "utf-8";
 
@@ -77,11 +78,14 @@ export const AssettoCorsa = {
         //console.info(`Loading UI json for car '${folderName}'...`);
         const ui = await readJsonFile<CarUi>(carUiFile);
 
-        const skinFolders = await fsAsync.readdir(carSkinFolder);
+        const skinFolderContent = await fsAsync.readdir(carSkinFolder, {
+            withFileTypes: true,
+        });
+        const skinFolders = skinFolderContent.filter(el => el.isDirectory());
         const skinsById: {[folderName: string]: AcCarSkin} = {};
 
         for (const f of skinFolders) {
-            const skinFolder = carSkinFolder + "/" + f;
+            const skinFolder = carSkinFolder + "/" + f.name;
             const skinUiFile = skinFolder + "/ui_skin.json";
 
             if (fs.existsSync(skinUiFile) === false) {
@@ -99,18 +103,18 @@ export const AssettoCorsa = {
             }
 
             if (skinUi) {
-                skinsById[f] = {
-                    folderName: f,
+                skinsById[f.name] = {
+                    folderName: f.name,
                     folderPath: skinFolder,
                     ui: skinUi,
                 };
             }
             else {
-                skinsById[f] = {
-                    folderName: f,
+                skinsById[f.name] = {
+                    folderName: f.name,
                     folderPath: skinFolder,
                     ui: {
-                        skinname: f,
+                        skinname: f.name,
                     } as CarSkinUi,
                 };
             }
@@ -159,19 +163,10 @@ export const AssettoCorsa = {
             throw `Track '${folderName}' has no layouts.`;
         }
         let layouts: AcTrackLayout[] = [];
-        let layoutsById: AcTrackLayoutCollection = {};
+        // initialize "" so it's the first key if a default layout exists.
+        let layoutsById: AcTrackLayoutCollection = {"": {} as AcTrackLayout};
 
         const layoutDisplayNames = [];
-
-        if (hasDefaultLayout) {
-            const defaultLayout = await buildTrackLayoutObject(uiFolderPath, "");
-            layouts.push(defaultLayout);
-            layoutsById[""] = defaultLayout;
-
-            if (defaultLayout.ui.name) {
-                layoutDisplayNames.push(defaultLayout.ui.name)
-            }
-        }
 
         if (hasExtraLayouts) {
             for (const folder of uiLayoutFolders) {
@@ -185,6 +180,23 @@ export const AssettoCorsa = {
                     layoutDisplayNames.push(obj.ui.name)
                 }
             }
+        }
+        
+        layouts = layouts.sort(
+            (a, b) => a.layoutName.localeCompare(b.layoutName, LOCALE)
+        );
+
+        if (hasDefaultLayout) {
+            const defaultLayout = await buildTrackLayoutObject(uiFolderPath, "");
+            layouts = [defaultLayout, ...layouts];
+            layoutsById[""] = defaultLayout;
+
+            if (defaultLayout.ui.name) {
+                layoutDisplayNames.push(defaultLayout.ui.name)
+            }
+        }
+        else {
+            delete layoutsById[""];
         }
 
         const [displayName, substrEnd] = buildTrackDisplayName(
@@ -314,6 +326,14 @@ function buildTrackDisplayName (folderName: string, layoutNames: string[])
 
         for (const n of layoutNames) {
             if (n.charAt(end) !== refChar) {
+                break CharLoop;
+            }
+            // also use "-" to separate layout from track names (to avoid cases
+            // like "Place - GP 2003" and "Place - GP 2020" to be detected as
+            // "Place - GP 20" as the track and "03" / "20" as the layouts).
+            // Don't do this if there isn't a space before the name though, so
+            // hyphenated names like "Gilles-Villeneuve" are not split.
+            if (end > 1 && n.charAt(end) === "-" && n.charAt(end - 1) === " ") {
                 break CharLoop;
             }
         }

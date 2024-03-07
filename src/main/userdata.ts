@@ -5,6 +5,7 @@ import { app, dialog, nativeImage } from "electron";
 import path from "path";
 import { AssetFolder } from "data/assets";
 import { DEFAULT_COUNTRY_TIERS } from "../data/countryTiers";
+import { VersionHistory } from "../versioning";
 
 export const USERDATA_FOLDER = "assetto-lega";
 export const FOLDER_JSON = "json";
@@ -72,6 +73,13 @@ export const Data = {
 
             const content = await fsAsync.readFile(filePath, TEXT_FORMAT);
             const league: League = JSON.parse(content);
+           
+            const upgraded = upgradeLeagueToCurrentVer(league);
+
+            if (upgraded) {
+                this.saveLeague(fileName, league);
+            }
+
             league.internalName = filename;
             
             return league;
@@ -259,7 +267,7 @@ function createDataFileIfNotExists<T extends object> (
 ) {
     const filePath = getDataFolder(folder) + "/" + file;
     if (fs.existsSync(filePath)) {
-        console.log("===" + "exists");
+        console.log("Data file exists");
         return;
     }
 
@@ -286,4 +294,24 @@ async function createSettingsFile () {
     }
 
     fs.writeFileSync(path, JSON.stringify(settings, null, JSON_INDENT_SPACES));
+}
+
+/**
+ * Checks the version of the league given and, if it's lower than the current
+ * version of the app, applies the necessary changes to upgrade it to the current
+ * version. This process will always be able to upgrade any file version into
+ * any other version. The league object given will be modified. Returns true if
+ * any change was done to the file.
+ */
+function upgradeLeagueToCurrentVer (league: League) {
+    let modified = false;
+    league.version ??= 1;
+
+    if (league.version < VersionHistory.LeagueUseRandomSkinsField) {
+        league.useRandomSkins = false;
+        modified = true;
+    }
+    league.version = 2;
+
+    return modified;
 }

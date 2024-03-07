@@ -374,6 +374,7 @@ function EntryPanel ({
                 </LabeledControl>
                 <LabeledControl label="Country" required>
                     <CountryField
+                        allowRegions
                         value={entry.country}
                         onChange={ctry => handleFieldChange('country', ctry)}
                     />

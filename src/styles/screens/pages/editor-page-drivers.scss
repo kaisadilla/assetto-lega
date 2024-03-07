@@ -51,7 +51,7 @@
                     width: 48px;
                 }
                 .cell-name {
-                    min-width: 100px;
+                    width: 120px;
                 }
                 .cell-strength {
                     width: 132px;
@@ -198,6 +198,7 @@
     .simulator-section {
         flex: 1;
         max-width: 300px;
+        flex-shrink: 0;
     }
 
     .qualifying-gaussian-chart {
