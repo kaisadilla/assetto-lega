@@ -6,11 +6,13 @@ import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { League } from 'data/schemas';
 import Checkbox from 'elements/Checkbox';
+import EditableList from 'elements/EditableList';
 import LabeledControl from 'elements/LabeledControl';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
 import Form from 'elements/form/Form';
 import React from 'react';
+import { arrayUnion } from 'utils';
 
 export interface InfoTabProps {
     league: League;
@@ -109,14 +111,24 @@ function InfoTab ({
                             onChange={v => onChange('useRandomSkins', v)}
                         />
                     </LabeledControl>
-                    {/* TODO change with an expandable checklist */}
-                    <LabeledControl className="categories-cell" label="Categories">
-                        <MultiTagField
-                            values={league.categories}
-                            onChange={handleChange_categories}
-                            existingTags={existingLeagueCategories}
-                        />
-                    </LabeledControl>
+                </Form.Section>
+                <Form.Section className="groups-section">
+                    <Form.Title title="Specs" />
+                    <EditableList
+                        items={league.specs}
+                        onChangeList={list => onChange('specs', list)}
+                        allowRemove
+                        minimumNumberOfItems={1}
+                    />
+                    <Form.Title title="Classes" />
+                </Form.Section>
+                <Form.Section className="categories-section">
+                    <Form.Title title="Categories" />
+                    <EditableList
+                        items={arrayUnion(league.categories, existingLeagueCategories)}
+                        checkedItems={league.categories}
+                        onChangeCheckedItems={handleChange_categories}
+                    />
                 </Form.Section>
             </Form>
         </div>
@@ -165,6 +177,7 @@ function InfoTab ({
     }
 
     function handleChange_categories (categories: string[]) {
+        console.log(categories)
         onChange('categories', categories);
     }
 }

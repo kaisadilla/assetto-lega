@@ -14,7 +14,7 @@ import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
-import { deleteAt, getClassString, valueNullOrEmpty } from 'utils';
+import { deleteArrayItemAt, getClassString, valueNullOrEmpty } from 'utils';
 
 const DATE_REGEX = /^[0-9]{4}[\/\-][0-9]{2}[\/\-][0-9]{2}$/g;
 const HOUR_REGEX = /^[0-2][0-9][:][0-5][0-9]$/g;

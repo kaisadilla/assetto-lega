@@ -217,7 +217,7 @@ function SeasonsPanel ({
 
     return (
         <div className="season-container">
-            {leagues.map(l => <SeasonsPanelEntry
+            {validLeagues.map(l => <SeasonsPanelEntry
                 league={l}
                 onSelect={() => onSelect(l.internalName)}
             />)}

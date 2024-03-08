@@ -32,6 +32,7 @@ export interface League {
     logo: string;
     background: string;
     useRandomSkins: boolean;
+    specs: string[];
     teams: LeagueTeam[];
     tracks: string[];
     calendar: LeagueCalendarEntry[];
@@ -49,6 +50,7 @@ export const LeagueRequiredFields: (keyof League)[] = [
     'categories',
     'logo',
     'background',
+    'specs',
     'teams',
     'tracks',
     'calendar',
@@ -327,6 +329,7 @@ export function createNewLeague () : League {
         logo: "@f1-1994",
         background: "@ac-spa",
         useRandomSkins: false,
+        specs: ["Default"],
         teams: [] as LeagueTeam[],
         tracks: [] as string[],
         calendar: [] as LeagueCalendarEntry[],

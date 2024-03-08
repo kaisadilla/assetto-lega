@@ -20,7 +20,7 @@ import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
-import { deleteAt, getClassString } from 'utils';
+import { deleteArrayItemAt, getClassString } from 'utils';
 
 type EditableTeam = LeagueTeam & {id: string, deleted: boolean};
 type EditableDriver = LeagueTeamDriver & {deleted: boolean};
@@ -523,7 +523,7 @@ function TabDrivers ({
 
     function handleDriverDelete (index: number) {
         const update = [...team.drivers];
-        deleteAt(update, index);
+        deleteArrayItemAt(update, index);
         onChange(update);
     }
 

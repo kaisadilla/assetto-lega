@@ -19,6 +19,7 @@ enum EditorTab {
     TRACKS, // TODO: Tracks in CALENDAR appear automatically here and can't be removed.
     SCORE_SYSTEM,
     INGAME_UI,
+    BACKUPS,
 }
 
 export interface LeagueEditorProps {
@@ -103,6 +104,7 @@ function LeagueEditor ({
                 <NavBar.Item text="tracks" index={EditorTab.TRACKS} />
                 <NavBar.Item text="score system" index={EditorTab.SCORE_SYSTEM} />
                 <NavBar.Item text="ingame ui" index={EditorTab.INGAME_UI} />
+                <NavBar.Item text="backups" index={EditorTab.BACKUPS} />
             </NavBar>
             {$screen}
             <ToolboxRow>

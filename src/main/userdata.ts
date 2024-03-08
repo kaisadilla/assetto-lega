@@ -73,12 +73,6 @@ export const Data = {
 
             const content = await fsAsync.readFile(filePath, TEXT_FORMAT);
             const league: League = JSON.parse(content);
-           
-            const upgraded = upgradeLeagueToCurrentVer(league);
-
-            if (upgraded) {
-                this.saveLeague(fileName, league);
-            }
 
             league.internalName = filename;
             
@@ -93,15 +87,28 @@ export const Data = {
     async loadLeagues () : Promise<League[]> {
         console.info("Loading userdata > leagues.");
         const leagues: League[] = [];
+        const leaguesToSave: League[] = [];
 
         const files = await fsAsync.readdir(getDataFolder(FOLDER_LEAGUES));
 
         for (const f of files) {
             const league = await this.loadLeague(f);
-            if (league) {
-                leagues.push(league);
+            if (league === null) {
+                continue;
             }
+
+            const upgraded = upgradeLeagueToCurrentVer(league);
+
+            if (upgraded) {
+                leaguesToSave.push(league);
+            }
+
+            leagues.push(league);
         };
+
+        for (const l of leaguesToSave) {
+            this.saveLeague(l.internalName, l);
+        }
     
         return leagues;
     },
@@ -312,6 +319,12 @@ function upgradeLeagueToCurrentVer (league: League) {
         modified = true;
     }
     league.version = 2;
+    
+    if (league.version < VersionHistory.LeagueSpecs) {
+        league.specs = ["Default"];
+        modified = true;
+    }
+    league.version = 3;
 
     return modified;
 }

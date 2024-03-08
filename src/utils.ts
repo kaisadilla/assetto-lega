@@ -278,8 +278,18 @@ export function valueNullOrEmpty<T> (value: T | null | undefined) {
     return value === null || value === undefined || value === "";
 }
 
-export function deleteAt<T> (arr: T[], index: number) {
+export function deleteArrayItemAt<T> (arr: T[], index: number) {
     arr.splice(index, 1);
+}
+
+export function arrayUnion (a: any[], b: any[]) {
+    const set = new Set<any>();
+
+    for (const item of [...a, ...b]) {
+        set.add(item);
+    }
+
+    return Array.from(set);
 }
 
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {

@@ -1,0 +1,73 @@
+.default-editable-list {
+    background-color: $bg-color-dark-l1;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 0;
+
+    .list-entry {
+        padding: 0 0 0 8px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        height: 28px;
+
+        .tag-action {
+            cursor: pointer;
+            aspect-ratio: 1 / 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                background-color: $color-transparent-w2;
+            }
+        }
+    }
+
+    .existing-entry {
+        gap: 6px;
+
+        .tag-action {
+            visibility: hidden;
+        }
+
+        &:hover {
+            background-color: $color-transparent-w2;
+
+            .tag-action {
+                visibility: visible;
+            }
+        }
+
+        .default-checkbox {
+            width: fit-content;
+        }
+
+        .name {
+            flex: 1;
+        }
+    }
+
+    .add-entry {
+        padding: 0;
+        &:hover {
+            background-color: $color-transparent-w2;
+        }
+
+        .input-field {
+            padding-left: 8px;
+
+            &:hover {
+                background: 0;
+            }
+        }
+
+        .default-typebox {
+            flex: 1;
+            height: 100%;
+        }
+    }
+}
