@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { getClassString } from 'utils';
 
 export interface DropdownProps {
     children?: React.ReactNode;
     className?: string;
+    style?: CSSProperties;
     tabIndex?: number;
 }
 
 function Dropdown ({
     children,
     className,
+    style,
     tabIndex,
 }: DropdownProps) {
     const classStr = getClassString(
@@ -18,7 +20,7 @@ function Dropdown ({
     )
 
     return (
-        <div className={classStr} tabIndex={tabIndex}>
+        <div className={classStr} tabIndex={tabIndex} style={style}>
             {children}
         </div>
     );

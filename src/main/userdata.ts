@@ -312,19 +312,75 @@ async function createSettingsFile () {
  */
 function upgradeLeagueToCurrentVer (league: League) {
     let modified = false;
-    league.version ??= 1;
-
-    if (league.version < VersionHistory.LeagueUseRandomSkinsField) {
-        league.useRandomSkins = false;
-        modified = true;
-    }
-    league.version = 2;
-    
-    if (league.version < VersionHistory.LeagueSpecs) {
-        league.specs = ["Default"];
-        modified = true;
-    }
-    league.version = 3;
+    //league.version ??= 1;
+//
+    //if (league.version < VersionHistory.LeagueUseRandomSkinsField) {
+    //    league.useRandomSkins = false;
+    //    modified = true;
+    //}
+    //league.version = 2;
+    //
+    //if (league.version < VersionHistory.LeagueSpecs) {
+    //    league.specs = ["Default"];
+    //    modified = true;
+    //}
+    //league.version = 3;
+//
+    //if (league.version < VersionHistory.LeagueClasses) {
+    //    league.classes = null;
+    //    modified = true;
+    //}
+    //league.version = 4;
+//
+    //if (league.version < VersionHistory.TeamCarBySpec) {
+    //    for (const t of league.teams) {
+    //        if (typeof t.cars === 'string') {
+    //            // @ts-ignore
+    //            t.cars = [t.cars];
+    //        }
+    //        else if (Array.isArray(t.cars) === false) {
+    //            // @ts-ignore
+    //            t.cars = [];
+    //        }
+    //    }
+    //    modified = true;
+    //}
+    //if (league.version < VersionHistory.TeamClass) {
+    //    for (const t of league.teams) {
+    //        t.className = null;
+    //    }
+    //    modified = true;
+    //}
+    //league.version = 5;
+//
+    //if (league.version < VersionHistory.TeamCarBySpecV2) {
+    //    for (const t of league.teams) {
+    //        // @ts-ignore
+    //        delete t.car;
+    //        const car = t.cars[0];
+    //        t.cars = {
+    //            "Default": car,
+    //        }
+//
+    //        for (const d of t.drivers) {
+    //            const skins = d.skins;
+    //            d.skins = {
+    //                // @ts-ignore
+    //                "Default": skins,
+    //            }
+//
+    //            // @ts-ignore
+    //            const defaultSkin = d.defaultSkin as string;
+    //            d.defaultSkins = {
+    //                "Default": defaultSkin,
+    //            }
+    //            // @ts-ignore
+    //            delete d.defaultSkin;
+    //        }
+    //    }
+    //    modified = true;
+    //}
+    //league.version = 6;
 
     return modified;
 }

@@ -33,6 +33,7 @@ export interface League {
     background: string;
     useRandomSkins: boolean;
     specs: string[];
+    classes: string[] | null;
     teams: LeagueTeam[];
     tracks: string[];
     calendar: LeagueCalendarEntry[];
@@ -51,6 +52,7 @@ export const LeagueRequiredFields: (keyof League)[] = [
     'logo',
     'background',
     'specs',
+    'classes',
     'teams',
     'tracks',
     'calendar',
@@ -61,8 +63,8 @@ export interface LeagueTeam {
     name: string;
     shortName?: string;
     constructorName?: string;
-    // TODO class?: string;
-    car: string;
+    className: string | null;
+    cars: {[spec: string]: string};
     country: string;
     logo: string;
     badge: string;
@@ -75,7 +77,8 @@ export interface LeagueTeam {
 
 export const LeagueTeamRequiredFields: (keyof LeagueTeam)[] = [
     'name',
-    'car',
+    'className',
+    'cars',
     'country',
     'logo',
     'badge',
@@ -94,8 +97,8 @@ export interface LeagueTeamDriver {
     country: string;
     picture: string | null;
     enabledByDefault: boolean; // TODO: Implement.
-    skins: string[];
-    defaultSkin: string;
+    skins: {[spec: string]: string[]};
+    defaultSkins: {[spec: string]: string};
     strength: number;
     aggression: number;
     qualifying: LeagueTeamDriverQualifying;
@@ -114,7 +117,7 @@ export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
     'initials',
     'country',
     'skins',
-    'defaultSkin',
+    'defaultSkins',
     'strength',
     'aggression',
     'qualifying',
@@ -320,7 +323,6 @@ export function createNewLeague () : League {
         series: "",
         year: 1900,
         //displayName?: "",
-        // TODO: classes: string[],
         //era?: "",
         //makers?: "",
         region: "world",
@@ -330,6 +332,7 @@ export function createNewLeague () : League {
         background: "@ac-spa",
         useRandomSkins: false,
         specs: ["Default"],
+        classes: null,
         teams: [] as LeagueTeam[],
         tracks: [] as string[],
         calendar: [] as LeagueCalendarEntry[],
@@ -348,7 +351,8 @@ export function createNewTeam () : LeagueTeam {
     return {
         //name: "(new team)",
         //shortName: "(new team)",
-        //car: carId,
+        className: null,
+        cars: {},
         country: "world",
         logo: "@default",
         badge: "@default",
@@ -369,8 +373,8 @@ export function createNewDriver () : LeagueTeamDriver {
         //initials: "???",
         country: "world",
         picture: null,
-        //skins: [skinId],
-        //defaultSkin: skinId,
+        skins: {},
+        defaultSkins: {},
         strength: 85,
         aggression: 50,
         qualifying: {

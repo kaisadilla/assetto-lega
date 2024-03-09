@@ -16,24 +16,32 @@ import { getCarSkinIconFromId } from 'paths';
 
 export interface TeamTableProps {
     teams: LeagueTeam[];
+    defaultSpec: string;
 }
 
 function TeamTable ({
     teams,
+    defaultSpec,
 }: TeamTableProps) {
     return (
         <div className="team-table">
-            {teams.map((t, i) => <TeamEntry key={i} team={t} />)}
+            {teams.map((t, i) => <TeamEntry
+                key={i}
+                team={t}
+                defaultSpec={defaultSpec}
+            />)}
         </div>
     );
 }
 
 interface TeamEntryProps {
     team: LeagueTeam;
+    defaultSpec: string;
 }
 
 function TeamEntry ({
     team,
+    defaultSpec,
 }: TeamEntryProps
 ) {
     const { dataPath } = useDataContext();
@@ -82,7 +90,7 @@ function TeamEntry ({
                 </div>
                 <div className="team-car">
                     <div className="team-car-name">
-                        <span>{car?.ui.name ?? team.car}</span>
+                        <span>{car?.ui.name ?? team.cars[defaultSpec]}</span>
                     </div>
                     <div className="team-car-stats">
                         <div className="team-stat team-car-ballast">
@@ -104,6 +112,7 @@ function TeamEntry ({
                             team={team}
                             driver={d}
                             car={car}
+                            defaultSpec={defaultSpec}
                             isSolo={team.drivers.length === 1}
                         />
                     ))
@@ -113,7 +122,7 @@ function TeamEntry ({
     );
 
     async function loadCar () {
-        const car = await Ipc.getCar(team.car);
+        const car = await Ipc.getCar(team.cars[defaultSpec]);
         setCar(car);
     }
 }
@@ -122,6 +131,7 @@ interface DriverEntryProps {
     team: LeagueTeam;
     driver: LeagueTeamDriver;
     car: AcCar | null;
+    defaultSpec: string;
     isSolo: boolean;
 }
 
@@ -129,6 +139,7 @@ function DriverEntry ({
     team,
     driver,
     car,
+    defaultSpec,
     isSolo,
 }: DriverEntryProps
 ) {
@@ -156,6 +167,7 @@ function DriverEntry ({
                 <DriverEntryCarSkinCollection
                     driver={driver}
                     car={car}
+                    defaultSpec={defaultSpec}
                 />
             </div>
             <div className="driver-stats">
@@ -175,20 +187,22 @@ function DriverEntry ({
 export interface DriverEntryCarSkinCollectionProps {
     driver: LeagueTeamDriver;
     car: AcCar | null;
+    defaultSpec: string;
 }
 
 function DriverEntryCarSkinCollection ({
     driver,
     car,
+    defaultSpec,
 }: DriverEntryCarSkinCollectionProps) {
     const { settings } = useDataContext();
 
     if (car === null) return <></>;
 
-    const $skins = driver.skins.map(skin => {
+    const $skins = driver.skins[defaultSpec]?.map(skin => {
         const classStr = getClassString(
             "skin-icon",
-            driver.defaultSkin === skin && "default-skin"
+            driver.defaultSkins[defaultSpec] === skin && "default-skin"
         )
 
         return (
@@ -200,7 +214,7 @@ function DriverEntryCarSkinCollection ({
                 )}
             />
         );
-    });
+    }) ?? [];
 
     return (
         <>

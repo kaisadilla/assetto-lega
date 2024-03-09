@@ -32,6 +32,7 @@ enum TeamEditorTab {
 
 export interface TeamEditionTableProps {
     teams: LeagueTeam[];
+    specs: string[];
     onSave?: (teams: LeagueTeam[]) => void;
     onCancel?: (teams: LeagueTeam[]) => void;
     onClose?: () => void;
@@ -39,6 +40,7 @@ export interface TeamEditionTableProps {
 
 function TeamEditionTable ({
     teams,
+    specs,
     onSave,
     onCancel,
     onClose,
@@ -94,15 +96,17 @@ function TeamEditionTable ({
             {editedTeams.length > 0 && <div className="item-panel team-panel">
                 <NavBar className="nav-bar-header" get={tab} set={setTab}>
                     <NavBar.Item text="info" index={TeamEditorTab.INFO} />
-                    <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
+                    <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} disabled />
                 </NavBar>
                 <div className="team-editor-tab">
                     {tab === TeamEditorTab.INFO && <TabInfo
                         team={editedTeams[selectedTeam]}
+                        specs={specs}
                         onChange={handleInfoChange}
                     />}
                     {tab === TeamEditorTab.DRIVERS && <TabDrivers
                         team={editedTeams[selectedTeam]}
+                        specs={specs}
                         onChange={handleDriversChange}
                     />}
                 </div>
@@ -384,11 +388,13 @@ function TeamEntry ({
 
 export interface TabInfoProps {
     team: EditableTeam,
+    specs: string[];
     onChange: (field: keyof LeagueTeam, value: any) => void;
 }
 
 function TabInfo ({
     team,
+    specs,
     onChange,
 }: TabInfoProps) {
     const { suggestions } = useDataContext();
@@ -440,12 +446,6 @@ function TabInfo ({
                         suggestions={suggestions.team.constructorNames}
                     />
                 </LabeledControl>
-                <LabeledControl label="Car" required>
-                    <CarField
-                        value={team.car}
-                        onChange={car => handleFieldChange('car', car)}
-                    />
-                </LabeledControl>
                 <LabeledControl label="Country" required>
                     <CountryField
                         value={team.country}
@@ -471,21 +471,41 @@ function TabInfo ({
                     />
                 </LabeledControl>
             </Form.Section>
+            <Form.Section className="car-section">
+                <Form.Title title="Cars" />
+                {specs.map(s => <LabeledControl
+                    label={s}
+                    required
+                >
+                    <CarField
+                        value={team.cars[s]}
+                        onChange={car => handleCarsFieldChange(s, car)}
+                    />
+                </LabeledControl>)}
+            </Form.Section>
         </Form>
     );
 
     function handleFieldChange (field: keyof LeagueTeam, value: any) {
         onChange(field, value);
     }
+
+    function handleCarsFieldChange (spec: string, car: string) {
+        const update = {...team.cars};
+        update[spec] = car;
+        onChange('cars', update);
+    }
 }
 
 interface TabDriversProps {
     team: EditableTeam,
+    specs: string[];
     onChange: (drivers: LeagueTeamDriver[]) => void;
 }
 
 function TabDrivers ({
     team,
+    specs,
     onChange,
 }: TabDriversProps) {
 
@@ -495,7 +515,8 @@ function TabDrivers ({
                 {team.drivers.map((d, i) => <DriverCard
                     key={i}
                     driver={d}
-                    carId={team.car}
+                    carIds={team.cars}
+                    specs={specs}
                     onChange={(field, value) => handleDriverChange(i, field, value)}
                     onDelete={() => handleDriverDelete(i)}
                 />)}
@@ -538,14 +559,16 @@ function TabDrivers ({
 
 interface DriverCardProps {
     driver: LeagueTeamDriver;
-    carId: string;
+    carIds: {[spec: string]: string};
+    specs: string[];
     onChange: (field: keyof LeagueTeamDriver, value: any) => void;
     onDelete: () => void;
 }
 
 function DriverCard ({
     driver,
-    carId,
+    carIds,
+    specs,
     onChange,
     onDelete,
 }: DriverCardProps) {
@@ -613,21 +636,14 @@ function DriverCard ({
                 </LabeledControl>
             </Form.Section>
             <Form.Section className="skins-section">
-                <LabeledControl label="Default skin" required>
-                    <CarSkinDropdownField
-                        carId={carId}
-                        availableSkins={driver.skins}
-                        value={driver.defaultSkin}
-                        onChange={skin => handleFieldChange('defaultSkin', skin)}
-                    />
-                </LabeledControl>
-                <LabeledControl label="Skins" required>
-                    <MultipleCarSkinField
-                        skins={driver.skins}
-                        carId={carId}
-                        onChange={skins => handleFieldChange('skins', skins)}
-                    />
-                </LabeledControl>
+                {specs.map(s => <SpecSkinsSection
+                    spec={s}
+                    carId={carIds[s]}
+                    skins={driver.skins[s]}
+                    defaultSkin={driver.defaultSkins[s]}
+                    onSkinsChanged={arr => handleSkinsChanged(s, arr)}
+                    onDefaultSkinChanged={skin => handleDefaultSkinChanged(s, skin)}
+                />)}
             </Form.Section>
             <div className="floating-toolbox">
                 <Button className="delete-button" onClick={onDelete}>
@@ -640,7 +656,60 @@ function DriverCard ({
     function handleFieldChange (field: keyof LeagueTeamDriver, value: any) {
         onChange(field, value);
     }
+
+    function handleSkinsChanged (spec: string, skins: string[]) {
+        const update = {...driver.skins};
+        update[spec] = skins;
+        handleFieldChange('skins', update);
+    }
+
+    function handleDefaultSkinChanged (spec: string, skin: string) {
+        const update = {...driver.defaultSkins};
+        update[spec] = skin;
+        handleFieldChange('defaultSkins', update);
+    }
 }
+
+interface SpecSkinsSectionProps {
+    spec: string;
+    carId: string;
+    skins: string[] | undefined;
+    defaultSkin: string | undefined;
+    onSkinsChanged: (skins: string[]) => void;
+    onDefaultSkinChanged: (skin: string) => void;
+}
+
+function SpecSkinsSection ({
+    spec,
+    carId,
+    skins,
+    defaultSkin,
+    onSkinsChanged,
+    onDefaultSkinChanged,
+}: SpecSkinsSectionProps) {
+
+    return (
+        <>
+            <Form.Title title={spec} />
+            <LabeledControl label="Skins" required>
+                <MultipleCarSkinField
+                    skins={skins}
+                    carId={carId}
+                    onChange={onSkinsChanged}
+                />
+            </LabeledControl>
+            <LabeledControl label="Default skin" required>
+                <CarSkinDropdownField
+                    carId={carId}
+                    availableSkins={skins}
+                    value={defaultSkin ?? null}
+                    onChange={onDefaultSkinChanged}
+                />
+            </LabeledControl>
+        </>
+    );
+}
+
 
 function generateEditable (teams: LeagueTeam[]) {
     const newArr = [] as EditableTeam[];

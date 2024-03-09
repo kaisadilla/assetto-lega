@@ -27,12 +27,14 @@ function TeamsTab ({
             {mode === TabMode.View && (
                 <TeamViewModePanel
                     teams={league.teams}
+                    defaultSpec={league.specs[0]}
                     onEdit={handleEdit}
                 />
             )}
             {mode === TabMode.Edit && (
                 <TeamEditModePanel
                     teams={league.teams}
+                    specs={league.specs}
                     onSave={handleSaveTeams}
                     onClose={handleCloseEdit}
                 />
@@ -55,11 +57,13 @@ function TeamsTab ({
 
 export interface TeamViewModePanelProps {
     teams: LeagueTeam[];
+    defaultSpec: string;
     onEdit: () => void;
 }
 
 function TeamViewModePanel ({
     teams,
+    defaultSpec,
     onEdit,
 }: TeamViewModePanelProps) {
     const teamCount = teams.length;
@@ -70,7 +74,7 @@ function TeamViewModePanel ({
     return (
         <div className="teams-tab-view">
             <div className="teams-table-container">
-                <TeamTable teams={teams} />
+                <TeamTable teams={teams} defaultSpec={defaultSpec} />
             </div>
             <div className="status-bar">
                 <div className="teams-datum">{teamCount} teams</div>
@@ -87,12 +91,14 @@ function TeamViewModePanel ({
 
 export interface TeamEditModePanelProps {
     teams: LeagueTeam[];
+    specs: string[];
     onSave: (teams: LeagueTeam[]) => void;
     onClose: () => void;
 }
 
 function TeamEditModePanel ({
     teams,
+    specs,
     onSave,
     onClose,
 }: TeamEditModePanelProps) {
@@ -101,6 +107,7 @@ function TeamEditModePanel ({
         <div className="teams-tab-edit">
             <TeamEditionTable 
                 teams={teams}
+                specs={specs}
                 onSave={handleSave}
                 onClose={handleClose}
             />

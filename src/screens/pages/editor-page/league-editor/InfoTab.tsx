@@ -11,7 +11,7 @@ import LabeledControl from 'elements/LabeledControl';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
 import Form from 'elements/form/Form';
-import React from 'react';
+import React, { useState } from 'react';
 import { arrayUnion } from 'utils';
 
 export interface InfoTabProps {
@@ -115,12 +115,18 @@ function InfoTab ({
                 <Form.Section className="groups-section">
                     <Form.Title title="Specs" />
                     <EditableList
+                        className="specs-list"
                         items={league.specs}
                         onChangeList={list => onChange('specs', list)}
+                        allowRename
                         allowRemove
                         minimumNumberOfItems={1}
                     />
-                    <Form.Title title="Classes" />
+                    <ClassesField
+                        title="Classes"
+                        value={league.classes}
+                        onChange={v => onChange('classes', v)}
+                    />
                 </Form.Section>
                 <Form.Section className="categories-section">
                     <Form.Title title="Categories" />
@@ -181,5 +187,55 @@ function InfoTab ({
         onChange('categories', categories);
     }
 }
+
+interface ClassesFieldProps {
+    title: string;
+    value: string[] | null;
+    onChange: (value: string[] | null) => void;
+}
+
+function ClassesField ({
+    title,
+    value,
+    onChange,
+}: ClassesFieldProps) {
+    const [valueCache, setValueCache] = useState(value ?? ["Default"]);
+
+    return (
+        <div className="classes-field">
+            <div className="header">
+                <Checkbox
+                    value={value !== null}
+                    onChange={handleToggle}
+                />
+                <Form.Title title={title} />
+            </div>
+            {value !== null && <EditableList
+                items={value}
+                allowRename
+                allowRemove
+                minimumNumberOfItems={1}
+                onChangeList={handleChangeList}
+            />}
+        </div>
+    );
+
+    function handleToggle (isToggled: boolean) {
+        if (isToggled) {
+            onChange(valueCache);
+        }
+        else {
+            onChange(null);
+        }
+    }
+
+    function handleChangeList (list: string[]) {
+        if (list.length < 1) return;
+
+        onChange(list);
+        setValueCache(list);
+    }
+}
+
 
 export default InfoTab;

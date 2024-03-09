@@ -2,7 +2,7 @@ import { AcCar, AcCarSkin } from 'data/schemas';
 import Dropdown from 'elements/Dropdown';
 import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIcon } from 'paths';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getClassString } from 'utils';
 
 export interface CarSkinDropdownFieldProps {
@@ -22,6 +22,28 @@ function CarSkinDropdownField ({
     className,
     tabIndex = 1,
 }: CarSkinDropdownFieldProps) {
+    const $field = useRef<HTMLDivElement>(null);
+
+    const [car, setCar] = useState<AcCar | null>(null);
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [dropdownStyle, setDropdownStyle] = useState({});
+
+    useEffect(() => {
+        loadCar();
+    }, []);
+    
+    useEffect(() => {
+        if (!$field.current) return;
+
+        const rect = $field.current.getBoundingClientRect();
+
+        setDropdownStyle({
+            top: rect.top + rect.height,
+            left: rect.left,
+            width: rect.width,
+        });
+    }, [isDropdownOpen]);
+
     const classStr = getClassString(
         "default-control",
         "default-car-skin-dropdown-field",
@@ -38,25 +60,14 @@ function CarSkinDropdownField ({
         )
     }
 
-    const [car, setCar] = useState<AcCar | null>(null);
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-
-    useEffect(() => {
-        loadCar();
-    }, []);
-
     if (car === null) {
         return <div className={classStr}>Loading...</div>
     }
 
     const selectedSkin = value === null ? null : car.skinsById[value];
 
-    //const $value = (() => {
-    //    if
-    //})();
-
     return (
-        <div className={classStr} tabIndex={tabIndex} onBlur={handleBlur}>
+        <div ref={$field} className={classStr} tabIndex={tabIndex} onBlur={handleBlur}>
             <div
                 className="field-display-value skin-name-container"
                 onClick={() => setDropdownOpen(true)}
@@ -70,7 +81,10 @@ function CarSkinDropdownField ({
                     </div>
                 </>}
             </div>
-            {isDropdownOpen && <Dropdown className="car-skin-dropdown-field-menu">
+            {isDropdownOpen && <Dropdown
+                className="car-skin-dropdown-field-menu"
+                style={dropdownStyle}
+            >
                 {availableSkins.map(s => <CarSkinDropdownFieldEntry
                     key={s}
                     skin={car!.skinsById[s]}
