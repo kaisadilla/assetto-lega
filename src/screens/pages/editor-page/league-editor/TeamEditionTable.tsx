@@ -8,6 +8,7 @@ import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { AcCarCollection, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverRequiredFields, LeagueTeamRequiredFields, createNewDriver, createNewTeam, getTeamName } from 'data/schemas';
 import Button from 'elements/Button';
+import Checkbox from 'elements/Checkbox';
 import ConfirmDialog from 'elements/ConfirmDialog';
 import LabeledControl from 'elements/LabeledControl';
 import MaterialSymbol from 'elements/MaterialSymbol';
@@ -63,9 +64,12 @@ function TeamEditionTable ({
     const [openMessage, setOpenMessage] =
         useState<{title: string, message: string} | null>(null);
 
-    const teamCount = teams.length;
-    const driverCount = teams.reduce(
+    const teamCount = editedTeams.length;
+    const fullDriverCount = editedTeams.reduce(
         (acc, t) => acc += t.drivers.length, 0
+    );
+    const reserveDriverCount = editedTeams.reduce(
+        (acc, t) => acc += t.drivers.filter(d => d.isReserveDriver).length, 0
     );
 
     useEffect(() => {
@@ -96,7 +100,7 @@ function TeamEditionTable ({
             {editedTeams.length > 0 && <div className="item-panel team-panel">
                 <NavBar className="nav-bar-header" get={tab} set={setTab}>
                     <NavBar.Item text="info" index={TeamEditorTab.INFO} />
-                    <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} disabled />
+                    <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
                 </NavBar>
                 <div className="team-editor-tab">
                     {tab === TeamEditorTab.INFO && <TabInfo
@@ -113,7 +117,9 @@ function TeamEditionTable ({
             </div>}
             <ToolboxRow className="status-bar toolbar-panel teams-tab-toolbar">
                 <div className="datum">{teamCount} teams</div>
-                <div className="datum">{driverCount} drivers</div>
+                <div className="datum">
+                    {fullDriverCount} drivers ({reserveDriverCount} in reserve)
+                </div>
                 <div className="tools">
                     <Button
                         onClick={handleReset}
@@ -610,6 +616,12 @@ function DriverCard ({
                     <CountryField
                         value={driver.country}
                         onChange={country => handleFieldChange('country', country)}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Reserve driver" required>
+                    <Checkbox
+                        value={driver.isReserveDriver}
+                        onChange={v => handleFieldChange('isReserveDriver', v)}
                     />
                 </LabeledControl>
             </Form.Section>

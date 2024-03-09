@@ -67,8 +67,11 @@ function TeamViewModePanel ({
     onEdit,
 }: TeamViewModePanelProps) {
     const teamCount = teams.length;
-    const driverCount = teams.reduce(
+    const fullDriverCount = teams.reduce(
         (acc, t) => acc += t.drivers.length, 0
+    );
+    const reserveDriverCount = teams.reduce(
+        (acc, t) => acc += t.drivers.filter(d => d.isReserveDriver).length, 0
     );
 
     return (
@@ -77,8 +80,10 @@ function TeamViewModePanel ({
                 <TeamTable teams={teams} defaultSpec={defaultSpec} />
             </div>
             <div className="status-bar">
-                <div className="teams-datum">{teamCount} teams</div>
-                <div className="teams-datum">{driverCount} drivers</div>
+                <div className="datum">{teamCount} teams</div>
+                <div className="datum">
+                    {fullDriverCount} drivers ({reserveDriverCount} in reserve)
+                </div>
                 <div className="tools">
                     <Button onClick={onEdit} highlighted>
                         Edit teams

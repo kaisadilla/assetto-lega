@@ -102,6 +102,7 @@ export interface LeagueTeamDriver {
     strength: number;
     aggression: number;
     qualifying: LeagueTeamDriverQualifying;
+    isReserveDriver: boolean;
 }
 
 export interface LeagueTeamDriverQualifying {
@@ -121,6 +122,7 @@ export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
     'strength',
     'aggression',
     'qualifying',
+    'isReserveDriver',
 ];
 
 export interface LeagueCalendarEntry {
@@ -382,7 +384,8 @@ export function createNewDriver () : LeagueTeamDriver {
             deviation: 0.25,
             miracleChance: 0.05,
             disasterChance: 0.05,
-        }
+        },
+        isReserveDriver: false,
     } as LeagueTeamDriver;
 }
 

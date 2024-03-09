@@ -115,13 +115,9 @@ export const DataContextProvider = ({ children }: any) => {
          */
         function updateLeague (internalName: string | null, league: League) {
             const leagues = [...state.leagues];
-            let index = -1;
-            
-            if (internalName) {
-                index = leagues.findIndex(
-                    l => l.internalName === internalName
-                );
-            }
+            const index = leagues.findIndex(
+                l => l.internalName === internalName
+            );
 
             if (index !== -1) {
                 leagues[index] = league;

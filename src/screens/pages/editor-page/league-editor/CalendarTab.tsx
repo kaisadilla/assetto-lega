@@ -69,7 +69,7 @@ function CalendarViewModePanel ({
                 />
             </div>
             <div className="status-bar">
-                <div className="teams-datum">{entryCount} calendar entries</div>
+                <div className="datum">{entryCount} calendar entries</div>
                 <div className="tools">
                     <Button onClick={onEdit} highlighted>
                         Edit calendar

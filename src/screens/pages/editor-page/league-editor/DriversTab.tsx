@@ -4,12 +4,16 @@ import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
 import { League, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying } from 'data/schemas';
 import Button from 'elements/Button';
+import ContentDialog from 'elements/ContentDialog';
+import Icon from 'elements/Icon';
+import LabeledControl from 'elements/LabeledControl';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import NavBar from 'elements/NavBar';
 import NumericBox from 'elements/NumericBox';
 import ProportionNumericBox from 'elements/ProportionNumericBox';
 import RangeSlider from 'elements/RangeSlider';
 import Slider from 'elements/Slider';
+import Textbox from 'elements/Textbox';
 import ToggleButton from 'elements/ToggleButton';
 import ToolboxRow from 'elements/ToolboxRow';
 import { DriverRanking, generateQualifyingTable, getLeagueDrivers } from 'logic/raceStats';
@@ -181,6 +185,8 @@ function DriverEntry ({
     strengthEnabled,
     aggressionEnabled,
 }: DriverEntryProps) {
+    const [isComputeDialogOpen, setComputeDialogOpen] = useState(false);
+
     const { dataPath } = useDataContext();
 
     const badgeImg = Files.getFilePath(
@@ -259,40 +265,45 @@ function DriverEntry ({
                 </div>
             </div>
             <div className="cell-qualifying-numbers driver-qualifying-stats">
-                <div className="stat">
-                    <span className="symbol">μ: </span>
-                    <span className="value">
-                        <NumericBox
-                            className="value-input"
-                            value={driver.qualifying.mean}
-                            allowDecimals
-                            maxDecimalPlaces={2}
-                            min={GAUSSIAN_MIN_MEAN}
-                            max={GAUSSIAN_MAX_MEAN}
-                            step={GAUSSIAN_SLIDER_STEP}
-                            onChange={n => handleQualifyingChange('mean', n)}
-                            textColor={textColor}
-                        />
-                    </span>
+                <div className="numbers">
+                    <div className="stat">
+                        <span className="symbol">μ: </span>
+                        <span className="value">
+                            <NumericBox
+                                className="value-input"
+                                value={driver.qualifying.mean}
+                                allowDecimals
+                                maxDecimalPlaces={2}
+                                min={GAUSSIAN_MIN_MEAN}
+                                max={GAUSSIAN_MAX_MEAN}
+                                step={GAUSSIAN_SLIDER_STEP}
+                                onChange={n => handleQualifyingChange('mean', n)}
+                                textColor={textColor}
+                            />
+                        </span>
+                    </div>
+                    <div className="stat">
+                        <span className="symbol">σ: </span>
+                        <span className="value">
+                            <NumericBox
+                                className="value-input"
+                                value={driver.qualifying.deviation}
+                                allowDecimals
+                                maxDecimalPlaces={2}
+                                min={GAUSSIAN_MIN_MEAN}
+                                max={GAUSSIAN_MAX_MEAN}
+                                step={GAUSSIAN_SLIDER_STEP}
+                                onChange={
+                                    n => handleQualifyingChange('deviation', n)
+                                }
+                                textColor={textColor}
+                            />
+                        </span>
+                    </div>
                 </div>
-                <div className="stat">
-                    <span className="symbol">σ: </span>
-                    <span className="value">
-                        <NumericBox
-                            className="value-input"
-                            value={driver.qualifying.deviation}
-                            allowDecimals
-                            maxDecimalPlaces={2}
-                            min={GAUSSIAN_MIN_MEAN}
-                            max={GAUSSIAN_MAX_MEAN}
-                            step={GAUSSIAN_SLIDER_STEP}
-                            onChange={
-                                n => handleQualifyingChange('deviation', n)
-                            }
-                            textColor={textColor}
-                        />
-                    </span>
-                </div>
+                <Button onClick={() => setComputeDialogOpen(true)}>
+                    <Icon name='fa-calculator' />
+                </Button>
             </div>
             <div className="cell-disaster driver-chance">
                 <ProportionNumericBox
@@ -301,6 +312,11 @@ function DriverEntry ({
                     textColor={textColor}
                 />
             </div>
+            {isComputeDialogOpen && <ComputeQualifyingDialog
+                driverName={driver.name}
+                onAccept={handleComputeQualifying}
+                onCancel={() => setComputeDialogOpen(false)}
+            />}
         </div>
     );
 
@@ -315,7 +331,84 @@ function DriverEntry ({
         qualifying[field] = value;
         onChange('qualifying', qualifying);
     }
+
+    function handleComputeQualifying (mean: number, stDev: number) {
+        const qualifying = {...driver.qualifying};
+        qualifying.mean = mean,
+        qualifying.deviation = stDev;
+        onChange('qualifying', qualifying);
+        setComputeDialogOpen(false);
+    }
 }
+
+interface ComputeQualifyingDialogProps {
+    driverName: string;
+    onAccept: (mean: number, stDev: number) => void;
+    onCancel: () => void;
+}
+
+function ComputeQualifyingDialog ({
+    driverName,
+    onAccept,
+    onCancel,
+}: ComputeQualifyingDialogProps) {
+    const [positionsStr, setPositionsStr] = useState("");
+    const [participants, setParticipants] = useState(20);
+
+    return (
+        <ContentDialog
+            className="compute-qualifying-dialog"
+            onAccept={handleAccept}
+            onCancel={onCancel}
+        >
+            <h2 className="message-title">Compute qualifying stats for '{driverName}'</h2>
+            <span>To calculate the mean and deviation for qualifying, input qualifying positions achieved by this driver on the first cell, and the number of participants on the second cell. The list of positions achieved must be numbers separated by any other character (spaces, commas, tabs, slashes, dots... anything goes as long as the numbers are present and separate from one another.</span>
+            <LabeledControl label="Positions">
+                <Textbox
+                    value={positionsStr}
+                    onChange={str => setPositionsStr(str)}
+                />
+            </LabeledControl>
+            <LabeledControl label="# participants">
+                <NumericBox
+                    value={participants}
+                    onChange={n => setParticipants(n)}
+                    min={1}
+                    max={999}
+                />
+            </LabeledControl>
+        </ContentDialog>
+    );
+
+    function handleAccept () {
+        // replace anything that is not a number with a comma.
+        const curatedPositions = positionsStr.replace(/[^0-9]+/g, ",");
+        // split the array by the commas and remove empty strings.
+        const positions = curatedPositions.split(",").filter(str => str !== "");
+        // convert those strings containing numbers into actual numbers.
+        const numbers = positions
+            .map(p => Number(p))
+            .filter(n => Number.isNaN(n) === false)
+            .filter(n => n > 0);
+            
+        const n = numbers.length;
+        const mean = numbers.reduce((a, b) => a + b) / n;
+        const stDev = Math.sqrt(
+            numbers.map(x => (x - mean) ** 2).reduce((a, b) => a + b) / n
+        );
+
+        const normalizedMean = mean / participants;
+        const normalizedStDev = stDev / participants;
+
+        console.log(normalizedMean, normalizedStDev);
+
+        onAccept(
+            truncateNumber(normalizedMean, 2),
+            truncateNumber(normalizedStDev, 2),
+        );
+    }
+}
+
 
 
 interface QualifyingGaussianChartProps {
