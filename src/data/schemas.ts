@@ -60,6 +60,7 @@ export const LeagueRequiredFields: (keyof League)[] = [
 ];
 
 export interface LeagueTeam {
+    internalName: string;
     name: string;
     shortName?: string;
     constructorName?: string;
@@ -90,6 +91,7 @@ export const LeagueTeamRequiredFields: (keyof LeagueTeam)[] = [
 ];
 
 export interface LeagueTeamDriver {
+    internalName: string;
     number: string; // a driver's number is a string because it includes
                     // its stylization (e.g. '6' vs '06').
     name: string;
@@ -126,6 +128,7 @@ export const LeagueTeamDriverRequiredFields: (keyof LeagueTeamDriver)[] = [
 ];
 
 export interface LeagueCalendarEntry {
+    internalName: string;
     name: string;
     officialName?: string;
     country: string;
@@ -136,6 +139,9 @@ export interface LeagueCalendarEntry {
     qualifyingStartHour?: string;
     raceStartHour?: string;
     weathers: string[];
+    spec: string;
+    teamLineups: {[team: string]: string[]};
+    driverSkins: {[driver: string]: string[]};
 }
 
 export const LeagueCalendarEntryRequiredFields: (keyof LeagueCalendarEntry)[] = [
@@ -147,6 +153,9 @@ export const LeagueCalendarEntryRequiredFields: (keyof LeagueCalendarEntry)[] = 
     'qualifyingStartHour',
     'raceStartHour',
     'weathers',
+    'spec',
+    'teamLineups',
+    'driverSkins',
 ];
 
 export interface LeagueScoreSystem {
@@ -351,6 +360,7 @@ export function createNewLeague () : League {
 
 export function createNewTeam () : LeagueTeam {
     return {
+        internalName: "",
         //name: "(new team)",
         //shortName: "(new team)",
         className: null,
@@ -370,6 +380,7 @@ export function createNewTeam () : LeagueTeam {
 
 export function createNewDriver () : LeagueTeamDriver {
     return {
+        internalName: "",
         //number: "1",
         //name: "(no name)",
         //initials: "???",
@@ -391,6 +402,7 @@ export function createNewDriver () : LeagueTeamDriver {
 
 export function createNewCalendarEntry () : LeagueCalendarEntry {
     return {
+        internalName: "",
         //name: "(no name)",
         //officialName: "(no official name)",
         country: "world",
@@ -401,6 +413,8 @@ export function createNewCalendarEntry () : LeagueCalendarEntry {
         qualifyingStartHour: "16:00",
         raceStartHour: "16:00",
         weathers: [] as string[],
+        teamLineups: {},
+        driverSkins: {},
     } as LeagueCalendarEntry;
 }
 

@@ -1,4 +1,5 @@
 import GaussianChart from 'components/charts/GaussianChart';
+import { useCacheContext } from 'context/useCacheContext';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
@@ -17,7 +18,7 @@ import Textbox from 'elements/Textbox';
 import ToggleButton from 'elements/ToggleButton';
 import ToolboxRow from 'elements/ToolboxRow';
 import { DriverRanking, generateQualifyingTable, getLeagueDrivers } from 'logic/raceStats';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useResizeDetector } from 'react-resize-detector';
 import { Gaussian } from 'ts-gaussian';
@@ -352,8 +353,11 @@ function ComputeQualifyingDialog ({
     onAccept,
     onCancel,
 }: ComputeQualifyingDialogProps) {
+    const cache = useCacheContext();
+    const participants = cache['league-editor/drivers/qualifying/participants'];
+    const setParticipants = cache['set/league-editor/drivers/qualifying/participants'];
+
     const [positionsStr, setPositionsStr] = useState("");
-    const [participants, setParticipants] = useState(20);
 
     return (
         <ContentDialog
@@ -403,8 +407,8 @@ function ComputeQualifyingDialog ({
         console.log(normalizedMean, normalizedStDev);
 
         onAccept(
-            truncateNumber(normalizedMean, 2),
-            truncateNumber(normalizedStDev, 2),
+            Math.max(truncateNumber(normalizedMean, 2), 0.01),
+            Math.max(truncateNumber(normalizedStDev, 2), 0.01),
         );
     }
 }

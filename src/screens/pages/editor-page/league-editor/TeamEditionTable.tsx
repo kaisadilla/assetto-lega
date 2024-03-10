@@ -21,10 +21,9 @@ import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
-import { deleteArrayItemAt, getClassString } from 'utils';
+import { LOCALE, deleteArrayItemAt, getClassString, isStringNullOrEmpty, normalizeInternalNames } from 'utils';
 
 type EditableTeam = LeagueTeam & {id: string, deleted: boolean};
-type EditableDriver = LeagueTeamDriver & {deleted: boolean};
 
 enum TeamEditorTab {
     INFO,
@@ -431,6 +430,14 @@ function TabInfo ({
                 </div>
             </Form.Section>
             <Form.Section className="info-section">
+                <LabeledControl label="Internal name">
+                    <Textbox
+                        value={team.internalName}
+                        placeholder={"(filled automatically)"}
+                        onChange={str => handleInternalNameChange(str)}
+                        readonly // TODO: Allow edition
+                    />
+                </LabeledControl>
                 <LabeledControl label="Full name" required>
                     <Textbox
                         value={team.name}
@@ -500,6 +507,10 @@ function TabInfo ({
         const update = {...team.cars};
         update[spec] = car;
         onChange('cars', update);
+    }
+
+    function handleInternalNameChange (name: string) {
+
     }
 }
 
@@ -592,6 +603,14 @@ function DriverCard ({
                 />
             </Form.Section>
             <Form.Section className="info-section">
+                <LabeledControl label="Internal name">
+                    <Textbox
+                        value={driver.internalName}
+                        placeholder={"(filled automatically)"}
+                        onChange={str => handleInternalNameChange(str)}
+                        readonly // TODO: Allow edition
+                    />
+                </LabeledControl>
                 <LabeledControl label="Name" required>
                     <Textbox
                         className="driver-name-textbox"
@@ -680,6 +699,10 @@ function DriverCard ({
         update[spec] = skin;
         handleFieldChange('defaultSkins', update);
     }
+
+    function handleInternalNameChange (str: string) {
+        
+    }
 }
 
 interface SpecSkinsSectionProps {
@@ -748,7 +771,14 @@ function generateResult (teams: EditableTeam[]) {
         delete clone.id;
         // @ts-ignore
         delete clone.deleted;
+
         newArr.push(clone as LeagueTeam);
+    }
+
+    normalizeInternalNames(newArr, 'internalName', t => t.shortName ?? t.name);
+
+    for (const t of newArr) {
+        normalizeInternalNames(t.drivers, 'internalName', d => d.name);
     }
 
     return newArr;

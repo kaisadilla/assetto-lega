@@ -30,7 +30,7 @@ function CalendarTab ({
                 onEdit={handleEdit}
             />}
             {mode === TabMode.Edit && <CalendarEditModePanel
-                calendar={league.calendar}
+                league={league}
                 onSave={handleSaveCalendar}
                 onClose={handleCloseEdit}
             />}
@@ -81,13 +81,13 @@ function CalendarViewModePanel ({
 }
 
 interface CalendarEditModePanelProps {
-    calendar: LeagueCalendarEntry[];
+    league: League;
     onSave: (calendar: LeagueCalendarEntry[]) => void;
     onClose: () => void;
 }
 
 function CalendarEditModePanel ({
-    calendar,
+    league,
     onSave,
     onClose,
 }: CalendarEditModePanelProps) {
@@ -95,7 +95,7 @@ function CalendarEditModePanel ({
     return (
         <div className="calendar-tab-edit">
             <CalendarEditionTable
-                calendar={calendar}
+                league={league}
                 onSave={handleSave}
                 onClose={handleClose}
             />

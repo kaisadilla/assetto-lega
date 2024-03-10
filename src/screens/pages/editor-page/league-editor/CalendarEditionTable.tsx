@@ -1,12 +1,18 @@
 import CountryField from 'components/CountryField';
 import TrackField from 'components/TrackField';
 import { TrackPickerValue } from 'components/TrackPicker';
-import { AcTrackCollection, LeagueCalendarEntry, LeagueCalendarEntryRequiredFields, createNewCalendarEntry } from 'data/schemas';
+import { useDataContext } from 'context/useDataContext';
+import { AcTrackCollection, League, LeagueCalendarEntry, LeagueCalendarEntryRequiredFields, LeagueTeam, LeagueTeamDriver, createNewCalendarEntry } from 'data/schemas';
 import Button from 'elements/Button';
+import Checkbox from 'elements/Checkbox';
 import ConfirmDialog from 'elements/ConfirmDialog';
+import ContentDialog from 'elements/ContentDialog';
+import DropdownField from 'elements/DropdownField';
 import LabeledControl from 'elements/LabeledControl';
+import List from 'elements/List';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import MessageDialog from 'elements/MessageDialog';
+import NavBar from 'elements/NavBar';
 import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
 import ToolboxRow from 'elements/ToolboxRow';
@@ -14,27 +20,34 @@ import Form from 'elements/form/Form';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
-import { deleteArrayItemAt, getClassString, valueNullOrEmpty } from 'utils';
+import { deleteArrayItemAt, getClassString, normalizeInternalNames, smartFilterObjectArray, valueNullOrEmpty } from 'utils';
 
 const DATE_REGEX = /^[0-9]{4}[\/\-][0-9]{2}[\/\-][0-9]{2}$/g;
 const HOUR_REGEX = /^[0-2][0-9][:][0-5][0-9]$/g;
+
+enum Tab {
+    INFO,
+    DRIVERS,
+}
 
 type EditableCalendarEntry = LeagueCalendarEntry & {id: string, deleted: boolean};
 
 // TODO: Customize driver skins for each entry.
 export interface CalendarEditionTableProps {
-    calendar: LeagueCalendarEntry[];
+    league: League;
     onSave?: (teams: LeagueCalendarEntry[]) => void;
     onCancel?: (teams: LeagueCalendarEntry[]) => void;
     onClose?: () => void;
 }
 
 function CalendarEditionTable ({
-    calendar,
+    league,
     onSave,
     onCancel,
     onClose,
 }: CalendarEditionTableProps) {
+    const calendar = league.calendar;
+
     const [tracks, setTracks] = useState<AcTrackCollection | null>(null);
 
     useEffect(() => {
@@ -44,9 +57,11 @@ function CalendarEditionTable ({
     const [editedCalendar, setEditedCalendar] = useState(generateEditable(calendar));    
     const [editFlags, setEditFlags] = useState(editedCalendar.map(() => false));
     const [selectedEntry, setSelectedEntry] = useState(0);
+    const [tab, setTab] = useState(Tab.INFO);
     
     const [isDialogResetOpen, setDialogResetOpen] = useState(false);
     const [isDialogDiscardOpen, setDialogDiscardOpen] = useState(false);
+    const [isDialogImportCalendarOpen, setDialogImportCalendarOpen] = useState(false);
     const [openMessage, setOpenMessage] =
         useState<{title: string, message: string} | null>(null);
 
@@ -75,14 +90,32 @@ function CalendarEditionTable ({
                         <MaterialSymbol symbol='add' />
                         Add Entry
                     </Button>
+                    <Button
+                        onClick={() => setDialogImportCalendarOpen(true)}
+                        disabled={tracks === null}
+                    >
+                        <MaterialSymbol symbol='publish' />
+                        From another
+                    </Button>
                 </div>
             </div>
             {editedCalendar.length > 0 && <div className="item-panel entry-panel">
-                <EntryPanel
+                <NavBar className="nav-bar-header" get={tab} set={setTab}>
+                    <NavBar.Item text="info" index={Tab.INFO} />
+                    <NavBar.Item text="drivers" index={Tab.DRIVERS} />
+                </NavBar>
+                {tab === Tab.INFO && <_TabInfo
                     key={selectedEntry}
                     entry={editedCalendar[selectedEntry]}
+                    specs={league.specs}
                     onChange={handleEntryChange}
-                />
+                />}
+                {tab === Tab.DRIVERS && <_TabDrivers
+                    key={selectedEntry}
+                    entry={editedCalendar[selectedEntry]}
+                    teams={league.teams}
+                    onChange={handleEntryChange}
+                />}
             </div>}
             <ToolboxRow className="status-bar toolbar-panel entry-tab-toolbar">
                 <div className="datum">{entryCount} entries</div>
@@ -117,6 +150,10 @@ function CalendarEditionTable ({
                 onAccept={handleDiscardDialog}
                 setOpen={setDialogDiscardOpen}
             />}
+            {isDialogImportCalendarOpen && <ImportSeasonCalendarDialog
+                onAccept={c => handleImportCalendar(c)}
+                onCancel={() => setDialogImportCalendarOpen(false)}
+            />}
             {openMessage !== null && <MessageDialog
                 title={openMessage.title}
                 message={openMessage.message}
@@ -133,6 +170,7 @@ function CalendarEditionTable ({
         ]
         update[update.length - 1].id = crypto.randomUUID();
         update[update.length - 1].deleted = false;
+        update[update.length - 1].spec = league.specs[0];
 
         setEditedCalendar(update);
         
@@ -143,6 +181,15 @@ function CalendarEditionTable ({
         setEditFlags(editUpdate);
 
         setSelectedEntry(editUpdate.length - 1);
+    }
+
+    function handleImportCalendar (calendar: LeagueCalendarEntry[]) {
+        const newEntries = generateEditable(calendar);
+
+        setEditedCalendar([...editedCalendar, ...newEntries]);
+        setEditFlags([...editFlags, ...newEntries.map(n => true)]);
+        
+        setDialogImportCalendarOpen(false);
     }
 
     function handleSetDeletedEntry (index: number, deleted: boolean) {
@@ -348,18 +395,77 @@ function Entry ({
     );
 }
 
-interface EntryPanelProps {
+interface ImportSeasonCalendarDialogProps {
+    onAccept: (entries: LeagueCalendarEntry[]) => void;
+    onCancel: () => void;
+}
+
+function ImportSeasonCalendarDialog ({
+    onAccept,
+    onCancel,
+}: ImportSeasonCalendarDialogProps) {
+    const { leagues, leaguesById } = useDataContext();
+
+    const [search, setSearch] = useState("");
+    const [selectedLeague, setSelectedLeague] = useState<string | undefined>(undefined);
+
+    const listItems = leagues.map(l => ({
+        value: l.internalName,
+        displayName: `${l.series} - ${l.displayName ?? l.year}`,
+    }));
+
+    return (
+        <ContentDialog
+            className="import-season-calendar-dialog"
+            onAccept={handleAccept}
+            onCancel={onCancel}
+        >
+        <h2 className="message-title">Import calendar from league.</h2>
+            <Textbox
+                value={search}
+                onChange={setSearch}
+                placeholder={"Search league..."}
+            />
+            <List
+                className="league-list"
+                items={smartFilterObjectArray(listItems, search, i => i.displayName)}
+                allowSelection
+                selectedItem={selectedLeague}
+                onSelect={l => setSelectedLeague(l)}
+            />
+        </ContentDialog>
+    );
+
+    function handleAccept () {
+        if (selectedLeague === undefined) return;
+
+        onAccept(leaguesById[selectedLeague].calendar);
+    }
+}
+
+
+interface _TabInfoProps {
     entry: EditableCalendarEntry;
+    specs: string[];
     onChange: (update: EditableCalendarEntry) => void;
 }
 
-function EntryPanel ({
+function _TabInfo ({
     entry,
+    specs,
     onChange,
-}: EntryPanelProps) {
+}: _TabInfoProps) {
     return (
-        <Form className="entry-panel">
+        <Form className="tab-info">
             <Form.Section className="info-section">
+                <LabeledControl label="Internal name">
+                    <Textbox
+                        value={entry.internalName}
+                        placeholder={"(filled automatically)"}
+                        onChange={str => handleInternalNameChange(str)}
+                        readonly // TODO: Allow edition
+                    />
+                </LabeledControl>
                 <LabeledControl label="Name" required>
                     <Textbox
                         value={entry.name}
@@ -401,6 +507,16 @@ function EntryPanel ({
                         onChange={n => handleFieldChange('laps', n)}
                     />
                 </LabeledControl>
+                {specs.length > 1 && <LabeledControl label="Spec">
+                    <DropdownField
+                        items={specs.map(s => ({
+                            value: s,
+                            displayName: s
+                        }))}
+                        selectedItem={entry.spec}
+                        onSelect={v => handleFieldChange('spec', v)}
+                    />
+                </LabeledControl>}
                 <LabeledControl label="Weather">
                     (not yet implemented)
                 </LabeledControl>
@@ -443,7 +559,165 @@ function EntryPanel ({
 
         onChange(update);
     }
+
+    function handleInternalNameChange (name: string) {
+
+    }
 }
+
+interface _TabDriversProps {
+    entry: EditableCalendarEntry;
+    teams: LeagueTeam[];
+    onChange: (update: EditableCalendarEntry) => void;
+}
+
+function _TabDrivers ({
+    entry,
+    teams,
+    onChange,
+}: _TabDriversProps) {
+
+    return (
+        <Form className="tab-drivers">
+            <Form.Section className="section section-lineups">
+                <Form.Title title="Custom lineups" />
+                <div className="lineup-container">
+                    {teams.map(t => <_TeamLineup
+                        team={t}
+                        value={entry.teamLineups[t.internalName]}
+                        onChange={v => handleTeamLineupChange(t.internalName, v)}
+                    />)}
+                </div>
+            </Form.Section>
+            <Form.Section className="section section-skins">
+                <Form.Title title="Custom skins" />
+                {teams.map(t => <div>
+                    {t.shortName}
+                </div>)}
+            </Form.Section>
+        </Form>
+    );
+
+    function handleTeamLineupChange (team: string, value: string[] | undefined) {
+        const lineups = {...entry.teamLineups};
+        if (value) {
+            lineups[team] = value;
+        }
+        else {
+            delete lineups[team];
+        }
+
+        const update = {...entry};
+        update.teamLineups = lineups;
+
+        onChange(update);
+    }
+}
+
+interface _TeamLineupProps {
+    team: LeagueTeam;
+    value: string[] | undefined;
+    onChange: (value: string[] | undefined) => void;
+}
+
+function _TeamLineup ({
+    team,
+    value,
+    onChange,
+}: _TeamLineupProps) {
+
+    return (
+        <div className="team-lineup">
+            <div className="header">
+                <Checkbox
+                    value={value !== undefined}
+                    onChange={handleToggleLineup}
+                />
+                <div className="team-name">
+                    {team.name}
+                </div>
+            </div>
+            <div className="drivers">
+                {team.drivers.map(d => <_TeamLineupDriver
+                    driver={d}
+                    entryLineup={value}
+                    readonly={value === undefined}
+                    onChange={v => handleDriverChange(d.internalName, v)}
+                />)}
+            </div>
+        </div>
+    );
+
+    function handleToggleLineup (active: boolean) {
+        if (active) {
+            onChange(
+                team.drivers
+                    .filter(d => d.isReserveDriver === false)
+                    .map(d => d.internalName)
+            );
+        }
+        else {
+            onChange(undefined);
+        }
+    }
+
+    function handleDriverChange (driver: string, active: boolean) {
+        if (value === undefined) return;
+
+        const update = [...value];
+        if (active && update.includes(driver) === false) {
+            update.push(driver);
+        }
+        if (active === false && update.includes(driver)) {
+            const index = update.findIndex(d => d === driver);
+            deleteArrayItemAt(update, index);
+        }
+
+        onChange(update);
+    }
+}
+
+interface _TeamLineupDriverProps {
+    driver: LeagueTeamDriver;
+    /**
+     * The lineup of drivers for the driver's team for this entry.
+     * Will be equal to `undefined` when this calendar's entry doesn't have
+     * a custom lineup for the driver's team.
+     */
+    entryLineup: string[] | undefined;
+    readonly: boolean;
+    onChange: (active: boolean) => void;
+}
+
+function _TeamLineupDriver ({
+    driver,
+    entryLineup,
+    readonly,
+    onChange,
+}: _TeamLineupDriverProps) {
+    // If the entry lineup is defined, then this track has a custom lineup
+    // for the driver's team. In that case, the driver is selected if its name
+    // is in the lineup array. If the lineup is not defined, then whether this
+    // driver is selected depends on whether it's not a reserve driver.
+    const isSelected = entryLineup
+        ? entryLineup.includes(driver.internalName)
+        : driver.isReserveDriver === false;
+
+    return (
+        <div className="driver">
+            <Checkbox
+                value={isSelected}
+                readonly={readonly}
+                onChange={onChange}
+            />
+            <div className="driver-name">
+                {driver.name}
+            </div>
+        </div>
+    );
+}
+
+
 
 function generateEditable (calendar: LeagueCalendarEntry[]) {
     const newArr = [] as EditableCalendarEntry[];
@@ -452,6 +726,7 @@ function generateEditable (calendar: LeagueCalendarEntry[]) {
         const clone = structuredClone(calendar[e]) as EditableCalendarEntry;
         clone.id = crypto.randomUUID();
         clone.deleted = false;
+
         newArr.push(clone);
     }
 
@@ -468,8 +743,11 @@ function generateResult (calendar: EditableCalendarEntry[]) {
         const clone = structuredClone(e);
         // @ts-ignore
         delete clone.deleted;
+
         newArr.push(clone as LeagueCalendarEntry);
     }
+
+    normalizeInternalNames(newArr, 'internalName', e => e.name);
 
     return newArr;
 }

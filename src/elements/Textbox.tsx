@@ -31,6 +31,7 @@ function Textbox ({
         "default-control",
         "default-typebox",
         "default-textbox",
+        readonly && "readonly",
         className,
     );
 

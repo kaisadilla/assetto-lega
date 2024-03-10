@@ -1,0 +1,29 @@
+.default-dropdown-field {
+    .field-display-value {
+        cursor: pointer;
+
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 6px;
+
+        &:hover {
+            background-color: $color-transparent-w2;
+        }
+    }
+
+    .dropdown-field-menu {
+        max-height: 180px;
+        position: fixed;
+        overflow-y: auto;
+
+        .dropdown-item {
+            padding: 2px 6px;
+
+            &:hover {
+                background-color: $color-primary;
+            }
+        }
+    }
+}

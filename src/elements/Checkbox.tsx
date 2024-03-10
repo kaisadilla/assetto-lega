@@ -10,13 +10,14 @@ export interface CheckboxProps {
 
 function Checkbox ({
     value,
-    readonly, // TODO: don't ignore readonly.
+    readonly,
     onChange,
     className,
 }: CheckboxProps) {
     const classStr = getClassString(
         "default-control",
         "default-checkbox",
+        readonly && "readonly",
         className,
     );
 
@@ -27,12 +28,18 @@ function Checkbox ({
                     className="default-checkbox-input"
                     type="checkbox"
                     checked={value}
-                    onChange={evt => onChange?.(evt.target.checked)}
+                    onChange={handleChange}
+                    readOnly={readonly}
                 />
                 <span className="default-checkbox-checkmark" />
             </div>
         </label>
     );
+
+    function handleChange (evt: React.ChangeEvent<HTMLInputElement>) {
+        if (readonly) return;
+        onChange?.(evt.target.checked);
+    }
 }
 
 export default Checkbox;

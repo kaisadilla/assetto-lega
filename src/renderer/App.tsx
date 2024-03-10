@@ -22,6 +22,7 @@ import {
     Legend,
     Filler,
 } from 'chart.js';
+import { CacheContextProvider } from 'context/useCacheContext';
 
 registerChartJs();
 
@@ -33,6 +34,7 @@ export default function App () {
         <>
             <div className="window" style={darkTheme}>
                 <SettingsContextProvider>
+                <CacheContextProvider>
                 <NavigationContextProvider tab={Page.LEAGUES}>
                 <LeagueEditorContextProvider>
                 <DataContextProvider>
@@ -42,6 +44,7 @@ export default function App () {
                 </DataContextProvider>
                 </LeagueEditorContextProvider>
                 </NavigationContextProvider>
+                </CacheContextProvider>
                 </SettingsContextProvider>
             </div>
             <Tooltip

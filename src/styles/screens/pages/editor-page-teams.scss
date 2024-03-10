@@ -75,6 +75,10 @@
                             .default-typebox > input {
                                 color: $text-color-dark-d1;
                             }
+
+                            .default-typebox.readonly > input {
+                                color: $text-color-dark-d2;
+                            }
                         }
                     }
                 }
@@ -146,6 +150,10 @@
                                     color: $text-color-dark-d1;
                                 }
                             }
+                        }
+
+                        .default-checkbox {
+                            padding-left: 6px;
                         }
 
                         .driver-name-textbox {

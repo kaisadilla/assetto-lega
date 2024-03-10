@@ -197,7 +197,7 @@ export function isInteger (num: number) {
 }
 
 export function isStringNullOrEmpty (str: string | null | undefined) {
-    return str !== null && str !== undefined && str !== "";
+    return !(str !== null && str !== undefined && str !== "");
 }
 
 /**
@@ -290,6 +290,42 @@ export function arrayUnion (a: any[], b: any[]) {
     }
 
     return Array.from(set);
+}
+
+/**
+ * Normalizes the internal names of all elements of an array. This means that
+ * any empty internal name is filled in with one obtained from the source
+ * given. Repeated names are replaced with unique ones.
+ * @param arr The array to normalize.
+ * @param idFieldName The field containing the id.
+ * @param sourceSelector A method to choose which name to use to create internal
+ * names.
+ */
+export function normalizeInternalNames<T> (
+    arr: T[], idFieldName: keyof T, sourceSelector: (el: T) => string
+) {
+    const internalNameSet = new Set<string>();
+
+    for (const el of arr) {
+        // if the element has no internal name, create one from its names.
+        if (isStringNullOrEmpty(el[idFieldName] as string)) {
+            el[idFieldName] = sourceSelector(el)
+                .toLocaleLowerCase(LOCALE)
+                .replaceAll(" ", "_") as any;
+        }
+
+        // if the element's internal name already exists in this league, append
+        // a number to its end.
+        let finalInternalName = el[idFieldName] as string;
+        let index = 0;
+        while (internalNameSet.has(finalInternalName)) {
+            finalInternalName = `${el[idFieldName]}_${index}`;
+            index++;
+        }
+        internalNameSet.add(finalInternalName);
+
+        el[idFieldName] = finalInternalName as any;
+    }
 }
 
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
