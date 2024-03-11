@@ -50,6 +50,18 @@ export interface SuggestionCollections {
          */
         driverNames: string[];
     }
+    colors: {
+        /**
+         * An array of colors used in leagues.
+         */
+        leagues: string[];
+        /**
+         * An object that contains team names as keys, and colors used by these
+         * teams as values. The name used for each team will be its short name
+         * when possible, or its full name if a short name is not provided.
+         */
+        teams: {[name: string]: string[]};
+    }
 }
 
 const DataContext = createContext({} as DataContextState);
@@ -128,10 +140,13 @@ export const DataContextProvider = ({ children }: any) => {
 
             const leaguesById = generateLeagueCollection(leagues);
 
+            const suggestions = _buildSuggestions(leagues);
+
             setState(prevState => ({
                 ...prevState,
                 leagues,
                 leaguesById,
+                suggestions,
             }));
 
             console.info("Leagues in memory: ", leagues);
@@ -225,14 +240,18 @@ export const DataContextProvider = ({ children }: any) => {
 
 function _buildSuggestions (leagues: League[]) : SuggestionCollections {
     const series = new Set<string>();
-    const eras = {} as {[series: string]: Set<string>}
+    const eras = {} as {[series: string]: Set<string>};
     const makers = new Set<string>();
     const team = {
         fullNames: new Set<string>(),
         shortNames: new Set<string>(),
         constructorNames: new Set<string>(),
         driverNames: new Set<string>(),
-    }
+    };
+    const colors = {
+        teams: {} as {[team: string]: Set<string>},
+        leagues: new Set<string>(),
+    };
 
     for (const l of leagues) {
         series.add(l.series);
@@ -247,6 +266,7 @@ function _buildSuggestions (leagues: League[]) : SuggestionCollections {
             eras[l.series].add(l.era);
         }
 
+        colors.leagues.add(l.color.toLowerCase());
         for (const t of l.teams) {
             team.fullNames.add(t.name);
 
@@ -256,6 +276,10 @@ function _buildSuggestions (leagues: League[]) : SuggestionCollections {
             for (const d of t.drivers) {
                 team.driverNames.add(d.name);
             }
+
+            const refName = t.shortName ?? t.name;
+            colors.teams[refName] ??= new Set<string>();
+            colors.teams[refName].add(t.color.toLowerCase());
         }
     }
 
@@ -274,10 +298,27 @@ function _buildSuggestions (leagues: League[]) : SuggestionCollections {
             shortNames: sortArray(Array.from(team.shortNames)),
             constructorNames: sortArray(Array.from(team.constructorNames)),
             driverNames: sortArray(Array.from(team.driverNames)),
+        },
+        colors: {
+            leagues: sortArray(Array.from(colors.leagues)),
+            teams: setObjectToArrayObject(colors.teams),
         }
     }
+}
 
-    function sortArray (arr: string[]) {
-        return arr.sort((a, b) => a.localeCompare(b, LOCALE));
+function sortArray (arr: string[]) {
+    return arr.sort((a, b) => a.localeCompare(b, LOCALE));
+}
+
+function setObjectToArrayObject<T> (
+    obj: {[key: string]: Set<T>}, sort: boolean = false
+) {
+    const arrObj = {} as {[key: string]: T[]};
+
+    for (const k in obj) {
+        arrObj[k] = Array.from(obj[k]);
+        if (sort) arrObj[k] = sortArray(arrObj[k] as string[]) as T[];
     }
+
+    return arrObj;
 }

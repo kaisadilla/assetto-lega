@@ -193,6 +193,14 @@
                 .season-makers {
                     grid-area: mak;
                     color: white;
+
+                    > span {
+                        //@include ellipsis();
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        text-align: center;
+                        max-height: 100%;
+                    }
                 }
             }
         }

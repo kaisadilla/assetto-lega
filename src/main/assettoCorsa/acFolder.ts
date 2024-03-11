@@ -24,8 +24,7 @@ export const AssettoCorsa = {
             }
             catch (ex) {
                 console.error(
-                    `An error occurred while trying to load car '${f}'`,
-                    ex,
+                    `An error occurred while trying to load car '${f}'`
                 );
             }
         }
@@ -51,8 +50,7 @@ export const AssettoCorsa = {
             }
             catch (ex) {
                 console.error(
-                    `An error occurred while trying to load track '${f}'`,
-                    ex,
+                    `An error occurred while trying to load track '${f}'`
                 );
             }
         }
@@ -99,7 +97,7 @@ export const AssettoCorsa = {
                 skinUi = await readJsonFile<CarSkinUi>(skinUiFile);
             }
             catch (ex) {
-                console.error(`Couldn't read UI json for car skin '${f}'`, ex);
+                console.error(`Couldn't read UI json for car skin '${f.name}'.`);
             }
 
             if (skinUi) {
@@ -170,14 +168,21 @@ export const AssettoCorsa = {
 
         if (hasExtraLayouts) {
             for (const folder of uiLayoutFolders) {
-                const layoutPath = uiFolderPath + "/" + folder.name;
-                
-                const obj = await buildTrackLayoutObject(layoutPath, folder.name);
-                layouts.push(obj);
-                layoutsById[obj.folderName] = obj;
-
-                if (obj.ui.name) {
-                    layoutDisplayNames.push(obj.ui.name)
+                try {
+                    const layoutPath = uiFolderPath + "/" + folder.name;
+                    
+                    const obj = await buildTrackLayoutObject(
+                        layoutPath, folder.name
+                    );
+                    layouts.push(obj);
+                    layoutsById[obj.folderName] = obj;
+    
+                    if (obj.ui.name) {
+                        layoutDisplayNames.push(obj.ui.name)
+                    }
+                }
+                catch (ex) {
+                    continue;
                 }
             }
         }
@@ -187,12 +192,19 @@ export const AssettoCorsa = {
         );
 
         if (hasDefaultLayout) {
-            const defaultLayout = await buildTrackLayoutObject(uiFolderPath, "");
-            layouts = [defaultLayout, ...layouts];
-            layoutsById[""] = defaultLayout;
+            try {
+                const defaultLayout = await buildTrackLayoutObject(
+                    uiFolderPath, ""
+                );
+                layouts = [defaultLayout, ...layouts];
+                layoutsById[""] = defaultLayout;
+    
+                if (defaultLayout.ui.name) {
+                    layoutDisplayNames.push(defaultLayout.ui.name)
+                }
+            }
+            catch (ex) {
 
-            if (defaultLayout.ui.name) {
-                layoutDisplayNames.push(defaultLayout.ui.name)
             }
         }
         else {
@@ -363,7 +375,7 @@ async function readJsonFile<T extends object> (path: string) : Promise<T> {
         return JSON.parse(str) as T;
     }
     catch (ex) {
-        console.error(`Couldn't parse json file. Attempting to fix it.`, ex);
+        console.error(`Couldn't parse json file '${path}'. Attempting to fix it.`);
         const fixedJson = fixMalformedJson<T>(str);
 
         if (fixedJson !== null) {
@@ -409,7 +421,7 @@ function fixMalformedJson<T extends object> (
     }
     catch (ex) {
         // if it still can't be parsed, we give up.
-        console.error(`Error when trying to fix malformed json.`, content);
+        console.error(`Error when trying to fix malformed json.`);
         return null;
     }
 

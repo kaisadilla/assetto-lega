@@ -1,7 +1,7 @@
 import { League, UserSettings } from "data/schemas";
 import fsAsync from "fs/promises";
 import fs from "fs";
-import { app, dialog, nativeImage } from "electron";
+import { app, dialog, nativeImage, shell } from "electron";
 import path from "path";
 import { AssetFolder } from "data/assets";
 import { DEFAULT_COUNTRY_TIERS } from "../data/countryTiers";
@@ -49,6 +49,11 @@ export const Data = {
      */
     getDataFolderPath () : string {
         return getDataFolderPath();
+    },
+
+    openLeaguesFolder () {
+        const folder = getDataFolder(FOLDER_LEAGUES).replaceAll("/", "\\");
+        shell.openPath(folder);
     },
 
     async loadSettings () : Promise<UserSettings> {

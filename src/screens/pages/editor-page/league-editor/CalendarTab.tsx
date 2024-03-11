@@ -15,13 +15,19 @@ enum TabMode {
 export interface CalendarTabProps {
     league: League;
     onChange: (field: keyof League, value: any) => void;
+    setAskWhenTabbingOut: (ask: boolean) => void;
 }
 
 function CalendarTab ({
     league,
     onChange,
+    setAskWhenTabbingOut,
 }: CalendarTabProps) {
     const [mode, setMode] = useState(TabMode.View);
+    
+    useEffect(() => {
+        setAskWhenTabbingOut(mode === TabMode.Edit);
+    }, [mode]);
 
     return (
         <div className="editor-tab calendar-tab">

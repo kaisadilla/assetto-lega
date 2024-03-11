@@ -63,6 +63,7 @@ function TeamEntry ({
 
     const classStr = getClassString(
         "team",
+        team.drivers.length < 2 && "solo-driver",
         calcTextColor === 'black' && "text-black",
         calcTextColor === 'white' && "text-white",
     )
@@ -113,7 +114,6 @@ function TeamEntry ({
                             driver={d}
                             car={car}
                             defaultSpec={defaultSpec}
-                            isSolo={team.drivers.length === 1}
                         />
                     ))
                 }
@@ -132,7 +132,6 @@ interface DriverEntryProps {
     driver: LeagueTeamDriver;
     car: AcCar | null;
     defaultSpec: string;
-    isSolo: boolean;
 }
 
 function DriverEntry ({
@@ -140,7 +139,6 @@ function DriverEntry ({
     driver,
     car,
     defaultSpec,
-    isSolo,
 }: DriverEntryProps
 ) {
     const bgStyle = { backgroundColor: team.color };
@@ -151,8 +149,7 @@ function DriverEntry ({
     }
 
     const classStr = getClassString(
-        "driver-info",
-        isSolo && "solo-driver",
+        "driver-info"
     )
 
     return (

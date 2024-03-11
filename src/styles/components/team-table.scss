@@ -47,7 +47,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: $table-gap * 2;
+    gap: calc($table-gap * 2 - 2px);
 
     .team {
         display: flex;
@@ -89,6 +89,10 @@
             align-items: center;
             background: $bg-color-dark-l2;
             gap: $gap;
+            width: 50%;
+            min-width: 550px;
+            max-width: 700px;
+            flex-shrink: 0;
 
             border: $border solid;
 
@@ -160,6 +164,7 @@
                     display: block;
                 }
             }
+
             > .team-car {
                 flex: 1;
                 height: 100%;
@@ -168,6 +173,7 @@
                 align-items: center;
                 justify-content: center;
                 gap: 6px;
+                min-width: 0;
     
                 > .team-car-stats {
                     display: flex;
@@ -179,13 +185,14 @@
         }
     
         .driver-list {
-            flex-grow: 1;
             display: flex;
             flex-direction: column;
             gap: $table-gap;
+            flex: 1;
+            min-width: 0;
     
             .driver-info {
-                height: 42px;
+                height: 44px;
                 padding: 0 8px 0 4px;
                 display: flex;
                 flex-direction: row;
@@ -193,10 +200,6 @@
                 justify-content: start;
                 align-items: center;
                 gap: 8px;
-    
-                &.solo-driver {
-                    height: 100%;
-                }
     
                 > .driver-number {
                     width: 64px;
@@ -234,6 +237,8 @@
                 }
                 
                 > .skin-icons {
+                    @include thin-scrollbar();
+
                     display: flex;
                     flex-direction: row;
                     flex-wrap: nowrap;
@@ -241,7 +246,7 @@
                     align-items: center;
                     gap: 3px;
                     flex: 1;
-                    overflow-x: auto; // TODO: custom scrollbar
+                    overflow-x: auto;
     
                     .skin-icon {
                         box-sizing: content-box;
@@ -262,6 +267,35 @@
                     .team-stat {
                         width: 40px;
                     }
+                }
+            }
+        }
+    
+        &.solo-driver {
+            min-height: 44px;
+
+            > .team-info {
+                > .team-logo {
+                    > img {
+                        width: 32px;
+                        height: 32px;
+                    }
+                }
+
+                > .team-car {
+                    gap: 0;
+                    > .team-car-stats {
+                        > .team-stat {
+                            flex-direction: row;
+                            gap: 4px;
+                        }
+                    }
+                }
+            }
+
+            .driver-list {
+                .driver-info {
+                    height: 100%;
                 }
             }
         }

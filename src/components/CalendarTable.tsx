@@ -67,7 +67,7 @@ function CalendarEntry ({
     return (
         <div className="calendar-entry">
             <div className="date">
-                {dateToDisplayName(new Date(entry.date))}
+                {dateToDisplayName(new Date(entry.date ?? ""))}
             </div>
             <div className="country">
                 <img src={countryData?.flag} />

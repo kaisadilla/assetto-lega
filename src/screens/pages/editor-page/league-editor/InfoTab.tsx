@@ -12,7 +12,7 @@ import NumericBox from 'elements/NumericBox';
 import Textbox from 'elements/Textbox';
 import Form from 'elements/form/Form';
 import React, { useState } from 'react';
-import { arrayUnion } from 'utils';
+import { LOCALE, arrayUnion } from 'utils';
 
 export interface InfoTabProps {
     league: League;
@@ -102,6 +102,8 @@ function InfoTab ({
                     <LabeledControl label="Color" required>
                         <ColorField
                             value={league.color}
+                            suggestions={suggestions.colors.leagues}
+                            suggestionsTitle="Colors used in other leagues:"
                             onChange={handleChange_color}
                         />
                     </LabeledControl>
@@ -131,7 +133,10 @@ function InfoTab ({
                 <Form.Section className="categories-section">
                     <Form.Title title="Categories" />
                     <EditableList
-                        items={arrayUnion(league.categories, existingLeagueCategories)}
+                        items={
+                            arrayUnion(league.categories, existingLeagueCategories)
+                                .sort((a, b) => a.localeCompare(b, LOCALE))
+                        }
                         checkedItems={league.categories}
                         onChangeCheckedItems={handleChange_categories}
                     />

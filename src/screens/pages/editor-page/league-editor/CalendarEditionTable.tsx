@@ -150,7 +150,8 @@ function CalendarEditionTable ({
                 onAccept={handleDiscardDialog}
                 setOpen={setDialogDiscardOpen}
             />}
-            {isDialogImportCalendarOpen && <ImportSeasonCalendarDialog
+            {isDialogImportCalendarOpen && <_ImportSeasonCalendarDialog
+                thisLeagueInternalName={league.internalName}
                 onAccept={c => handleImportCalendar(c)}
                 onCancel={() => setDialogImportCalendarOpen(false)}
             />}
@@ -185,6 +186,14 @@ function CalendarEditionTable ({
 
     function handleImportCalendar (calendar: LeagueCalendarEntry[]) {
         const newEntries = generateEditable(calendar);
+
+        // remove data that shouldn't be imported from another league.
+        for (const e of newEntries) {
+            e.internalName = "";
+            e.teamLineups = {};
+            e.driverSkins = {};
+            e.spec = league.specs[0];
+        }
 
         setEditedCalendar([...editedCalendar, ...newEntries]);
         setEditFlags([...editFlags, ...newEntries.map(n => true)]);
@@ -395,24 +404,29 @@ function Entry ({
     );
 }
 
-interface ImportSeasonCalendarDialogProps {
+interface _ImportSeasonCalendarDialogProps {
+    thisLeagueInternalName: string;
     onAccept: (entries: LeagueCalendarEntry[]) => void;
     onCancel: () => void;
 }
 
-function ImportSeasonCalendarDialog ({
+function _ImportSeasonCalendarDialog ({
+    thisLeagueInternalName,
     onAccept,
     onCancel,
-}: ImportSeasonCalendarDialogProps) {
+}: _ImportSeasonCalendarDialogProps) {
     const { leagues, leaguesById } = useDataContext();
 
     const [search, setSearch] = useState("");
     const [selectedLeague, setSelectedLeague] = useState<string | undefined>(undefined);
 
-    const listItems = leagues.map(l => ({
-        value: l.internalName,
-        displayName: `${l.series} - ${l.displayName ?? l.year}`,
-    }));
+    const listItems = leagues
+        .filter(l => l.internalName !== thisLeagueInternalName)
+        .map(l => ({
+            value: l.internalName,
+            displayName: `${l.series} - ${l.displayName ?? l.year}`,
+        })
+    );
 
     return (
         <ContentDialog
@@ -463,7 +477,7 @@ function _TabInfo ({
                         value={entry.internalName}
                         placeholder={"(filled automatically)"}
                         onChange={str => handleInternalNameChange(str)}
-                        readonly // TODO: Allow edition
+                        //readonly // TODO: Allow edition
                     />
                 </LabeledControl>
                 <LabeledControl label="Name" required>
@@ -507,7 +521,7 @@ function _TabInfo ({
                         onChange={n => handleFieldChange('laps', n)}
                     />
                 </LabeledControl>
-                {specs.length > 1 && <LabeledControl label="Spec">
+                <LabeledControl label="Spec">
                     <DropdownField
                         items={specs.map(s => ({
                             value: s,
@@ -516,10 +530,10 @@ function _TabInfo ({
                         selectedItem={entry.spec}
                         onSelect={v => handleFieldChange('spec', v)}
                     />
-                </LabeledControl>}
-                <LabeledControl label="Weather">
-                    (not yet implemented)
                 </LabeledControl>
+                {false && <LabeledControl label="Weather">
+                    (not yet implemented)
+                </LabeledControl>}
                 <Form.Title title="Hours (local)" />
                 <LabeledControl label="Qualifying" required>
                     <Textbox
@@ -561,7 +575,10 @@ function _TabInfo ({
     }
 
     function handleInternalNameChange (name: string) {
-
+        // TODO: this is ad-hoc and needs to be changed, since it doesn't rename
+        // any reference to this ID and thus can create invalid files. Only
+        // enabled for development purposes.
+        handleFieldChange('internalName', name);
     }
 }
 
@@ -583,6 +600,7 @@ function _TabDrivers ({
                 <Form.Title title="Custom lineups" />
                 <div className="lineup-container">
                     {teams.map(t => <_TeamLineup
+                        key={t.internalName}
                         team={t}
                         value={entry.teamLineups[t.internalName]}
                         onChange={v => handleTeamLineupChange(t.internalName, v)}
@@ -639,6 +657,7 @@ function _TeamLineup ({
             </div>
             <div className="drivers">
                 {team.drivers.map(d => <_TeamLineupDriver
+                    key={d.internalName}
                     driver={d}
                     entryLineup={value}
                     readonly={value === undefined}
@@ -717,8 +736,6 @@ function _TeamLineupDriver ({
     );
 }
 
-
-
 function generateEditable (calendar: LeagueCalendarEntry[]) {
     const newArr = [] as EditableCalendarEntry[];
 
@@ -726,6 +743,10 @@ function generateEditable (calendar: LeagueCalendarEntry[]) {
         const clone = structuredClone(calendar[e]) as EditableCalendarEntry;
         clone.id = crypto.randomUUID();
         clone.deleted = false;
+
+        if (clone.spec === undefined) {
+            clone.spec = "Default";
+        }
 
         newArr.push(clone);
     }

@@ -11,7 +11,7 @@ import { Alpha, EditableInput, Hue, Saturation } from "react-color/lib/component
 // @ts-ignore
 import SliderSwatches from "react-color/lib/components/slider/SliderSwatches";
 import tinycolor2 from 'tinycolor2';
-import { truncateNumber } from 'utils';
+import { getClassString, truncateNumber } from 'utils';
 
 interface HSVColor {
     h: number;
@@ -29,6 +29,8 @@ export enum ColorPickerMode {
 export interface ColorPickerProps {
     mode: ColorPickerMode;
     defaultColor: string;
+    suggestions?: string[];
+    suggestionsTitle?: string;
     onSelect: (selectedColor: string) => void;
     onCancel?: (selectedColor: string) => void;
 }
@@ -36,9 +38,15 @@ export interface ColorPickerProps {
 function ColorPicker ({
     mode,
     defaultColor,
+    suggestionsTitle,
+    suggestions,
     onSelect,
     onCancel,
 }: ColorPickerProps) {
+    suggestions = suggestions
+        ?.map(s => s.startsWith("#") ? s.substring(1, 7): s)
+        .filter(s => s.length === 6);
+
     const colorObj = tinycolor2(defaultColor);
     const [hex, setHex] = useState(colorObj.toHex());
     const [rgb, setRgb] = useState(colorObj.toRgb());
@@ -159,8 +167,20 @@ function ColorPicker ({
                     </Form>
                 </div>
             </div>
+
+            {suggestions && <div className="color-suggestions">
+                {suggestionsTitle && <div className="title">{suggestionsTitle}</div>}
+                <div className="suggestions-gallery">
+                    {suggestions.map(s => <div
+                        key={s}
+                        className={getClassString("color-suggestion", hex === s && "selected")}
+                        style={{backgroundColor: "#" + s}}
+                        onClick={() => handleHexInput(s)}
+                    />)}
+                </div>
+            </div>}
             
-            <ToolboxRow className="image-picker-toolbox">
+            <ToolboxRow className="color-picker-toolbox">
                 <Button onClick={handleCancel}>Cancel</Button>
                 <Button
                     highlighted

@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-width: 0;
 
     // override other classes
     &.default-color-picker {
@@ -15,6 +16,7 @@
         display: flex;
         gap: 16px;
         padding: 24px;
+        padding-bottom: 8px;
 
         > .color-gadgets {
             display: grid;
@@ -116,7 +118,41 @@
         }
     }
 
-    > .image-picker-toolbox {
+    > .color-suggestions {
+        $-size: 24px;
+        $-gap: 2px;
+
+        max-width: 516px - 48px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        gap: 4px;
+
+        > .suggestions-gallery {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: $-gap;
+            width: 100%;
+            max-height: (($-size + $-gap) * 4) - $-gap;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            > .color-suggestion {
+                width: $-size;
+                height: $-size;
+                border: 1px solid $text-color-dark-d2;
+    
+                &.selected {
+                    border: 2px solid $color-primary;
+                }
+            }
+        }
+    }
+
+    > .color-picker-toolbox {
         width: 100%;
     }
 

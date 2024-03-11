@@ -22,6 +22,8 @@
 }
 
 * {
+    @include default-scrollbar();
+    
     box-sizing: border-box;
 }
 

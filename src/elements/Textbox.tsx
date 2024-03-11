@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getClassString, smartFilterArray } from 'utils';
 import Dropdown from './Dropdown';
 
@@ -52,6 +52,7 @@ function Textbox ({
             />
             {suggestions && isFocused &&
                 <TextboxSuggestions
+                    parent={$div}
                     suggestions={suggestions}
                     prompt={value}
                     onClick={handleSuggestionClick}
@@ -97,16 +98,32 @@ function Textbox ({
 }
 
 export interface TextboxSuggestionsProps {
+    parent: React.RefObject<HTMLDivElement>;
     suggestions: string[];
     prompt: string;
     onClick: (value: string) => void;
 }
 
 function TextboxSuggestions ({
+    parent,
     suggestions,
     prompt,
     onClick,
 }: TextboxSuggestionsProps) {
+    const [dropdownStyle, setDropdownStyle] = useState({});
+    
+    useEffect(() => {
+        if (!parent.current) return;
+
+        const rect = parent.current.getBoundingClientRect();
+
+        setDropdownStyle({
+            top: rect.top + rect.height - 1,
+            left: rect.left,
+            width: rect.width,
+        });
+    }, []);
+
     const filteredSuggestions = smartFilterArray(suggestions, prompt);
 
     const $suggestions = filteredSuggestions.map(s => (
@@ -118,6 +135,7 @@ function TextboxSuggestions ({
     return (
         <Dropdown
             className="textbox-suggestions"
+            style={dropdownStyle}
             tabIndex={1}
         >
             {$suggestions}

@@ -7,6 +7,9 @@
     padding: 2px 0;
 
     > .list-item {
+        @include ellipsis();
+        flex-shrink: 0;
+
         padding: 2px 8px;
 
         &:hover {

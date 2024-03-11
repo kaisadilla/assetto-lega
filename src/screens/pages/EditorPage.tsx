@@ -52,6 +52,7 @@ function EditorPage (props: EditorPageProps) {
         // TODO: why not do this in data context?
         await Ipc.saveLeague(league?.internalName ?? null, editedLeague);
         updateLeague(league?.internalName ?? null, editedLeague);
+        setLeague(editedLeague);
     }
 
     async function handleSaveAndExit (editedLeague: League) {

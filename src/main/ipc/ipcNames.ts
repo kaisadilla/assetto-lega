@@ -1,6 +1,8 @@
 
 export const HANDLER_GET_DATA_PATH = "data/get-path";
 
+export const HANDLER_DATA_OPEN_FOLDER_LEAGUES = "data/open-folder/leagues";
+
 export const HANDLER_DATA_LOAD_SETTINGS = "data/load/settings";
 export const HANDLER_DATA_LOAD_LEAGUES = "data/load/leagues";
 

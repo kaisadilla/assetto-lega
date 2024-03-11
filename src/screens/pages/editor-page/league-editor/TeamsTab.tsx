@@ -3,7 +3,7 @@ import EditorTeam from 'components/TeamTable';
 import { League, LeagueTeam } from 'data/schemas';
 import Button from 'elements/Button';
 import Ipc from 'main/ipc/ipcRenderer';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TeamEditionTable from './TeamEditionTable';
 
 enum TabMode {
@@ -14,13 +14,19 @@ enum TabMode {
 export interface TeamsTabProps {
     league: League;
     onChange: (field: keyof League, value: any) => void;
+    setAskWhenTabbingOut: (ask: boolean) => void;
 }
 
 function TeamsTab ({
     league,
     onChange,
+    setAskWhenTabbingOut,
 }: TeamsTabProps) {
     const [mode, setMode] = useState(TabMode.View);
+
+    useEffect(() => {
+        setAskWhenTabbingOut(mode === TabMode.Edit);
+    }, [mode]);
 
     return (
         <div className="editor-tab teams-tab">
@@ -35,6 +41,7 @@ function TeamsTab ({
                 <TeamEditModePanel
                     teams={league.teams}
                     specs={league.specs}
+                    classes={league.classes}
                     onSave={handleSaveTeams}
                     onClose={handleCloseEdit}
                 />
@@ -97,6 +104,7 @@ function TeamViewModePanel ({
 export interface TeamEditModePanelProps {
     teams: LeagueTeam[];
     specs: string[];
+    classes: string[] | null;
     onSave: (teams: LeagueTeam[]) => void;
     onClose: () => void;
 }
@@ -104,6 +112,7 @@ export interface TeamEditModePanelProps {
 function TeamEditModePanel ({
     teams,
     specs,
+    classes,
     onSave,
     onClose,
 }: TeamEditModePanelProps) {
@@ -113,6 +122,7 @@ function TeamEditModePanel ({
             <TeamEditionTable 
                 teams={teams}
                 specs={specs}
+                classes={classes}
                 onSave={handleSave}
                 onClose={handleClose}
             />

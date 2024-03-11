@@ -49,24 +49,37 @@
     align-items: center;
 }
 
-/* TODO: review these */
-@mixin scrollbar-thin ($thumb-color, $bg-color) {
-    scrollbar-color: $thumb-color $bg-color;
-    scrollbar-width: thin;
-
+@mixin default-scrollbar {
     &::-webkit-scrollbar {
-        width: 8px;
-        background-color: $bg-color;
+        width: 10px;
+        height: 10px;
     }
+    
     &::-webkit-scrollbar-thumb {
-        background-color: $thumb-color;
+        background-color: $color-primary;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: $color-transparent-w2;
+    }
+
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            //border: 1px solid $bg-color-dark-l1;
+            background-color: $color-primary;
+        }
+
+        &::-webkit-scrollbar-track {
+            background-color: $color-transparent-w4;
+        }
     }
 }
 
-@mixin scrollbar-thin-std () {
-    scrollbar-width: thin;
+@mixin thin-scrollbar {
+    @include default-scrollbar();
 
     &::-webkit-scrollbar {
-        width: 8px;
+        width: 5px;
+        height: 5px;
     }
 }

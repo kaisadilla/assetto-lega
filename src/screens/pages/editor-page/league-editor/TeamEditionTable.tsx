@@ -10,7 +10,9 @@ import { AcCarCollection, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverRequired
 import Button from 'elements/Button';
 import Checkbox from 'elements/Checkbox';
 import ConfirmDialog from 'elements/ConfirmDialog';
+import DropdownField from 'elements/DropdownField';
 import LabeledControl from 'elements/LabeledControl';
+import List from 'elements/List';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import MessageDialog from 'elements/MessageDialog';
 import NavBar from 'elements/NavBar';
@@ -33,6 +35,7 @@ enum TeamEditorTab {
 export interface TeamEditionTableProps {
     teams: LeagueTeam[];
     specs: string[];
+    classes: string[] | null;
     onSave?: (teams: LeagueTeam[]) => void;
     onCancel?: (teams: LeagueTeam[]) => void;
     onClose?: () => void;
@@ -41,6 +44,7 @@ export interface TeamEditionTableProps {
 function TeamEditionTable ({
     teams,
     specs,
+    classes,
     onSave,
     onCancel,
     onClose,
@@ -103,11 +107,14 @@ function TeamEditionTable ({
                 </NavBar>
                 <div className="team-editor-tab">
                     {tab === TeamEditorTab.INFO && <TabInfo
+                        key={editedTeams[selectedTeam].id}
                         team={editedTeams[selectedTeam]}
                         specs={specs}
+                        classes={classes}
                         onChange={handleInfoChange}
                     />}
                     {tab === TeamEditorTab.DRIVERS && <TabDrivers
+                        key={editedTeams[selectedTeam].id}
                         team={editedTeams[selectedTeam]}
                         specs={specs}
                         onChange={handleDriversChange}
@@ -166,6 +173,11 @@ function TeamEditionTable ({
         ];
         update[update.length - 1].id = crypto.randomUUID();
         update[update.length - 1].deleted = false;
+
+        if (classes !== null && classes.length > 0) {
+            update[update.length - 1].className = classes[0];
+        }
+
         setEditedTeams(update);
         
         const editUpdate = [
@@ -394,15 +406,20 @@ function TeamEntry ({
 export interface TabInfoProps {
     team: EditableTeam,
     specs: string[];
+    classes: string[] | null;
     onChange: (field: keyof LeagueTeam, value: any) => void;
 }
 
 function TabInfo ({
     team,
     specs,
+    classes,
     onChange,
 }: TabInfoProps) {
     const { suggestions } = useDataContext();
+
+    const nameToUse = team.shortName ?? team.name;
+    const colorSuggestions = suggestions.colors.teams[nameToUse];
 
     return (
         <Form className="tab-info">
@@ -459,6 +476,16 @@ function TabInfo ({
                         suggestions={suggestions.team.constructorNames}
                     />
                 </LabeledControl>
+                {classes !== null && <LabeledControl label="Class">
+                    <DropdownField
+                        items={classes.map(c => ({
+                            value: c,
+                            displayName: c
+                        }))}
+                        selectedItem={team.className}
+                        onSelect={v => handleFieldChange('className', v)}
+                    />
+                </LabeledControl>}
                 <LabeledControl label="Country" required>
                     <CountryField
                         value={team.country}
@@ -468,7 +495,12 @@ function TabInfo ({
                 <LabeledControl label="Color" required>
                     <ColorField
                         value={team.color}
+                        suggestions={colorSuggestions}
+                        suggestionsTitle={
+                            `Colors used by teams called '${nameToUse}':`
+                        }
                         onChange={color => handleFieldChange('color', color)}
+                        
                     />
                 </LabeledControl>
                 <LabeledControl label="Ballast" required>
@@ -487,6 +519,7 @@ function TabInfo ({
             <Form.Section className="car-section">
                 <Form.Title title="Cars" />
                 {specs.map(s => <LabeledControl
+                    key={s}
                     label={s}
                     required
                 >
@@ -530,7 +563,7 @@ function TabDrivers ({
         <div className="tab-drivers">
             <div className="driver-list">
                 {team.drivers.map((d, i) => <DriverCard
-                    key={i}
+                    key={d.internalName}
                     driver={d}
                     carIds={team.cars}
                     specs={specs}
@@ -668,6 +701,7 @@ function DriverCard ({
             </Form.Section>
             <Form.Section className="skins-section">
                 {specs.map(s => <SpecSkinsSection
+                    key={s}
                     spec={s}
                     carId={carIds[s]}
                     skins={driver.skins[s]}
@@ -777,8 +811,11 @@ function generateResult (teams: EditableTeam[]) {
 
     normalizeInternalNames(newArr, 'internalName', t => t.shortName ?? t.name);
 
+    const driverInternalNames = new Set<string>();
     for (const t of newArr) {
-        normalizeInternalNames(t.drivers, 'internalName', d => d.name);
+        normalizeInternalNames(
+            t.drivers, 'internalName', d => d.name, driverInternalNames
+        );
     }
 
     return newArr;

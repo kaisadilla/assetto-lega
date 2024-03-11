@@ -302,27 +302,33 @@ export function arrayUnion (a: any[], b: any[]) {
  * names.
  */
 export function normalizeInternalNames<T> (
-    arr: T[], idFieldName: keyof T, sourceSelector: (el: T) => string
+    arr: T[], idFieldName: keyof T,
+    sourceSelector: (el: T) => string,
+    existingNamesSet = new Set<string>(),
 ) {
-    const internalNameSet = new Set<string>();
-
     for (const el of arr) {
         // if the element has no internal name, create one from its names.
         if (isStringNullOrEmpty(el[idFieldName] as string)) {
             el[idFieldName] = sourceSelector(el)
                 .toLocaleLowerCase(LOCALE)
-                .replaceAll(" ", "_") as any;
+                .replaceAll(" ", "_")
+                .replaceAll(/[^a-zA-Z0-9_]*/g, "") as any;
+        }
+        else {
+            // purge all non-alphanumeric or underscore characters.
+            el[idFieldName] = (el[idFieldName] as string)
+                .replaceAll(/[^a-zA-Z0-9_]*/g, "") as any;
         }
 
         // if the element's internal name already exists in this league, append
         // a number to its end.
         let finalInternalName = el[idFieldName] as string;
         let index = 0;
-        while (internalNameSet.has(finalInternalName)) {
+        while (existingNamesSet.has(finalInternalName)) {
             finalInternalName = `${el[idFieldName]}_${index}`;
             index++;
         }
-        internalNameSet.add(finalInternalName);
+        existingNamesSet.add(finalInternalName);
 
         el[idFieldName] = finalInternalName as any;
     }

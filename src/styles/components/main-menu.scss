@@ -9,18 +9,18 @@
     height: 100vh;
     min-height: 0;
 
-    display: grid;
-    grid-template:
-        "nav" $navbar-total-height
-        "con" calc(100vh - $navbar-total-height) / 1fr;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
 
     .cell-navbar {
-        grid-area: nav;
         padding: 0 16px;
         padding-bottom: 0;
         display: flex;
         flex-direction: row;
         gap: 16px;
+        flex-shrink: 0;
 
         .horiz-nav-bar {
             padding-top: $navbar-padding-top;
@@ -33,6 +33,7 @@
     }
 
     .cell-content {
-        grid-area: con;
+        flex: 1;
+        min-height: 0;
     }
 }

@@ -65,6 +65,7 @@
     .textbox-suggestions {
         max-height: 240px;
         max-width: 300px;
+        position: fixed;
         
         .suggestion {
             padding: 2px 8px;

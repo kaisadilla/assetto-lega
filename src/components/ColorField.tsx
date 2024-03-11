@@ -8,6 +8,8 @@ import { SketchPicker } from 'react-color';
 export interface ColorFieldProps {
     value: string;
     mode?: ColorPickerMode;
+    suggestions?: string[];
+    suggestionsTitle?: string;
     onChange?: (color: string) => void;
     className?: string;
     tabIndex?: number;
@@ -16,6 +18,8 @@ export interface ColorFieldProps {
 function ColorField ({
     value,
     mode = ColorPickerMode.Sketch,
+    suggestions,
+    suggestionsTitle,
     onChange,
     className,
     tabIndex = 1,
@@ -42,6 +46,8 @@ function ColorField ({
                 <ColorPicker
                     mode={mode}
                     defaultColor={value}
+                    suggestions={suggestions}
+                    suggestionsTitle={suggestionsTitle}
                     onSelect={handlePickerSelect}
                     onCancel={() => setPickerOpen(false)}
                 />

@@ -45,8 +45,14 @@ function LeagueEditor ({
 }: LeagueEditorProps) {
     const [editedLeague, setEditedLeague] = useState(cloneLeague(league));
     const [editorTab, setEditorTab] = useState(EditorTab.INFO);
+    // the editor tab that will be chosen if the user confirms a change.
+    const [nextEditorTab, setNextEditorTab] = useState(EditorTab.INFO);
+
     const [isEdited, setEdited] = useState(false);
 
+    // whether the program should ask when tabbing out.
+    const [askWhenTabbingOut, setAskWhenTabbingOut] = useState(false);
+    const [isDialogTabOutOpen, setDialogTabOutOpen] = useState(false);
     const [isDialogCancelOpen, setDialogCancelOpen] = useState(false);
 
     const $screen = (() => {
@@ -64,6 +70,7 @@ function LeagueEditor ({
                 <TeamsTab
                     league={editedLeague}
                     onChange={handleLeagueFieldChange}
+                    setAskWhenTabbingOut={setAskWhenTabbingOut}
                 />
             );
         }
@@ -80,6 +87,7 @@ function LeagueEditor ({
                 <CalendarTab
                     league={editedLeague}
                     onChange={handleLeagueFieldChange}
+                    setAskWhenTabbingOut={setAskWhenTabbingOut}
                 />
             );
         }
@@ -96,7 +104,7 @@ function LeagueEditor ({
 
     return (
         <div className="league-editor">
-            <NavBar get={editorTab} set={setEditorTab}>
+            <NavBar get={editorTab} set={handleSelectTab}>
                 <NavBar.Item text="info" index={EditorTab.INFO} />
                 <NavBar.Item text="teams" index={EditorTab.TEAMS} />
                 <NavBar.Item text="drivers" index={EditorTab.DRIVERS} />
@@ -112,6 +120,14 @@ function LeagueEditor ({
                 <Button onClick={handleSave}>Save</Button>
                 <Button onClick={handleSaveAndExit} highlighted>Save and exit</Button>
             </ToolboxRow>
+            {isDialogTabOutOpen && <ConfirmDialog
+                title="Change tab?"
+                message="Do you want to change tabs? Your progress here will be lost."
+                acceptText="Change"
+                cancelText="Remain here"
+                onAccept={handleAcceptSelectTab}
+                setOpen={setDialogTabOutOpen}
+            />}
             {isDialogCancelOpen && <ConfirmDialog
                 title="Exit without saving?"
                 message="Do you want to close this league without saving any changes?"
@@ -122,6 +138,21 @@ function LeagueEditor ({
             />}
         </div>
     );
+
+    function handleSelectTab (index: any) {
+        if (askWhenTabbingOut) {
+            setNextEditorTab(index);
+            setDialogTabOutOpen(true);
+        }
+        else {
+            setEditorTab(index);
+        }
+    }
+
+    function handleAcceptSelectTab () {
+        setEditorTab(nextEditorTab);
+        setAskWhenTabbingOut(false);
+    }
 
     function handleLeagueFieldChange (field: keyof League, value: any) {
         setEditedLeague(prevState => ({

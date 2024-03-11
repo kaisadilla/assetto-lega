@@ -2,6 +2,7 @@ import LeagueMenu from "components/LeagueMenu";
 import { useDataContext } from "context/useDataContext";
 import Button from "elements/Button";
 import Icon from "elements/Icon";
+import Ipc from "main/ipc/ipcRenderer";
 import react from "react";
 
 
@@ -29,9 +30,17 @@ function LeagueSelection ({
                     <Icon name="fa-plus" />
                     <span>Create league</span>
                 </Button>
+                <Button onClick={handleOpenFolder}>
+                    <Icon name="fa-folder-open" />
+                    <span>Open leagues folder</span>
+                </Button>
             </div>
         </div>
     );
+
+    function handleOpenFolder () {
+        Ipc.openLeaguesFolder();
+    }
 }
 
 export default LeagueSelection;
