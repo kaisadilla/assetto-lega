@@ -1,3 +1,5 @@
+// THIS WILL BE REMOVED. FOR EDITOR PAGE see: EditorPage
+
 import React, { useEffect } from 'react';
 import LeagueThumbnail from '../../components/leaguePage/LeagueThumbnail';
 import Icon from 'elements/Icon';

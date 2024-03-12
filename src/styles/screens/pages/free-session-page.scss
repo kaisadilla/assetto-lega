@@ -1,0 +1,115 @@
+$-collapsed-line-padding: 36px;
+$-collapsed-line-font-size: 14pt;
+$-default-padding: 16px;
+
+.free-session-page {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+    height: 100%;
+
+    > .section {
+        border-bottom: 1px solid $color-primary;
+        transition: 0.15s flex-grow;
+
+        &.expanded {
+            flex: 1;
+            min-height: 0;
+            max-height: min-content;
+        }
+
+        &.collapsed {
+            height: 48px;
+
+            &:not(.section-not-available):hover {
+                background-color: $color-primary;
+            }
+        }
+    }
+
+    .section-not-available {
+        cursor: not-allowed;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 $-collapsed-line-padding;
+        font-size: $-collapsed-line-font-size;
+        font-style: italic;
+        font-weight: $w-semibold;
+        color: $text-color-dark-d2;
+    }
+
+    .league-section-expanded {
+        .league-selection {
+            height: 100%;
+        }
+    }
+
+    .league-section-collapsed {
+        @include center-vertically();
+        
+        font-family: $font-f1;
+        font-weight: $w-regular;
+        font-size: $-collapsed-line-font-size;
+        padding: 4px;
+        padding-left: $-collapsed-line-padding;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        align-items: center;
+        gap: 16px;
+
+        .league-icon {
+            max-width: 120px;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    .track-section-expanded {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: $-default-padding;
+        font-family: $font-f1;
+        padding: $-default-padding;
+
+        h2 {
+            font-weight: $w-regular;
+        }
+
+        > .gp-section {
+            $-flag-size: 20px;
+
+            .gp-container {
+                display: flex;
+                flex-direction: column;
+                overflow-x: hidden;
+                overflow-y: auto;
+                gap: 8px;
+                .gp-entry {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    .gp-flag-container {
+                        width: $-flag-size * 3;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        .gp-flag {
+                            height: $-flag-size;
+                            max-width: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

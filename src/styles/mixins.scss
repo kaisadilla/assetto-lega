@@ -49,6 +49,11 @@
     align-items: center;
 }
 
+@mixin center-vertically () {
+    display: flex;
+    align-items: center;
+}
+
 @mixin default-scrollbar {
     &::-webkit-scrollbar {
         width: 10px;
@@ -81,5 +86,24 @@
     &::-webkit-scrollbar {
         width: 5px;
         height: 5px;
+    }
+}
+
+@mixin font-weights ($name, $sources, $weights) {
+    @for $i from 1 through length($sources) {
+        @font-face {
+            font-family: $name;
+            src: url("../../assets/fonts/#{nth($sources, $i)}");
+            font-weight: #{nth($weights, $i)};
+        }
+    }
+}
+
+@mixin import-font ($name, $filename, $weight, $style: normal) {
+    @font-face {
+        font-family: $name;
+        src: url("../../assets/fonts/#{$filename}");
+        font-weight: $weight;
+        font-style: $style;
     }
 }

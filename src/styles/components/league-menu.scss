@@ -138,6 +138,10 @@
                     background-color: $bg-color-dark-l2;
                 }
 
+                &.selected {
+                    background-color: $color-primary;
+                }
+
                 .season-color {
                     grid-area: col;
                 }

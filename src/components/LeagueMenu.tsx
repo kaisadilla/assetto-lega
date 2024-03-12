@@ -15,16 +15,24 @@ type SeriesLeagueMap = {[series: string]: League[]};
 
 export interface LeagueMenuProps {
     leagues: League[];
+    selectedLeague?: string;
     onSelect?: (leagueId: string) => void;
 }
 
 // todo: build with real data
 function LeagueMenu ({
     leagues,
+    selectedLeague,
     onSelect,
 }: LeagueMenuProps) {
+    const { leaguesById } = useDataContext();
+
+    const presel = selectedLeague ? leaguesById[selectedLeague] : null;
+
     const [selectedCategory, setSelectedCategory] = useState(ALL_CATEGORY);
-    const [selectedSeries, setSelectedSeries] = useState("");
+    const [selectedSeries, setSelectedSeries] = useState(
+        presel ? presel.series : ""
+    );
 
     const [categories, setCategories]
         = useState<string[] | null>(null);
@@ -47,15 +55,6 @@ function LeagueMenu ({
                 Loading...
             </div>
         );
-    }
-
-    const __icon = require("@assets/league_icon.png");
-    const __bg = require("@assets/preview.png");
-
-    const seriesIconStyle = {
-        width: "96px",
-        height: "96px",
-        backgroundImage: `linear-gradient(#00000060, #00000060), url(${__bg})`,
     }
 
     return (
@@ -99,6 +98,7 @@ function LeagueMenu ({
                 <SeasonsPanel
                     leagues={seriesLeagues[selectedSeries] ?? []}
                     category={selectedCategory}
+                    selectedLeague={selectedLeague}
                     onSelect={l => onSelect?.(l)}
                 />
             </div>
@@ -199,12 +199,14 @@ function SeriesPanelThumbnail ({
 interface SeasonsPanelProps {
     leagues: League[];
     category: string;
+    selectedLeague?: string;
     onSelect: (league: string) => void;
 }
 
 function SeasonsPanel ({
     leagues,
     category,
+    selectedLeague,
     onSelect
 }: SeasonsPanelProps) {
     const validLeagues: League[] = [];
@@ -220,6 +222,7 @@ function SeasonsPanel ({
             {validLeagues.map(l => <SeasonsPanelEntry
                 key={l.internalName}
                 league={l}
+                selected={l.internalName === selectedLeague}
                 onSelect={() => onSelect(l.internalName)}
             />)}
         </div>
@@ -227,12 +230,14 @@ function SeasonsPanel ({
 }
 
 interface SeasonsPanelEntryProps {
-    league: League,
+    league: League;
+    selected?: boolean;
     onSelect: () => void;
 }
 
 function SeasonsPanelEntry ({
     league,
+    selected,
     onSelect,
 }: SeasonsPanelEntryProps) {
     const { dataPath } = useDataContext();
@@ -247,8 +252,13 @@ function SeasonsPanelEntry ({
     );
     const trackCount = league.calendar.length;
 
+    const classStr = getClassString(
+        "season",
+        selected && "selected",
+    )
+
     return (
-        <div className="season" onClick={() => onSelect()}>
+        <div className={classStr} onClick={() => onSelect()}>
             <div
                 className="season-color"
                 style={{backgroundColor: league.color}}

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import LeagueEditor from 'screens/pages/editor-page/LeagueEditor';
 import { useDataContext } from 'context/useDataContext';
 import { League, createNewLeague } from 'data/schemas';
-import LeagueSelection from './editor-page/LeagueSelection';
 import Ipc from 'main/ipc/ipcRenderer';
+import Button from 'elements/Button';
+import Icon from 'elements/Icon';
+import LeagueMenu from 'components/LeagueMenu';
 
 export interface EditorPageProps {
 
@@ -18,7 +20,7 @@ function EditorPage (props: EditorPageProps) {
 
     return (
         <div className="editor-page">
-            {league === null && <LeagueSelection
+            {league === null && <_LeagueSelection
                 onSelect={handleSelectLeague}
                 onCreate={handleCreateLeague}
             />}
@@ -62,6 +64,43 @@ function EditorPage (props: EditorPageProps) {
 
     function handleCancel () {
         setLeague(null);
+    }
+}
+
+interface _LeagueSelectionProps {
+    onSelect: (leagueId: string) => void;
+    onCreate: () => void;
+}
+
+function _LeagueSelection ({
+    onSelect,
+    onCreate,
+}: _LeagueSelectionProps) {
+    const { leagues } = useDataContext();
+
+    return (
+        <div className="league-selection">
+            <div className="league-menu-container">
+                <LeagueMenu
+                    leagues={leagues}
+                    onSelect={onSelect}
+                />
+            </div>
+            <div className="toolbar-bottom">
+                <Button onClick={() => onCreate()}>
+                    <Icon name="fa-plus" />
+                    <span>Create league</span>
+                </Button>
+                <Button onClick={handleOpenFolder}>
+                    <Icon name="fa-folder-open" />
+                    <span>Open leagues folder</span>
+                </Button>
+            </div>
+        </div>
+    );
+
+    function handleOpenFolder () {
+        Ipc.openLeaguesFolder();
     }
 }
 
