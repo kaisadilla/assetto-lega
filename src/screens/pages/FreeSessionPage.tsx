@@ -1,12 +1,13 @@
 import { useDataContext } from 'context/useDataContext';
-import { League, LeagueCalendarEntry } from 'data/schemas';
-import React, { useState } from 'react';
+import { AcTrack, AcTrackCollection, League, LeagueCalendarEntry } from 'data/schemas';
+import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
-import { Files } from 'data/files';
+import { FILE_PROTOCOL, Files } from 'data/files';
 import { AssetFolder } from 'data/assets';
 import BackgroundDiv from 'elements/BackgroundDiv';
 import AssetImage from 'elements/AssetImage';
 import FlagImage from 'elements/images/FlagImage';
+import Ipc from 'main/ipc/ipcRenderer';
 
 enum Section {
     League,
@@ -139,6 +140,7 @@ function _TrackSection ({
                 <h2>Choose a GP...</h2>
                 <div className="gp-container">
                     {league.calendar.map(e => <_TrackSectionGpEntry
+                        key={e.internalName}
                         entry={e}
                     />)}
                 </div>
@@ -157,15 +159,57 @@ interface _TrackSectionGpEntryProps {
 function _TrackSectionGpEntry ({
     entry
 }: _TrackSectionGpEntryProps) {
+    const [tracks, setTracks] = useState<AcTrackCollection | null>(null);
+
+    useEffect(() => {
+        loadTracks();
+    }, []);
+
+
+    if (tracks === null) {
+        return <></>;
+    }
+
+    const track = tracks.tracksById[entry.track];
+    const layout = track.layoutsById[entry.layout];
 
     return (
         <div className="gp-entry">
-            <div className="gp-flag-container">
+            <div className="outline-section">
+                <img src={FILE_PROTOCOL + layout.outlinePath} />
+            </div>
+            <div className="info-section">
+                <div className="gp-title">
+                    <div className="gp-flag">
+                        <FlagImage country={entry.country} />
+                    </div>
+                    <div className="gp-name">
+                        {entry.name}
+                    </div>
+                </div>
+                <div className="track-name">
+                    {layout.ui.name}
+                </div>
+            </div>
+            {/*<div className="gp-flag-container">
                 <FlagImage className="gp-flag" country={entry.country} />
             </div>
-            {entry.name}
+            <div className="gp-name">
+                {entry.name}
+            </div>
+            <div className="track-outline">
+                <img src={FILE_PROTOCOL + layout.outlinePath} />
+            </div>
+            <div className="track-name">
+                {layout.ui.name}
+            </div>*/}
         </div>
     );
+
+    async function loadTracks () {
+        const _tracks = await Ipc.getTrackData();
+        setTracks(_tracks);
+    }
 }
 
 
