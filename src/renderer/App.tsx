@@ -23,12 +23,14 @@ import {
     Filler,
 } from 'chart.js';
 import { CacheContextProvider } from 'context/useCacheContext';
+import { AcContextProvider } from 'context/useAcContext';
 
 registerChartJs();
 
 export default function App () {
     // TODO: Themes!
     //document.documentElement.style.setProperty('--color-primary', "#00ffff");
+
     
     return (
         <>
@@ -37,11 +39,13 @@ export default function App () {
                 <CacheContextProvider>
                 <NavigationContextProvider tab={Page.LEAGUES}>
                 <LeagueEditorContextProvider>
+                <AcContextProvider>
                 <DataContextProvider>
 
                     <MainScreen />
-                    
+
                 </DataContextProvider>
+                </AcContextProvider>
                 </LeagueEditorContextProvider>
                 </NavigationContextProvider>
                 </CacheContextProvider>

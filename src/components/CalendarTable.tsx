@@ -1,3 +1,4 @@
+import { useAcContext } from 'context/useAcContext';
 import { Countries } from 'data/countries';
 import { AcTrackCollection, LeagueCalendarEntry } from 'data/schemas';
 import Ipc from 'main/ipc/ipcRenderer';
@@ -11,15 +12,7 @@ export interface CalendarTableProps {
 function CalendarTable ({
     calendar,
 }: CalendarTableProps) {
-    const [tracks, setTracks] = useState<AcTrackCollection | null>(null);
-
-    useEffect(() => {
-        loadTracks();
-    }, []);
-
-    if (tracks === null) {
-        return <div className="calendar-table">Loading...</div>
-    }
+    const { tracks } = useAcContext();
 
     return (
         <div className="calendar-table">
@@ -30,11 +23,6 @@ function CalendarTable ({
             />)}
         </div>
     );
-
-    async function loadTracks () {
-        const tracks = await Ipc.getTrackData();
-        setTracks(tracks);
-    }
 }
 
 

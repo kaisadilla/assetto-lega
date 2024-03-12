@@ -8,12 +8,58 @@ import BackgroundDiv from 'elements/BackgroundDiv';
 import AssetImage from 'elements/AssetImage';
 import FlagImage from 'elements/images/FlagImage';
 import Ipc from 'main/ipc/ipcRenderer';
+import { getClassString } from 'utils';
+import { useAcContext } from 'context/useAcContext';
+import TrackThumbnail from 'elements/TrackThumbnail';
+import { getCountryIdByAssettoName } from 'data/countries';
 
 enum Section {
     League,
     Track,
     Driver,
     RaceInfo,
+}
+
+enum TrackCondition {
+    Auto,
+    Dusty, // 86%
+    Old, // 89%
+    Green, // 95%
+    Slow, // 96%
+    Fast, // 98%
+    Optimal, // 100%
+}
+
+enum QualifyingMode {
+    timeAttack,
+}
+
+enum JumpStartPenalty {
+    None,
+    DriveThrough,
+    SentToPits,
+}
+
+interface TrackSettings {
+    track: AcTrack | null;
+    layout: string | null;
+    //hasPractice: boolean;
+    //practiceLength: number;
+    //hasQualifying: boolean;
+    //qualifyingMode: QualifyingMode;
+    //qualifyingLength: number;
+    //raceLaps: number;
+    //arePenaltiesEnabled: boolean;
+    //jumpStartPenalty: JumpStartPenalty;
+    time: string;
+    timeMultiplier: number;
+    randomTime: boolean;
+    trackCondition: TrackCondition;
+    ambientTemperature: number;
+    roadTemperature: number;
+    windSpeedMin: number;
+    windSpeedMax: number;
+    direction: number; // in degrees (0-360).
 }
 
 export interface FreeSessionPageProps {
@@ -24,6 +70,9 @@ function FreeSessionPage (props: FreeSessionPageProps) {
     const [section, setSection] = useState(Section.League);
 
     const [league, setLeague] = useState<League | null>(null);
+    const [trackSettings, setTrackSettings] = useState<TrackSettings>(
+        loadTrackSettings(),
+    )
 
     return (
         <div className="free-session-page">
@@ -36,8 +85,9 @@ function FreeSessionPage (props: FreeSessionPageProps) {
             <_TrackSection
                 expanded={section === Section.Track}
                 league={league}
+                trackSettings={trackSettings}
+                onChange={setTrackSettings}
                 onExpand={() => handleExpandSection(Section.Track)}
-
             />
         </div>
     );
@@ -101,14 +151,22 @@ function _LeagueSection ({
 interface _TrackSectionProps {
     expanded: boolean;
     league: League | null;
+    trackSettings: TrackSettings;
+    onChange: (trackSettings: TrackSettings) => void;
     onExpand: () => void;
 }
 
 function _TrackSection ({
     expanded,
     league,
+    trackSettings,
+    onChange,
     onExpand,
 }: _TrackSectionProps) {
+    const { tracks } = useAcContext();
+
+    const track = trackSettings.track;
+    const layout = track?.layoutsById[trackSettings.layout ?? ""];
 
     if (league === null) {
         return (
@@ -136,54 +194,77 @@ function _TrackSection ({
             imageName={league?.background ?? ""}
             opacity={0.15}
         >
-            <div className="gp-section">
-                <h2>Choose a GP...</h2>
-                <div className="gp-container">
-                    {league.calendar.map(e => <_TrackSectionGpEntry
+            <div className="event-section">
+                <h2>Preset events</h2>
+                <div className="event-container">
+                    {league.calendar.map(e => <_TrackSectionEvent
                         key={e.internalName}
                         entry={e}
+                        selected={e.track === trackSettings.track?.folderName}
+                        onSelect={() => handleSelectEvent(e)}
                     />)}
                 </div>
             </div>
             <div className="customize-section">
-                <h2>...or customize your own race</h2>
+                <h2>Race details</h2>
+                {track && layout && <TrackThumbnail
+                    className="track-thumbnail"
+                    name={layout.ui.name ?? track.displayName}
+                    country={getCountryIdByAssettoName(track.displayCountry)}
+                    previewPath={FILE_PROTOCOL + layout.previewPath}
+                    outlinePath={FILE_PROTOCOL + layout.outlinePath}
+                />}
             </div>
         </BackgroundDiv>
     );
-}
 
-interface _TrackSectionGpEntryProps {
-    entry: LeagueCalendarEntry;
-}
+    function handleSelectEvent (event: LeagueCalendarEntry) {
+        const track = tracks.tracksById[event.track];
+        const layout = track.layoutsById[event.layout];
 
-function _TrackSectionGpEntry ({
-    entry
-}: _TrackSectionGpEntryProps) {
-    const [tracks, setTracks] = useState<AcTrackCollection | null>(null);
-
-    useEffect(() => {
-        loadTracks();
-    }, []);
-
-
-    if (tracks === null) {
-        return <></>;
+        onChange({
+            ...trackSettings,
+            track: track,
+            layout: layout.folderName,
+            time: event.date ?? trackSettings.time,
+        })
     }
 
+    function handleChange () {
+        
+    }
+}
+
+interface _TrackSectionEventProps {
+    entry: LeagueCalendarEntry;
+    selected: boolean;
+    onSelect: () => void;
+}
+
+function _TrackSectionEvent ({
+    entry,
+    selected,
+    onSelect,
+}: _TrackSectionEventProps) {
+    const { tracks } = useAcContext();
+    
     const track = tracks.tracksById[entry.track];
     const layout = track.layoutsById[entry.layout];
 
     return (
-        <div className="gp-entry">
+        <div
+            className={getClassString("event-entry", selected && "selected")}
+            onClick={() => onSelect()}
+        >
             <div className="outline-section">
                 <img src={FILE_PROTOCOL + layout.outlinePath} />
             </div>
             <div className="info-section">
-                <div className="gp-title">
-                    <div className="gp-flag">
+                <div className="event-title">
+                    <div className="event-flag">
                         <FlagImage country={entry.country} />
                     </div>
-                    <div className="gp-name">
+                    <div className="event-name">
                         {entry.name}
                     </div>
                 </div>
@@ -191,28 +272,28 @@ function _TrackSectionGpEntry ({
                     {layout.ui.name}
                 </div>
             </div>
-            {/*<div className="gp-flag-container">
-                <FlagImage className="gp-flag" country={entry.country} />
-            </div>
-            <div className="gp-name">
-                {entry.name}
-            </div>
-            <div className="track-outline">
-                <img src={FILE_PROTOCOL + layout.outlinePath} />
-            </div>
-            <div className="track-name">
-                {layout.ui.name}
-            </div>*/}
         </div>
     );
-
-    async function loadTracks () {
-        const _tracks = await Ipc.getTrackData();
-        setTracks(_tracks);
-    }
 }
 
-
+/**
+ * Loads track settings to use.
+ */
+function loadTrackSettings () : TrackSettings {
+    return {
+        track: null,
+        layout: null,
+        time: "12:00",
+        timeMultiplier: 1.0,
+        randomTime: false,
+        trackCondition: TrackCondition.Auto,
+        ambientTemperature: 26.0,
+        roadTemperature: 36.7,
+        windSpeedMin: 0,
+        windSpeedMax: 0,
+        direction: 0,
+    }
+}
 
 
 export default FreeSessionPage;

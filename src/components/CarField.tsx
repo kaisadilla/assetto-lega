@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 import CarPicker from './CarPicker';
 import { AcCar } from 'data/schemas';
+import { useAcContext } from 'context/useAcContext';
 
 export interface CarFieldProps {
     value?: string;
@@ -19,12 +20,14 @@ function CarField ({
     className,
     tabIndex = 1,
 }: CarFieldProps) {
+    const { getCarById } = useAcContext();
+
     const [fieldLoaded, setFieldLoaded] = useState(false);
-    const [car, setCar] = useState<AcCar | null>(null);
+    const [car, setCar] = useState(getCarById(value));
     const [isPickerOpen, setPickerOpen] = useState(false);
 
     useEffect(() => {
-        loadCar();
+        setCar(getCarById(value));
     }, [value]);
 
     const classStr = getClassString(
@@ -71,17 +74,6 @@ function CarField ({
     function handlePickerSelect (value: string) {
         setPickerOpen(false);
         onChange?.(value);
-    }
-
-    async function loadCar () {
-        if (value) {
-            const car = await Ipc.getCar(value);
-            setCar(car);
-        }
-        else {
-            setCar(null);
-        }
-        setFieldLoaded(true);
     }
 }
 

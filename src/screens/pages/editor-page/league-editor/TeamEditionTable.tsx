@@ -4,6 +4,7 @@ import ColorField from 'components/ColorField';
 import CountryField from 'components/CountryField';
 import ImageField from 'components/ImageField';
 import MultipleCarSkinField from 'components/MultipleCarSkinField';
+import { useAcContext } from 'context/useAcContext';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { AcCarCollection, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverRequiredFields, LeagueTeamRequiredFields, createNewDriver, createNewTeam, getTeamName } from 'data/schemas';
@@ -49,11 +50,7 @@ function TeamEditionTable ({
     onCancel,
     onClose,
 }: TeamEditionTableProps) {
-    const [carData, setCarData] = useState<AcCarCollection | null>(null);
-
-    useEffect(() => {
-        loadAcData();
-    }, []);
+    const { cars } = useAcContext();
 
     const [editedTeams, setEditedTeams] = useState(generateEditable(teams));
     // an array that mirrors 'edited teams'. Each boolean represents whether a
@@ -94,7 +91,7 @@ function TeamEditionTable ({
                     onRestore={i => handleSetDeletedTeam(i, false)}
                 />
                 <div className="team-list-toolbar">
-                    <Button onClick={handleAddTeam} disabled={carData === null}>
+                    <Button onClick={handleAddTeam}>
                         <MaterialSymbol symbol='add' />
                         Add team
                     </Button>
@@ -305,11 +302,6 @@ function TeamEditionTable ({
         }
     }
     // #endregion
-
-    async function loadAcData () {
-        const _data = await Ipc.getCarData();
-        setCarData(_data);
-    }
 }
 
 interface TeamListProps {

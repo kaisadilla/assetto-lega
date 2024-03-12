@@ -16,6 +16,7 @@ import MaterialSymbol from 'elements/MaterialSymbol';
 import { LETTERS } from 'al_constants';
 import { LOCALE } from 'utils';
 import { BrandFilterElement } from './PickerDialog.Filter';
+import { useAcContext } from 'context/useAcContext';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -47,7 +48,7 @@ function CarPicker ({
     onSelect,
     onCancel,
 }: CarPickerProps) {
-    const [carData, setCarData] = useState<AcCarCollection | null>(null);
+    const { cars } = useAcContext();
 
     const [selectedCar, setSelectedCar] = useState(preSelectedCar ?? null);
     const [scale, setScale] = useState(DEFAULT_IMAGE_SIZE);
@@ -57,22 +58,11 @@ function CarPicker ({
 
     const [viewType, setViewType] = useState(ViewType.Gallery);
 
-    useEffect(() => {
-        loadAcData();
-    }, []);
-
     const $selector = (() => {
-        if (carData === null) {
-            return (
-                <div className="selector-container">
-                    Loading...
-                </div>
-            )
-        }
         if (filterType === FilterType.Brand) {
             return <SelectorByBrand
-                carList={carData!.carList}
-                brandList={carData!.brands}
+                carList={cars.carList}
+                brandList={cars.brands}
                 thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
@@ -81,8 +71,8 @@ function CarPicker ({
         }
         if (filterType === FilterType.Tag) {
             return <SelectorByTag
-                carList={carData!.carList}
-                tagList={carData!.tags}
+                carList={cars.carList}
+                tagList={cars.tags}
                 thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
@@ -90,7 +80,7 @@ function CarPicker ({
         }
         if (filterType === FilterType.Name) {
             return <SelectorByName
-                carList={carData!.carList}
+                carList={cars.carList}
                 thumbnailScale={scale}
                 selectedCar={selectedCar}
                 onSelect={car => setSelectedCar(car)}
@@ -163,11 +153,6 @@ function CarPicker ({
 
     async function handleCancel () {
         onCancel?.(selectedCar);
-    }
-
-    async function loadAcData () {
-        const _data = await Ipc.getCarData();
-        setCarData(_data);
     }
 }
 

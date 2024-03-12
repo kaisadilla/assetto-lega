@@ -76,16 +76,16 @@ $-default-padding: 16px;
         flex-direction: row;
         flex-wrap: nowrap;
         gap: $-default-padding;
-        font-family: $font-f1;
         padding: $-default-padding;
         height: 100%;
         min-height: 0;
 
         h2 {
+            font-family: $font-f1;
             font-weight: $w-regular;
         }
 
-        > .gp-section {
+        > .event-section {
             flex: 1;
             $-flag-size: 20px;
             min-width: 0;
@@ -94,7 +94,7 @@ $-default-padding: 16px;
             overflow: hidden;
             gap: 8px;
 
-            .gp-container {
+            .event-container {
                 display: flex;
                 flex-direction: column;
                 overflow-x: hidden;
@@ -102,8 +102,8 @@ $-default-padding: 16px;
                 gap: 8px;
                 height: 100%;
 
-                .gp-entry {
-                    $-entry-height: 48px;
+                .event-entry {
+                    $-entry-height: 50px;
 
                     background: $color-transparent-w3;
                     display: flex;
@@ -111,8 +111,13 @@ $-default-padding: 16px;
                     overflow: hidden;
                     height: $-entry-height;
                     flex-shrink: 0;
+                    padding: 1px 0 0 4px;
 
                     &:hover {
+                        background: $color-transparent-w4;
+                    }
+
+                    &.selected {
                         background: $color-primary;
                     }
 
@@ -135,7 +140,7 @@ $-default-padding: 16px;
                         flex-wrap: nowrap;
                         overflow: hidden;
 
-                        > .gp-title {
+                        > .event-title {
                             flex: 1;
                             display: flex;
                             flex-direction: row;
@@ -144,8 +149,9 @@ $-default-padding: 16px;
                             gap: 4px;
                             overflow: hidden;
                             justify-content: center;
+                            font-family: $font-f1;
 
-                            > .gp-flag {
+                            > .event-flag {
                                 width: $-flag-size * 3;
                                 display: flex;
                                 justify-content: center;
@@ -160,7 +166,7 @@ $-default-padding: 16px;
                                     border: 1px solid $text-color-dark-d2;
                                 }
                             }
-                            > .gp-name {
+                            > .event-name {
                                 @include ellipsis();
                             }
                         }
@@ -170,6 +176,7 @@ $-default-padding: 16px;
                             font-family: $font-std;
                             padding: 2px 16px;
                             color: $text-color-dark-d1;
+                            text-align: center;
                         }
                     }
                 }
@@ -178,6 +185,10 @@ $-default-padding: 16px;
 
         > .customize-section {
             flex: 2;
+
+            .track-thumbnail {
+                width: 240px;
+            }
         }
     }
 }

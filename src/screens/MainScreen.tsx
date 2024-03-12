@@ -8,9 +8,11 @@ import InitializeAppScreen from './InitializeAppScreen';
 import EditorPage from './pages/EditorPage';
 import ReadingAcContentScreen from './ReadingAcContent';
 import DragRegion from 'elements/DragRegion';
+import { useAcContext } from 'context/useAcContext';
 
 function MainScreen () {
-    const { appStatus, settings, isACFolderValid, readAcContent } = useDataContext();
+    const { appStatus, isACFolderValid, readAcContent, confirmReady } = useDataContext();
+    const { loadAcContent, acContentReady } = useAcContext();
     const { currentPage: selectedTab, setCurrentPage: setSelectedTab } = useNavigationContext();
 
     useEffect(() => {
@@ -18,7 +20,15 @@ function MainScreen () {
         if (isACFolderValid && appStatus === AppStatus.ReadingAcContent) {
             readAcContent();
         }
-    }, [appStatus, isACFolderValid]);
+        if (appStatus === AppStatus.ReadyWhenConfirmed) {
+            if (acContentReady) {
+                confirmReady();
+            }
+            else {
+                loadAcContent();
+            }
+        }
+    }, [appStatus, isACFolderValid, acContentReady]);
 
     if (appStatus === AppStatus.LoadingData) {
         return <div>Loading...</div>
@@ -30,6 +40,10 @@ function MainScreen () {
 
     if (appStatus === AppStatus.ReadingAcContent) {
         return <ReadingAcContentScreen />
+    }
+
+    if (appStatus === AppStatus.ReadyWhenConfirmed) {
+        return <div>Tidying up...</div>
     }
 
     const $content = (() => {

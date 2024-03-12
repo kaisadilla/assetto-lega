@@ -1,3 +1,4 @@
+import { useAcContext } from 'context/useAcContext';
 import { AcCar, AcCarSkin } from 'data/schemas';
 import Dropdown from 'elements/Dropdown';
 import Ipc from 'main/ipc/ipcRenderer';
@@ -24,13 +25,10 @@ function CarSkinDropdownField ({
 }: CarSkinDropdownFieldProps) {
     const $field = useRef<HTMLDivElement>(null);
 
-    const [car, setCar] = useState<AcCar | null>(null);
+    const car = useAcContext().getCarById(carId);
+
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownStyle, setDropdownStyle] = useState({});
-
-    useEffect(() => {
-        loadCar();
-    }, []);
     
     useEffect(() => {
         if (!$field.current) return;
@@ -93,20 +91,6 @@ function CarSkinDropdownField ({
             </Dropdown>}
         </div>
     );
-
-    async function loadCar () {
-        if (carId === undefined) {
-            console.warn(
-                "Called loadCar() in CarSkinDropdownField while 'carId'"
-                + "is undefined."
-            );
-            setCar(null);
-        }
-        else {
-            const car = await Ipc.getCar(carId);
-            setCar(car);
-        }
-    }
 
     function handleBlur (evt: React.FocusEvent<HTMLDivElement, HTMLElement>) {
         const target = evt.currentTarget;

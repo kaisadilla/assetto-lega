@@ -13,6 +13,7 @@ import { AssetFolder } from 'data/assets';
 import { chooseW3CTextColor, getClassString } from 'utils';
 import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIconFromId } from 'paths';
+import { useAcContext } from 'context/useAcContext';
 
 export interface TeamTableProps {
     teams: LeagueTeam[];
@@ -46,11 +47,7 @@ function TeamEntry ({
 ) {
     const { dataPath } = useDataContext();
 
-    const [car, setCar] = useState<AcCar | null>(null);
-
-    useEffect(() => {
-        loadCar();
-    }, []);
+    const car = useAcContext().getCarById(team.cars[defaultSpec]);
 
     const teamInfoStyle = { borderColor: team.color ?? "transparent" };
     const teamColorStyle = { backgroundColor: team.color ?? "transparent" };
@@ -120,11 +117,6 @@ function TeamEntry ({
             </div>
         </div>
     );
-
-    async function loadCar () {
-        const car = await Ipc.getCar(team.cars[defaultSpec]);
-        setCar(car);
-    }
 }
 
 interface DriverEntryProps {

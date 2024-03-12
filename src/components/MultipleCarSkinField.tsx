@@ -8,6 +8,7 @@ import { getClassString } from 'utils';
 import CarPicker from './CarPicker';
 import CarSkinPicker from './CarSkinPicker';
 import { getCarSkinIcon } from 'paths';
+import { useAcContext } from 'context/useAcContext';
 
 export interface MultipleCarSkinFieldProps {
     skins?: string[];
@@ -26,12 +27,8 @@ function MultipleCarSkinField ({
 }: MultipleCarSkinFieldProps) {
     skins ??= [];
 
-    const [car, setCar] = useState<AcCar | null>(null);
+    const car = useAcContext().getCarById(carId);
     const [isPickerOpen, setPickerOpen] = useState(false);
-
-    useEffect(() => {
-        loadCar();
-    }, []);
 
     const classStr = getClassString(
         "default-multiple-car-skin-field",
@@ -66,11 +63,6 @@ function MultipleCarSkinField ({
             )}
         </div>
     );
-
-    async function loadCar () {
-        const car = await Ipc.getCar(carId);
-        setCar(car);
-    }
 
     function handleClick () {
         setPickerOpen(true);

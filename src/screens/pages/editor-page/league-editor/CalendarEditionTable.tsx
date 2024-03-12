@@ -1,6 +1,7 @@
 import CountryField from 'components/CountryField';
 import TrackField from 'components/TrackField';
 import { TrackPickerValue } from 'components/TrackPicker';
+import { useAcContext } from 'context/useAcContext';
 import { useDataContext } from 'context/useDataContext';
 import { AcTrackCollection, League, LeagueCalendarEntry, LeagueCalendarEntryRequiredFields, LeagueTeam, LeagueTeamDriver, createNewCalendarEntry } from 'data/schemas';
 import Button from 'elements/Button';
@@ -48,11 +49,7 @@ function CalendarEditionTable ({
 }: CalendarEditionTableProps) {
     const calendar = league.calendar;
 
-    const [tracks, setTracks] = useState<AcTrackCollection | null>(null);
-
-    useEffect(() => {
-        loadTracks();
-    }, []);
+    const { tracks } = useAcContext();
 
     const [editedCalendar, setEditedCalendar] = useState(generateEditable(calendar));    
     const [editFlags, setEditFlags] = useState(editedCalendar.map(() => false));
@@ -86,13 +83,12 @@ function CalendarEditionTable ({
                     onRestore={i => handleSetDeletedEntry(i, false)}
                 />
                 <div className="calendar-list-toolbar">
-                    <Button onClick={handleAddEntry} disabled={tracks === null}>
+                    <Button onClick={handleAddEntry}>
                         <MaterialSymbol symbol='add' />
                         Add Entry
                     </Button>
                     <Button
                         onClick={() => setDialogImportCalendarOpen(true)}
-                        disabled={tracks === null}
                     >
                         <MaterialSymbol symbol='publish' />
                         From another
@@ -303,13 +299,7 @@ function CalendarEditionTable ({
             return false;
         }
     }
-
     // #endregion
-
-    async function loadTracks () {
-        const tracks = await Ipc.getTrackData();
-        setTracks(tracks);
-    }
 }
 
 interface EntryListProps {
@@ -764,6 +754,12 @@ function generateResult (calendar: EditableCalendarEntry[]) {
         const clone = structuredClone(e);
         // @ts-ignore
         delete clone.deleted;
+
+        clone.name = clone.name.trim();
+        clone.officialName = clone.officialName?.trim();
+        clone.date = clone.date?.trim();
+        clone.qualifyingStartHour = clone.qualifyingStartHour?.trim();
+        clone.raceStartHour = clone.raceStartHour?.trim();
 
         newArr.push(clone as LeagueCalendarEntry);
     }

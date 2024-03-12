@@ -9,10 +9,23 @@ import { LOCALE } from "utils";
 type LeagueCollection = {[key: string]: League};
 
 export enum AppStatus {
+    /**
+     * Asseto Lega's files are being read.
+     */
     LoadingData = 0,
-    //LocatingAcFolder = 1,
+    /**
+     * Assetto Corsa's folders are being scanned.
+     */
     ReadingAcContent = 1,
-    Ready = 2,
+    /**
+     * The data context is ready, but it's waiting to be confirmed ready by
+     * other hooks.
+     */
+    ReadyWhenConfirmed = 2,
+    /**
+     * The app is fully ready to be used.
+     */
+    Ready = 3,
 }
 
 export interface SuggestionCollections {
@@ -80,6 +93,7 @@ interface DataContextState {
     isACFolderValid: boolean;
     suggestions: SuggestionCollections;
     readAcContent: () => void;
+    confirmReady: () => void;
     getDataFolder: (folder: AssetFolder) => string;
     updateSettings: (settings: UserSettings) => void;
     updateLeague: (internalName: string | null, league: League) => void;
@@ -109,8 +123,15 @@ export const DataContextProvider = ({ children }: any) => {
             await Ipc.readAcContent();
             setState(prev => ({
                 ...prev,
-                appStatus: AppStatus.Ready,
+                appStatus: AppStatus.ReadyWhenConfirmed,
             }));
+        }
+
+        function confirmReady () {
+            setState(prev => ({
+                ...prev,
+                appStatus: AppStatus.Ready,
+            }))
         }
 
         function getDataFolder (assetFolder: AssetFolder) {
@@ -168,6 +189,7 @@ export const DataContextProvider = ({ children }: any) => {
             ...state,
             updateSettings,
             readAcContent,
+            confirmReady,
             getDataFolder,
             updateLeague,
             updateCountryTiers,

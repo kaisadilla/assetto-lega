@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
 import TrackPicker, { TrackPickerValue } from './TrackPicker';
 import { getCountryIdByAssettoName } from 'data/countries';
+import { useAcContext } from 'context/useAcContext';
 
 export interface TrackFieldProps {
     track?: string;
@@ -22,6 +23,8 @@ function TrackField ({
     className,
     tabIndex = 1,
 }: TrackFieldProps) {
+    const { getTrackById } = useAcContext();
+    
     const [fieldLoaded, setFieldLoaded] = useState(false);
     const [layoutData, setLayoutData] = useState<AcTrackLayout | null>(null);
     const [isPickerOpen, setPickerOpen] = useState(false);
@@ -78,7 +81,7 @@ function TrackField ({
 
     async function loadLayout () {
         if (track) {
-            const trackData = await Ipc.getTrack(track);
+            const trackData = getTrackById(track);
 
             if (trackData === null) {
                 throw `Couldn't find track '${track}.'`;

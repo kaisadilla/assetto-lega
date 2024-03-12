@@ -15,6 +15,7 @@ import { PickerElement, PickerElementSection } from './PickerDialog.ThumbnailGal
 import TrackThumbnail from 'elements/TrackThumbnail';
 import { FILE_PROTOCOL } from 'data/files';
 import TagList from 'elements/TagList';
+import { useAcContext } from 'context/useAcContext';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -50,7 +51,7 @@ function TrackPicker ({
     onSelect,
     onCancel,
 }: TrackPickerProps) {
-    const [trackData, setTrackData] = useState<AcTrackCollection | null>(null);
+    const { tracks } = useAcContext();
 
     const [trackCounts, setTrackCounts] = useState<{[name: string]: number} | null>(null);
     const [selectedTrack, setSelectedTrack] = useState(preSelectedTrack.track ?? null);
@@ -63,13 +64,7 @@ function TrackPicker ({
     const [viewType, setViewType] = useState(ViewType.Gallery);
 
     useEffect(() => {
-        loadAcData();
-    }, []);
-
-    useEffect(() => {
-        if (trackData === null) return;
-
-        const _counts = getCountriesWithTracks(trackData.trackList);
+        const _counts = getCountriesWithTracks(tracks.trackList);
         const sortedCounts = {} as {[name: string]: number};
         const sortedCountryCats = groupCountriesByCategory(Object.keys(_counts));
 
@@ -80,10 +75,10 @@ function TrackPicker ({
         }
 
         setTrackCounts(sortedCounts);
-    }, [trackData]);
+    }, [tracks]);
 
     const $selector = (() => {
-        if (trackData === null || trackCounts == null) {
+        if (tracks === null || trackCounts == null) {
             return (
                 <div className="selector-container">
                     Loading...
@@ -92,7 +87,7 @@ function TrackPicker ({
         }
         if (filterType === FilterType.Country) {
             return <SelectorByCountry
-                trackData={trackData}
+                trackData={tracks}
                 trackCounts={trackCounts}
                 selectedTrack={selectedTrack}
                 selectedLayout={selectedLayout}
@@ -179,11 +174,6 @@ function TrackPicker ({
 
     async function handleCancel () {
         onCancel?.(createCallbackObject());
-    }
-
-    async function loadAcData () {
-        const _data = await Ipc.getTrackData();
-        setTrackData(_data);
     }
 
     function createCallbackObject () {
