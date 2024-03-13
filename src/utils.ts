@@ -338,6 +338,24 @@ export function isString (object: any) {
     return typeof object === 'string' || object instanceof String;
 }
 
+export function timeStringToNumber (time: string) {
+    const values = time.split(":");
+    const hour = Number(values[0]);
+    const minutes = Number(values[1]);
+
+    return (hour + (minutes / 60)) / 24;
+}
+
+export function timeNumberToString (time: number) {
+    time *= 24;
+    const hour = time | 0;
+    const minutes = time % 1;
+
+    return hour.toString().padStart(2, '0')
+        + ":"
+        + (minutes * 60).toFixed(0).padStart(2, '0');
+}
+
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
     try {
         let regexStr = "";

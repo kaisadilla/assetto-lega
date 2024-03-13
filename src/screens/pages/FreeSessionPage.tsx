@@ -1,13 +1,13 @@
 import { useDataContext } from 'context/useDataContext';
 import { AcTrack, League, LeagueCalendarEntry } from 'data/schemas';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
 import { FILE_PROTOCOL } from 'data/files';
 import { AssetFolder } from 'data/assets';
 import BackgroundDiv from 'elements/BackgroundDiv';
 import AssetImage from 'elements/AssetImage';
 import FlagImage from 'elements/images/FlagImage';
-import { getClassString } from 'utils';
+import { getClassString, timeNumberToString, timeStringToNumber } from 'utils';
 import { useAcContext } from 'context/useAcContext';
 import TrackThumbnailField from 'components/TrackThumbnailField';
 import { TrackPickerValue } from 'components/TrackPicker';
@@ -171,6 +171,17 @@ function _TrackSection ({
     const track = trackSettings.track;
     const layout = track?.layoutsById[trackSettings.layout ?? ""];
 
+    const [timeValue, setTimeValue] = useState(
+        timeStringToNumber(trackSettings.time)
+    );
+
+    useEffect(() => {
+        const timeStr = timeNumberToString(timeValue);
+        if (trackSettings.time !== timeStr) {
+            handleFieldChange('time', timeStr);
+        }
+    }, [timeValue]);
+
     if (league === null) {
         return (
             <div className="section collapsed section-not-available">
@@ -225,12 +236,18 @@ function _TrackSection ({
                                 />
                             </LabeledControl>
                             <Slider
-                                className="slos"
-                                value={12.00}
-                                min={0.00}
-                                max={23.99}
+                                mode='thumb'
+                                className="time-slider"
+                                value={timeValue}
+                                onChange={setTimeValue}
+                                min={timeStringToNumber("00:00")}
+                                max={timeStringToNumber("23:59")}
                                 step={0.01}
+                                showNumberBox
+                                showFillTrack
+                                markCount={24}
                             />
+                            {trackSettings.time}
                         </div>
                     </div>
                 </div>
@@ -262,8 +279,11 @@ function _TrackSection ({
         })
     }
 
-    function handleChange () {
-        
+    function handleFieldChange (field: keyof TrackSettings, value: any) {
+        onChange({
+            ...trackSettings,
+            [field]: value,
+        })
     }
 }
 

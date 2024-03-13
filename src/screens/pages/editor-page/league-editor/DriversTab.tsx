@@ -218,6 +218,7 @@ function DriverEntry ({
             </div>
             <div className="cell-strength driver-stat">
                 <Slider
+                    mode='fill'
                     value={driver.strength}
                     min={70}
                     max={100}
@@ -229,6 +230,7 @@ function DriverEntry ({
             </div>
             <div className="cell-strength driver-stat">
                 <Slider
+                    mode='fill'
                     value={driver.aggression}
                     min={0}
                     max={100}
