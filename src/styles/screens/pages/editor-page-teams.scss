@@ -109,14 +109,14 @@
                     gap: 16px;
                     height: 160px; //fit-content;
                     flex-shrink: 0;
-                    //background-color: $bg-color-dark-l1;
+                    //background-color: $bg-color-dark-l2;
 
                     &:not(:last-child) {
-                        border-bottom: 1px solid $bg-color-dark-l1;
+                        border-bottom: 1px solid $bg-color-dark-l2;
                     }
 
                     &:hover {
-                        background-color: $bg-color-dark-l1;
+                        background-color: $bg-color-dark-l2;
                     }
                     &:not(:hover) {
                         .floating-toolbox {
@@ -165,10 +165,10 @@
                         .action-button {
                             margin-top: 4px;
                             width: 100%;
-                            background-color: $bg-color-dark-l2;
+                            background-color: $bg-color-dark-l3;
 
                             &:hover {
-                                background-color: $bg-color-dark-l3;
+                                background-color: $bg-color-dark-l4;
                             }
                         }
                     }
@@ -183,7 +183,7 @@
                         right: 0;
 
                         .delete-button {
-                            background-color: $bg-color-dark-l2;
+                            background-color: $bg-color-dark-l3;
 
                             &:hover {
                                 background-color: $color-danger;

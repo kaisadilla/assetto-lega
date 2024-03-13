@@ -8,8 +8,7 @@ import { DataContextProvider } from 'context/useDataContext';
 import { Tooltip } from 'react-tooltip';
 import darkTheme from 'styles/main.scss';
 import 'react-tooltip/dist/react-tooltip.css';
-import { DEFAULT_TOOLTIP_ID } from 'names';
-    
+import { DEFAULT_TOOLTIP_ID } from 'names';    
 
 import {
     Chart as ChartJS,

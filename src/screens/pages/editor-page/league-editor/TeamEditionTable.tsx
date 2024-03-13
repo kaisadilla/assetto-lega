@@ -52,7 +52,7 @@ function TeamEditionTable ({
 }: TeamEditionTableProps) {
     const { cars } = useAcContext();
 
-    const [editedTeams, setEditedTeams] = useState(generateEditable(teams));
+    const [editedTeams, setEditedTeams] = useState(generateEditable(teams, cars));
     // an array that mirrors 'edited teams'. Each boolean represents whether a
     // team has been edited or not.
     const [editFlags, setEditFlags] = useState(editedTeams.map(() => false));
@@ -73,7 +73,7 @@ function TeamEditionTable ({
     );
 
     useEffect(() => {
-        setEditedTeams(generateEditable(teams));
+        setEditedTeams(generateEditable(teams, cars));
     }, [teams]);
 
     return (
@@ -201,6 +201,13 @@ function TeamEditionTable ({
             [field]: value,
         };
 
+        if (field === 'cars') {
+            for (const d of update.drivers) {
+                d.skins = {};
+                d.defaultSkins = {};
+            }
+        }
+
         const newTeams = [...editedTeams];
         newTeams[selectedTeam] = update;
 
@@ -250,7 +257,7 @@ function TeamEditionTable ({
     }
     
     function handleResetDialog () {
-        setEditedTeams(generateEditable(teams));
+        setEditedTeams(generateEditable(teams, cars));
         setEditFlags(editedTeams.map(() => false));
     }
 
@@ -774,9 +781,10 @@ function SpecSkinsSection ({
 }
 
 
-function generateEditable (teams: LeagueTeam[]) {
+function generateEditable (teams: LeagueTeam[], cars: AcCarCollection) {
     const newArr = [] as EditableTeam[];
 
+    // TODO: Study if we should purge invalid cars and skins here.
     for (const t in teams) {
         const clone = structuredClone(teams[t]) as EditableTeam;
         clone.id = crypto.randomUUID();

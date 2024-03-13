@@ -338,7 +338,9 @@ export function isString (object: any) {
     return typeof object === 'string' || object instanceof String;
 }
 
-export function timeStringToNumber (time: string) {
+export function timeStringToNumber (time: string | undefined | null) {
+    if (!time) return null;
+
     const values = time.split(":");
     const hour = Number(values[0]);
     const minutes = Number(values[1]);
@@ -346,14 +348,16 @@ export function timeStringToNumber (time: string) {
     return (hour + (minutes / 60)) / 24;
 }
 
-export function timeNumberToString (time: number) {
+export function timeNumberToString (time: number | undefined | null) {
+    if (time === undefined || time === null) return null;
+
     time *= 24;
-    const hour = time | 0;
+    const hour = (time | 0) % 24;
     const minutes = time % 1;
 
     return hour.toString().padStart(2, '0')
         + ":"
-        + (minutes * 60).toFixed(0).padStart(2, '0');
+        + (minutes * 59).toFixed(0).padStart(2, '0');
 }
 
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {

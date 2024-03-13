@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactSlider from 'react-slider';
 import { TextColor, countDecimalPlaces, getClassString, isInteger } from 'utils';
 import NumericBox from './NumericBox';
 
-export interface SliderProps {
-    mode: 'fill' | 'thumb';
+const LONG_STEP_KEY = "Control";
+
+interface _CommonSliderProps {
     value: number;
     min: number;
     max: number;
     step?: number;
     readonly?: boolean;
     showFillTrack?: boolean;
-    markCount?: number;
-    markSpacing?: number;
+    //logarithmic?: boolean;
     onChange?: (value: number) => void;
-    showNumberBox?: boolean;
+    showNumberBox?: boolean | 'left' | 'right';
     className?: string;
     tabIndex?: number;
     textColor?: TextColor;
+}
+
+export interface SliderProps extends _CommonSliderProps {
+    mode: 'fill' | 'thumb';
+    longStep?: number;
+    markCount?: number;
+    markSpacing?: number;
 }
 
 function Slider ({
@@ -26,8 +33,10 @@ function Slider ({
     min,
     max,
     step = 0.1,
+    longStep = step,
     readonly = false,
     showFillTrack = false,
+    //logarithmic = false,
     markCount,
     markSpacing,
     onChange,
@@ -36,18 +45,29 @@ function Slider ({
     tabIndex = 1,
     textColor,
 }: SliderProps) {
+    const [isLongStep, setLongStep] = useState(false);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+        };
+    }, []);
 
     let marks = undefined;
+    step = isLongStep ? longStep : step;
 
     if (markCount !== undefined) {
-        const markStep = (max - min) / markCount;
         marks = [];
-        for (let i = min; i <= max + 0.01; i += markStep) {
-            marks.push(i);
+        for (let i = 0; i <= markCount; i++) {
+            const markPos = min + ((max / markCount) * i);
+            if (markPos > max) break;
+
+            marks.push(markPos);
         }
-        console.log(max);
-        console.log(marks);
-        //marks = [...Array(markCount).keys()].map(n => Number(n));
     }
     else if (markSpacing !== undefined) {
 
@@ -55,6 +75,7 @@ function Slider ({
     
     if (mode === 'fill') {
         return <_FillSlider
+            sliderDisplayValue={getSliderDisplayValue()}
             value={value}
             min={min}
             max={max}
@@ -69,6 +90,7 @@ function Slider ({
     }
     else if (mode === 'thumb') {
         return <_ThumbSlider
+            sliderDisplayValue={getSliderDisplayValue()}
             value={value}
             min={min}
             max={max}
@@ -87,40 +109,49 @@ function Slider ({
         throw `Invalid mode`;
     }
 
-    function handleChange (value: number) {
+    function getSliderDisplayValue () {
+        return value;
+    }
+
+    function handleChange (newValue: number) {
         if (readonly) return;
 
-        onChange?.(value);
+        onChange?.(newValue);
+    }
+
+    function handleKeyDown (evt: KeyboardEvent) {
+        if (evt.key === LONG_STEP_KEY) {
+            setLongStep(true);
+        }
+    }
+
+    function handleKeyUp (evt: KeyboardEvent) {
+        if (evt.key === LONG_STEP_KEY) {
+            setLongStep(false);
+        }
     }
 }
 
-interface _FillSliderProps {
-    value: number;
-    min: number;
-    max: number;
-    step?: number;
-    readonly?: boolean;
-    onChange?: (value: number) => void;
-    showNumberBox?: boolean;
-    className?: string;
-    tabIndex?: number;
-    textColor?: TextColor;
+interface _FillSliderProps extends _CommonSliderProps {
+    sliderDisplayValue: number;
 }
 
 function _FillSlider ({
+    sliderDisplayValue,
     value,
     min,
     max,
-    step = 0.1,
-    readonly = false,
+    step = 0.01,
+    readonly,
     onChange,
-    showNumberBox = false,
+    showNumberBox,
     className,
-    tabIndex = 1,
+    tabIndex,
     textColor,
 }: _FillSliderProps) {
     const classStr = getClassString(
         "default-control",
+        "default-slider",
         "default-fill-slider",
         readonly && "readonly",
         textColor === 'black' && "text-black",
@@ -162,43 +193,41 @@ function _FillSlider ({
     );
 }
 
-interface _ThumbSliderProps {
-    value: number;
-    min: number;
-    max: number;
-    step?: number;
-    readonly?: boolean;
-    showFillTrack?: boolean;
-    marks?: number[];
-    onChange?: (value: number) => void;
-    showNumberBox?: boolean;
-    className?: string;
-    tabIndex?: number;
-    textColor?: TextColor;
+interface _ThumbSliderProps extends _CommonSliderProps {
+    sliderDisplayValue: number;
+    marks: number[] | undefined;
+    step: number;
 }
 
 function _ThumbSlider ({
+    sliderDisplayValue,
     value,
     min,
     max,
-    step = 0.1,
-    readonly = false,
+    step,
+    readonly,
     showFillTrack,
     marks,
     onChange,
-    showNumberBox = false,
+    showNumberBox,
     className,
-    tabIndex = 1,
+    tabIndex,
     textColor,
 }: _ThumbSliderProps) {
     const classStr = getClassString(
         "default-control",
+        "default-slider",
         "default-thumb-slider",
         readonly && "readonly",
         textColor === 'black' && "text-black",
         textColor === 'white' && "text-white",
         className,
     );
+
+    const numboxClass = getClassString(
+        "number-box-container",
+        showNumberBox === 'left' && "number-box-left"
+    )
 
     return (
         <div className={classStr}>
@@ -208,7 +237,7 @@ function _ThumbSlider ({
                         className="slider-main"
                         min={min}
                         max={max}
-                        value={value}
+                        value={sliderDisplayValue}
                         onChange={onChange}
                         trackClassName={getClassString(
                             "slider-track",
@@ -222,7 +251,7 @@ function _ThumbSlider ({
                     />
                 </div>
             </div>
-            {showNumberBox && <div className="number-box-container">
+            {showNumberBox && <div className={numboxClass}>
                 <NumericBox
                     className="number-box"
                     value={value}

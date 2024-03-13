@@ -18,7 +18,7 @@
             .slider-track {
                 top: 0;
                 height: 100%;
-                background: $bg-color-dark-l1;
+                background: $bg-color-dark-l2;
     
                 &.slider-track-0 {
                     background: $color-primary;
@@ -44,16 +44,20 @@
 
     &.readonly > .slider-container > .slider-main {
         > .slider-track.slider-track-0 {
-            background-color: $bg-color-dark-l3;
+            background-color: $bg-color-dark-l4;
         }
 
         > .slider-thumb {
-            background-color: $bg-color-dark-l3;
+            background-color: $bg-color-dark-l4;
         }
     }
 }
 
 .default-thumb-slider {
+    $-slider-track-height: 6px;
+    $-slider-thumb-width: 9px;
+    $-slider-thumb-half-width: 4px;
+
     width: 100%;
     height: 100%;
     display: flex;
@@ -74,27 +78,34 @@
             > .slider-main {
                 width: 100%;
                 height: 100%;
+                margin: 0 $-slider-thumb-half-width;
         
                 .slider-track {
-                    height: 6px;
-                    top: calc(50% - 3px);
-                    background: $bg-color-dark-l1;
+                    height: $-slider-track-height;
+                    top: calc(50% - $-slider-thumb-half-width);
+                    background: $bg-color-dark-l2;
+                    right: $-slider-thumb-half-width !important;
         
                     &.show-fill-track-0 {
-                        background: $bg-color-dark-l4;
+                        background: $bg-color-dark-l5;
                     }
                 }
     
                 > .slider-thumb {
                     position: relative;
-                    width: 8px;
+                    width: $-slider-thumb-width;
                     height: 100%;
+                    margin-left: -$-slider-thumb-half-width;
                     background: $color-primary;
+
+                    &:hover {
+                        background: $color-primary-l3;
+                    }
                 }
 
                 .slider-mark {
-                    top: calc(50% + 6px + 3px);
-                    background-color: $bg-color-dark-l3;
+                    top: calc(50% + $-slider-track-height + 4px);
+                    background-color: $bg-color-dark-l4;
                     width: 1px;
                     height: 5px;
                 }
@@ -103,19 +114,40 @@
     }
 
     > .number-box-container {
-        width: 48px;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+        width: 48px;
+        height: 100%;
 
-    &.readonly > .slider-container > .slider-main {
-        > .slider-track.slider-track-0 {
-            background-color: $bg-color-dark-l3;
+        &.number-box-left {
+            order: -1;
         }
 
-        > .slider-thumb {
-            background-color: $bg-color-dark-l3;
+        .number-box {
+            height: 100%;
+        }
+    }
+
+    &.readonly {
+        cursor: not-allowed;
+
+        > .slider-area {    
+            > .slider-container {        
+                > .slider-main {            
+                    .slider-track {
+                        background: $bg-color-dark-l2;
+            
+                        &.show-fill-track-0 {
+                            background: $bg-color-dark-l2;
+                        }
+                    }
+        
+                    > .slider-thumb {
+                        background: $bg-color-dark-l2;
+                    }
+                }
+            }
         }
     }
 }

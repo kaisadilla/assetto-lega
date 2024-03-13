@@ -2,6 +2,9 @@
 @include import-font("Formula1 Display", "Formula1-Italic.ttf", $w-regular, italic);
 @include import-font("Formula1 Display", "Formula1-bold-4.ttf", $w-bold);
 @include import-font("Formula1 Display", "Formula1-Black.ttf", $w-black);
+@include import-font("Formula1 Display", "Formula1-Light-300.ttf", $w-light);
+@include import-font("Formula1 Display", "Formula1-Extra-light-200.ttf", $w-extralight);
+@include import-font("Formula1 Display", "Formula1-Thin-100.ttf", $w-thin);
 @include import-font("Formula1 Display Wide", "Formula1-Wide.ttf", $w-regular);
 
 //$f1-srcs:

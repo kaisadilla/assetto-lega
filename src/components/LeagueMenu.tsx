@@ -134,6 +134,7 @@ function SeriesPanel ({
     return (
         <div className="series-container">
             {validSeries.map(s => (<SeriesPanelThumbnail
+                key={s}
                 series={s}
                 league={leagues[s][0]}
                 thumbnailSize={thumbnailSize}

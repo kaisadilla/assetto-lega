@@ -65,7 +65,7 @@
     }
 
     &::-webkit-scrollbar-track {
-        background-color: $color-transparent-w2;
+        //background-color: $color-transparent-w2;
     }
 
     &:hover {
@@ -75,7 +75,7 @@
         }
 
         &::-webkit-scrollbar-track {
-            background-color: $color-transparent-w4;
+            background-color: $color-transparent-w2;
         }
     }
 }

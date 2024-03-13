@@ -14,10 +14,10 @@
         .scroll-track {
             top: calc(50% - 2px);
             height: 4px;
-            background: $bg-color-dark-l1;
+            background: $bg-color-dark-l2;
         
             &.scroll-track-0 {
-                background: $bg-color-dark-l3;
+                background: $bg-color-dark-l4;
             }
         
             //&.scroll-track-1 {
@@ -29,7 +29,7 @@
     
         .scroll-thumb {
             cursor: pointer;
-            background: $bg-color-dark-l4;
+            background: $bg-color-dark-l5;
             width: 10px;
             height: 100%;
             outline: none;
@@ -39,7 +39,7 @@
             bottom: 0;
             width: 0.5px;
             height: 4px;
-            background-color: $bg-color-dark-l4;
+            background-color: $bg-color-dark-l5;
         }
     }
 

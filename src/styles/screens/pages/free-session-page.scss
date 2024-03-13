@@ -12,6 +12,23 @@ $-default-padding: 16px;
     width: 100%;
     height: 100%;
 
+    h2 {
+        font-family: $font-f1;
+        font-weight: $w-regular;
+    }
+
+    h3 {
+        font-family: $font-f1;
+        font-weight: $w-extralight;
+        font-size: 12pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    .default-slider {
+        width: 100%;
+    }
+
     > .section {
         border-bottom: 1px solid $color-primary;
         transition: 0.15s flex-grow;
@@ -79,11 +96,6 @@ $-default-padding: 16px;
         padding: $-default-padding;
         height: 100%;
         min-height: 0;
-
-        h2 {
-            font-family: $font-f1;
-            font-weight: $w-regular;
-        }
 
         > .event-section {
             flex: 1;
@@ -190,13 +202,37 @@ $-default-padding: 16px;
             overflow: hidden;
             gap: 8px;
 
-            .track-thumbnail {
-                width: 240px;
-            }
+            > .section-content {
+                display: grid;
+                grid-template: "tra tim" auto
+                               "atm atm" 1fr / 240px 1fr;
+                width: 100%;
+                height: 100%;
+                gap: 12px;
+                               
+                .track-thumbnail {
+                    grid-area: tra;
+                    width: 240px;
+                }
 
-            .time-slider {
-                width: 250px;
-                height: 26px;
+                .time-section {
+                    grid-area: tim;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+
+                    .time-scale-slider .number-box-container {
+                        width: 64px;
+                    }
+
+                    .default-labeled-control {
+                        height: 24px;
+                    }
+                }
+
+                .conditions-section {
+                    grid-area: atm;
+                }
             }
         }
     }

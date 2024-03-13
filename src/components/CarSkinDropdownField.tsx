@@ -26,6 +26,8 @@ function CarSkinDropdownField ({
     const $field = useRef<HTMLDivElement>(null);
 
     const car = useAcContext().getCarById(carId);
+    const carSkins = Object.keys(car?.skinsById ?? {});
+    availableSkins = availableSkins?.filter(s => carSkins.includes(s));
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownStyle, setDropdownStyle] = useState({});

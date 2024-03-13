@@ -57,6 +57,7 @@ function CarSkinPicker ({
             </div>
             <PickerDialog.Toolbox className="car-skin-picker-toolbox">
                 <ToolboxRow.Status text={selectedSkins.join(", ")} />
+                <Button onClick={handleRemoveAll}>Remove all</Button>
                 <Button onClick={handleCancel}>Cancel</Button>
                 <Button
                     highlighted
@@ -103,6 +104,10 @@ function CarSkinPicker ({
 
     async function handleCancel () {
         onCancel?.(returnSkinOrArray());
+    }
+
+    async function handleRemoveAll () {
+        setSelectedSkins([]);
     }
 
     function returnSkinOrArray () {

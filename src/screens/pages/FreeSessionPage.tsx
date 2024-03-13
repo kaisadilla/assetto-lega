@@ -15,6 +15,8 @@ import CircularSlider from '@fseehawer/react-circular-slider';
 import Slider from 'elements/Slider';
 import LabeledControl from 'elements/LabeledControl';
 import Checkbox from 'elements/Checkbox';
+import HourSlider from 'components/HourSlider';
+import DropdownField from 'elements/DropdownField';
 
 enum Section {
     League,
@@ -54,7 +56,7 @@ interface TrackSettings {
     //raceLaps: number;
     //arePenaltiesEnabled: boolean;
     //jumpStartPenalty: JumpStartPenalty;
-    time: string;
+    startTime: number;
     timeMultiplier: number;
     randomTime: boolean;
     trackCondition: TrackCondition;
@@ -166,21 +168,11 @@ function _TrackSection ({
     onChange,
     onExpand,
 }: _TrackSectionProps) {
+
     const { tracks } = useAcContext();
 
     const track = trackSettings.track;
     const layout = track?.layoutsById[trackSettings.layout ?? ""];
-
-    const [timeValue, setTimeValue] = useState(
-        timeStringToNumber(trackSettings.time)
-    );
-
-    useEffect(() => {
-        const timeStr = timeNumberToString(timeValue);
-        if (trackSettings.time !== timeStr) {
-            handleFieldChange('time', timeStr);
-        }
-    }, [timeValue]);
 
     if (league === null) {
         return (
@@ -222,33 +214,56 @@ function _TrackSection ({
             <div className="customize-section">
                 <h2>Race details</h2>
                 <div className="section-content">
-                    <div className="track-and-time">
-                        <TrackThumbnailField
-                            className="track-thumbnail"
-                            track={track}
-                            layout={layout}
-                            onTrackChange={handleTrackChange}
-                        />
-                        <div className="time-section">
-                            <LabeledControl label="Random time">
-                                <Checkbox
-                                    value={true}
-                                />
-                            </LabeledControl>
+                    <TrackThumbnailField
+                        className="track-thumbnail"
+                        track={track}
+                        layout={layout}
+                        onTrackChange={handleTrackChange}
+                    />
+                    <div className="time-section">
+                        <h3>Time</h3>
+                        <LabeledControl label="Random time">
+                            <Checkbox
+                                value={trackSettings.randomTime}
+                                onChange={
+                                    v => handleFieldChange('randomTime', v)
+                                }
+                            />
+                        </LabeledControl>
+                        <LabeledControl label="Start time">
+                            <HourSlider
+                                value={trackSettings.startTime}
+                                onValueChange={
+                                    v => handleFieldChange('startTime', v)
+                                }
+                                readonly={trackSettings.randomTime}
+                            />
+                        </LabeledControl>
+                        <LabeledControl label="Time scale">
                             <Slider
                                 mode='thumb'
-                                className="time-slider"
-                                value={timeValue}
-                                onChange={setTimeValue}
-                                min={timeStringToNumber("00:00")}
-                                max={timeStringToNumber("23:59")}
-                                step={0.01}
+                                className="time-scale-slider"
+                                value={trackSettings.timeMultiplier}
+                                onChange={
+                                    v => handleFieldChange('timeMultiplier', v)
+                                }
+                                min={0}
+                                max={100}
+                                step={1}
                                 showNumberBox
                                 showFillTrack
-                                markCount={24}
+                                markCount={10}
                             />
-                            {trackSettings.time}
-                        </div>
+                        </LabeledControl>
+                    </div>
+                    <div className="conditions-section">
+                        <h3>Atmospheric conditions</h3>
+                        <LabeledControl label="Weather">
+                            <DropdownField
+                                items={[{displayName: "Clear", value: "Clear"}]}
+                                selectedItem="Clear"
+                            />
+                        </LabeledControl>
                     </div>
                 </div>
             </div>
@@ -263,7 +278,7 @@ function _TrackSection ({
             ...trackSettings,
             track: track,
             layout: layout.folderName,
-            time: event.date ?? trackSettings.time,
+            startTime: timeStringToNumber(event.raceStartHour) ?? trackSettings.startTime,
         })
     }
 
@@ -335,7 +350,7 @@ function loadTrackSettings () : TrackSettings {
     return {
         track: null,
         layout: null,
-        time: "12:00",
+        startTime: 0.5,
         timeMultiplier: 1.0,
         randomTime: false,
         trackCondition: TrackCondition.Auto,
