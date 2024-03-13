@@ -58,15 +58,13 @@ function TrackField ({
                 layoutData={layoutData}
                 onClick={handleClick}
             />}
-            {isPickerOpen && (
-            <CoverPanel>
+            {isPickerOpen && (<CoverPanel>
                 <TrackPicker
                     preSelectedTrack={{track: track, layout: layout}}
                     onSelect={handlePickerSelect}
                     onCancel={() => setPickerOpen(false)}
                 />
-            </CoverPanel>
-            )}
+            </CoverPanel>)}
         </div>
     );
 

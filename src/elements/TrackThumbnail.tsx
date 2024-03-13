@@ -1,45 +1,82 @@
-import { Countries } from 'data/countries';
+import { useAcContext } from 'context/useAcContext';
+import { Countries, getCountryIdByAssettoName } from 'data/countries';
+import { FILE_PROTOCOL } from 'data/files';
+import { AcTrack, AcTrackLayout } from 'data/schemas';
 import React from 'react';
-import { getClassString } from 'utils';
+import { getClassString, isString } from 'utils';
+import FlagImage from './images/FlagImage';
 
-export interface TrackThumbnailProps {
-    name: string;
-    country: string;
-    previewPath: string;
-    outlinePath: string;
+export interface TrackThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
+    track: string | AcTrack | null | undefined;
+    layout: string | AcTrackLayout | null | undefined;
+    //name: string;
+    //country: string;
+    //previewPath: string;
+    //outlinePath: string;
     className?: string;
 }
 
-function TrackThumbnail ({
-    name,
-    country,
-    previewPath,
-    outlinePath,
-    className,
-}: TrackThumbnailProps) {
+function TrackThumbnail (props: TrackThumbnailProps) {
+    let { track, layout, className, ...rest} = props;
+    
+    const { tracks } = useAcContext();
+
+    track ??= null;
+    layout ??= null;
+
+    if (isString(track)) {
+        track = tracks.tracksById[track as string] ?? null;
+    }
+    if (track === null) {
+        layout = null;
+    }
+    else if (isString(layout)) {
+        layout = (track as AcTrack)?.layoutsById[layout as string];
+        layout ??= (track as AcTrack)?.layouts[0];
+    }
+    
     const classStr = getClassString(
         "default-thumbnail",
         "default-track-thumbnail",
         className,
     )
 
-    const flagImg = Countries[country]?.flag;
+    if (track === null || layout === null) {
+        return (
+            <div className={classStr} {...rest}>
+                <div className="thumbnail-background no-content-thumbnail">
+                    <div>&lt; no track selected &gt;</div>
+                </div>
+                <div className="thumbnail-info">
+                    <div className="thumbnail-flag">
+                        
+                    </div>
+                    <div className="thumbnail-name"></div>
+                </div>
+            </div>
+        );
+    }
+
+    const trackObj = track as AcTrack;
+    const layoutObj = layout as AcTrackLayout;
+
+    //const flagImg = Countries[country]?.flag;
 
     return (
-        <div className={classStr}>
+        <div className={classStr} {...rest}>
             <div className="thumbnail-multi-layer-background">
                 <div className="thumbnail-layer">
-                    <img src={previewPath} />
+                    <img src={FILE_PROTOCOL + layoutObj.previewPath} />
                 </div>
                 <div className="thumbnail-layer layer-outline">
-                    <img src={outlinePath} />
+                    <img src={FILE_PROTOCOL + layoutObj.outlinePath} />
                 </div>
             </div>
             <div className="thumbnail-info">
                 <div className="thumbnail-flag">
-                    <img src={flagImg} />
+                    <FlagImage country={getCountryIdByAssettoName(trackObj.displayCountry)} />
                 </div>
-                <div className="thumbnail-name">{name}</div>
+                <div className="thumbnail-name">{layoutObj.ui.name}</div>
             </div>
         </div>
     );

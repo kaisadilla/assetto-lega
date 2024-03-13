@@ -103,14 +103,16 @@ function TeamEditionTable ({
                     <NavBar.Item text="drivers" index={TeamEditorTab.DRIVERS} />
                 </NavBar>
                 <div className="team-editor-tab">
-                    {tab === TeamEditorTab.INFO && <TabInfo
+                    {tab === TeamEditorTab.INFO && editedTeams[selectedTeam] &&
+                    <TabInfo
                         key={editedTeams[selectedTeam].id}
                         team={editedTeams[selectedTeam]}
                         specs={specs}
                         classes={classes}
                         onChange={handleInfoChange}
                     />}
-                    {tab === TeamEditorTab.DRIVERS && <TabDrivers
+                    {tab === TeamEditorTab.DRIVERS && editedTeams[selectedTeam] &&
+                    <TabDrivers
                         key={editedTeams[selectedTeam].id}
                         team={editedTeams[selectedTeam]}
                         specs={specs}
@@ -822,6 +824,8 @@ function validateChanges (editedTeams: EditableTeam[]) : string[] {
 
     for (const t in editedTeams) {
         const team = editedTeams[t];
+        if (team.deleted) continue;
+
         const teamNames = `#${t} '${getTeamName(team)}'`;
 
         for (const field of LeagueTeamRequiredFields) {

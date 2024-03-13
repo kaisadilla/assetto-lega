@@ -17,3 +17,9 @@
         }
     }
 }
+
+.default-track-thumbnail-field {
+    > .track-content {
+        cursor: pointer;
+    }
+}

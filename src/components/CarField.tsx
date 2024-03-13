@@ -22,7 +22,6 @@ function CarField ({
 }: CarFieldProps) {
     const { getCarById } = useAcContext();
 
-    const [fieldLoaded, setFieldLoaded] = useState(false);
     const [car, setCar] = useState(getCarById(value));
     const [isPickerOpen, setPickerOpen] = useState(false);
 
@@ -36,14 +35,6 @@ function CarField ({
         "default-car-field",
         className,
     )
-
-    if (fieldLoaded === false) {
-        return (
-            <div className={classStr} tabIndex={tabIndex}>
-                <div className="loading">Loading...</div>
-            </div>
-        )
-    }
 
     const displayName = car ? (car.ui.name ?? car.folderName) : "<no car>";
 

@@ -1886,6 +1886,16 @@ export const Countries: { [key: string]: Country } = {
             "isMod": true,
         },
     },
+    "artsakh": {
+        "displayName": "Artsakh",
+        "category": CountryCategory.unrecognized,
+        "flag": require("@assets/flags/artsakh.png"),
+        "assettoCorsa": {
+            "name": "Artsakh",
+            "code": "ART",
+            "isMod": true,
+        },
+    },
     "kosovo": {
         "displayName": "Kosovo",
         "category": CountryCategory.unrecognized,

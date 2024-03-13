@@ -50,7 +50,7 @@ function Textbox ({
                 placeholder={placeholder}
                 readOnly={readonly}
             />
-            {suggestions && isFocused &&
+            {suggestions && isFocused && value.length !== undefined && value.length > 1 &&
                 <TextboxSuggestions
                     parent={$div}
                     suggestions={suggestions}
@@ -124,7 +124,9 @@ function TextboxSuggestions ({
         });
     }, []);
 
-    const filteredSuggestions = smartFilterArray(suggestions, prompt);
+    const filteredSuggestions = prompt.length > 1
+        ? smartFilterArray(suggestions, prompt)
+        : [];
 
     const $suggestions = filteredSuggestions.map(s => (
         <div key={s} className="suggestion" onClick={() => onClick(s)}>

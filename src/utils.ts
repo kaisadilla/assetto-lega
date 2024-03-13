@@ -334,6 +334,10 @@ export function normalizeInternalNames<T> (
     }
 }
 
+export function isString (object: any) {
+    return typeof object === 'string' || object instanceof String;
+}
+
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
     try {
         let regexStr = "";

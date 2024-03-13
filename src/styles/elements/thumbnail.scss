@@ -1,4 +1,6 @@
 .default-thumbnail {
+    $-name-line-height: 24px;
+
     position: relative;
     @include thumbnail-aspect-ratio();
 
@@ -14,6 +16,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        &.no-content-thumbnail {
+            @include center-content();
+            padding-bottom: $-name-line-height;
+            background-color: black;
+            color: $text-color-dark-d2;
         }
     }
 
@@ -47,7 +56,7 @@
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 24px;
+        height: $-name-line-height;
         background: #222222c0;
         text-shadow: black 0 0 2px;
         padding: 0 8px;

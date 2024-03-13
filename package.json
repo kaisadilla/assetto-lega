@@ -87,6 +87,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fseehawer/react-circular-slider": "^2.6.4",
     "@types/react-color": "^3.0.11",
     "@types/tinycolor2": "^1.4.6",
     "chokidar": "^3.6.0",

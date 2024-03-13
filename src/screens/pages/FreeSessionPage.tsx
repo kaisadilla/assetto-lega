@@ -1,17 +1,20 @@
 import { useDataContext } from 'context/useDataContext';
-import { AcTrack, AcTrackCollection, League, LeagueCalendarEntry } from 'data/schemas';
-import React, { useEffect, useState } from 'react';
+import { AcTrack, League, LeagueCalendarEntry } from 'data/schemas';
+import React, { useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
-import { FILE_PROTOCOL, Files } from 'data/files';
+import { FILE_PROTOCOL } from 'data/files';
 import { AssetFolder } from 'data/assets';
 import BackgroundDiv from 'elements/BackgroundDiv';
 import AssetImage from 'elements/AssetImage';
 import FlagImage from 'elements/images/FlagImage';
-import Ipc from 'main/ipc/ipcRenderer';
 import { getClassString } from 'utils';
 import { useAcContext } from 'context/useAcContext';
-import TrackThumbnail from 'elements/TrackThumbnail';
-import { getCountryIdByAssettoName } from 'data/countries';
+import TrackThumbnailField from 'components/TrackThumbnailField';
+import { TrackPickerValue } from 'components/TrackPicker';
+import CircularSlider from '@fseehawer/react-circular-slider';
+import Slider from 'elements/Slider';
+import LabeledControl from 'elements/LabeledControl';
+import Checkbox from 'elements/Checkbox';
 
 enum Section {
     League,
@@ -207,13 +210,30 @@ function _TrackSection ({
             </div>
             <div className="customize-section">
                 <h2>Race details</h2>
-                {track && layout && <TrackThumbnail
-                    className="track-thumbnail"
-                    name={layout.ui.name ?? track.displayName}
-                    country={getCountryIdByAssettoName(track.displayCountry)}
-                    previewPath={FILE_PROTOCOL + layout.previewPath}
-                    outlinePath={FILE_PROTOCOL + layout.outlinePath}
-                />}
+                <div className="section-content">
+                    <div className="track-and-time">
+                        <TrackThumbnailField
+                            className="track-thumbnail"
+                            track={track}
+                            layout={layout}
+                            onTrackChange={handleTrackChange}
+                        />
+                        <div className="time-section">
+                            <LabeledControl label="Random time">
+                                <Checkbox
+                                    value={true}
+                                />
+                            </LabeledControl>
+                            <Slider
+                                className="slos"
+                                value={12.00}
+                                min={0.00}
+                                max={23.99}
+                                step={0.01}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         </BackgroundDiv>
     );
@@ -227,6 +247,18 @@ function _TrackSection ({
             track: track,
             layout: layout.folderName,
             time: event.date ?? trackSettings.time,
+        })
+    }
+
+    function handleTrackChange (values: TrackPickerValue) {
+        if (values.track === undefined || values.layout === undefined) return;
+        const track = tracks.tracksById[values.track];
+        //const layout = track.layoutsById[values.layout];
+
+        onChange({
+            ...trackSettings,
+            track,
+            layout: values.layout,
         })
     }
 

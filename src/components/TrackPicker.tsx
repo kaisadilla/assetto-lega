@@ -157,7 +157,6 @@ function TrackPicker ({
     }
 
     function handleTrackAndLayoutSubmit (value: TrackPickerValue) {
-        console.log(value);
         if (value.track) {
             onSelect({
                 track: value.track,
@@ -494,10 +493,8 @@ function buildTrackPickerItems (trackList: AcTrack[], width: number) {
             value: t.folderName,
             thumbnail: (
                 <TrackThumbnail
-                    name={t.displayName}
-                    country={ctry}
-                    previewPath={FILE_PROTOCOL + t.layouts[0].previewPath}
-                    outlinePath={FILE_PROTOCOL + t.layouts[0].outlinePath}
+                    track={t}
+                    layout={t.layouts[0]}
                 />
             )
         } as PickerElement;
