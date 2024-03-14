@@ -78,9 +78,9 @@
                 overflow-y: auto;
     
                 > .driver-entry {
-                    $-no-color-bg: $bg-color-dark-l3;
+                    $-no-color-bg: $color-component3;
     
-                    background: $bg-color-dark-l3;
+                    background: $color-component3;
                     display: flex;
                     flex-direction: row;
                     flex-wrap: nowrap;
@@ -92,15 +92,15 @@
                     border: 2px solid;
     
                     &.driver-entry-text-black {
-                        color: $text-color-light-1;
+                        color: $color-text-black-1;
                     }
                     &.driver-entry-text-white {
-                        color: $text-color-dark-d1;
+                        color: $color-text-white-1;
                     }
 
                     // dialogs don't have changed color.
                     .compute-qualifying-dialog {
-                        color: $text-color-dark;
+                        color: $color-text-white;
                     }
     
                     .driver-team-badge {
@@ -127,7 +127,7 @@
                         min-width: 0;
     
                         > .default-slider .slider-container {
-                            border: 1px solid $bg-color-dark-l4;
+                            border: 1px solid $color-component4;
                         }
                     }
     
@@ -251,7 +251,7 @@
                 align-items: center;
 
                 &:not(:last-child) {
-                    border-bottom: 1px solid $bg-color-dark-l2;
+                    border-bottom: 1px solid $color-component2;
                 }
 
                 &.first-position > .position {
@@ -264,7 +264,7 @@
                 > .position {
                     width: $-size;
                     height: 100%;
-                    background-color: $bg-color-dark-l3;
+                    background-color: $color-component3;
                     font-size: 16pt;
                     display: flex;
                     justify-content: center;
@@ -280,10 +280,10 @@
                     flex-wrap: nowrap;
                     align-items: center;
                     gap: 8px;
-                    color: $text-color-light;
+                    color: $color-text-black;
 
                     > .team-badge {
-                        background-color: $bg-color-dark-l6;
+                        background-color: $color-component6;
                         height: 100%;
                         padding: 0 8px;
                         display: flex;

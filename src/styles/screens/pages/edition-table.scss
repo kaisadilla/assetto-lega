@@ -31,14 +31,14 @@
                 flex-shrink: 0;
 
                 &:hover {
-                    background-color: $bg-color-dark-l2;
+                    background-color: $color-component2;
                 }
                 &:not(:hover) > .button {
                     visibility: hidden;
                 }
     
                 &.selected {
-                    background-color: $color-primary;
+                    background-color: $color-highlight;
                 }
     
                 &.edited {
@@ -46,7 +46,7 @@
                 }
 
                 &.deleted {
-                    color: $text-color-light-2;
+                    color: $color-text-black-2;
                 }
 
                 > .item-name {

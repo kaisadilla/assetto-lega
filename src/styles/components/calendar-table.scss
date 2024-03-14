@@ -8,7 +8,7 @@
     width: 100%;
 
     .calendar-entry {
-        background: $bg-color-dark-l2;
+        background: $color-component2;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -28,7 +28,7 @@
 
             > img {
                 box-sizing: content-box;
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
                 max-width: 48px;
                 max-height: 32px;
             }

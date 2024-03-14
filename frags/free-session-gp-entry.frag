@@ -20,7 +20,7 @@
 	gap: 4px;
 
 	&:hover {
-		background: $color-primary;
+		background: $color-highlight;
 	}
 
 	.gp-flag-container {
@@ -35,7 +35,7 @@
 			min-width: $-flag-size;
 			max-width: 38px;
 			max-height: 38px;
-			border: 1px solid $text-color-dark-d2;
+			border: 1px solid $color-text-2;
 		}
 	}
 

@@ -70,14 +70,14 @@
                             width: 100px;
                         }
                         > .value {
-                            color: $text-color-dark-d1;
+                            color: $color-text-1;
             
                             .default-typebox > input {
-                                color: $text-color-dark-d1;
+                                color: $color-text-1;
                             }
 
                             .default-typebox.readonly > input {
-                                color: $text-color-dark-d2;
+                                color: $color-text-2;
                             }
                         }
                     }
@@ -109,14 +109,14 @@
                     gap: 16px;
                     height: 160px; //fit-content;
                     flex-shrink: 0;
-                    //background-color: $bg-color-dark-l2;
+                    //background-color: $color-component2;
 
                     &:not(:last-child) {
-                        border-bottom: 1px solid $bg-color-dark-l2;
+                        border-bottom: 1px solid $color-component2;
                     }
 
                     &:hover {
-                        background-color: $bg-color-dark-l2;
+                        background-color: $color-component2;
                     }
                     &:not(:hover) {
                         .floating-toolbox {
@@ -144,10 +144,10 @@
                                 width: 100px;
                             }
                             > .value {
-                                color: $text-color-dark-d1;
+                                color: $color-text-1;
                 
                                 .default-typebox > input {
-                                    color: $text-color-dark-d1;
+                                    color: $color-text-1;
                                 }
                             }
                         }
@@ -165,10 +165,10 @@
                         .action-button {
                             margin-top: 4px;
                             width: 100%;
-                            background-color: $bg-color-dark-l3;
+                            background-color: $color-component3;
 
                             &:hover {
-                                background-color: $bg-color-dark-l4;
+                                background-color: $color-component4;
                             }
                         }
                     }
@@ -183,7 +183,7 @@
                         right: 0;
 
                         .delete-button {
-                            background-color: $bg-color-dark-l3;
+                            background-color: $color-component3;
 
                             &:hover {
                                 background-color: $color-danger;

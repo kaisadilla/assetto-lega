@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NavBar, { NavBarSize } from 'elements/NavBar';
 import LeaguePage from './pages/LeaguePage';
 import FreeSessionPage from './pages/FreeSessionPage';
-import { Page, useNavigationContext } from '../context/useNavigation';
+import { useNavigationContext } from '../context/useNavigation';
 import { AppStatus, useDataContext } from 'context/useDataContext';
 import InitializeAppScreen from './InitializeAppScreen';
 import EditorPage from './pages/EditorPage';
@@ -10,10 +10,20 @@ import ReadingAcContentScreen from './ReadingAcContent';
 import DragRegion from 'elements/DragRegion';
 import { useAcContext } from 'context/useAcContext';
 
+enum Page {
+    FREE_DRIVE,
+    LEAGUES,
+    EDITOR,
+    CONTENT,
+    STATS,
+    IMPORT,
+};
+
 function MainScreen () {
+    const [ page, setPage] = useState(Page.FREE_DRIVE);
+
     const { appStatus, isACFolderValid, readAcContent, confirmReady } = useDataContext();
     const { loadAcContent, acContentReady } = useAcContext();
-    const { currentPage: selectedTab, setCurrentPage: setSelectedTab } = useNavigationContext();
 
     useEffect(() => {
         // TODO: Probably load outside of here altogether.
@@ -47,15 +57,15 @@ function MainScreen () {
     }
 
     const $content = (() => {
-        if (selectedTab === Page.FREE_DRIVE) {
+        if (page === Page.FREE_DRIVE) {
             return <FreeSessionPage />;
         }
-        else if (selectedTab === Page.LEAGUES) {
+        else if (page === Page.LEAGUES) {
             return (
                 <LeaguePage />
             );
         }
-        else if (selectedTab === Page.EDITOR) {
+        else if (page === Page.EDITOR) {
             return (
                 <EditorPage />
             );
@@ -68,7 +78,7 @@ function MainScreen () {
     return (
         <main className="main-menu">
             <div className="cell-navbar">
-                <NavBar size={NavBarSize.BIG} get={selectedTab} set={setSelectedTab}>
+                <NavBar size={NavBarSize.BIG} get={page} set={setPage}>
                     <NavBar.Item text="free session" index={Page.FREE_DRIVE} />
                     <NavBar.Item text="leagues" index={Page.LEAGUES} />
                     <NavBar.Item text="editor" index={Page.EDITOR} />

@@ -16,11 +16,11 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 1px solid $text-color-dark-d2;
+            border: 1px solid $color-text-2;
         }
 
         &.selected .highlighter {
-            border: 2px solid $color-primary;
+            border: 2px solid $color-highlight;
         }
     }
 }

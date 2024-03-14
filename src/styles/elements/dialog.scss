@@ -1,6 +1,6 @@
 .default-dialog {
-    background: $bg-color-dark;
-    border: 1px solid $color-primary;
+    background: $color-background;
+    border: 1px solid $color-highlight;
     display: flex;
     flex-direction: column;
     min-height: 0;

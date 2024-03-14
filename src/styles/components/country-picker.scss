@@ -40,7 +40,7 @@
         width: 182px;
         height: 48px;
 
-        background: $bg-color-dark-l2;
+        background: $color-component2;
 
         > .country-flag {
             width: 42px;
@@ -56,7 +56,7 @@
         }
 
         > .country-highlighter {            
-            border: 1px solid $text-color-dark-d2;
+            border: 1px solid $color-text-2;
 
             // TODO: This is terrible and makes the menu both
             // ugly and confusing.

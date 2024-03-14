@@ -22,7 +22,7 @@
             @include center-content();
             padding-bottom: $-name-line-height;
             background-color: black;
-            color: $text-color-dark-d2;
+            color: $color-text-2;
         }
     }
 
@@ -79,7 +79,7 @@
             > img {
                 width: 24px;
                 max-height: 100%;
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
                 object-fit: contain;
             }
         }
@@ -91,7 +91,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        //border: 2px solid $color-primary;
+        //border: 2px solid $color-highlight;
     }
 }
 

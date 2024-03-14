@@ -25,13 +25,13 @@
     @include clickable();
 
     font-weight: $w-thin;
-    color: $text-color-dark-d2;
+    color: $color-text-2;
 
     &:hover {
-        color: $text-color-dark-d1;
+        color: $color-text-1;
     }
 
     &.selected {
-        color: $text-color-dark;
+        color: $color-text;
     }
 }

@@ -87,7 +87,7 @@
             flex-wrap: nowrap;
             justify-content: start;
             align-items: center;
-            background: $bg-color-dark-l3;
+            background: $color-component3;
             gap: $gap;
             width: 50%;
             min-width: 550px;
@@ -103,7 +103,7 @@
             }
     
             > .team-logo {
-                background-color: $bg-color-dark-l2;
+                background-color: $color-component2;
                 width: 100px;
                 height: 100%;
                 display: flex;
@@ -127,7 +127,7 @@
                 > img {
                     height: 24px; //48
                     box-sizing: content-box;
-                    border: 1px solid $text-color-dark-d2;
+                    border: 1px solid $color-text-2;
                 }
             }
     
@@ -153,7 +153,7 @@
                     }
 
                     > .team-constructor {
-                        color: $text-color-dark-d2;
+                        color: $color-text-2;
                     }
                 }
 
@@ -179,7 +179,7 @@
                     display: flex;
                     flex-direction: row;
                     gap: 16px;
-                    color: $text-color-dark-d1;
+                    color: $color-text-1;
                 }
             }
         }
@@ -218,7 +218,7 @@
                     max-width: 32px;
                     object-fit: contain;
                     box-sizing: content-box;
-                    border: 1px solid $text-color-dark-d2;
+                    border: 1px solid $color-text-2;
                 }
     
                 > .driver-initials {
@@ -251,7 +251,7 @@
                     .skin-icon {
                         box-sizing: content-box;
                         height: 32px;
-                        border: 1px solid $text-color-dark-d2;
+                        border: 1px solid $color-text-2;
     
                         &.default-skin {
                             border: 3px solid $color-golden;

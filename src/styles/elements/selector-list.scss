@@ -8,11 +8,11 @@
         width: 100%;
 
         &.selected {
-            background-color: $color-primary;
+            background-color: $color-highlight;
         }
 
         &:hover {
-            background-color: $bg-color-dark-l2;
+            background-color: $color-component2;
         }
     }
 
@@ -61,11 +61,11 @@
         padding: 2px 0 2px 8px;
     
         &:hover:not(.selected) {
-            background-color: $bg-color-dark-l3;
+            background-color: $color-component3;
         }
     
         &.selected {
-            background-color: $color-primary;
+            background-color: $color-highlight;
         }
 
         &.entry-all {
@@ -105,11 +105,11 @@
         width: 100%;
 
         &.selected {
-            background-color: $color-primary;
+            background-color: $color-highlight;
         }
 
         &:hover {
-            background-color: $bg-color-dark-l2;
+            background-color: $color-component2;
         }
     }
 
@@ -121,7 +121,7 @@
         align-items: center;
 
         &.expanded {
-            //border-bottom: 1px solid $bg-color-dark-l2;
+            //border-bottom: 1px solid $color-component2;
         }
 
         .category-name {
@@ -156,7 +156,7 @@
             padding: 4px;
 
             img {
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
                 max-height: 100%;
                 max-width: 100%;
             }

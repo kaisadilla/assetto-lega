@@ -1,6 +1,6 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '@assets/icon.png';
-import { NavigationContextProvider, Page } from 'context/useNavigation';
+import { NavigationContextProvider } from 'context/useNavigation';
 import MainScreen from 'screens/MainScreen';
 import { LeagueEditorContextProvider } from 'context/useLeagueEditor';
 import { SettingsContextProvider } from 'context/useSettings';
@@ -36,7 +36,7 @@ export default function App () {
             <div className="window" style={darkTheme}>
                 <SettingsContextProvider>
                 <CacheContextProvider>
-                <NavigationContextProvider tab={Page.LEAGUES}>
+                <NavigationContextProvider>
                 <LeagueEditorContextProvider>
                 <AcContextProvider>
                 <DataContextProvider>

@@ -70,7 +70,10 @@ function Slider ({
         }
     }
     else if (markSpacing !== undefined) {
-
+        marks = [];
+        for (let i = 0; i <= max; i += markSpacing) {
+            marks.push(i);
+        }
     }
     
     if (mode === 'fill') {

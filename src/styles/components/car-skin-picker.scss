@@ -43,11 +43,11 @@
                     >.info-entry {
                         > .info-title {
                             font-weight: $w-regular;
-                            color: $text-color-dark;
+                            color: $color-text;
                         }
                         > .info-value {
                             font-weight: $w-light;
-                            color: $text-color-dark-d2;
+                            color: $color-text-2;
                         }
                     }
                 }
@@ -75,7 +75,7 @@
                     width: 100%;
 
                     &.highlighted {
-                        background-color: $color-primary;
+                        background-color: $color-highlight;
                     }
 
                     > .skin-checkbox {
@@ -114,7 +114,7 @@
                             font-size: 12pt;
                         }
                         > .skin-team-and-driver {
-                            color: $text-color-dark-d2;
+                            color: $color-text-2;
                         }
 
                         > span {
@@ -123,7 +123,7 @@
                     }
 
                     &:hover {
-                        background-color: $bg-color-dark-l2;
+                        background-color: $color-component2;
                     }
                 }
             }

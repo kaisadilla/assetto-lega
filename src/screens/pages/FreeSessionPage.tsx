@@ -17,6 +17,19 @@ import LabeledControl from 'elements/LabeledControl';
 import Checkbox from 'elements/Checkbox';
 import HourSlider from 'components/HourSlider';
 import DropdownField from 'elements/DropdownField';
+import LabeledCheckbox from 'elements/LabeledCheckbox';
+import DirectionCircleField from 'elements/DirectionCircleField';
+
+const MIN_TIME_SCALE = 0;
+const MAX_TIME_SCALE = 100;
+const MIN_AMBIENT_TEMP = 0;
+const MAX_AMBIENT_TEMP = 50;
+const AMBIENT_TEMP_TO_ROAD_RATIO = 1.4;
+const MIN_ROAD_TEMP = MIN_AMBIENT_TEMP * AMBIENT_TEMP_TO_ROAD_RATIO;
+const MAX_ROAD_TEMP = MAX_AMBIENT_TEMP * AMBIENT_TEMP_TO_ROAD_RATIO;
+const TEMP_STEP = 0.1;
+const MIN_WIND_SPEED_KMH = 0;
+const MAX_WIND_SPEED_KMH = 60;
 
 enum Section {
     League,
@@ -64,7 +77,7 @@ interface TrackSettings {
     roadTemperature: number;
     windSpeedMin: number;
     windSpeedMax: number;
-    direction: number; // in degrees (0-360).
+    windDirection: number; // in degrees (0-360).
 }
 
 export interface FreeSessionPageProps {
@@ -168,8 +181,10 @@ function _TrackSection ({
     onChange,
     onExpand,
 }: _TrackSectionProps) {
-
     const { tracks } = useAcContext();
+
+    // whether road temperature is calculated automatically from ambient temp.
+    const [isRoadTempAuto, setRoadTempAuto] = useState(true);
 
     const track = trackSettings.track;
     const layout = track?.layoutsById[trackSettings.layout ?? ""];
@@ -247,8 +262,8 @@ function _TrackSection ({
                                 onChange={
                                     v => handleFieldChange('timeMultiplier', v)
                                 }
-                                min={0}
-                                max={100}
+                                min={MIN_TIME_SCALE}
+                                max={MAX_TIME_SCALE}
                                 step={1}
                                 showNumberBox
                                 showFillTrack
@@ -257,13 +272,87 @@ function _TrackSection ({
                         </LabeledControl>
                     </div>
                     <div className="conditions-section">
-                        <h3>Atmospheric conditions</h3>
-                        <LabeledControl label="Weather">
-                            <DropdownField
-                                items={[{displayName: "Clear", value: "Clear"}]}
-                                selectedItem="Clear"
+                        <h3 className="title">Atmospheric conditions</h3>
+                        <div className="weather-section">
+                            <LabeledControl label="Weather">
+                                <DropdownField
+                                    items={[{displayName: "Clear", value: "Clear"}]}
+                                    selectedItem="Clear"
+                                />
+                            </LabeledControl>
+                            <h4>Temperatures</h4>
+                            <LabeledCheckbox
+                                label="Calculate road temperature automatically"
+                                value={isRoadTempAuto}
+                                onChange={setRoadTempAuto}
                             />
-                        </LabeledControl>
+                            <LabeledControl label="Ambient">
+                                <Slider
+                                    mode='thumb'
+                                    className="ambient-temperature-slider"
+                                    value={trackSettings.ambientTemperature}
+                                    onChange={
+                                        v => handleFieldChange('ambientTemperature', v)
+                                    }
+                                    min={MIN_AMBIENT_TEMP}
+                                    max={MAX_AMBIENT_TEMP}
+                                    step={TEMP_STEP}
+                                    showNumberBox
+                                    showFillTrack
+                                    markSpacing={5}
+                                />
+                            </LabeledControl>
+                            <LabeledControl label="Road">
+                                <Slider
+                                    mode='thumb'
+                                    className="road-temperature-slider"
+                                    value={trackSettings.roadTemperature}
+                                    onChange={
+                                        v => handleFieldChange('roadTemperature', v)
+                                    }
+                                    min={MIN_ROAD_TEMP}
+                                    max={MAX_ROAD_TEMP}
+                                    step={TEMP_STEP}
+                                    showNumberBox
+                                    showFillTrack
+                                    markSpacing={5}
+                                    readonly={isRoadTempAuto}
+                                />
+                            </LabeledControl>
+                        </div>
+                        <div className="wind-section">
+                            <LabeledControl label="Track condition">
+                                <DropdownField
+                                    items={[{displayName: "Set by weather", value: "auto"}]}
+                                    selectedItem="auto"
+                                />
+                            </LabeledControl>
+                            <LabeledControl label="Wind speed">
+                                {/*TODO: range slider min-max*/}
+                                <Slider
+                                    mode='thumb'
+                                    className="wind-speed-slider"
+                                    value={trackSettings.windSpeedMin}
+                                    onChange={
+                                        v => onChange({
+                                            ...trackSettings,
+                                            windSpeedMin: v,
+                                            windSpeedMax: v,
+                                        })
+                                    }
+                                    min={MIN_WIND_SPEED_KMH}
+                                    max={MAX_WIND_SPEED_KMH}
+                                    step={1}
+                                    showNumberBox
+                                    showFillTrack
+                                    markSpacing={5}
+                                />
+                            </LabeledControl>
+                            <DirectionCircleField
+                                value={trackSettings.windDirection}
+                                onValueChange={v => handleFieldChange('windDirection', v)}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -358,7 +447,7 @@ function loadTrackSettings () : TrackSettings {
         roadTemperature: 36.7,
         windSpeedMin: 0,
         windSpeedMax: 0,
-        direction: 0,
+        windDirection: 0,
     }
 }
 

@@ -29,7 +29,7 @@
                 position: relative;
                 width: 300px;
                 height: 300px;
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
             }
     
             > .hue-container {
@@ -38,7 +38,7 @@
                 position: relative;
                 width: 30px;
                 height: 300px;
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
             }
             > .swatches-container {
                 grid-area: swa;
@@ -60,7 +60,7 @@
             > .color-comparison {
                 width: 100px;
                 height: 100px;
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
 
                 .color-old, .color-new {
                     width: 100%;
@@ -143,10 +143,10 @@
             > .color-suggestion {
                 width: $-size;
                 height: $-size;
-                border: 1px solid $text-color-dark-d2;
+                border: 1px solid $color-text-2;
     
                 &.selected {
-                    border: 2px solid $color-primary;
+                    border: 2px solid $color-highlight;
                 }
             }
         }

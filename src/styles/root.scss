@@ -12,7 +12,48 @@
     font-size: 10pt;
     color: white;
 
-    --color-primary: #a10325;
+    //--bg-color-dark: #0f121b;
+    //--bg-color-light: #e2e9ff;
+    --bg-color: var(--component-color-0);
+    --text-color: var(--text-color-white);
+    --text-color-1: var(--text-color-white-1);
+    --text-color-2: var(--text-color-white-2);
+
+    --highlight-color: #a10325;
+    --highlight-color-l1: #b9183b;
+    --highlight-color-l2: #c22749;
+    --highlight-color-l3: #ca4965;
+    --highlight-color-d2: #8a0723;
+    --highlight-color-d3: #70091f;
+    --highlight-color-d4: #550819;
+    --highlight-color-d5: #310610;
+
+    --component-color-0: #0f121b;
+    --component-color-1: #1b1f2b;
+    --component-color-2: #2d3038;
+    --component-color-3: #3c3f46;
+    --component-color-4: #474a51;
+    --component-color-5: #5e6167;
+    --component-color-6: #74777c;
+
+    --transparent-color-w1: #ffffff10;
+    --transparent-color-w2: #ffffff20;
+    --transparent-color-w3: #ffffff30;
+    --transparent-color-w4: #ffffff60;
+
+    --text-color-white: #eeeeee;
+    --text-color-white-1: #b9b9b9;
+    --text-color-white-2: #858585;
+    --text-color-black: #111111;
+    --text-color-black-1: #464646;
+    --text-color-black-2: #7a7a7a;
+
+    --color-danger: #df1021;
+    --color-success-l1: #25d14d;
+    --color-success: #28a745;
+    --color-success-d1: #1f8a38;
+    --color-golden: #ffb300;
+
 }
 
 // style for higher pixel density screens
@@ -43,7 +84,7 @@ button {
     outline: none;
     border: none;
     background-color: transparent;
-    color: $text-color-dark;
+    color: $color-text;
 
     &:hover:not(:disabled) {
         cursor: pointer;

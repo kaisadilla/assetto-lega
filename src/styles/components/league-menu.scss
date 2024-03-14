@@ -10,7 +10,7 @@
         font-size: 10pt;
         font-weight: $w-regular;
         text-align: center;
-        border-bottom: 1px solid $color-primary;
+        border-bottom: 1px solid $color-highlight;
     }
 
     .section {
@@ -61,14 +61,14 @@
 
                 &.selected {
                     .series-highlighter {
-                        border: 3px solid $color-primary;
+                        border: 3px solid $color-highlight;
                         border-bottom: 0;
                         &:hover {
                             background: 0;
                         }
                     }
                     .name-container {
-                        background-color: $color-primary;
+                        background-color: $color-highlight;
                     }
                 }
 
@@ -124,7 +124,7 @@
 
             .season {
                 flex-shrink: 0;
-                background-color: $bg-color-dark-l2;
+                background-color: $color-component2;
                 width: 100%;
                 height: 48px;
                 padding-right: 2%;
@@ -135,11 +135,11 @@
                     "col log nam dri era mak" 1fr / 8px 64px 1fr 64px 64px 64px;
 
                 &:hover {
-                    background-color: $bg-color-dark-l3;
+                    background-color: $color-component3;
                 }
 
                 &.selected {
-                    background-color: $color-primary;
+                    background-color: $color-highlight;
                 }
 
                 .season-color {
@@ -179,7 +179,7 @@
                     align-items: center;
                     font-size: 8pt;
                     font-weight: $w-extralight;
-                    color: $text-color-dark-d1;
+                    color: $color-text-1;
                 }
 
                 .season-teams {

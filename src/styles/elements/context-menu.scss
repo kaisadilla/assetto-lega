@@ -8,8 +8,8 @@
 }
 
 .tier-context-menu {
-    background: $bg-color-dark;
-    border: 1px solid $color-primary;
+    background: $color-background;
+    border: 1px solid $color-highlight;
 
     .tier-container {
         display: flex;
@@ -29,11 +29,11 @@
         }
 
         &:hover {
-            background: $bg-color-dark-l2;
+            background: $color-component2;
         }
 
         &.selected {
-            background: $color-primary;
+            background: $color-highlight;
         }
     }
 }

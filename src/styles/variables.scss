@@ -1,41 +1,45 @@
 /**********
  * Colors *
  **********/
-$bg-color-dark: #0f121b;
-$bg-color-dark-l1: #1b1f2b;
-$bg-color-dark-l2: #2d3038;
-$bg-color-dark-l3: #3c3f46;
-$bg-color-dark-l4: #474a51;
-$bg-color-dark-l5: #5e6167;
-$bg-color-dark-l6: #74777c;
-$text-color-dark: #eeeeee;
-$text-color-dark-d1: #b9b9b9;
-$text-color-dark-d2: #858585;
-$text-color-light: #111111;
-$text-color-light-1: #464646;
-$text-color-light-2: #7a7a7a;
+$color-background: var(--bg-color);
+$color-text: var(--text-color);
+$color-text-1: var(--text-color-1);
+$color-text-2: var(--text-color-2);
 
+$color-highlight: var(--highlight-color);
+$color-highlight-l1: var(--highlight-color-l1);
+$color-highlight-l2: var(--highlight-color-l2);
+$color-highlight-l3: var(--highlight-color-l3);
+$color-highlight-d2: var(--highlight-color-d2);
+$color-highlight-d3: var(--highlight-color-d3);
+$color-highlight-d4: var(--highlight-color-d4);
+$color-highlight-d5: var(--highlight-color-d5);
 
-$color-primary: var(--color-primary);
-$color-primary-l1: #b9183b;
-$color-primary-l2: #c22749;
-$color-primary-l3: #ca4965;
-$color-primary-d2: #8a0723;
-$color-primary-d3: #70091f;
-$color-primary-d4: #550819;
-$color-primary-d5: #310610;
+$color-component1: var(--component-color-1);
+$color-component2: var(--component-color-2);
+$color-component3: var(--component-color-3);
+$color-component4: var(--component-color-4);
+$color-component5: var(--component-color-5);
+$color-component6: var(--component-color-6);
 
-$color-danger: #df1021;
-$color-success-l1: #25d14d;
-$color-success: #28a745;
-$color-success-d1: #1f8a38;
+$color-transparent-w1: var(--transparent-color-w1);
+$color-transparent-w2: var(--transparent-color-w2);
+$color-transparent-w3: var(--transparent-color-w3);
+$color-transparent-w4: var(--transparent-color-w4);
 
-$color-golden: #ffb300;
+$color-text-white: var(--text-color-white);
+$color-text-white-1: var(--text-color-white-1);
+$color-text-white-2: var(--text-color-white-2);
 
-$color-transparent-w1: #ffffff10;
-$color-transparent-w2: #ffffff20;
-$color-transparent-w3: #ffffff30;
-$color-transparent-w4: #ffffff60;
+$color-text-black: var(--text-color-black);
+$color-text-black-1: var(--text-color-black-1);
+$color-text-black-2: var(--text-color-black-2);
+
+$color-danger: var(--color-danger);
+$color-success-l1: var(--color-success-l1);
+$color-success: var(--color-success);
+$color-success-d1: var(--color-success-d1);
+$color-golden: var(--color-golden);
 
 $color-tier-legendary: #ff7f27; // #ff6d16
 $color-tier-epic: #ad0ef1; // #760fba

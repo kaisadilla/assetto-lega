@@ -1,5 +1,5 @@
 .image-field {
-    border: 1px solid $text-color-dark-d2;
+    border: 1px solid $color-text-2;
     width: 100%;
     height: 100%;
 
@@ -15,7 +15,7 @@
             align-items: center;
             font-weight: $w-light;
             text-align: center;
-            color: $text-color-dark-d2
+            color: $color-text-2
         }
 
         img {
@@ -27,6 +27,6 @@
 
     .image-field-name {
         font-size: 10pt;
-        color: $text-color-dark-d1;
+        color: $color-text-1;
     }
 }

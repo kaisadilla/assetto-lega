@@ -23,7 +23,7 @@
 
         .country-category-title {
             &:hover {
-                background-color: $bg-color-dark-l2;
+                background-color: $color-component2;
             }
         }
 
@@ -95,7 +95,7 @@
                 width: 100%;
 
                 .description-container {
-                    color: $text-color-dark-d2;
+                    color: $color-text-2;
                 }
             }
         }
@@ -107,20 +107,20 @@
 
             .datum {
                 > .name {
-                    color: $text-color-dark;
+                    color: $color-text;
 
                     &::after {
                         content: "\00a0";
                     }
                 }
                 > .value {
-                    color: $text-color-dark-d2;
+                    color: $color-text-2;
 
                     &.country {
                         display: inline-block;
                         
                         > img {
-                            //border: 1px solid $text-color-dark-d2;
+                            //border: 1px solid $color-text-2;
                             max-width: 20px;
                         }
 
@@ -151,7 +151,7 @@
                 }
 
                 &.selected {
-                    background-color: $color-primary;
+                    background-color: $color-highlight;
                 }
 
                 .layout-outline {

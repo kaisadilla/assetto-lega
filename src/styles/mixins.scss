@@ -61,7 +61,7 @@
     }
     
     &::-webkit-scrollbar-thumb {
-        background-color: $color-primary;
+        background-color: $color-highlight;
     }
 
     &::-webkit-scrollbar-track {
@@ -70,8 +70,8 @@
 
     &:hover {
         &::-webkit-scrollbar-thumb {
-            //border: 1px solid $bg-color-dark-l1;
-            background-color: $color-primary;
+            //border: 1px solid $color-component1;
+            background-color: $color-highlight;
         }
 
         &::-webkit-scrollbar-track {

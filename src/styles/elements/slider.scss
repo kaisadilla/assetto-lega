@@ -18,10 +18,10 @@
             .slider-track {
                 top: 0;
                 height: 100%;
-                background: $bg-color-dark-l2;
+                background: $color-component2;
     
                 &.slider-track-0 {
-                    background: $color-primary;
+                    background: $color-highlight;
                 }
             }
 
@@ -29,7 +29,7 @@
                 margin-left: -1px;
                 width: 1px;
                 height: 100%;
-                background: $color-primary;
+                background: $color-highlight;
             }
         }
     }
@@ -44,11 +44,11 @@
 
     &.readonly > .slider-container > .slider-main {
         > .slider-track.slider-track-0 {
-            background-color: $bg-color-dark-l4;
+            background-color: $color-component4;
         }
 
         > .slider-thumb {
-            background-color: $bg-color-dark-l4;
+            background-color: $color-component4;
         }
     }
 }
@@ -83,11 +83,11 @@
                 .slider-track {
                     height: $-slider-track-height;
                     top: calc(50% - $-slider-thumb-half-width);
-                    background: $bg-color-dark-l2;
+                    background: $color-component2;
                     right: $-slider-thumb-half-width !important;
         
                     &.show-fill-track-0 {
-                        background: $bg-color-dark-l5;
+                        background: $color-component5;
                     }
                 }
     
@@ -96,16 +96,16 @@
                     width: $-slider-thumb-width;
                     height: 100%;
                     margin-left: -$-slider-thumb-half-width;
-                    background: $color-primary;
+                    background: $color-highlight;
 
                     &:hover {
-                        background: $color-primary-l3;
+                        background: $color-highlight-l3;
                     }
                 }
 
                 .slider-mark {
                     top: calc(50% + $-slider-track-height + 4px);
-                    background-color: $bg-color-dark-l4;
+                    background-color: $color-component4;
                     width: 1px;
                     height: 5px;
                 }
@@ -136,15 +136,15 @@
             > .slider-container {        
                 > .slider-main {            
                     .slider-track {
-                        background: $bg-color-dark-l2;
+                        background: $color-component2;
             
                         &.show-fill-track-0 {
-                            background: $bg-color-dark-l2;
+                            background: $color-component2;
                         }
                     }
         
                     > .slider-thumb {
-                        background: $bg-color-dark-l2;
+                        background: $color-component2;
                     }
                 }
             }
@@ -178,7 +178,7 @@
                 position: relative;
                 width: $-main-thumb-width;
                 height: 24px;
-                background: $color-primary;
+                background: $color-highlight;
 
                 > .slider-range {
                     position: absolute !important;
@@ -192,7 +192,7 @@
                     > .slider-thumb {
                         width: $-range-thumb-width;
                         height: 24px;
-                        background: $color-primary-d3;
+                        background: $color-highlight-d3;
                         //background: transparent;
                         //font-weight: $w-bold;
                         //font-size: 18pt;
