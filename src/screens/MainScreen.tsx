@@ -9,6 +9,8 @@ import EditorPage from './pages/EditorPage';
 import ReadingAcContentScreen from './ReadingAcContent';
 import DragRegion from 'elements/DragRegion';
 import { useAcContext } from 'context/useAcContext';
+import Button from 'elements/Button';
+import MaterialSymbol from 'elements/MaterialSymbol';
 
 enum Page {
     FREE_DRIVE,
@@ -86,7 +88,12 @@ function MainScreen () {
                     <NavBar.Item text="stats" index={Page.STATS} />
                     <NavBar.Item text="import / export" index={Page.IMPORT} />
                 </NavBar>
-                <DragRegion />
+                <div className="window-titlebar">
+                    <DragRegion className="window-dragbar" />
+                    <Button className="titlebar-button">
+                        <MaterialSymbol symbol='settings' />
+                    </Button>
+                </div>
             </div>
             <div className="cell-content">
                 {$content}

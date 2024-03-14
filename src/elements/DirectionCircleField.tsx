@@ -38,16 +38,18 @@ function DirectionCircleField ({
     );
 
     return (
-        <div className={classStr} {...divProps} style={{width: "32px"}}>
+        <div className={classStr} {...divProps}>
             <CircularSlider
                 initialValue={value}
+                min={0}
+                max={359}
                 onChange={(v: number) => onValueChange?.(v)}
                 width={80}
-                data={WIND_DIRECTIONS}
+                //data={WIND_DIRECTIONS}
                 knobColor="var(--highlight-color)"
                 knobSize={22}
                 knobDraggable={true}
-                label="."
+                label=""
                 labelColor="#eeeeee"
                 valueFontSize="10pt"
                 trackColor="var(--component-color-3)"

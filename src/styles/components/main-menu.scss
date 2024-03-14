@@ -26,9 +26,50 @@
             padding-top: $navbar-padding-top;
         }
 
-        // This region allows the window to be dragged.
-        .default-drag-region {
+        .window-titlebar {
+            //background: red;
             flex: 1;
+            height: $taskbar-height;
+            display: flex;
+            flex-direction: row;
+            margin-right: $taskbar-windows-default-button-container-width;
+
+            // This region allows the window to be dragged.
+            > .window-dragbar {
+                //background: blue;
+                flex: 1;
+                height: 100%;
+            }
+
+            > .titlebar-button {
+                cursor: default;
+                width: $taskbar-windows-control-width;
+                height: 100%;
+                background-color: var(--bg-color-dark);
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    background-color: #2f3239;
+                }
+
+                &:focus {
+                    outline: 0;
+                }
+        
+                &:hover:not(:disabled):not(:active) {
+                    background-color: #2f3239;
+                }
+        
+                &:active {
+                    background-color: #4d4f56;
+                }
+
+                > .material-symbol {
+                    font-size: 16pt;
+                    font-weight: $w-thin;
+                }
+            }
         }
     }
 

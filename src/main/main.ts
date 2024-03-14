@@ -98,6 +98,7 @@ const createWindow = async () => {
         // TODO: custom title bar
         titleBarStyle: "hidden",
         titleBarOverlay: {
+            //color: "#0f121b",
             color: "#0f121b",
             symbolColor: "#ffffff",
             height: 33, // default: 44  -> 48 = 61

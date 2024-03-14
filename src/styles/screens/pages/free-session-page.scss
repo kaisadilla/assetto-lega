@@ -258,6 +258,25 @@ $-default-padding: 16px;
 
                     > .wind-section {
                         grid-area: tmp;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+
+                        .wind-speed-slider {
+                            .number-box-container {
+                                width: 32px;
+                            }
+                        }
+
+                        > .wind-direction-label {
+                            height: fit-content;
+                            padding: 6px 0;
+
+                            > .value {
+                                display: flex;
+                                //justify-content: center;
+                            }
+                        }
                     }
                 }
             }

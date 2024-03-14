@@ -1,15 +1,21 @@
 import React, { CSSProperties } from 'react';
+import { getClassString } from 'utils';
 
-export interface DragRegionProps {
-    style?: CSSProperties;
+export interface DragRegionProps extends React.HTMLAttributes<HTMLDivElement> {
+    
 }
 
 function DragRegion ({
-    style
+    className,
+    ...divProps
 }: DragRegionProps) {
+    const classStr = getClassString(
+        "default-drag-region",
+        className,
+    )
 
     return (
-        <div className="default-drag-region" style={style}>
+        <div className={classStr} {...divProps}>
             
         </div>
     );

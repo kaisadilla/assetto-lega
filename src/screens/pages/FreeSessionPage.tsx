@@ -7,7 +7,7 @@ import { AssetFolder } from 'data/assets';
 import BackgroundDiv from 'elements/BackgroundDiv';
 import AssetImage from 'elements/AssetImage';
 import FlagImage from 'elements/images/FlagImage';
-import { getClassString, timeNumberToString, timeStringToNumber } from 'utils';
+import { getClassString, timeNumberToString, timeStringToNumber, truncateNumber } from 'utils';
 import { useAcContext } from 'context/useAcContext';
 import TrackThumbnailField from 'components/TrackThumbnailField';
 import { TrackPickerValue } from 'components/TrackPicker';
@@ -189,6 +189,15 @@ function _TrackSection ({
     const track = trackSettings.track;
     const layout = track?.layoutsById[trackSettings.layout ?? ""];
 
+    useEffect(() => {
+        if (isRoadTempAuto) {
+            handleFieldChange(
+                'roadTemperature',
+                truncateNumber(trackSettings.ambientTemperature * AMBIENT_TEMP_TO_ROAD_RATIO, 2)
+            );
+        }
+    }, [trackSettings.ambientTemperature, isRoadTempAuto]);
+
     if (league === null) {
         return (
             <div className="section collapsed section-not-available">
@@ -237,14 +246,11 @@ function _TrackSection ({
                     />
                     <div className="time-section">
                         <h3>Time</h3>
-                        <LabeledControl label="Random time">
-                            <Checkbox
-                                value={trackSettings.randomTime}
-                                onChange={
-                                    v => handleFieldChange('randomTime', v)
-                                }
-                            />
-                        </LabeledControl>
+                        <LabeledCheckbox
+                            label="Random time"
+                            value={trackSettings.randomTime}
+                            onChange={v => handleFieldChange('randomTime', v)}
+                        />
                         <LabeledControl label="Start time">
                             <HourSlider
                                 value={trackSettings.startTime}
@@ -348,10 +354,15 @@ function _TrackSection ({
                                     markSpacing={5}
                                 />
                             </LabeledControl>
-                            <DirectionCircleField
-                                value={trackSettings.windDirection}
-                                onValueChange={v => handleFieldChange('windDirection', v)}
-                            />
+                            <LabeledControl
+                                className="wind-direction-label"
+                                label="Wind direction"
+                            >
+                                <DirectionCircleField
+                                    value={trackSettings.windDirection}
+                                    onValueChange={v => handleFieldChange('windDirection', v)}
+                                />
+                            </LabeledControl>
                         </div>
                     </div>
                 </div>
