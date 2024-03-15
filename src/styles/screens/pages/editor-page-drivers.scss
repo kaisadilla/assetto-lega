@@ -78,9 +78,9 @@
                 overflow-y: auto;
     
                 > .driver-entry {
-                    $-no-color-bg: $color-component3;
+                    $-no-color-bg: $color-component-3;
     
-                    background: $color-component3;
+                    background: $color-component-3;
                     display: flex;
                     flex-direction: row;
                     flex-wrap: nowrap;
@@ -127,7 +127,7 @@
                         min-width: 0;
     
                         > .default-slider .slider-container {
-                            border: 1px solid $color-component4;
+                            border: 1px solid $color-component-4;
                         }
                     }
     
@@ -251,7 +251,7 @@
                 align-items: center;
 
                 &:not(:last-child) {
-                    border-bottom: 1px solid $color-component2;
+                    border-bottom: 1px solid $color-component-2;
                 }
 
                 &.first-position > .position {
@@ -264,7 +264,7 @@
                 > .position {
                     width: $-size;
                     height: 100%;
-                    background-color: $color-component3;
+                    background-color: $color-component-3;
                     font-size: 16pt;
                     display: flex;
                     justify-content: center;
@@ -283,7 +283,7 @@
                     color: $color-text-black;
 
                     > .team-badge {
-                        background-color: $color-component6;
+                        background-color: $color-component-6;
                         height: 100%;
                         padding: 0 8px;
                         display: flex;

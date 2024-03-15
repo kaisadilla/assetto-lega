@@ -18,7 +18,7 @@
             .slider-track {
                 top: 0;
                 height: 100%;
-                background: $color-component2;
+                background: $color-component-2;
     
                 &.slider-track-0 {
                     background: $color-highlight;
@@ -44,11 +44,11 @@
 
     &.readonly > .slider-container > .slider-main {
         > .slider-track.slider-track-0 {
-            background-color: $color-component4;
+            background-color: $color-component-4;
         }
 
         > .slider-thumb {
-            background-color: $color-component4;
+            background-color: $color-component-4;
         }
     }
 }
@@ -84,11 +84,11 @@
                 .slider-track {
                     height: $-slider-track-height;
                     top: calc(50% - $-slider-thumb-half-width);
-                    background: $color-component2;
+                    background: $color-component-2;
                     right: $-slider-thumb-half-width !important;
         
                     &.show-fill-track-0 {
-                        background: $color-component5;
+                        background: $color-component-5;
                     }
                 }
     
@@ -106,7 +106,7 @@
 
                 .slider-mark {
                     top: calc(50% + $-slider-track-height + 4px);
-                    background-color: $color-component4;
+                    background-color: $color-component-4;
                     width: 1px;
                     height: 5px;
                 }
@@ -137,15 +137,15 @@
             > .slider-container {        
                 > .slider-main {            
                     .slider-track {
-                        background: $color-component2;
+                        background: $color-component-2;
             
                         &.show-fill-track-0 {
-                            background: $color-component2;
+                            background: $color-component-2;
                         }
                     }
         
                     > .slider-thumb {
-                        background: $color-component2;
+                        background: $color-component-2;
                     }
                 }
             }

@@ -1,7 +1,7 @@
 @import "../variables";
 
 .default-button {
-    background-color: $color-component2;
+    background-color: $color-component-2;
     padding: 4px 8px;
     font-size: 10pt;
 
@@ -57,7 +57,7 @@
         }
     
         &:hover:not(:disabled):not(:active) {
-            background-color: $color-component3;
+            background-color: $color-component-3;
         }
     
         &:active {
@@ -81,7 +81,7 @@
         }
     
         &:hover:not(:disabled):not(:active) {
-            background-color: $color-component3;
+            background-color: $color-component-3;
         }
     }
 }

@@ -31,7 +31,7 @@
                 flex-shrink: 0;
 
                 &:hover {
-                    background-color: $color-component2;
+                    background-color: $color-component-2;
                 }
                 &:not(:hover) > .button {
                     visibility: hidden;

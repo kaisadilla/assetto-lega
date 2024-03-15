@@ -1,6 +1,6 @@
 .default-country-field {
     &:hover {
-        background-color: $color-transparent-w2;
+        background-color: $color-transparent-2;
     }
 
     > .country-content {
@@ -23,7 +23,7 @@
     
         &:focus {
             border: 1px solid $color-highlight;
-            background-color: $color-transparent-w2;
+            background-color: $color-transparent-2;
             padding: 0 5px;
         }
     

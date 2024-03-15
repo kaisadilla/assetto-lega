@@ -87,7 +87,7 @@
             flex-wrap: nowrap;
             justify-content: start;
             align-items: center;
-            background: $color-component3;
+            background: $color-component-3;
             gap: $gap;
             width: 50%;
             min-width: 550px;
@@ -103,7 +103,7 @@
             }
     
             > .team-logo {
-                background-color: $color-component2;
+                background-color: $color-component-2;
                 width: 100px;
                 height: 100%;
                 display: flex;

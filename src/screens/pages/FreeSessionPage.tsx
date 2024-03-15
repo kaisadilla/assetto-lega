@@ -1,5 +1,5 @@
 import { useDataContext } from 'context/useDataContext';
-import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry } from 'data/schemas';
+import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam } from 'data/schemas';
 import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
 import { FILE_PROTOCOL } from 'data/files';
@@ -20,6 +20,7 @@ import DirectionCircleField from 'elements/DirectionCircleField';
 import { useSettingsContext } from 'context/useSettings';
 import TrackThumbnail from 'elements/TrackThumbnail';
 import Button from 'elements/Button';
+import { LeagueDriver } from 'logic/raceStats';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -81,6 +82,14 @@ interface TrackSettings {
     windDirection: number; // in degrees (0-360).
 }
 
+interface DriverSettings {
+    selectedTeam: LeagueTeam | null;
+    selectedDriver: LeagueDriver | null;
+    useDriversName: string;
+    customDriverCountry: string;
+    customDriverName: string;
+}
+
 export interface FreeSessionPageProps {
 
 }
@@ -89,9 +98,8 @@ function FreeSessionPage (props: FreeSessionPageProps) {
     const [section, setSection] = useState(Section.League);
 
     const [league, setLeague] = useState<League | null>(null);
-    const [trackSettings, setTrackSettings] = useState<TrackSettings>(
-        loadTrackSettings(),
-    )
+    const [trackSettings, setTrackSettings] = useState(loadTrackSettings());
+    const [driverSettings, setDriverSettings] = useState(loadDriverSettings());
 
     const canOpenTrackSection = league !== null;
     const canOpenDriverSection = canOpenTrackSection && trackSettings.track !== null;
@@ -228,6 +236,16 @@ function _TrackSection ({
 
     if (league === null) throw `League can't be null.`;
 
+    if (expanded === false && trackSettings.track === null) {
+        return (
+            <div
+                className="section collapsed section-not-yet-opened"
+                onClick={() => onExpand()}
+            >
+                Track
+            </div>
+        )
+    }
     if (expanded === false) {
         const selectedEvent = getCurrentlySelectedEvent();
         const eventName = (() => {
@@ -264,6 +282,9 @@ function _TrackSection ({
                 className="section collapsed track-section-collapsed"
                 onClick={() => onExpand()}
             >
+                <div className="section-collapsed-title">
+                    TRACK
+                </div>
                 <div className="thumbnail-section">
                     <TrackThumbnail
                         track={track}
@@ -631,6 +652,16 @@ function loadTrackSettings () : TrackSettings {
         windSpeedMin: 0,
         windSpeedMax: 0,
         windDirection: 0,
+    }
+}
+
+function loadDriverSettings () : DriverSettings {
+    return {
+        selectedTeam: null,
+        selectedDriver: null,
+        useDriversName: "",
+        customDriverCountry: "",
+        customDriverName: "",
     }
 }
 

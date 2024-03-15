@@ -109,14 +109,14 @@
                     gap: 16px;
                     height: 160px; //fit-content;
                     flex-shrink: 0;
-                    //background-color: $color-component2;
+                    //background-color: $color-component-2;
 
                     &:not(:last-child) {
-                        border-bottom: 1px solid $color-component2;
+                        border-bottom: 1px solid $color-component-2;
                     }
 
                     &:hover {
-                        background-color: $color-component2;
+                        background-color: $color-component-2;
                     }
                     &:not(:hover) {
                         .floating-toolbox {
@@ -165,10 +165,10 @@
                         .action-button {
                             margin-top: 4px;
                             width: 100%;
-                            background-color: $color-component3;
+                            background-color: $color-component-3;
 
                             &:hover {
-                                background-color: $color-component4;
+                                background-color: $color-component-4;
                             }
                         }
                     }
@@ -183,7 +183,7 @@
                         right: 0;
 
                         .delete-button {
-                            background-color: $color-component3;
+                            background-color: $color-component-3;
 
                             &:hover {
                                 background-color: $color-danger;

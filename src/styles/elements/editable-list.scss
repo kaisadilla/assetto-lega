@@ -1,5 +1,5 @@
 .default-editable-list {
-    background-color: $color-component2;
+    background-color: $color-component-2;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -26,7 +26,7 @@
             justify-content: center;
 
             &:hover {
-                background-color: $color-transparent-w2;
+                background-color: $color-transparent-2;
             }
         }
     }
@@ -39,7 +39,7 @@
         }
 
         &:hover {
-            background-color: $color-transparent-w1;
+            background-color: $color-transparent-1;
 
             .tag-action {
                 visibility: visible;
@@ -71,7 +71,7 @@
     .add-entry {
         padding: 0;
         &:hover {
-            background-color: $color-transparent-w2;
+            background-color: $color-transparent-2;
         }
 
         .input-field {

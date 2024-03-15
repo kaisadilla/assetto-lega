@@ -13,7 +13,7 @@
         }
 
         &:hover {
-            background-color: $color-component2;
+            background-color: $color-component-2;
         }
     }
 
@@ -62,7 +62,7 @@
         padding: 2px 0 2px 8px;
     
         &:hover:not(.selected) {
-            background-color: $color-component3;
+            background-color: $color-component-3;
         }
     
         &.selected {
@@ -112,7 +112,7 @@
         }
 
         &:hover {
-            background-color: $color-component2;
+            background-color: $color-component-2;
         }
     }
 
@@ -124,7 +124,7 @@
         align-items: center;
 
         &.expanded {
-            //border-bottom: 1px solid $color-component2;
+            //border-bottom: 1px solid $color-component-2;
         }
 
         .category-name {

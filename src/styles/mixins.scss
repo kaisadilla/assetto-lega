@@ -65,17 +65,17 @@
     }
 
     &::-webkit-scrollbar-track {
-        //background-color: $color-transparent-w2;
+        //background-color: $color-transparent-2;
     }
 
     &:hover {
         &::-webkit-scrollbar-thumb {
-            //border: 1px solid $color-component1;
+            //border: 1px solid $color-component-1;
             background-color: $color-highlight;
         }
 
         &::-webkit-scrollbar-track {
-            background-color: $color-transparent-w2;
+            background-color: $color-transparent-2;
         }
     }
 }

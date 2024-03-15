@@ -14,7 +14,7 @@
 </div>
 
 .gp-entry {
-	background: $color-transparent-w3;
+	background: $color-transparent-3;
 	display: flex;
 	align-items: center;
 	gap: 4px;
@@ -49,7 +49,7 @@
 	.track-outline {
 		width: 64px;
 		height: 100%;
-		background: $color-transparent-w2;
+		background: $color-transparent-2;
 
 		img {
 			width: 100%;
