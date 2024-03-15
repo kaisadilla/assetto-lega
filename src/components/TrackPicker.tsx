@@ -16,6 +16,7 @@ import TrackThumbnail from 'elements/TrackThumbnail';
 import { FILE_PROTOCOL } from 'data/files';
 import TagList from 'elements/TagList';
 import { useAcContext } from 'context/useAcContext';
+import { useSettingsContext } from 'context/useSettings';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -446,9 +447,16 @@ function LayoutEntry ({
     onSelect,
     onSubmit,
 }: LayoutEntryProps) {
+    const { getThemeAwareClass } = useSettingsContext();
+
     const classStr = getClassString(
         "layout-entry",
         selected && "selected",
+    )
+
+    const layoutClass = getClassString(
+        "layout-outline",
+        getThemeAwareClass('white'),
     )
 
     return (
@@ -456,7 +464,7 @@ function LayoutEntry ({
             onClick={handleSelect}
             onDoubleClick={() => onSubmit()}
         >
-            <div className="layout-outline">
+            <div className={layoutClass}>
                 <img src={FILE_PROTOCOL + layout.outlinePath} />
             </div>
             <div className="layout-name">

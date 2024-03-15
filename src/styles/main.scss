@@ -58,6 +58,7 @@
 @import "screens/pages/editor-page-score-system";
 @import "screens/pages/free-session-page";
 @import "screens/pages/league-page";
+@import "screens/pages/settings-page";
 
 .window {
     background-color: $color-background;
@@ -119,4 +120,8 @@
         justify-content: right;
         gap: 8px;
     }
+}
+
+.invert-color {
+    filter: invert(1);
 }

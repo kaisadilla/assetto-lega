@@ -4,6 +4,8 @@ import { AcTrack } from "data/schemas";
 import { saveAs } from "file-saver";
 
 export const LOCALE = "en-US";
+export const MS_TO_KMH = 3.6;
+export const KMH_TO_MS = 1 / MS_TO_KMH;
 
 export type TextColor = 'black' | 'white';
 
@@ -21,13 +23,16 @@ export interface ConditionalClass {
  * @returns 
  */
 export function getClassString (
-    ...params: (string | boolean | [string, boolean | undefined] | undefined)[]
+    ...params: (string | boolean | [string, boolean | undefined] | undefined | null)[]
 ) : string
 {
     let str = "";
 
     for (const classEntry of params) {
         if (classEntry === undefined) {
+            continue;
+        }
+        if (classEntry === null) {
             continue;
         }
         if (classEntry === false) {
@@ -184,6 +189,10 @@ export function truncateNumber (num: number, decimalPlaces: number) {
     const numToTrim = num * multiplier;
     const truncated = Math[numToTrim < 0 ? 'ceil' : 'floor'](numToTrim);
     return truncated / multiplier;
+}
+
+export function numberToBaseString (num: number, base: number, decimalPlaces: number = 0) {
+    return truncateNumber(num, decimalPlaces).toString(base);
 }
 
 export function countDecimalPlaces (num: number) {

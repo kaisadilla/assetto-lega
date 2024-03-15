@@ -1,7 +1,9 @@
 import { useDataContext } from 'context/useDataContext';
+import { CSS_VARIABLES, useSettingsContext } from 'context/useSettings';
 import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
 import React, { CSSProperties } from 'react';
+import { numberToBaseString, truncateNumber } from 'utils';
 
 export interface BackgroundDivProps {
     folder: AssetFolder;
@@ -22,18 +24,22 @@ function BackgroundDiv ({
     style,
     children,
 }: BackgroundDivProps) {
+    const { getCssVariableValue } = useSettingsContext();
     const { dataPath } = useDataContext();
 
     const imgBackground = Files.getFilePath(
         dataPath, folder, imageName
     );
 
+    const varBgColor = getCssVariableValue(CSS_VARIABLES.BgColor);
+    const opacity255 = ((1 - opacity) * 255) | 0;
+
     const styleObj: CSSProperties = {
         ...style,
         backgroundImage: `linear-gradient(
                 to right,
-                rgba(0, 0, 0, ${1 - opacity}),
-                rgba(0, 0, 0, ${1 - opacity})
+                ${varBgColor}${opacity255.toString(16)},
+                ${varBgColor}${opacity255.toString(16)}
             ),
             url(${imgBackground})`,
     };

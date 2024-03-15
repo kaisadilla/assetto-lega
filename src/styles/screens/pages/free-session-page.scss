@@ -12,12 +12,12 @@ $-default-padding: 16px;
     width: 100%;
     height: 100%;
 
-    h2 {
+    h2.header {
         font-family: $font-f1;
         font-weight: $w-regular;
     }
 
-    h3 {
+    h3.header {
         font-family: $font-f1;
         font-weight: $w-extralight;
         font-size: 12pt;
@@ -25,7 +25,7 @@ $-default-padding: 16px;
         padding: 0;
     }
 
-    h4 {
+    h4.header {
         font-family: $font-std;
         font-weight: $w-bold;
         font-size: 10pt;
@@ -48,24 +48,30 @@ $-default-padding: 16px;
         }
 
         &.collapsed {
-            height: 48px;
-
             &:not(.section-not-available):hover {
                 background-color: $color-highlight;
+                color: $color-highlight-text;
             }
         }
     }
 
-    .section-not-available {
-        cursor: not-allowed;
+    .section-not-available, .section-not-yet-opened {
+        height: 48px;
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: 0 $-collapsed-line-padding;
         font-size: $-collapsed-line-font-size;
-        font-style: italic;
         font-weight: $w-semibold;
         color: $color-text-2;
+    }
+
+    .section-not-available {
+        cursor: not-allowed;
+        font-style: italic;
+    }
+    .section-not-yet-opened {
+        color: $color-highlight;
     }
 
     .league-section-expanded {
@@ -88,11 +94,66 @@ $-default-padding: 16px;
         overflow: hidden;
         align-items: center;
         gap: 16px;
+        height: 48px;
 
         .league-icon {
             max-width: 120px;
             height: 100%;
             object-fit: contain;
+        }
+    }
+
+    .track-section-collapsed {
+        height: 140px;
+        padding: 12px;
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+
+        > .thumbnail-section {
+            height: 100%;
+            width: 204px; // TODO: WHY IS THIS NECESSARY FOR WIDTH TO NOT BE 0???????
+            flex-shrink: 0;
+
+            .default-thumbnail {
+                height: 100%;
+                width: fit-content;
+            }
+        }
+
+        > .info-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            > .event-title {
+                font-family: $font-f1;
+                font-size: 12pt;
+                text-align: center;
+            }
+
+            > .event-data {
+                display: flex;
+                flex-direction: row;
+                gap: 16px;
+
+                > .column {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3px;
+
+                    > .datum {
+                        > .name {
+                            font-weight: $w-semibold;
+                        }
+    
+                        > .value {
+                            color: $color-text-2;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -139,6 +200,11 @@ $-default-padding: 16px;
 
                     &.selected {
                         background: $color-highlight;
+                        color: $color-highlight-text;
+                        
+                        .track-name {
+                            color: $color-highlight-text-1 !important;
+                        }
                     }
 
                     > .outline-section {
@@ -213,7 +279,8 @@ $-default-padding: 16px;
             > .section-content {
                 display: grid;
                 grid-template: "tra tim" auto
-                               "atm atm" 1fr / 240px 1fr;
+                               "atm atm" 1fr
+                               "too too" 64px / 240px 1fr;
                 width: 100%;
                 height: 100%;
                 gap: 12px;
@@ -277,6 +344,24 @@ $-default-padding: 16px;
                                 //justify-content: center;
                             }
                         }
+                    }
+                }
+
+                .toolbox-section {
+                    grid-area: too;
+
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 16px;
+                    justify-content: right;
+                    padding: 1px;
+
+                    .default-button {
+                        height: 100%;
+                        width: 200px;
+                        font-family: $font-f1;
+                        font-size: 22pt;
                     }
                 }
             }

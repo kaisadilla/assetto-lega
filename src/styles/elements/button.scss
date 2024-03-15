@@ -19,6 +19,7 @@
     }
 
     &.highlighted:not(.disabled) {
+        color: $color-highlight-text;
         background-color: $color-highlight;
 
         &:focus {

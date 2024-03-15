@@ -6,6 +6,9 @@ $color-text: var(--text-color);
 $color-text-1: var(--text-color-1);
 $color-text-2: var(--text-color-2);
 
+$color-highlight-text: var(--highlight-text-color);
+$color-highlight-text-1: var(--highlight-text-color-1);
+$color-highlight-text-2: var(--highlight-text-color-2);
 $color-highlight: var(--highlight-color);
 $color-highlight-l1: var(--highlight-color-l1);
 $color-highlight-l2: var(--highlight-color-l2);
@@ -15,17 +18,17 @@ $color-highlight-d3: var(--highlight-color-d3);
 $color-highlight-d4: var(--highlight-color-d4);
 $color-highlight-d5: var(--highlight-color-d5);
 
-$color-component1: var(--component-color-1);
-$color-component2: var(--component-color-2);
-$color-component3: var(--component-color-3);
-$color-component4: var(--component-color-4);
-$color-component5: var(--component-color-5);
-$color-component6: var(--component-color-6);
+$color-component1: var(--component-color-theme-1);
+$color-component2: var(--component-color-theme-2);
+$color-component3: var(--component-color-theme-3);
+$color-component4: var(--component-color-theme-4);
+$color-component5: var(--component-color-theme-5);
+$color-component6: var(--component-color-theme-6);
 
-$color-transparent-w1: var(--transparent-color-w1);
-$color-transparent-w2: var(--transparent-color-w2);
-$color-transparent-w3: var(--transparent-color-w3);
-$color-transparent-w4: var(--transparent-color-w4);
+$color-transparent-w1: var(--transparent-color-theme-1);
+$color-transparent-w2: var(--transparent-color-theme-2);
+$color-transparent-w3: var(--transparent-color-theme-3);
+$color-transparent-w4: var(--transparent-color-theme-4);
 
 $color-text-white: var(--text-color-white);
 $color-text-white-1: var(--text-color-white-1);

@@ -29,11 +29,12 @@
         }
 
         &:hover {
-            background: $color-component2;
+            background-color: $color-component2;
         }
 
         &.selected {
-            background: $color-highlight;
+            background-color: $color-highlight;
+            color: $color-highlight-text;
         }
     }
 }

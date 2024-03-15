@@ -11,6 +11,8 @@ import DragRegion from 'elements/DragRegion';
 import { useAcContext } from 'context/useAcContext';
 import Button from 'elements/Button';
 import MaterialSymbol from 'elements/MaterialSymbol';
+import { useSettingsContext } from 'context/useSettings';
+import SettingsPage from './pages/SettingsPage';
 
 enum Page {
     FREE_DRIVE,
@@ -19,13 +21,19 @@ enum Page {
     CONTENT,
     STATS,
     IMPORT,
+    SETTINGS,
 };
 
 function MainScreen () {
     const [ page, setPage] = useState(Page.FREE_DRIVE);
 
+    const { loadSettings } = useSettingsContext();
     const { appStatus, isACFolderValid, readAcContent, confirmReady } = useDataContext();
     const { loadAcContent, acContentReady } = useAcContext();
+
+    useEffect(() => {
+        loadSettings();
+    }, []);
 
     useEffect(() => {
         // TODO: Probably load outside of here altogether.
@@ -72,6 +80,11 @@ function MainScreen () {
                 <EditorPage />
             );
         }
+        else if (page === Page.SETTINGS) {
+            return (
+                <SettingsPage />
+            );
+        }
         else {
             return <></>;
         }
@@ -87,6 +100,7 @@ function MainScreen () {
                     <NavBar.Item text="content" index={Page.CONTENT} />
                     <NavBar.Item text="stats" index={Page.STATS} />
                     <NavBar.Item text="import / export" index={Page.IMPORT} />
+                    <NavBar.Item text="settings" index={Page.SETTINGS} />
                 </NavBar>
                 <div className="window-titlebar">
                     <DragRegion className="window-dragbar" />

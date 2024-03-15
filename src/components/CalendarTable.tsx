@@ -1,9 +1,10 @@
 import { useAcContext } from 'context/useAcContext';
+import { useSettingsContext } from 'context/useSettings';
 import { Countries } from 'data/countries';
 import { AcTrackCollection, LeagueCalendarEntry } from 'data/schemas';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
-import { dateToDisplayName } from 'utils';
+import { dateToDisplayName, getClassString } from 'utils';
 
 export interface CalendarTableProps {
     calendar: LeagueCalendarEntry[];
@@ -36,6 +37,8 @@ function CalendarEntry ({
     entry,
     tracks,
 }: CalendarEntryProps) {
+    const { getThemeAwareClass } = useSettingsContext();
+    
     const countryData = Countries[entry.country];
 
     const layoutImg = (() => {
@@ -52,6 +55,11 @@ function CalendarEntry ({
     // the default track's id is an empty string.
     const trackName = track.layoutsById[entry.layout ?? ""].ui.name ?? track.displayName;
 
+    const layoutClass = getClassString(
+        "layout",
+        getThemeAwareClass('white'),
+    )
+
     return (
         <div className="calendar-entry">
             <div className="date">
@@ -63,7 +71,7 @@ function CalendarEntry ({
             <div className="name">
                 {entry.name}
             </div>
-            <div className="layout">
+            <div className={layoutClass}>
                 <img src={layoutImg} />
             </div>
             <div className="layout-name">

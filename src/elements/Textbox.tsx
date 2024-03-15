@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getClassString, smartFilterArray } from 'utils';
+import { LOCALE, getClassString, smartFilterArray } from 'utils';
 import Dropdown from './Dropdown';
+import { useSettingsContext } from 'context/useSettings';
 
 export interface TextboxProps {
     value?: string;
@@ -110,6 +111,8 @@ function TextboxSuggestions ({
     prompt,
     onClick,
 }: TextboxSuggestionsProps) {
+    const { searchMode } = useSettingsContext();
+
     const [dropdownStyle, setDropdownStyle] = useState({});
     
     useEffect(() => {
@@ -124,9 +127,20 @@ function TextboxSuggestions ({
         });
     }, []);
 
-    const filteredSuggestions = prompt.length > 1
-        ? smartFilterArray(suggestions, prompt)
-        : [];
+    prompt = prompt.toLocaleLowerCase(LOCALE);
+
+    let filteredSuggestions = [] as string[];
+    
+    if (prompt.length > 1) {
+        if (searchMode === 'smart') {
+            filteredSuggestions = smartFilterArray(suggestions, prompt);
+        }
+        else {
+            filteredSuggestions = suggestions.filter(
+                s => s.toLocaleLowerCase(LOCALE).includes(prompt)
+            );
+        }
+    }
 
     const $suggestions = filteredSuggestions.map(s => (
         <div key={s} className="suggestion" onClick={() => onClick(s)}>

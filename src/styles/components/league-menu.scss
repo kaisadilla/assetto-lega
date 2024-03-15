@@ -69,6 +69,7 @@
                     }
                     .name-container {
                         background-color: $color-highlight;
+                        color: $color-highlight-text;
                     }
                 }
 
@@ -140,6 +141,7 @@
 
                 &.selected {
                     background-color: $color-highlight;
+                    color: $color-highlight-text;
                 }
 
                 .season-color {
@@ -196,7 +198,7 @@
                 }
                 .season-makers {
                     grid-area: mak;
-                    color: white;
+                    color: $color-text;
 
                     > span {
                         //@include ellipsis();

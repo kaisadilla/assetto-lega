@@ -1,5 +1,5 @@
 import { useDataContext } from 'context/useDataContext';
-import { AcTrack, League, LeagueCalendarEntry } from 'data/schemas';
+import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry } from 'data/schemas';
 import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
 import { FILE_PROTOCOL } from 'data/files';
@@ -11,14 +11,15 @@ import { getClassString, timeNumberToString, timeStringToNumber, truncateNumber 
 import { useAcContext } from 'context/useAcContext';
 import TrackThumbnailField from 'components/TrackThumbnailField';
 import { TrackPickerValue } from 'components/TrackPicker';
-import CircularSlider from '@fseehawer/react-circular-slider';
 import Slider from 'elements/Slider';
 import LabeledControl from 'elements/LabeledControl';
-import Checkbox from 'elements/Checkbox';
 import HourSlider from 'components/HourSlider';
 import DropdownField from 'elements/DropdownField';
 import LabeledCheckbox from 'elements/LabeledCheckbox';
 import DirectionCircleField from 'elements/DirectionCircleField';
+import { useSettingsContext } from 'context/useSettings';
+import TrackThumbnail from 'elements/TrackThumbnail';
+import Button from 'elements/Button';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -60,7 +61,7 @@ enum JumpStartPenalty {
 
 interface TrackSettings {
     track: AcTrack | null;
-    layout: string | null;
+    layout: AcTrackLayout | null;
     //hasPractice: boolean;
     //practiceLength: number;
     //hasQualifying: boolean;
@@ -75,8 +76,8 @@ interface TrackSettings {
     trackCondition: TrackCondition;
     ambientTemperature: number;
     roadTemperature: number;
-    windSpeedMin: number;
-    windSpeedMax: number;
+    windSpeedMin: number; // in km/h
+    windSpeedMax: number; // in km/h
     windDirection: number; // in degrees (0-360).
 }
 
@@ -92,6 +93,9 @@ function FreeSessionPage (props: FreeSessionPageProps) {
         loadTrackSettings(),
     )
 
+    const canOpenTrackSection = league !== null;
+    const canOpenDriverSection = canOpenTrackSection && trackSettings.track !== null;
+
     return (
         <div className="free-session-page">
             <_LeagueSection
@@ -102,10 +106,20 @@ function FreeSessionPage (props: FreeSessionPageProps) {
             />
             <_TrackSection
                 expanded={section === Section.Track}
+                canBeExpanded={canOpenTrackSection}
+                canContinue={canOpenDriverSection}
                 league={league}
                 trackSettings={trackSettings}
                 onChange={setTrackSettings}
                 onExpand={() => handleExpandSection(Section.Track)}
+                onContinue={() => handleExpandSection(Section.Driver)}
+            />
+            <_DriverSection
+                expanded={section === Section.Driver}
+                canBeExpanded={canOpenDriverSection}
+                league={league}
+                trackSettings={trackSettings}
+                onExpand={() => handleExpandSection(Section.Driver)}
             />
         </div>
     );
@@ -168,18 +182,24 @@ function _LeagueSection ({
 
 interface _TrackSectionProps {
     expanded: boolean;
+    canBeExpanded: boolean;
+    canContinue: boolean;
     league: League | null;
     trackSettings: TrackSettings;
     onChange: (trackSettings: TrackSettings) => void;
     onExpand: () => void;
+    onContinue: () => void;
 }
 
 function _TrackSection ({
     expanded,
+    canBeExpanded,
+    canContinue,
     league,
     trackSettings,
     onChange,
     onExpand,
+    onContinue,
 }: _TrackSectionProps) {
     const { tracks } = useAcContext();
 
@@ -187,7 +207,7 @@ function _TrackSection ({
     const [isRoadTempAuto, setRoadTempAuto] = useState(true);
 
     const track = trackSettings.track;
-    const layout = track?.layoutsById[trackSettings.layout ?? ""];
+    const layout = trackSettings.layout;
 
     useEffect(() => {
         if (isRoadTempAuto) {
@@ -198,7 +218,7 @@ function _TrackSection ({
         }
     }, [trackSettings.ambientTemperature, isRoadTempAuto]);
 
-    if (league === null) {
+    if (canBeExpanded === false) {
         return (
             <div className="section collapsed section-not-available">
                 Track
@@ -206,13 +226,85 @@ function _TrackSection ({
         )
     }
 
+    if (league === null) throw `League can't be null.`;
+
     if (expanded === false) {
+        const selectedEvent = getCurrentlySelectedEvent();
+        const eventName = (() => {
+            if (selectedEvent) {
+                return selectedEvent.officialName ?? selectedEvent.name;
+            }
+            if (trackSettings.track && trackSettings.layout) {
+                return `Custom event at '${trackSettings.layout.ui.name}'`;
+            }
+            return `Custom event`;
+        })();
+
+        const startTime = (() => {
+            if (trackSettings.randomTime) return "Random"
+            else return timeNumberToString(trackSettings.startTime);
+        })();
+
+        const temperature = `${trackSettings.ambientTemperature.toFixed(1)}° `
+            + `(${trackSettings.roadTemperature.toFixed(1)}°)`;
+
+        const windSpeed = (() => {
+            if (trackSettings.windSpeedMin !== trackSettings.windSpeedMax) {
+                return `${trackSettings.windSpeedMin}-${trackSettings.windSpeedMax} km/h`;
+            }
+            else {
+                return `${trackSettings.windSpeedMin} km/h`;
+            }
+        })();
+
+        const windDir = `${trackSettings.windDirection}°`;
+
         return (
             <div
                 className="section collapsed track-section-collapsed"
                 onClick={() => onExpand()}
             >
-                track!
+                <div className="thumbnail-section">
+                    <TrackThumbnail
+                        track={track}
+                        layout={layout}
+                    />
+                </div>
+                <div className="info-section">
+                    <div className="event-title">
+                        {eventName}
+                    </div>
+                    <div className="event-data">
+                        <div className="column">
+                            <div className="datum">
+                                <span className="name">Start time: </span>
+                                <span className="value">{startTime}</span>
+                            </div>
+                            <div className="datum">
+                                <span className="name">Weather: </span>
+                                <span className="value">Clear</span>
+                            </div>
+                            <div className="datum">
+                                <span className="name">Temperature: </span>
+                                <span className="value">{temperature}</span>
+                            </div>
+                        </div>
+                        <div className="column">
+                            <div className="datum">
+                                <span className="name">Track condition: </span>
+                                <span className="value">Set by weather</span>
+                            </div>
+                            <div className="datum">
+                                <span className="name">Wind speed: </span>
+                                <span className="value">{windSpeed}</span>
+                            </div>
+                            <div className="datum">
+                                <span className="name">Wind direction: </span>
+                                <span className="value">{windDir}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -225,18 +317,18 @@ function _TrackSection ({
             opacity={0.15}
         >
             <div className="event-section">
-                <h2>Preset events</h2>
+                <h2 className="header">Preset events</h2>
                 <div className="event-container">
                     {league.calendar.map(e => <_TrackSectionEvent
                         key={e.internalName}
                         entry={e}
-                        selected={e.track === trackSettings.track?.folderName}
+                        selected={getCurrentlySelectedEvent()?.internalName === e.internalName}
                         onSelect={() => handleSelectEvent(e)}
                     />)}
                 </div>
             </div>
             <div className="customize-section">
-                <h2>Race details</h2>
+                <h2 className="header">Race details</h2>
                 <div className="section-content">
                     <TrackThumbnailField
                         className="track-thumbnail"
@@ -245,7 +337,7 @@ function _TrackSection ({
                         onTrackChange={handleTrackChange}
                     />
                     <div className="time-section">
-                        <h3>Time</h3>
+                        <h3 className="header">Time</h3>
                         <LabeledCheckbox
                             label="Random time"
                             value={trackSettings.randomTime}
@@ -278,7 +370,7 @@ function _TrackSection ({
                         </LabeledControl>
                     </div>
                     <div className="conditions-section">
-                        <h3 className="title">Atmospheric conditions</h3>
+                        <h3 className="title header">Atmospheric conditions</h3>
                         <div className="weather-section">
                             <LabeledControl label="Weather">
                                 <DropdownField
@@ -286,7 +378,7 @@ function _TrackSection ({
                                     selectedItem="Clear"
                                 />
                             </LabeledControl>
-                            <h4>Temperatures</h4>
+                            <h4 className="header">Temperatures</h4>
                             <LabeledCheckbox
                                 label="Calculate road temperature automatically"
                                 value={isRoadTempAuto}
@@ -365,6 +457,15 @@ function _TrackSection ({
                             </LabeledControl>
                         </div>
                     </div>
+                    <div className="toolbox-section">
+                        <Button
+                            highlighted
+                            disabled={canContinue === false}
+                            onClick={() => onContinue()}
+                        >
+                            Continue
+                        </Button>
+                    </div>
                 </div>
             </div>
         </BackgroundDiv>
@@ -377,7 +478,7 @@ function _TrackSection ({
         onChange({
             ...trackSettings,
             track: track,
-            layout: layout.folderName,
+            layout: layout,
             startTime: timeStringToNumber(event.raceStartHour) ?? trackSettings.startTime,
         })
     }
@@ -385,12 +486,12 @@ function _TrackSection ({
     function handleTrackChange (values: TrackPickerValue) {
         if (values.track === undefined || values.layout === undefined) return;
         const track = tracks.tracksById[values.track];
-        //const layout = track.layoutsById[values.layout];
+        const layout = track.layoutsById[values.layout];
 
         onChange({
             ...trackSettings,
             track,
-            layout: values.layout,
+            layout,
         })
     }
 
@@ -399,6 +500,12 @@ function _TrackSection ({
             ...trackSettings,
             [field]: value,
         })
+    }
+
+    function getCurrentlySelectedEvent () {
+        return league?.calendar.find(
+            e => e.track === trackSettings.track?.folderName
+        ) ?? null;
     }
 }
 
@@ -413,17 +520,23 @@ function _TrackSectionEvent ({
     selected,
     onSelect,
 }: _TrackSectionEventProps) {
+    const { getThemeAwareClass } = useSettingsContext();
     const { tracks } = useAcContext();
     
     const track = tracks.tracksById[entry.track];
     const layout = track.layoutsById[entry.layout];
+
+    const outlineClass = getClassString(
+        "outline-section",
+        getThemeAwareClass('white'),
+    )
 
     return (
         <div
             className={getClassString("event-entry", selected && "selected")}
             onClick={() => onSelect()}
         >
-            <div className="outline-section">
+            <div className={outlineClass}>
                 <img src={FILE_PROTOCOL + layout.outlinePath} />
             </div>
             <div className="info-section">
@@ -442,6 +555,65 @@ function _TrackSectionEvent ({
         </div>
     );
 }
+
+interface _DriverSectionProps {
+    expanded: boolean;
+    canBeExpanded: boolean;
+    league: League | null;
+    trackSettings: TrackSettings;
+    onExpand: () => void;
+}
+
+function _DriverSection ({
+    expanded,
+    canBeExpanded,
+    league,
+    trackSettings,
+    onExpand,
+}: _DriverSectionProps) {
+    if (canBeExpanded === false) {
+        return (
+            <div className="section collapsed section-not-available">
+                Driver
+            </div>
+        )
+    }
+
+    if (expanded === false) {
+        if (true) {
+            return (
+                <div
+                    className="section collapsed section-not-yet-opened"
+                    onClick={() => onExpand()}
+                >
+                    Driver
+                </div>
+            )
+        }
+        else {
+            return (
+                <div
+                    className="section collapsed track-section-collapsed"
+                    onClick={() => onExpand()}
+                >
+                    driver!
+                </div>
+            )
+        }
+    }
+
+    return (
+        <BackgroundDiv
+            className="section expanded driver-section-expanded"
+            folder={AssetFolder.leagueBackgrounds}
+            imageName={league?.background ?? ""}
+            opacity={0.15}
+        >
+            DRIVER!
+        </BackgroundDiv>
+    );
+}
+
 
 /**
  * Loads track settings to use.

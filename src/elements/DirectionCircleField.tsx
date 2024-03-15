@@ -1,4 +1,5 @@
 import CircularSlider from '@fseehawer/react-circular-slider';
+import { CSS_VARIABLES } from 'context/useSettings';
 import React from 'react';
 import { getClassString } from 'utils';
 
@@ -46,16 +47,16 @@ function DirectionCircleField ({
                 onChange={(v: number) => onValueChange?.(v)}
                 width={80}
                 //data={WIND_DIRECTIONS}
-                knobColor="var(--highlight-color)"
+                knobColor={`var(${CSS_VARIABLES.HighlightColor0})`}
                 knobSize={22}
                 knobDraggable={true}
                 label=""
                 labelColor="#eeeeee"
                 valueFontSize="10pt"
-                trackColor="var(--component-color-3)"
+                trackColor={`var(${CSS_VARIABLES.ComponentColorTheme3})`}
                 progressSize={0}
-                progressColorFrom="var(--component-color-5)"
-                progressColorTo="var(--component-color-5)"
+                progressColorFrom={`var(${CSS_VARIABLES.ComponentColorTheme5})`}
+                progressColorTo={`var(${CSS_VARIABLES.ComponentColorTheme5})`}
                 trackSize={6}
                 trackDraggable={false}
             />

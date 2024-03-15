@@ -46,7 +46,6 @@ function TrackThumbnailField (props: TrackThumbnailFieldProps) {
     function handlePickerSelect (value: TrackPickerValue) {
         setPickerOpen(false);
         onTrackChange?.(value);
-        console.log(value);
     }
 }
 
