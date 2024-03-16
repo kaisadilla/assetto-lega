@@ -1,7 +1,9 @@
 import ColorField from 'components/ColorField';
+import CountryField from 'components/CountryField';
 import { AppTheme, DEFAULT_SETTINGS, SearchMode, useSettingsContext } from 'context/useSettings';
 import DropdownField, { DropdownItem } from 'elements/DropdownField';
 import LabeledControl from 'elements/LabeledControl';
+import Textbox from 'elements/Textbox';
 import React from 'react';
 
 const ACCENT_SUGGESTIONS = [
@@ -56,6 +58,31 @@ function SettingsPage (props: SettingsPageProps) {
                     ] as DropdownItem<SearchMode>[]}
                     selectedItem={ctx.searchMode}
                     onSelect={v => ctx.setSearchMode(v)}
+                />
+            </LabeledControl>
+            <LabeledControl label="Profile country">
+                <CountryField
+                    value={ctx.profile.country}
+                    onChange={c => ctx.setProfileField('country', c)}
+                    allowRegions
+                />
+            </LabeledControl>
+            <LabeledControl label="Profile number">
+                <Textbox
+                    value={ctx.profile.number}
+                    onChange={str => ctx.setProfileField('number', str)}
+                />
+            </LabeledControl>
+            <LabeledControl label="Profile name">
+                <Textbox
+                    value={ctx.profile.name}
+                    onChange={str => ctx.setProfileField('name', str)}
+                />
+            </LabeledControl>
+            <LabeledControl label="Profile initials">
+                <Textbox
+                    value={ctx.profile.initials}
+                    onChange={str => ctx.setProfileField('initials', str)}
                 />
             </LabeledControl>
         </div>

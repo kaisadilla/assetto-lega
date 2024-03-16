@@ -1,0 +1,159 @@
+.default-team-gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    //gap: 8px;
+    align-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 0;
+
+    .entry {
+        aspect-ratio: 1;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        border: 8px solid;
+
+        &.text-black {
+            color: $color-text-black;
+
+            > .team-identity > .team-names {
+                > .team-name {
+                    color: $color-text-black;
+                }
+                > .constructor-name {
+                    color: $color-text-black-2;
+                }
+            }
+            
+            > .team-data > .team-bop > .team-datum {
+                > .name {
+                    color: $color-text-black;
+                }
+                > .value {
+                    color: $color-text-black-1;
+                }
+            }
+        }
+        &.text-white {
+            color: $color-text-white;
+
+            > .team-identity > .team-names {
+                > .team-name {
+                    color: $color-text-white;
+                }
+                > .constructor-name {
+                    color: $color-text-white-2;
+                }
+            }
+            
+            > .team-data > .team-bop > .team-datum {
+                > .name {
+                    color: $color-text-white;
+                }
+                > .value {
+                    color: $color-text-white-1;
+                }
+            }
+        }
+
+        > .team-logo {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            background-color: $color-component-6;
+            border: 1px solid $color-text-white-1;
+
+            > img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+
+        > .team-identity {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            padding: 6px 0;
+
+            > .flag {
+                max-height: 24px;
+                margin: 6px;
+                border: 1px solid $color-text-2;
+            }
+
+            > .team-names {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                overflow: hidden;
+                justify-content: center;
+                align-items: center;
+                gap: 2px;
+
+                > .team-name {
+                    @include ellipsis();
+                    width: 100%;
+                    text-align: center;
+                    font-family: $font-f1;
+                    font-weight: $w-semibold;
+                }
+
+                > .constructor-name {
+                    @include ellipsis();
+                    width: 100%;
+                    text-align: center;
+                    font-family: $font-oxanium;
+                }
+            }
+        }
+
+        > .team-data {
+            background-color: #ffffff40;
+            padding: 12px 0;
+
+            > .team-car {
+                @include ellipsis();
+                font-family: $font-oxanium;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: center;
+                gap: 6px;
+
+                > .team-badge {
+                    max-height: 16px;
+                    max-width: 32px;
+                }
+
+                > div {
+                    @include ellipsis();
+                }
+            }
+            > .team-bop {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: center;
+                gap: 8px;
+
+                > .team-datum {
+                    > .name {
+                        font-family: $font-oxanium;
+                        font-weight: $w-thin;
+                    }
+                    > .value {
+                        font-weight: $w-bold;
+                    }
+                }
+            }
+        }
+    }
+}

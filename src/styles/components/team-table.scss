@@ -11,7 +11,7 @@
 
         .add-team {
             height: 48px;
-            font-family: "Oxanium";
+            font-family: $font-oxanium;
         }
     }
 }
@@ -52,7 +52,7 @@
     .team {
         display: flex;
         gap: $table-gap;
-        font-family: "Oxanium";
+        font-family: $font-oxanium;
         min-height: 64px;
         flex-shrink: 0;
     
@@ -125,7 +125,9 @@
                 text-align: center;
 
                 > img {
-                    height: 24px; //48
+                    max-width: 42px;
+                    max-height: 36px;
+                    //height: 24px; //48
                     box-sizing: content-box;
                     border: 1px solid $color-text-2;
                 }

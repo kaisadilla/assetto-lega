@@ -211,6 +211,10 @@ export interface AcCar {
      * The absolute path to the folder containing this car.
      */
     folderPath: string;
+    /**
+     * The absolute path to the badge image of this car.
+     */
+    badgePath: string;
     ui: CarUi;
     /**
      * The skins present in this car's folder. Each key corresponds to the name

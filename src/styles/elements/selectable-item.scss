@@ -1,0 +1,32 @@
+.default-selectable-item-by-border {
+    cursor: pointer;
+    
+    .item-container {
+        &:hover {
+            outline: 5px solid $color-component-2;
+        }
+    }
+
+    &.selected > .item-container {
+        outline: 5px solid $color-highlight;
+    }
+}
+
+.default-selectable-item-by-opacity {
+    cursor: pointer;
+    position: relative;
+
+    &.deselected > .item-container {
+        opacity: 0.4;
+    }
+
+    &:hover {
+        > .default-highlighter {
+            background-color: #ffffff30;
+        }
+        > .item-container {
+            opacity: 1;
+            color: red !important;
+        }
+    }
+}

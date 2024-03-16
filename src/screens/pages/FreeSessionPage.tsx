@@ -1,5 +1,5 @@
 import { useDataContext } from 'context/useDataContext';
-import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam } from 'data/schemas';
+import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam, LeagueTeamDriver } from 'data/schemas';
 import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
 import { FILE_PROTOCOL } from 'data/files';
@@ -7,7 +7,7 @@ import { AssetFolder } from 'data/assets';
 import BackgroundDiv from 'elements/BackgroundDiv';
 import AssetImage from 'elements/AssetImage';
 import FlagImage from 'elements/images/FlagImage';
-import { getClassString, timeNumberToString, timeStringToNumber, truncateNumber } from 'utils';
+import { chooseW3CTextColor, getClassString, isStringNullOrEmpty, timeNumberToString, timeStringToNumber, truncateNumber } from 'utils';
 import { useAcContext } from 'context/useAcContext';
 import TrackThumbnailField from 'components/TrackThumbnailField';
 import { TrackPickerValue } from 'components/TrackPicker';
@@ -17,10 +17,12 @@ import HourSlider from 'components/HourSlider';
 import DropdownField from 'elements/DropdownField';
 import LabeledCheckbox from 'elements/LabeledCheckbox';
 import DirectionCircleField from 'elements/DirectionCircleField';
-import { useSettingsContext } from 'context/useSettings';
+import { UserProfile, useSettingsContext } from 'context/useSettings';
 import TrackThumbnail from 'elements/TrackThumbnail';
 import Button from 'elements/Button';
-import { LeagueDriver } from 'logic/raceStats';
+import TeamGallery from 'components/TeamGallery';
+import DefaultHighlighter from 'elements/Highlighter';
+import SelectableItem from 'elements/SelectableItem';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -84,10 +86,12 @@ interface TrackSettings {
 
 interface DriverSettings {
     selectedTeam: LeagueTeam | null;
-    selectedDriver: LeagueDriver | null;
-    useDriversName: string;
+    selectedDriver: LeagueTeamDriver | null;
+    useDriversName: boolean;
     customDriverCountry: string;
     customDriverName: string;
+    customDriverNumber: string;
+    customDriverInitials: string;
 }
 
 export interface FreeSessionPageProps {
@@ -95,11 +99,13 @@ export interface FreeSessionPageProps {
 }
 
 function FreeSessionPage (props: FreeSessionPageProps) {
+    const { profile } = useSettingsContext();
+
     const [section, setSection] = useState(Section.League);
 
     const [league, setLeague] = useState<League | null>(null);
     const [trackSettings, setTrackSettings] = useState(loadTrackSettings());
-    const [driverSettings, setDriverSettings] = useState(loadDriverSettings());
+    const [driverSettings, setDriverSettings] = useState(loadDriverSettings(profile));
 
     const canOpenTrackSection = league !== null;
     const canOpenDriverSection = canOpenTrackSection && trackSettings.track !== null;
@@ -127,6 +133,8 @@ function FreeSessionPage (props: FreeSessionPageProps) {
                 canBeExpanded={canOpenDriverSection}
                 league={league}
                 trackSettings={trackSettings}
+                driverSettings={driverSettings}
+                onChange={setDriverSettings}
                 onExpand={() => handleExpandSection(Section.Driver)}
             />
         </div>
@@ -136,9 +144,18 @@ function FreeSessionPage (props: FreeSessionPageProps) {
         setSection(section);
     }
 
-    function handleSelectLeague (league: League) {
-        setLeague(league);
+    function handleSelectLeague (selectedLeague: League) {
+        // don't do anything if the user selects what's already selected.
+        if (selectedLeague.internalName === league?.internalName) {
+            setSection(Section.Track);
+            return;
+        }
+
+        setLeague(selectedLeague);
         setSection(Section.Track);
+        // track settings are valid across all leagues, but driver settings
+        // are not.
+        setDriverSettings(loadDriverSettings(profile));
     }
 }
 
@@ -250,7 +267,10 @@ function _TrackSection ({
         const selectedEvent = getCurrentlySelectedEvent();
         const eventName = (() => {
             if (selectedEvent) {
-                return selectedEvent.officialName ?? selectedEvent.name;
+                if (isStringNullOrEmpty(selectedEvent.officialName)) {
+                    return selectedEvent.name;
+                }
+                return selectedEvent.officialName;
             }
             if (trackSettings.track && trackSettings.layout) {
                 return `Custom event at '${trackSettings.layout.ui.name}'`;
@@ -294,6 +314,15 @@ function _TrackSection ({
                 <div className="info-section">
                     <div className="event-title">
                         {eventName}
+                    </div>
+                    <div className="layout">
+                        <div className="datum">
+                            <span className="name">Track and layout: </span>
+                            <span className="value">
+                                {trackSettings.layout?.ui?.name
+                                    ?? trackSettings.track?.displayName}
+                            </span>
+                        </div>
                     </div>
                     <div className="event-data">
                         <div className="column">
@@ -520,7 +549,7 @@ function _TrackSection ({
         onChange({
             ...trackSettings,
             [field]: value,
-        })
+        });
     }
 
     function getCurrentlySelectedEvent () {
@@ -582,6 +611,8 @@ interface _DriverSectionProps {
     canBeExpanded: boolean;
     league: League | null;
     trackSettings: TrackSettings;
+    driverSettings: DriverSettings;
+    onChange: (driverSettings: DriverSettings) => void;
     onExpand: () => void;
 }
 
@@ -590,8 +621,11 @@ function _DriverSection ({
     canBeExpanded,
     league,
     trackSettings,
+    driverSettings,
+    onChange,
     onExpand,
 }: _DriverSectionProps) {
+
     if (canBeExpanded === false) {
         return (
             <div className="section collapsed section-not-available">
@@ -630,8 +664,213 @@ function _DriverSection ({
             imageName={league?.background ?? ""}
             opacity={0.15}
         >
-            DRIVER!
+            <div className="team-section">
+                <h2 className="header">Teams</h2>
+                <div className="team-container">
+                    {league?.teams.map(t => <_DriverSectionTeam
+                        key={t.internalName}
+                        team={t}
+                        spec={league.specs[0]}
+                        selectedTeam={driverSettings.selectedTeam}
+                        onSelect={() => handleTeamSelection(t)}
+                    />)}
+                </div>
+            </div>
+            <div className="driver-section">
+                <h2 className="header">Drivers</h2>
+                <div className="driver-container">
+                    {driverSettings.selectedTeam?.drivers.map(d => <_DriverSectionDriver
+                        key={d.internalName}
+                        team={driverSettings.selectedTeam!}
+                        driver={d}
+                        spec={league!.specs[0]}
+                        selectedDriver={driverSettings.selectedDriver}
+                        onSelect={() => handleDriverSelection(d)}
+                    />)}
+                </div>
+            </div>
+            <div className="driver-settings-section">
+                <h2 className="header">Driver settings</h2>
+                <LabeledCheckbox
+                    label="Use driver's name"
+                    value={driverSettings.useDriversName}
+                />
+            </div>
         </BackgroundDiv>
+    );
+
+    function handleFieldChange (field: keyof DriverSettings, value: any) {
+        onChange({
+            ...driverSettings,
+            [field]: value,
+        });
+    }
+
+    function handleTeamSelection (team: LeagueTeam) {
+        if (team.internalName === driverSettings.selectedTeam?.internalName) {
+            return;
+        }
+        onChange({
+            ...driverSettings,
+            selectedTeam: team,
+            selectedDriver: null,
+        });
+    }
+
+    function handleDriverSelection (driver: LeagueTeamDriver) {
+        if (driver.internalName === driverSettings.selectedDriver?.internalName) {
+            return;
+        }
+        handleFieldChange('selectedDriver', driver);
+    }
+}
+
+interface _DriverSectionTeamProps {
+    team: LeagueTeam;
+    spec: string;
+    selectedTeam: LeagueTeam | null;
+    onSelect: () => void;
+}
+
+function _DriverSectionTeam ({
+    team,
+    spec,
+    selectedTeam,
+    onSelect,
+}: _DriverSectionTeamProps) {
+    const { cars } = useAcContext();
+
+    const teamCar = cars.carsById[team.cars[spec]];
+
+    // TODO: Manage this situation
+    if (teamCar === undefined) {
+        throw `Car not found.`;
+    }
+
+    const textColor = chooseW3CTextColor(team.color);
+
+    const entryClass = getClassString(
+        "team-entry",
+        textColor === 'black' && "text-black",
+        textColor === 'white' && "text-white",
+    );
+
+    const style = {
+        backgroundColor: team.color,
+        borderColor: team.color,
+    }
+
+    return (
+        <SelectableItem
+            className="team-entry-container"
+            selectionMode='opacity'
+            value={team.internalName}
+            selectedValue={selectedTeam?.internalName}
+            onClick={() => onSelect()}
+        >
+
+        <div className={entryClass} style={style}>
+            <div className="team-color" />
+            <div className="team-logo">
+                <AssetImage folder={AssetFolder.teamLogos} imageName={team.logo} />
+            </div>
+            <div className="team-data">
+                <div className="team-identity">
+                    <FlagImage className="flag" country={team.country} />
+                    <div className="team-names">
+                        <div className="team-name">
+                            {team.shortName ?? team.name}
+                        </div>
+                        <div className="constructor-name">
+                            {team.constructorName ?? ""}
+                        </div>
+                    </div>
+                </div>
+                <div className="car-data">
+                    <div className="team-car">
+                        <img className="team-badge" src={FILE_PROTOCOL + teamCar.badgePath} />
+                        <div>{teamCar.ui.name ?? teamCar.folderName}</div>
+                    </div>
+                    <div className="team-bop">
+                        <div className="team-datum ballast">
+                            <span className="name">ballast </span>
+                            <span className="value">{team.ballast}</span>
+                        </div>
+                        <div className="team-datum restrictor">
+                            <span className="name">restrictor </span>
+                            <span className="value">{team.restrictor}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </SelectableItem>
+    );
+}
+
+interface _DriverSectionDriverProps {
+    team: LeagueTeam;
+    driver: LeagueTeamDriver;
+    spec: string;
+    selectedDriver: LeagueTeamDriver | null;
+    onSelect: () => void;
+}
+
+function _DriverSectionDriver ({
+    team,
+    driver,
+    spec,
+    selectedDriver,
+    onSelect,
+}: _DriverSectionDriverProps) {
+
+    const textColor = chooseW3CTextColor(team.color);
+
+    const entryClass = getClassString(
+        "driver-entry",
+        textColor === 'black' && "text-black",
+        textColor === 'white' && "text-white",
+    );
+
+    const style = {
+        backgroundColor: team.color,
+        borderColor: team.color,
+    }
+
+    return (
+        <SelectableItem
+            className="driver-entry-container"
+            selectionMode='opacity'
+            value={driver.internalName}
+            selectedValue={selectedDriver?.internalName}
+            onClick={() => onSelect()}
+        >
+
+        <div className={entryClass} style={style}>
+            <div className="driver-number">
+                <div>{driver.number}</div>
+            </div>
+            <div className="driver-flag-container">
+                <FlagImage country={driver.country} />
+            </div>
+            <span className="driver-initials">{driver.initials}</span>
+            <span className="driver-name">{driver.name}</span>
+        </div>
+
+        </SelectableItem>
+    );
+}
+
+interface _DriverSelectionCustomizationProps {
+    
+}
+
+function _DriverSelectionCustomization (props: _DriverSelectionCustomizationProps) {
+
+    return (
+        <div>
+            Customization!
+        </div>
     );
 }
 
@@ -655,13 +894,15 @@ function loadTrackSettings () : TrackSettings {
     }
 }
 
-function loadDriverSettings () : DriverSettings {
+function loadDriverSettings (profile: UserProfile) : DriverSettings {
     return {
         selectedTeam: null,
         selectedDriver: null,
-        useDriversName: "",
-        customDriverCountry: "",
-        customDriverName: "",
+        useDriversName: true,
+        customDriverCountry: profile.country,
+        customDriverName: profile.name,
+        customDriverNumber: profile.number,
+        customDriverInitials: profile.initials,
     }
 }
 

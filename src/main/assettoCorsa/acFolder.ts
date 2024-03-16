@@ -65,6 +65,7 @@ export const AssettoCorsa = {
         const carFolder = this.acPath + "/content/cars/" + folderName;
         const carUiFile = carFolder + "/ui/ui_car.json";
         const carSkinFolder = carFolder + "/skins";
+        const carBadgePath = carFolder + "/ui/badge.png";
 
         if (fs.existsSync(carFolder) === false) {
             throw `Folder '${carFolder}' for car '${folderName}' does not exist.`;
@@ -136,6 +137,7 @@ export const AssettoCorsa = {
             folderName,
             folderPath: carFolder,
             ui,
+            badgePath: carBadgePath,
             skinsById,
             skins,
         }

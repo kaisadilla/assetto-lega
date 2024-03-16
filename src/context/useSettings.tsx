@@ -5,16 +5,31 @@ enum Setting {
     Theme = "theme",
     Accent = "accent",
     SearchMode = "search-mode",
+    ProfileName = "profile/name",
+    ProfileCountry = "profile/country",
+    ProfileNumber = "profile/number",
+    ProfileInitials = "profile/initials",
 }
 
 export const DEFAULT_SETTINGS = {
     [Setting.Theme]: 'dark' as AppTheme,
     [Setting.Accent]: '#a10325',
     [Setting.SearchMode]: 'smart' as SearchMode,
+    [Setting.ProfileName]: "Player",
+    [Setting.ProfileCountry]: "world",
+    [Setting.ProfileNumber]: "00",
+    [Setting.ProfileInitials]: "PLA",
 };
 
 export type AppTheme = 'dark' | 'light';
 export type SearchMode = 'literal' | 'smart';
+
+export interface UserProfile {
+    name: string;
+    country: string;
+    number: string;
+    initials: string;
+}
 
 export const CSS_VARIABLES = {
     BgColor: "--bg-color",
@@ -87,12 +102,14 @@ interface ISettingsContext {
     theme: AppTheme;
     accent: string;
     searchMode: SearchMode;
+    profile: UserProfile;
     loadSettings: () => void;
     getCssVariableValue: (cssVariable: string) => string;
     getThemeAwareClass: (contentColor: 'white' | 'black') => string | null;
     setTheme: (theme: AppTheme) => void;
     setAccent: (accent: string) => void;
     setSearchMode: (searchMode: SearchMode) => void;
+    setProfileField: (field: keyof UserProfile, value: any) => void;
 }
 
 const SettingsContext = createContext({} as ISettingsContext);
@@ -103,18 +120,31 @@ export const SettingsContextProvider = ({ children }: any) => {
         theme: DEFAULT_SETTINGS[Setting.Theme],
         accent: DEFAULT_SETTINGS[Setting.Accent],
         searchMode: DEFAULT_SETTINGS[Setting.SearchMode],
+        profile: {
+            name: DEFAULT_SETTINGS[Setting.ProfileName],
+            country: DEFAULT_SETTINGS[Setting.ProfileCountry],
+            number: DEFAULT_SETTINGS[Setting.ProfileNumber],
+            initials: DEFAULT_SETTINGS[Setting.ProfileInitials],
+        }
     } as ISettingsContext);
 
     const value = useMemo(() => {
         function loadSettings () {
-            const theme = loadSetting<AppTheme>(Setting.Theme, 'string', state.theme);
-            const accent = loadSetting<string>(Setting.Accent, 'string', state.accent);
-            const searchMode = loadSetting<SearchMode>(Setting.SearchMode, 'string', state.searchMode);
+            const theme = loadStringSetting(Setting.Theme, state.theme) as AppTheme;
+            const accent = loadStringSetting(Setting.Accent, state.accent);
+            const searchMode = loadStringSetting(Setting.SearchMode, state.searchMode) as SearchMode;
+            const profile = {
+                name: loadStringSetting(Setting.ProfileName, state.profile.name),
+                country: loadStringSetting(Setting.ProfileCountry, state.profile.country),
+                number: loadStringSetting(Setting.ProfileNumber, state.profile.number),
+                initials: loadStringSetting(Setting.ProfileInitials, state.profile.initials),
+            };
 
             setState({
                 theme,
                 accent,
                 searchMode,
+                profile,
             } as ISettingsContext);
 
             applyTheme(theme);
@@ -160,6 +190,20 @@ export const SettingsContextProvider = ({ children }: any) => {
             saveSetting(Setting.SearchMode, searchMode);
         }
 
+        function setProfileField (field: keyof UserProfile, value: any) {
+            setState(prevState => ({
+                ...prevState,
+                profile: {
+                    ...prevState.profile,
+                    [field]: value,
+                }
+            }));
+            if (field === 'name') saveSetting(Setting.ProfileName, value);
+            if (field === 'country') saveSetting(Setting.ProfileCountry, value);
+            if (field === 'number') saveSetting(Setting.ProfileNumber, value);
+            if (field === 'initials') saveSetting(Setting.ProfileInitials, value);
+        }
+
         return {
             ...state,
             loadSettings,
@@ -168,6 +212,7 @@ export const SettingsContextProvider = ({ children }: any) => {
             setTheme,
             setAccent,
             setSearchMode,
+            setProfileField,
         }
         
         function setSettingState (field: keyof ISettingsContext, value: any) {
@@ -185,25 +230,37 @@ export const SettingsContextProvider = ({ children }: any) => {
     );
 }
 
-function loadSetting<T extends (string | number | boolean)> (
-    key: Setting, type: 'string' | 'number' | 'boolean', defaultValue: T
-) : T {
+function loadStringSetting (key: Setting, defaultValue: string) : string {
     const valueStr = localStorage.getItem(key);
 
     if (valueStr === null) {
         localStorage.setItem(key, defaultValue as string);
         return defaultValue;
     }
-    
-    if (type === 'number') {
-        return Number(valueStr) as T;
+
+    return valueStr;
+}
+
+function loadNumberSetting (key: Setting, defaultValue: number) : number {
+    const valueStr = localStorage.getItem(key);
+
+    if (valueStr === null) {
+        localStorage.setItem(key, defaultValue as any);
+        return defaultValue;
     }
-    else if (type === 'boolean') {
-        return (valueStr === "true") as T;
+
+    return Number(valueStr);
+}
+
+function loadBoolSetting (key: Setting, defaultValue: boolean) : boolean {
+    const valueStr = localStorage.getItem(key);
+
+    if (valueStr === null) {
+        localStorage.setItem(key, defaultValue as any);
+        return defaultValue;
     }
-    else {
-        return valueStr as T;
-    }
+
+    return valueStr === "true";
 }
 
 function saveSetting (key: Setting, value: any) {
