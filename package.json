@@ -88,6 +88,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@fseehawer/react-circular-slider": "^2.6.4",
+    "@types/ini": "^4.1.0",
     "@types/react-color": "^3.0.11",
     "@types/tinycolor2": "^1.4.6",
     "chokidar": "^3.6.0",
@@ -97,6 +98,7 @@
     "electron-updater": "^5.3.0",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
+    "ini": "^4.1.2",
     "material-symbols": "^0.14.0",
     "overlayscrollbars": "^2.6.1",
     "overlayscrollbars-react": "^0.5.4",
@@ -123,6 +125,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/electron": "^1.6.10",
     "@types/file-saver": "^2.0.7",
+    "@types/ini": "^4.1.0",
     "@types/jest": "^29.4.0",
     "@types/node": "18.13.0",
     "@types/react": "^18.0.27",

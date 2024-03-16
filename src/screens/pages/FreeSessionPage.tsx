@@ -1,5 +1,5 @@
 import { useDataContext } from 'context/useDataContext';
-import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam, LeagueTeamDriver } from 'data/schemas';
+import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam, LeagueTeamDriver, getLeagueDrivers } from 'data/schemas';
 import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
 import { FILE_PROTOCOL } from 'data/files';
@@ -23,6 +23,7 @@ import Button from 'elements/Button';
 import TeamGallery from 'components/TeamGallery';
 import DefaultHighlighter from 'elements/Highlighter';
 import SelectableItem from 'elements/SelectableItem';
+import { Race, createRaceIni } from 'logic/game/game';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -695,9 +696,35 @@ function _DriverSection ({
                     label="Use driver's name"
                     value={driverSettings.useDriversName}
                 />
+                <div className="toolbox-section">
+                    <Button
+                        highlighted
+                        disabled={false}
+                        onClick={() => __HANDLE_RACE()}
+                    >
+                        Continue
+                    </Button>
+                </div>
             </div>
         </BackgroundDiv>
     );
+
+    // todo: remove
+    function __HANDLE_RACE () {
+        const race = new Race();
+
+        race.setTrack(trackSettings.track!);
+        race.setLayout(trackSettings.layout!);
+        race.setSpec(league!.specs[0]);
+        race.setTeams(league!.teams);
+        race.setDrivers(getLeagueDrivers(league!.teams).filter(d => !d.isReserveDriver));
+        race.setPlayerDriver(driverSettings.selectedDriver!.internalName);
+        race.setCustomPlayerIdentity(null);
+        race.setGridMode('realistic');
+        race.generateRaceSettings();
+
+        createRaceIni(race);
+    }
 
     function handleFieldChange (field: keyof DriverSettings, value: any) {
         onChange({

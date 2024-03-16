@@ -107,6 +107,10 @@ export interface LeagueTeamDriver {
     isReserveDriver: boolean;
 }
 
+export interface LeagueDriver extends LeagueTeamDriver {
+    team: string; // the internal name of the team this driver belongs to.
+}
+
 export interface LeagueTeamDriverQualifying {
     mean: number;
     deviation: number;
@@ -432,4 +436,19 @@ export function getCarName (car: AcCar) {
 
 export function getCarSkinName (skin: AcCarSkin) {
     return (skin.ui.skinname ? skin.ui.skinname : skin.folderName) ?? "<no name>";
+}
+
+export function getLeagueDrivers (teams: LeagueTeam[]) {
+    const drivers = [] as LeagueDriver[];
+
+    for (const t of teams) {
+        for (const d of t.drivers) {
+            drivers.push({
+                ...d,
+                team: t.internalName,
+            });
+        }
+    }
+
+    return drivers;
 }

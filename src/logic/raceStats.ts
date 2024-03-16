@@ -1,55 +1,27 @@
-import { LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying } from "data/schemas";
+import { LeagueDriver, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying } from "data/schemas";
 import { Gaussian } from "ts-gaussian";
 
-export interface LeagueDriver {
-    team: number;
-    driver: number;
-    driverInfo: LeagueTeamDriver;
-}
-
-export interface DriverRanking {
-    team: number;
-    driver: number;
-    driverInfo: LeagueTeamDriver;
+export interface GridDriver {
+    driverInfo: LeagueDriver;
     position: number;
     disaster: boolean;
 }
 
-export function getLeagueDrivers (teams: LeagueTeam[]) {
-    const col = [] as LeagueDriver[];
-
-    for (let t = 0; t < teams.length; t++) {
-        const team = teams[t];
-
-        for (let d = 0; d < team.drivers.length; d++) {
-            const driver = team.drivers[d];
-
-            col.push({
-                team: t,
-                driver: d,
-                driverInfo: driver,
-            });
-        }
-    }
-
-    return col;
-}
-
-export function generateQualifyingTable (drivers: LeagueDriver[]) {
+export function generateRealisticQualifyingTable (drivers: LeagueDriver[]) {
     const DISASTER_OFFSET = 1_000_000;
 
-    let driversByPos = [] as DriverRanking[];
+    let driversByPos = [] as GridDriver[];
 
     for (const d of drivers) {
-        let mean = d.driverInfo.qualifying.mean;
-        let variance = d.driverInfo.qualifying.deviation ** 2;
+        let mean = d.qualifying.mean;
+        let variance = d.qualifying.deviation ** 2;
 
         if (mean === 0) mean = 0.001;
         if (variance === 0) variance = 0.00001;
 
         const gaussian = new Gaussian(mean, variance);
         let val = gaussian.ppf(Math.random());
-        const disaster = Math.random() < d.driverInfo.qualifying.disasterChance;
+        const disaster = Math.random() < d.qualifying.disasterChance;
 
         if (disaster) {
             // half the time, the disaster is being randomly rerolled all
@@ -69,19 +41,33 @@ export function generateQualifyingTable (drivers: LeagueDriver[]) {
             }
         }
 
-        const driverObj = {
-            team: d.team,
-            driver: d.driver,
-            driverInfo: d.driverInfo,
+        const driverObj: GridDriver = {
+            driverInfo: d,
             position: val,
             disaster,
-        }
+        };
 
         driversByPos.push(driverObj);
     }
 
     driversByPos = driversByPos.sort((a, b) => a.position - b.position);
 
+    for (let i = 0; i < driversByPos.length; i++) {
+        driversByPos[i].position = i + 1;
+    }
+
+    return driversByPos;
+}
+
+export function generateRandomQualifyingTable (drivers: LeagueDriver[]) {
+    let driversByPos = drivers.map(d => ({
+        driverInfo: d,
+        position: Math.random(),
+        disaster: false
+    } as GridDriver));
+
+    driversByPos = driversByPos.sort((a, b) => a.position - b.position);
+    
     for (let i = 0; i < driversByPos.length; i++) {
         driversByPos[i].position = i + 1;
     }

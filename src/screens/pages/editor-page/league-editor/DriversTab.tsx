@@ -3,7 +3,7 @@ import { useCacheContext } from 'context/useCacheContext';
 import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
-import { League, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying } from 'data/schemas';
+import { League, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying, getLeagueDrivers } from 'data/schemas';
 import Button from 'elements/Button';
 import ContentDialog from 'elements/ContentDialog';
 import Icon from 'elements/Icon';
@@ -17,7 +17,7 @@ import Slider from 'elements/Slider';
 import Textbox from 'elements/Textbox';
 import ToggleButton from 'elements/ToggleButton';
 import ToolboxRow from 'elements/ToolboxRow';
-import { DriverRanking, generateQualifyingTable, getLeagueDrivers } from 'logic/raceStats';
+import { GridDriver, generateRealisticQualifyingTable } from 'logic/raceStats';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useResizeDetector } from 'react-resize-detector';
@@ -523,7 +523,7 @@ function SimulatorSection ({
     const drivers = getLeagueDrivers(teams);
 
     const [positions, setPositions] = useState(
-        generateQualifyingTable(drivers)
+        generateRealisticQualifyingTable(drivers)
     );
 
     return (
@@ -532,7 +532,7 @@ function SimulatorSection ({
             <div className="qualifying-list">
                 {positions.map(p => <SimulatorSectionDriver
                     driver={p}
-                    team={teams[p.team]}
+                    team={teams.find(t => t.internalName === p.driverInfo.team)!}
                     highlight={p.position < 11}
                 />)}
             </div>
@@ -543,12 +543,12 @@ function SimulatorSection ({
     );
 
     function handleUpdate () {
-        setPositions(generateQualifyingTable(drivers));
+        setPositions(generateRealisticQualifyingTable(drivers));
     }
 }
 
 interface SimulatorSectionDriverProps {
-    driver: DriverRanking;
+    driver: GridDriver;
     team: LeagueTeam;
     highlight: boolean;
 }
