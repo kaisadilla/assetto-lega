@@ -727,6 +727,11 @@ function DriverCard ({
         const update = {...driver.skins};
         update[spec] = skins;
         handleFieldChange('skins', update);
+
+        // TODO: Remove default skin if it's no longer a valid skin.
+        //if (update[spec].includes(driver.defaultSkins[spec]) === false) {
+        //    handleDefaultSkinChanged(spec, undefined as any);
+        //}
     }
 
     function handleDefaultSkinChanged (spec: string, skin: string) {
