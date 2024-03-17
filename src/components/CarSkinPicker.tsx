@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PickerDialog from './PickerDialog';
 import ToolboxRow from 'elements/ToolboxRow';
 import Button from 'elements/Button';
@@ -14,6 +14,7 @@ export interface CarSkinPickerProps {
     multipleSelection?: boolean;
     car: AcCar;
     preSelectedSkins: string | string[];
+    availableSkins?: string[];
     onSelect: (selectedSkins: string | string[]) => void;
     onCancel?: (selectedSkins: string | string[] | null) => void;
 }
@@ -22,21 +23,22 @@ function CarSkinPicker ({
     multipleSelection = false,
     car,
     preSelectedSkins,
+    availableSkins,
     onSelect,
     onCancel,
 }: CarSkinPickerProps) {
-    const firstSkin = Object.values(car.skinsById)[0];
-
-    // the skin chosen to preview, not a skin that is actually selected.
-    const [highlightedSkin, setHighlightedSkin] = useState<string | null>(
-        firstSkin.folderName
-    );
+    if (availableSkins === undefined || availableSkins.length === 0) {
+        availableSkins = Object.keys(car.skinsById);
+    }
 
     const sel = Array.isArray(preSelectedSkins)
         ? preSelectedSkins
         : [preSelectedSkins];
 
+        console.log(sel);
     const [selectedSkins, setSelectedSkins] = useState(sel);
+    // the skin chosen to preview, not a skin that is actually selected.
+    const [highlightedSkin, setHighlightedSkin] = useState<string | null>(sel[0]);
 
     return (
         <PickerDialog className="default-car-skin-picker">
@@ -47,7 +49,7 @@ function CarSkinPicker ({
                 <div className="skin-selection-container">
                     <CarSkinList
                         multipleSelection={multipleSelection}
-                        skins={car.skins}
+                        skins={car.skins.filter(s => availableSkins!.includes(s.folderName))}
                         highlightedSkin={highlightedSkin}
                         selectedSkins={selectedSkins}
                         onClickEntry={handleClickSkin}
@@ -222,6 +224,19 @@ function CarSkinListEntry ({
     onClick,
     onCheck,
 }: CarSkinListEntryProps) {
+    const $div = useRef<HTMLDivElement>(null);
+    const [alreadyTriedFocusing, setAlreadyTriedFocusing] = useState(false);
+
+    // this complicated part is just to focus the first selected skin when
+    // the dialog is opened, but not refocus anything afterwards.
+    useEffect(() => {
+        if (highlighted && alreadyTriedFocusing === false) {
+            $div.current?.scrollIntoView();
+        }
+        if ($div.current !== null) {
+            setAlreadyTriedFocusing(true);
+        }
+    }, [$div.current !== null]);
 
     const number = skin.ui.number ? "#" + skin.ui.number : "<no number>";
     const name = skin.ui.skinname ? `"${skin.ui.skinname}"` : "<no name>";
@@ -244,7 +259,7 @@ function CarSkinListEntry ({
     )
 
     return (
-        <div className={classStr} onClick={onClick}>
+        <div ref={$div} className={classStr} onClick={onClick}>
             {multipleSelection && <div className="skin-checkbox">
                 <Checkbox
                     value={selected}

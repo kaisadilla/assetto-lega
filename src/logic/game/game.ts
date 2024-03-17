@@ -28,6 +28,21 @@ export interface RaceDriver {
 }
 
 export type StartingGridMode = 'random' | 'realistic' | 'custom';
+export enum QualifyingMode {
+    timeAttack,
+}
+
+export enum JumpStartPenalty {
+    None,
+    DriveThrough,
+    BoxRestart,
+}
+
+export enum CarAid {
+    On,
+    Off,
+    RealSetting,
+}
 
 export class Race {
     private track: AcTrack | null = null;

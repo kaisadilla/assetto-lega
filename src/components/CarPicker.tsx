@@ -406,16 +406,12 @@ function FilterTagItem ({tag}: FilterTagItemProps) {
 
 function buildCarPickerItems (carList: AcCar[]) {
     return carList.map(c => {
-        const defaultSkin = getCarDefaultSkin(c);
-        const previewPath = getCarPreviewFile(defaultSkin.folderPath, true);
-
         return {
             value: c.folderName,
             thumbnail: (
                 <CarThumbnail
-                    name={c.ui.name ?? c.folderName}
-                    badgePath={getCarBadgeFile(c.folderPath, true)}
-                    previewPath={previewPath}
+                    car={c}
+                    carSkin={c.skins[0]}
                 />
             )
         } as PickerElement;

@@ -23,9 +23,12 @@ import Button from 'elements/Button';
 import TeamGallery from 'components/TeamGallery';
 import DefaultHighlighter from 'elements/Highlighter';
 import SelectableItem from 'elements/SelectableItem';
-import { Race, createRaceIni } from 'logic/game/game';
+import { CarAid, JumpStartPenalty, QualifyingMode, Race, StartingGridMode, createRaceIni } from 'logic/game/game';
 import CountryField from 'components/CountryField';
 import Textbox from 'elements/Textbox';
+import CarSkinThumbnailField from 'components/CarSkinThumbnailField';
+import CarThumbnail from 'elements/CarThumbnail';
+import FreeSession_RaceInfoPanel from './FreeSessionPage.RaceInfoPanel';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -55,27 +58,9 @@ enum TrackCondition {
     Optimal, // 100%
 }
 
-enum QualifyingMode {
-    timeAttack,
-}
-
-enum JumpStartPenalty {
-    None,
-    DriveThrough,
-    SentToPits,
-}
-
-interface TrackSettings {
+export interface TrackSettings {
     track: AcTrack | null;
     layout: AcTrackLayout | null;
-    //hasPractice: boolean;
-    //practiceLength: number;
-    //hasQualifying: boolean;
-    //qualifyingMode: QualifyingMode;
-    //qualifyingLength: number;
-    //raceLaps: number;
-    //arePenaltiesEnabled: boolean;
-    //jumpStartPenalty: JumpStartPenalty;
     startTime: number;
     timeMultiplier: number;
     randomTime: boolean;
@@ -87,14 +72,47 @@ interface TrackSettings {
     windDirection: number; // in degrees (0-360).
 }
 
-interface DriverSettings {
+export interface DriverSettings {
     selectedTeam: LeagueTeam | null;
     selectedDriver: LeagueTeamDriver | null;
+    selectedSkin: string | null;
     useDriverIdentity: boolean;
     customDriverCountry: string;
     customDriverName: string;
     customDriverNumber: string;
     customDriverInitials: string;
+}
+
+export interface RaceSettings {
+    driverEntries: string[] | null;
+
+    hasPractice: boolean;
+    practiceLength: number;
+
+    hasQualifying: boolean;
+    simulatedQualifyingMode?: StartingGridMode;
+    qualifyingMode: QualifyingMode;
+    customStartingPositionForPlayer: number | null;
+    gridOrder: string[] | null;
+
+    penaltiesEnabled: boolean;
+    jumpStartPenalty: JumpStartPenalty;
+    tyreBlankets: boolean;
+
+    opponentStrength: number;
+    opponentAggression: number;
+
+    automaticShifting: boolean;
+    automaticClutch: boolean;
+    autoblip: boolean;
+    idealLine: boolean;
+    tractionControl: CarAid;
+    abs: CarAid;
+    stabilityControl: number;
+    fuelConsumption: number;
+    mechanicalDamage: number;
+    tyreWear: number;
+    slipstreamEffect: number;
 }
 
 export interface FreeSessionPageProps {
@@ -109,9 +127,12 @@ function FreeSessionPage (props: FreeSessionPageProps) {
     const [league, setLeague] = useState<League | null>(null);
     const [trackSettings, setTrackSettings] = useState(loadTrackSettings());
     const [driverSettings, setDriverSettings] = useState(loadDriverSettings(profile));
+    const [raceSettings, setRaceSettings] = useState(loadRaceSettings());
 
     const canOpenTrackSection = league !== null;
     const canOpenDriverSection = canOpenTrackSection && trackSettings.track !== null;
+    const canOpenRaceSection = canOpenDriverSection && driverSettings.selectedTeam !== null
+        && driverSettings.selectedDriver  !== null && driverSettings.selectedSkin !== null;
 
     return (
         <div className="free-session-page">
@@ -134,11 +155,23 @@ function FreeSessionPage (props: FreeSessionPageProps) {
             <_DriverSection
                 expanded={section === Section.Driver}
                 canBeExpanded={canOpenDriverSection}
+                canContinue={canOpenRaceSection}
                 league={league}
                 trackSettings={trackSettings}
                 driverSettings={driverSettings}
                 onChange={setDriverSettings}
                 onExpand={() => handleExpandSection(Section.Driver)}
+                onContinue={() => handleExpandSection(Section.RaceInfo)}
+            />
+            <FreeSession_RaceInfoPanel
+                expanded={section === Section.RaceInfo}
+                canBeExpanded={canOpenRaceSection}
+                league={league}
+                trackSettings={trackSettings}
+                driverSettings={driverSettings}
+                raceSettings={raceSettings}
+                onChange={setRaceSettings}
+                onExpand={() => handleExpandSection(Section.RaceInfo)}
                 onContinue={() => handleExpandSection(Section.RaceInfo)}
             />
         </div>
@@ -160,6 +193,10 @@ function FreeSessionPage (props: FreeSessionPageProps) {
         // track settings are valid across all leagues, but driver settings
         // are not.
         setDriverSettings(loadDriverSettings(profile));
+        setRaceSettings(prevState => ({
+            ...prevState,
+            driverEntries: null,
+        }));
     }
 }
 
@@ -511,15 +548,15 @@ function _TrackSection ({
                             </LabeledControl>
                         </div>
                     </div>
-                    <div className="section-controls">
-                        <Button
-                            highlighted
-                            disabled={canContinue === false}
-                            onClick={() => onContinue()}
-                        >
-                            Continue
-                        </Button>
-                    </div>
+                </div>
+                <div className="section-controls">
+                    <Button
+                        highlighted
+                        disabled={canContinue === false}
+                        onClick={() => onContinue()}
+                    >
+                        Continue
+                    </Button>
                 </div>
             </div>
         </BackgroundDiv>
@@ -613,6 +650,7 @@ function _TrackSectionEvent ({
 interface _DriverSectionProps {
     expanded: boolean;
     canBeExpanded: boolean;
+    canContinue: boolean;
     league: League | null;
     trackSettings: TrackSettings;
     driverSettings: DriverSettings;
@@ -624,6 +662,7 @@ interface _DriverSectionProps {
 function _DriverSection ({
     expanded,
     canBeExpanded,
+    canContinue,
     league,
     trackSettings,
     driverSettings,
@@ -652,13 +691,17 @@ function _DriverSection ({
             )
         }
         else {
+            const { cars } = useAcContext();
+
             const team = driverSettings.selectedTeam;
             const driver = driverSettings.selectedDriver;
 
+            const teamCar = cars.carsById[team.cars[league!.specs[0]]];
+
             const textColor = chooseW3CTextColor(team.color);
 
-            const driverClass = getClassString(
-                "driver-entry",
+            const driverInfoClass = getClassString(
+                "driver-info",
                 textColor === 'black' && "text-black",
                 textColor === 'white' && "text-white",
             );
@@ -676,8 +719,8 @@ function _DriverSection ({
                     <div className="team-logo" style={{borderColor: team.color}}>
                         <AssetImage folder={AssetFolder.teamLogos} imageName={team.logo} />
                     </div>
-                    <div className="driver-info">
-                        <div className={driverClass} style={{backgroundColor: team.color}}>
+                    <div className={driverInfoClass}>
+                        <div className="driver-entry" style={{backgroundColor: team.color}}>
                             <div className="driver-number">
                                 <div>{playerIdentity.number}</div>
                             </div>
@@ -688,9 +731,30 @@ function _DriverSection ({
                             <span className="driver-name">{playerIdentity.name}</span>
                         </div>
                         <div className="car-info" style={{backgroundColor: team.color}}>
-                            owo
+                            <div className="team-name">
+                                {team.name}
+                            </div>
+                            <div className="car-name">
+                                {teamCar.displayName}
+                            </div>
+                            <div className="team-bop">
+                                <div className="team-datum ballast">
+                                    <span className="name">ballast </span>
+                                    <span className="value">{team.ballast}</span>
+                                </div>
+                                <div className="team-datum restrictor">
+                                    <span className="name">restrictor </span>
+                                    <span className="value">{team.restrictor}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <CarThumbnail
+                        className="driver-skin"
+                        car={teamCar}
+                        carSkin={driverSettings.selectedSkin!}
+                        style={{borderColor: team.color}}
+                    />
                 </div>
             )
         }
@@ -733,6 +797,8 @@ function _DriverSection ({
                 {driverSettings.selectedTeam && driverSettings.selectedDriver && <_DriverSelectionCustomization
                     trackSettings={trackSettings}
                     driverSettings={driverSettings}
+                    spec={league!.specs[0]}
+                    canContinue={canContinue}
                     onChange={onChange}
                     onContinue={onContinue}
                 />}
@@ -779,7 +845,11 @@ function _DriverSection ({
         if (driver.internalName === driverSettings.selectedDriver?.internalName) {
             return;
         }
-        handleFieldChange('selectedDriver', driver);
+        onChange({
+            ...driverSettings,
+            selectedDriver: driver,
+            selectedSkin: driver.defaultSkins[league!.specs[0]],
+        });
     }
 }
 
@@ -922,6 +992,8 @@ function _DriverSectionDriver ({
 interface _DriverSelectionCustomizationProps {
     trackSettings: TrackSettings;
     driverSettings: DriverSettings;
+    spec: string;
+    canContinue: boolean;
     onChange: (driverSettings: DriverSettings) => void;
     onContinue: () => void;
 }
@@ -929,11 +1001,11 @@ interface _DriverSelectionCustomizationProps {
 function _DriverSelectionCustomization ({
     trackSettings,
     driverSettings,
+    spec,
+    canContinue,
     onChange,
     onContinue,
 }: _DriverSelectionCustomizationProps) {
-    const customDriver = driverSettings.useDriverIdentity === false;
-
     const countryValue = driverSettings.useDriverIdentity
         ? driverSettings.selectedDriver!.country
         : driverSettings.customDriverCountry;
@@ -986,11 +1058,19 @@ function _DriverSelectionCustomization ({
                         onChange={str => handleFieldChange('customDriverInitials', str)}
                     />
                 </LabeledControl>
+                <h3 className="header">Skin</h3>
+                <CarSkinThumbnailField
+                    className="selected-skin"
+                    car={driverSettings.selectedTeam!.cars[spec]}
+                    selectedSkin={driverSettings.selectedSkin}
+                    availableSkins={driverSettings.selectedDriver!.skins[spec]}
+                    onSkinChange={s => handleFieldChange('selectedSkin', s)}
+                />
             </div>
             <div className="section-controls">
                 <Button
                     highlighted
-                    disabled={false}
+                    disabled={canContinue === false}
                     onClick={() => onContinue()}
                 >
                     Continue
@@ -1006,7 +1086,6 @@ function _DriverSelectionCustomization ({
         });
     }
 }
-
 
 /**
  * Loads track settings to use.
@@ -1031,11 +1110,46 @@ function loadDriverSettings (profile: UserProfile) : DriverSettings {
     return {
         selectedTeam: null,
         selectedDriver: null,
+        selectedSkin: null,
         useDriverIdentity: true,
         customDriverCountry: profile.country,
         customDriverName: profile.name,
         customDriverNumber: profile.number,
         customDriverInitials: profile.initials,
+    }
+}
+
+function loadRaceSettings () : RaceSettings {
+    return {
+        driverEntries: null,
+    
+        hasPractice: false,
+        practiceLength: 30,
+    
+        hasQualifying: false,
+        simulatedQualifyingMode: 'realistic',
+        qualifyingMode: QualifyingMode.timeAttack,
+        customStartingPositionForPlayer: null,
+        gridOrder: null,
+    
+        penaltiesEnabled: true,
+        jumpStartPenalty: JumpStartPenalty.DriveThrough,
+        tyreBlankets: true,
+    
+        opponentStrength: 100,
+        opponentAggression: 100,
+    
+        automaticShifting: true,
+        automaticClutch: true,
+        autoblip: true,
+        idealLine: true,
+        tractionControl: CarAid.On,
+        abs: CarAid.On,
+        stabilityControl: 100,
+        fuelConsumption: 1,
+        mechanicalDamage: 1,
+        tyreWear: 1,
+        slipstreamEffect: 1,
     }
 }
 

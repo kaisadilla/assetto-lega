@@ -291,6 +291,13 @@ export function deleteArrayItemAt<T> (arr: T[], index: number) {
     arr.splice(index, 1);
 }
 
+export function deleteArrayItem<T> (arr: T[], item: T) {
+    const index = arr.indexOf(item);
+    if (index !== -1) {
+        deleteArrayItemAt(arr, index);
+    }
+}
+
 export function arrayUnion (a: any[], b: any[]) {
     const set = new Set<any>();
 

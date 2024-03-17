@@ -83,9 +83,19 @@
                 top: 1px;
                 width: 5px;
                 height: 10px;
-                border: solid white;
+                border: solid $color-text-white;
                 border-width: 0 3px 3px 0;
                 transform: rotate(45deg);
+            }
+
+            &.color-white:after {
+                border: solid $color-text-white;
+                border-width: 0 3px 3px 0;
+            }
+
+            &.color-black:after {
+                border: solid $color-text-black;
+                border-width: 0 3px 3px 0;
             }
         }
     }

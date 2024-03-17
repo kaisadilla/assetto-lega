@@ -166,6 +166,7 @@ $-default-padding: 16px;
         cursor: not-allowed;
         font-style: italic;
     }
+
     .section-not-yet-opened {
         color: $color-highlight;
     }
@@ -375,11 +376,11 @@ $-default-padding: 16px;
             > .section-content {
                 display: grid;
                 grid-template: "tra tim" auto
-                               "atm atm" 1fr
-                               "too too" 64px / 240px 1fr;
+                               "atm atm" 1fr / 240px 1fr;
                 width: 100%;
                 height: 100%;
                 gap: 12px;
+                overflow-y: auto;
                                
                 .track-thumbnail {
                     grid-area: tra;
@@ -443,6 +444,10 @@ $-default-padding: 16px;
                     }
                 }
             }
+
+            .section-controls {
+                flex-shrink: 0;
+            }
         }
     }
 
@@ -462,6 +467,8 @@ $-default-padding: 16px;
             height: 100%;
             border: 6px solid;
             background-color: $color-component-6;
+            margin-left: 8px;
+            padding: 2px;
 
             img {
                 max-height: 100%;
@@ -476,9 +483,48 @@ $-default-padding: 16px;
             overflow: hidden;
             gap: 8px;
 
-            .car-info {
-                flex: 1;
+            &.text-black {
+                color: $color-text-black;
             }
+            &.text-white {
+                color: $color-text-white;
+            }
+
+            > .driver-entry {
+                flex-shrink: 0;
+            }
+
+            > .car-info {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                > .team-name {
+                    font-family: $font-f1;
+                    font-weight: $w-semibold;
+                    font-size: 12pt;
+                }
+                > .car-name {
+                    
+                }
+                > .team-bop {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 8px;
+
+                    >.team-datum {
+                        > .value {
+                            font-weight: $w-semibold;
+                        }
+                    }
+                }
+            }
+        }
+
+        .driver-skin {
+            border: 4px solid;
         }
     }
 
@@ -706,17 +752,112 @@ $-default-padding: 16px;
             gap: 8px;
 
             .driver-settings-container {
+                flex: 1;
                 min-width: 0;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
                 gap: 8px;
-                flex: 1;
 
                 .driver-settings-form {
                     flex: 1;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+
+                    .selected-skin {
+                        margin: 8px;
+                    }
                 }
             }
+        }
+    }
+
+    .race-section-expanded {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: $-default-padding;
+        padding: $-default-padding;
+        height: 100%;
+        min-height: 0;
+
+        .driver-list-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+
+            .driver-list {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                overflow-y: auto;
+            }
+
+            .driver-list-entry {
+                $-size: 32px;
+
+                flex-shrink: 0;
+                height: $-size;
+                background-color: $color-transparent-2;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                gap: 8px;
+                overflow: hidden;
+                padding: 4px 8px;
+
+                &.disabled {
+                    opacity: 0.5;
+                    background-color: $color-transparent-1;
+                }
+
+                > .team-logo-container {
+                    @include center-content();
+                    aspect-ratio: 1;
+                    height: 100%;
+                    
+                    > img {
+                        max-height: 100%;
+                        max-width: 100%;
+                    }
+                }
+
+                > .number-container {
+                    width: 48px;
+                    font-family: $font-oxanium;
+                    font-weight: $w-bold;
+                    font-size: 16pt;
+                    text-align: center;
+                    padding-top: 3px;
+                }
+
+                > .flag-container {
+                    @include center-content();
+                    width: 32px;
+
+                    > img {
+                        max-width: 32px;
+                        max-height: 28px;
+                        border: 1px solid $color-text-2;
+                    }
+                }
+
+                > .name-container {       
+                    @include ellipsis();             
+                    flex: 1;
+                }
+            }
+        }
+
+        .sessions-section {
+            flex: 3;
+        }
+
+        .race-settings-section {
+            flex: 3;
         }
     }
 }

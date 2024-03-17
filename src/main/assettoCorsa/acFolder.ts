@@ -87,6 +87,7 @@ export const AssettoCorsa = {
             const skinFolder = carSkinFolder + "/" + f.name;
             const skinUiFile = skinFolder + "/ui_skin.json";
 
+
             if (fs.existsSync(skinUiFile) === false) {
                 console.error(`Car ${folderName} has no './ui_skin.json' file.`);
             }
@@ -101,10 +102,15 @@ export const AssettoCorsa = {
                 console.error(`Couldn't read UI json for car skin '${f.name}'.`);
             }
 
+            const displayName = skinUi?.skinname ?? f.name;
+
             if (skinUi) {
                 skinsById[f.name] = {
                     folderName: f.name,
                     folderPath: skinFolder,
+                    previewPath: skinFolder + "/preview.jpg",
+                    liveryPath: skinFolder + "/livery.png",
+                    displayName,
                     ui: skinUi,
                 };
             }
@@ -112,6 +118,9 @@ export const AssettoCorsa = {
                 skinsById[f.name] = {
                     folderName: f.name,
                     folderPath: skinFolder,
+                    previewPath: skinFolder + "/preview.jpg",
+                    liveryPath: skinFolder + "/livery.png",
+                    displayName,
                     ui: {
                         skinname: f.name,
                     } as CarSkinUi,
@@ -136,6 +145,7 @@ export const AssettoCorsa = {
         return {
             folderName,
             folderPath: carFolder,
+            displayName: ui.name ?? carFolder,
             ui,
             badgePath: carBadgePath,
             skinsById,

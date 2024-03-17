@@ -1,10 +1,11 @@
-import React from 'react';
-import { getClassString } from 'utils';
+import React, { CSSProperties } from 'react';
+import { chooseW3CTextColor, getClassString } from 'utils';
 
 export interface CheckboxProps {
     value?: boolean;
     readonly?: boolean;
     onChange?: (value: boolean) => void;
+    checkboxColor?: string;
     className?: string;
 }
 
@@ -12,6 +13,7 @@ function Checkbox ({
     value,
     readonly,
     onChange,
+    checkboxColor,
     className,
 }: CheckboxProps) {
     const classStr = getClassString(
@@ -21,6 +23,19 @@ function Checkbox ({
         className,
     );
 
+    const checkboxBgStyle = {} as CSSProperties;
+    let checkmarkClass = "default-checkbox-checkmark";
+
+    if (value && checkboxColor) {
+        const textColor = chooseW3CTextColor(checkboxColor);
+
+        checkboxBgStyle.backgroundColor = checkboxColor;
+        checkmarkClass = getClassString(
+            checkmarkClass,
+            `color-${textColor}`
+        );
+    }
+    
     return (
         <label className={classStr}>
             <div className="default-checkbox-container">
@@ -31,7 +46,10 @@ function Checkbox ({
                     onChange={handleChange}
                     readOnly={readonly}
                 />
-                <span className="default-checkbox-checkmark" />
+                <span
+                    className={checkmarkClass}
+                    style={checkboxBgStyle}
+                />
             </div>
         </label>
     );

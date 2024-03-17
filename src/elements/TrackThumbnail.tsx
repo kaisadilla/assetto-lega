@@ -9,15 +9,15 @@ import FlagImage from './images/FlagImage';
 export interface TrackThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
     track: string | AcTrack | null | undefined;
     layout: string | AcTrackLayout | null | undefined;
-    //name: string;
-    //country: string;
-    //previewPath: string;
-    //outlinePath: string;
     className?: string;
 }
 
-function TrackThumbnail (props: TrackThumbnailProps) {
-    let { track, layout, className, ...rest} = props;
+function TrackThumbnail ({
+    track,
+    layout,
+    className,
+    ...divProps
+}: TrackThumbnailProps) {
     
     const { tracks } = useAcContext();
 
@@ -43,7 +43,7 @@ function TrackThumbnail (props: TrackThumbnailProps) {
 
     if (track === null || layout === null) {
         return (
-            <div className={classStr} {...rest}>
+            <div className={classStr} {...divProps}>
                 <div className="thumbnail-background no-content-thumbnail">
                     <div>&lt; no track selected &gt;</div>
                 </div>
@@ -63,7 +63,7 @@ function TrackThumbnail (props: TrackThumbnailProps) {
     //const flagImg = Countries[country]?.flag;
 
     return (
-        <div className={classStr} {...rest}>
+        <div className={classStr} {...divProps}>
             <div className="thumbnail-multi-layer-background">
                 <div className="thumbnail-layer">
                     <img src={FILE_PROTOCOL + layoutObj.previewPath} />

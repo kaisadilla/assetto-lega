@@ -219,6 +219,7 @@ export interface AcCar {
      * The absolute path to the badge image of this car.
      */
     badgePath: string;
+    displayName: string;
     ui: CarUi;
     /**
      * The skins present in this car's folder. Each key corresponds to the name
@@ -266,6 +267,15 @@ export interface CarUiSpecs {
 export interface AcCarSkin {
     folderName: string;
     folderPath: string;
+    /**
+     * The path to the preview image of the skin.
+     */
+    previewPath: string;
+    /**
+     * The path to the icon of the skin (generally a square with the car's number).
+     */
+    liveryPath: string;
+    displayName: string;
     ui: CarSkinUi;
 }
 

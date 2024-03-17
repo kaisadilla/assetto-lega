@@ -12,7 +12,7 @@ export interface BackgroundDivProps {
     opacity?: number;
     className?: string;
     style?: CSSProperties;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 function BackgroundDiv ({

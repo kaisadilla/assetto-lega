@@ -9,12 +9,15 @@ export interface TrackThumbnailFieldProps extends React.HTMLAttributes<HTMLDivEl
     track: string | AcTrack | null | undefined;
     layout: string | AcTrackLayout | null | undefined;
     onTrackChange?: (value: TrackPickerValue) => void;
-    className?: string;
 }
 
-function TrackThumbnailField (props: TrackThumbnailFieldProps) {
-    const { track, layout, onTrackChange, className, ...rest } = props;
-
+function TrackThumbnailField ({
+    track,
+    layout,
+    onTrackChange,
+    className,
+    ...divProps
+}: TrackThumbnailFieldProps) {
     const [isPickerOpen, setPickerOpen] = useState(false);
 
     const classStr = getClassString(
@@ -26,7 +29,7 @@ function TrackThumbnailField (props: TrackThumbnailFieldProps) {
     const layoutStr = isString(layout) ? layout as string : (layout as AcTrackLayout)?.folderName;
 
     return (
-        <div className={classStr} {...rest}>
+        <div className={classStr} {...divProps}>
             <TrackThumbnail
                 className="track-content"
                 track={track}
