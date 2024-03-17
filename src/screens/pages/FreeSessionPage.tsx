@@ -24,6 +24,8 @@ import TeamGallery from 'components/TeamGallery';
 import DefaultHighlighter from 'elements/Highlighter';
 import SelectableItem from 'elements/SelectableItem';
 import { Race, createRaceIni } from 'logic/game/game';
+import CountryField from 'components/CountryField';
+import Textbox from 'elements/Textbox';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -88,7 +90,7 @@ interface TrackSettings {
 interface DriverSettings {
     selectedTeam: LeagueTeam | null;
     selectedDriver: LeagueTeamDriver | null;
-    useDriversName: boolean;
+    useDriverIdentity: boolean;
     customDriverCountry: string;
     customDriverName: string;
     customDriverNumber: string;
@@ -137,6 +139,7 @@ function FreeSessionPage (props: FreeSessionPageProps) {
                 driverSettings={driverSettings}
                 onChange={setDriverSettings}
                 onExpand={() => handleExpandSection(Section.Driver)}
+                onContinue={() => handleExpandSection(Section.RaceInfo)}
             />
         </div>
     );
@@ -508,7 +511,7 @@ function _TrackSection ({
                             </LabeledControl>
                         </div>
                     </div>
-                    <div className="toolbox-section">
+                    <div className="section-controls">
                         <Button
                             highlighted
                             disabled={canContinue === false}
@@ -615,6 +618,7 @@ interface _DriverSectionProps {
     driverSettings: DriverSettings;
     onChange: (driverSettings: DriverSettings) => void;
     onExpand: () => void;
+    onContinue: () => void;
 }
 
 function _DriverSection ({
@@ -625,6 +629,7 @@ function _DriverSection ({
     driverSettings,
     onChange,
     onExpand,
+    onContinue,
 }: _DriverSectionProps) {
 
     if (canBeExpanded === false) {
@@ -636,7 +641,7 @@ function _DriverSection ({
     }
 
     if (expanded === false) {
-        if (true) {
+        if (driverSettings.selectedTeam === null || driverSettings.selectedDriver === null) {
             return (
                 <div
                     className="section collapsed section-not-yet-opened"
@@ -647,12 +652,45 @@ function _DriverSection ({
             )
         }
         else {
+            const team = driverSettings.selectedTeam;
+            const driver = driverSettings.selectedDriver;
+
+            const textColor = chooseW3CTextColor(team.color);
+
+            const driverClass = getClassString(
+                "driver-entry",
+                textColor === 'black' && "text-black",
+                textColor === 'white' && "text-white",
+            );
+
+            const playerIdentity = getPlayerIdentity(driverSettings);
+
             return (
                 <div
-                    className="section collapsed track-section-collapsed"
+                    className="section collapsed driver-section-collapsed"
                     onClick={() => onExpand()}
                 >
-                    driver!
+                    <div className="section-collapsed-title">
+                        DRIVER
+                    </div>
+                    <div className="team-logo" style={{borderColor: team.color}}>
+                        <AssetImage folder={AssetFolder.teamLogos} imageName={team.logo} />
+                    </div>
+                    <div className="driver-info">
+                        <div className={driverClass} style={{backgroundColor: team.color}}>
+                            <div className="driver-number">
+                                <div>{playerIdentity.number}</div>
+                            </div>
+                            <div className="driver-flag-container">
+                                <FlagImage country={playerIdentity.country} />
+                            </div>
+                            <span className="driver-initials">{playerIdentity.initials}</span>
+                            <span className="driver-name">{playerIdentity.name}</span>
+                        </div>
+                        <div className="car-info" style={{backgroundColor: team.color}}>
+                            owo
+                        </div>
+                    </div>
                 </div>
             )
         }
@@ -692,19 +730,12 @@ function _DriverSection ({
             </div>
             <div className="driver-settings-section">
                 <h2 className="header">Driver settings</h2>
-                <LabeledCheckbox
-                    label="Use driver's name"
-                    value={driverSettings.useDriversName}
-                />
-                <div className="toolbox-section">
-                    <Button
-                        highlighted
-                        disabled={false}
-                        onClick={() => __HANDLE_RACE()}
-                    >
-                        Continue
-                    </Button>
-                </div>
+                {driverSettings.selectedTeam && driverSettings.selectedDriver && <_DriverSelectionCustomization
+                    trackSettings={trackSettings}
+                    driverSettings={driverSettings}
+                    onChange={onChange}
+                    onContinue={onContinue}
+                />}
             </div>
         </BackgroundDiv>
     );
@@ -889,16 +920,91 @@ function _DriverSectionDriver ({
 }
 
 interface _DriverSelectionCustomizationProps {
-    
+    trackSettings: TrackSettings;
+    driverSettings: DriverSettings;
+    onChange: (driverSettings: DriverSettings) => void;
+    onContinue: () => void;
 }
 
-function _DriverSelectionCustomization (props: _DriverSelectionCustomizationProps) {
+function _DriverSelectionCustomization ({
+    trackSettings,
+    driverSettings,
+    onChange,
+    onContinue,
+}: _DriverSelectionCustomizationProps) {
+    const customDriver = driverSettings.useDriverIdentity === false;
+
+    const countryValue = driverSettings.useDriverIdentity
+        ? driverSettings.selectedDriver!.country
+        : driverSettings.customDriverCountry;
+
+    const nameValue = driverSettings.useDriverIdentity
+        ? driverSettings.selectedDriver!.name
+        : driverSettings.customDriverName;
+
+    const numberValue = driverSettings.useDriverIdentity
+        ? driverSettings.selectedDriver!.number
+        : driverSettings.customDriverNumber;
+
+    const initialsValue = driverSettings.useDriverIdentity
+        ? driverSettings.selectedDriver!.initials
+        : driverSettings.customDriverInitials;
 
     return (
-        <div>
-            Customization!
+        <div className="driver-settings-container">
+            <div className="driver-settings-form">
+                <LabeledCheckbox
+                    label="Use driver's name"
+                    value={driverSettings.useDriverIdentity}
+                    onChange={v => handleFieldChange('useDriverIdentity', v)}
+                />
+                <LabeledControl label="Country">
+                    <CountryField
+                        value={countryValue}
+                        readonly={driverSettings.useDriverIdentity}
+                        onChange={ctry => handleFieldChange('customDriverCountry', ctry)}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Name">
+                    <Textbox
+                        value={nameValue}
+                        readonly={driverSettings.useDriverIdentity}
+                        onChange={str => handleFieldChange('customDriverName', str)}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Number">
+                    <Textbox
+                        value={numberValue}
+                        readonly={driverSettings.useDriverIdentity}
+                        onChange={str => handleFieldChange('customDriverNumber', str)}
+                    />
+                </LabeledControl>
+                <LabeledControl label="Initials">
+                    <Textbox
+                        value={initialsValue}
+                        readonly={driverSettings.useDriverIdentity}
+                        onChange={str => handleFieldChange('customDriverInitials', str)}
+                    />
+                </LabeledControl>
+            </div>
+            <div className="section-controls">
+                <Button
+                    highlighted
+                    disabled={false}
+                    onClick={() => onContinue()}
+                >
+                    Continue
+                </Button>
+            </div>
         </div>
     );
+
+    function handleFieldChange (field: keyof DriverSettings, value: any) {
+        onChange({
+            ...driverSettings,
+            [field]: value,
+        });
+    }
 }
 
 
@@ -925,7 +1031,7 @@ function loadDriverSettings (profile: UserProfile) : DriverSettings {
     return {
         selectedTeam: null,
         selectedDriver: null,
-        useDriversName: true,
+        useDriverIdentity: true,
         customDriverCountry: profile.country,
         customDriverName: profile.name,
         customDriverNumber: profile.number,
@@ -933,5 +1039,23 @@ function loadDriverSettings (profile: UserProfile) : DriverSettings {
     }
 }
 
+function getPlayerIdentity (driverSettings: DriverSettings) {
+    if (driverSettings.selectedDriver === null) {
+        throw `No driver selected.`;
+    }
+
+    if (driverSettings.useDriverIdentity) return {
+        name: driverSettings.selectedDriver.name,
+        number: driverSettings.selectedDriver.number,
+        country: driverSettings.selectedDriver.country,
+        initials: driverSettings.selectedDriver.initials,
+    }
+    else return {
+        name: driverSettings.customDriverName,
+        number: driverSettings.customDriverNumber,
+        country: driverSettings.customDriverCountry,
+        initials: driverSettings.customDriverInitials,
+    }
+}
 
 export default FreeSessionPage;

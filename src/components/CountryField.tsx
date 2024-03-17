@@ -10,6 +10,7 @@ export interface CountryFieldProps {
      */
     value: string;
     allowRegions?: boolean;
+    readonly?: boolean;
     required?: boolean; // TODO: Implement optional 'null' value.
     onChange?: (country: string | null) => void;
     tabIndex?: number;
@@ -18,6 +19,7 @@ export interface CountryFieldProps {
 function CountryField ({
     value,
     allowRegions,
+    readonly,
     required,
     onChange,
     tabIndex = 1,
@@ -56,8 +58,13 @@ function CountryField ({
         )
     })();
 
+    const classStr = getClassString(
+        "default-control default-country-field",
+        readonly && "readonly",
+    )
+
     return (
-        <div className="default-control default-country-field" tabIndex={tabIndex}>
+        <div className={classStr} tabIndex={tabIndex}>
             <div className="country-content" onClick={handleClick}>
                 {$country}
             </div>
@@ -75,11 +82,15 @@ function CountryField ({
     );
 
     function handleClick () {
+        if (readonly) return;
+        
         setPickerOpen(true);
     }
 
     function handlePickerSelect (country: string | null) {
         setPickerOpen(false);
+        
+        if (readonly) return;
         onChange?.(country);
     }
 }

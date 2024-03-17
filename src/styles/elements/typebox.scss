@@ -3,6 +3,7 @@
 
     &.readonly {
         .input-field {
+            color: $color-text-2;
             pointer-events: none;
         }
     }

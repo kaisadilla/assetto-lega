@@ -1,12 +1,42 @@
 .default-country-field {
-    &:hover {
-        background-color: $color-transparent-2;
+
+    &.readonly {
+        > .country-content {
+            > .country-flag {
+                background: $color-background;
+        
+                img {
+                    opacity: 0.5;
+                }
+            }
+
+            > .country-name {
+                color: $color-text-2;
+            }
+        }
+    }
+    &:not(.readonly) {
+        &:hover {
+            background-color: $color-transparent-2;
+        }
+
+        > .country-content {
+            cursor: pointer;
+    
+            &:hover {
+                color: $color-highlight-l2;
+                text-decoration: underline;
+            }
+        
+            &:focus {
+                border: 1px solid $color-highlight;
+                background-color: $color-transparent-2;
+                padding: 0 5px;
+            }
+        }
     }
 
     > .country-content {
-        // TODO: This exact css is copied in all field-picker components.
-        cursor: pointer;
-
         height: 100%;
         width: fit-content;
         min-width: min(160px, 100%);
@@ -15,17 +45,6 @@
         flex-direction: row;
         gap: 8px;
         align-items: center;
-    
-        &:hover {
-            color: $color-highlight-l2;
-            text-decoration: underline;
-        }
-    
-        &:focus {
-            border: 1px solid $color-highlight;
-            background-color: $color-transparent-2;
-            padding: 0 5px;
-        }
     
         > .country-flag {
             width: 30px;
