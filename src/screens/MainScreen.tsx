@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar, { NavBarSize } from 'elements/NavBar';
-import LeaguePage from './pages/LeaguePage';
+import ChampionshipPage from './pages/ChampionshipPage';
 import FreeSessionPage from './pages/FreeSessionPage';
 import { useNavigationContext } from '../context/useNavigation';
 import { AppStatus, useDataContext } from 'context/useDataContext';
@@ -16,10 +16,10 @@ import SettingsPage from './pages/SettingsPage';
 
 enum Page {
     FREE_DRIVE,
-    LEAGUES,
+    CHAMPIONSHIP,
+    STATS,
     EDITOR,
     CONTENT,
-    STATS,
     IMPORT,
     SETTINGS,
 };
@@ -70,9 +70,9 @@ function MainScreen () {
         if (page === Page.FREE_DRIVE) {
             return <FreeSessionPage />;
         }
-        else if (page === Page.LEAGUES) {
+        else if (page === Page.CHAMPIONSHIP) {
             return (
-                <LeaguePage />
+                <ChampionshipPage />
             );
         }
         else if (page === Page.EDITOR) {
@@ -95,10 +95,10 @@ function MainScreen () {
             <div className="cell-navbar">
                 <NavBar size={NavBarSize.BIG} get={page} set={setPage}>
                     <NavBar.Item text="free session" index={Page.FREE_DRIVE} />
-                    <NavBar.Item text="leagues" index={Page.LEAGUES} />
-                    <NavBar.Item text="editor" index={Page.EDITOR} />
-                    <NavBar.Item text="content" index={Page.CONTENT} />
+                    <NavBar.Item text="championship" index={Page.CHAMPIONSHIP} />
                     <NavBar.Item text="stats" index={Page.STATS} />
+                    <NavBar.Item text="editor" index={Page.EDITOR} />
+                    <NavBar.Item text="ac content" index={Page.CONTENT} />
                     <NavBar.Item text="import / export" index={Page.IMPORT} />
                     <NavBar.Item text="settings" index={Page.SETTINGS} />
                 </NavBar>

@@ -1,11 +1,6 @@
-import { Countries } from 'data/countries';
-import { AcTrack, AcTrackLayout, LeagueDriver, LeagueTeam } from 'data/schemas';
-import Ini from 'ini';
-import { generateRandomQualifyingTable, generateRealisticQualifyingTable } from 'logic/raceStats';
+import { AcTrack, AcTrackLayout, LeagueDriver, LeagueTeam } from "data/schemas";
+import { generateRandomQualifyingTable, generateRealisticQualifyingTable } from "./raceStats";
 
-export function setupRace () {
-    
-}
 
 export interface CustomPlayerIdentity {
     name: string;
@@ -38,9 +33,9 @@ export enum QualifyingMode {
 }
 
 export enum JumpStartPenalty {
-    None,
-    DriveThrough,
-    BoxRestart,
+    None = 0,
+    BoxRestart = 1,
+    DriveThrough = 2,
 }
 
 export enum CarAid {
@@ -52,6 +47,16 @@ export enum CarAid {
 export class Race {
     private track: AcTrack | null = null;
     private layout: AcTrackLayout | null = null;
+    private raceLaps: number | null = null;
+
+    private penalties: boolean | null = null;
+    private jumpStartPenalty: JumpStartPenalty | null = null;
+
+    private ambientTemp: number | null = null;
+    private roadTemp: number | null = null;
+    private windSpeedMin: number | null = null;
+    private windSpeedMax: number | null = null;
+    private windDegrees: number | null = null;
 
     private spec: string | null = null;
     private teams: LeagueTeam[] | null = null;
@@ -75,6 +80,26 @@ export class Race {
 
     public setLayout (layout: AcTrackLayout) {
         this.layout = layout;
+    }
+
+    public setRaceLaps (laps: number) {
+        this.raceLaps = laps;
+    }
+
+    public setPenalties (penalties: boolean, jumpStartPenalty: JumpStartPenalty) {
+        this.penalties = penalties;
+        this.jumpStartPenalty = jumpStartPenalty;
+    }
+
+    public setTemperatures (ambientTemp: number, roadTemp: number) {
+        this.ambientTemp = ambientTemp;
+        this.roadTemp = roadTemp;
+    }
+
+    public setWind (min: number, max: number, direction: number) {
+        this.windSpeedMin = min;
+        this.windSpeedMax = max;
+        this.windDegrees = direction;
     }
 
     public setSpec (spec: string) {
@@ -105,7 +130,7 @@ export class Race {
         this.startingGrid = orderedDrivers;
     }
 
-    public generateRaceSettings () {
+    public calculateRaceSettings () {
         if (this.spec === null) err("'spec' can't be null");
         if (this.teams === null) err("'teams' can't be null");
         if (this.drivers === null) err("'drivers' can't be null");
@@ -131,6 +156,45 @@ export class Race {
         return {
             track: this.track.folderName,
             layout: this.layout.folderName,
+        }
+    }
+
+    public getLaps () : number {
+        if (this.raceLaps === null ) throw `Race has no laps.`;
+        return this.raceLaps;
+    }
+
+    public getPenalties () : { penalties: boolean, jumpStart: JumpStartPenalty } {
+        if (this.penalties === null || this.jumpStartPenalty === null) {
+            throw `Penalties haen't been set yet.`;
+        }
+
+        return {
+            penalties: this.penalties,
+            jumpStart: this.jumpStartPenalty,
+        };
+    }
+
+    public getTemperatures () : { ambient: number, road: number } {
+        if (this.ambientTemp === null || this.roadTemp === null) {
+            throw `Temperatures haen't been set yet.`;
+        }
+        
+        return {
+            ambient: this.ambientTemp,
+            road: this.roadTemp,
+        };
+    }
+
+    public getWind () {
+        if (this.windSpeedMin === null || this.windSpeedMax === null || this.windDegrees === null) {
+            throw `Wind hasn't been set yet`;
+        }
+
+        return {
+            minSpeed: this.windSpeedMin,
+            maxSpeed: this.windSpeedMax,
+            directionInDegs: this.windDegrees,
         }
     }
 
@@ -204,158 +268,4 @@ export class Race {
         
         this.startingGrid = table.map(gd => gd.driverInfo);
     }
-}
-
-export function createRaceIni (race: Race) {
-    // hardcoded values for now
-    const ini: {[key: string]: any} = {
-        ["BENCHMARK"]: {
-            ACTIVE: 0,
-        },
-        ["REPLAY"]: {
-            ACTIVE: 0,
-            FILENAME: "NO_REPLAY.acreplay",
-        },
-        ["REMOTE"]: {
-            ACTIVE: 0,
-            SERVER_IP: "",
-            SERVER_PORT: "",
-            NAME: "",
-            TEAM: "",
-            GUID: "",
-            REQUESTED_CAR: "",
-            PASSWORD: "",
-        },
-        ["RESTART"]: {
-            ACTIVE: 0
-        },
-        ["HEADER"]: {
-            VERSION: 2,
-            __CM_FEATURE_SET: 1,
-        },
-        ["LAP_INVALIDATOR"]: {
-            ALLOWED_TYRES_OUT: 1,
-        },
-        ["RACE"]: {
-            MODEL: "",
-            MODEL_CONFIG: "",
-            SKIN: "",
-            TRACK: "",
-            CONFIG_TRACK: "",
-            AI_LEVEL: 100,
-            CARS: 0,
-            DRIFT_MODE: 0,
-            FIXED_SETUP: 0,
-            PENALTIES: 0,
-            JUMP_START_PENALTY: 0,
-            RACE_LAPS: 9, // there's also SESSION_0 -> LAPS
-        },
-        ["OPTIONS"]: {
-            USE_MPH: 0,
-        },
-        ["GHOST_CAR"]: {
-            RECORDING: 0,
-            PLAYING: 0,
-            LOAD: 0,
-            FILE: "",
-            ENABLED: 0,
-            SECONDS_ADVANTAGE: 0,
-        },
-        ["GROOVE"]: {
-            VIRTUAL_LAPS: 10,
-            MAX_LAPS: 30,
-            STARTING_LAPS: 0,
-        },
-        ["TEMPERATURE"]: {
-            AMBIENT: 26.0,
-            ROAD: 37.0,
-        },
-        ["LIGHTING"]: {
-            SUN_ANGLE: -16.00,
-            TIME_MULT: 1.0,
-            CLOUD_SPEED: 0.200,
-            __TRACK_GEOTAG_LONG: 2.25,
-            __TRACK_TIMEZONE_BASE_OFFSET: 3600,
-            __TRACK_TIMEZONE_DTS: 0,
-            __CM_WEATHER_CONTROLLER: "base",
-            __CM_WEATHER_TYPE: 15,
-            __TRACK_TIMEZONE_OFFSET: 3600,
-            __TRACK_GEOTAG_LAT: 41.5533333333333,
-        },
-        ["WEATHER"]: {
-            NAME: "3_clear",
-        },
-        ["WIND"]: {
-            SPEED_KMH_MIN: 0,
-            SPEED_KMH_MAX: 0,
-            DIRECTION_DEG: 0,
-        },
-        ["DYNAMIC_TRACK"]: {
-            SESSION_START: 100,
-            RANDOMNESS: 0,
-            LAP_GAIN: 1,
-            SESSION_TRANSFER: 100,
-        },
-        ["__PREVIEW_GENERATION"]: {
-            ACTIVE: 0,
-        },
-        ["SESSION_0"]: {
-            NAME: "Quick Race",
-            DURATION_MINUTES: 0,
-            SPAWN_SET: "START",
-            TYPE: 3,
-            LAPS: 9, // there's also RACE -> RACE_LAPS
-            STARTING_POSITION: 0,
-        },
-    };
-
-    const trackNames = race.getTrackNames();
-    ini["RACE"].TRACK = trackNames.track;
-    ini["RACE"].CONFIG_TRACK = trackNames.layout;
-
-    const playerDriver = race.getPlayerDriver();
-    const playerCountry = Countries[playerDriver.driverInfo.country]!; // TODO: null
-    ini["CAR_0"] = {
-        SETUP: "",
-        SKIN: playerDriver.skin,
-        MODEL: "-",
-        MODEL_CONFIG: "",
-        BALLAST: 0,
-        RESTRICTOR: 0,
-        DRIVER_NAME: playerDriver.driverInfo.name,
-        NATIONALITY: playerCountry.assettoCorsa?.name ?? "Unknown",
-        NATION_CODE: playerCountry.assettoCorsa?.code ?? "AC",
-    }
-    ini["RACE"].MODEL = playerDriver.car;
-    ini["RACE"].SKIN = playerDriver.skin;
-    ini["SESSION_0"].STARTING_POSITION = race.getPlayerStartingPosition();
-
-    const aiDrivers = race.getAiDriversByGridOrder();
-
-    let iniDriverIndex = 1;
-    for (const d of aiDrivers) {
-        ini[`CAR_${iniDriverIndex}`] = _createRaceIniDriver(d);
-        iniDriverIndex++;
-    }
-    ini["RACE"].CARS = race.getDriverCount();
-
-    console.log(Ini.stringify(ini));
-}
-
-function _createRaceIniDriver (driver: RaceDriver) {
-    const country = Countries[driver.driverInfo.country]!; // TODO: null
-
-    return {
-        MODEL: driver.car,
-        SKIN: driver.skin,
-        SETUP: "",
-        MODEL_CONFIG: "",
-        AI_LEVEL: driver.driverInfo.strength,
-        AI_AGGRESSION: driver.driverInfo.aggression,
-        DRIVER_NAME: driver.driverInfo.name,
-        BALLAST: driver.ballast,
-        RESTRICTOR: driver.restrictor,
-        NATION_CODE: country.assettoCorsa?.code ?? "AC",
-        NATIONALITY: country.assettoCorsa?.name ?? "Unknown",
-    };
 }

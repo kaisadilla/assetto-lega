@@ -13,6 +13,8 @@ export const Assets: {[key in AssetFolder]: {[resource: string]: string}} = {
     },
     [AssetFolder.leagueLogos]: {
         "@dtm": require("@assets/img/league-logos/dtm.png"),
+        "@dtm-2000": require("@assets/img/league-logos/dtm-2000.png"),
+        "@dtm-2012": require("@assets/img/league-logos/dtm-2012.png"),
         "@f1-1987": require("@assets/img/league-logos/f1-1987.png"),
         "@f1-1994": require("@assets/img/league-logos/f1-1994.png"),
         "@f1-2018": require("@assets/img/league-logos/f1-2018.png"),

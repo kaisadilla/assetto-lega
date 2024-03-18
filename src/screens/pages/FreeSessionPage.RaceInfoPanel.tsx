@@ -11,7 +11,7 @@ import LabeledCheckbox from 'elements/LabeledCheckbox';
 import LabeledControl from 'elements/LabeledControl';
 import Slider from 'elements/Slider';
 import DropdownField from 'elements/DropdownField';
-import { CarAid, JumpStartPenalty, StartingGridMode } from 'logic/game/game';
+import { CarAid, JumpStartPenalty, StartingGridMode } from 'logic/Race';
 import Button from 'elements/Button';
 
 export interface FreeSession_RaceInfoPanelProps {
@@ -23,7 +23,7 @@ export interface FreeSession_RaceInfoPanelProps {
     raceSettings: RaceSettings;
     onChange: (raceSettings: RaceSettings) => void;
     onExpand: () => void;
-    onContinue: () => void;
+    onStartRace: () => void;
 }
 
 function FreeSession_RaceInfoPanel ({
@@ -35,7 +35,7 @@ function FreeSession_RaceInfoPanel ({
     raceSettings,
     onChange,
     onExpand,
-    onContinue,
+    onStartRace,
 }: FreeSession_RaceInfoPanelProps) {
     const [showInfo, setShowInfo] = useState(false);
 
@@ -144,9 +144,9 @@ function FreeSession_RaceInfoPanel ({
                 <div className="section-controls">
                     <Button
                         highlighted
-                        onClick={() => onContinue()}
+                        onClick={() => onStartRace()}
                     >
-                        Continue
+                        Start race
                     </Button>
                 </div>
             </div>
@@ -207,6 +207,7 @@ function _DriverListSection ({
     return (
         <div className="driver-list">
             {driverList.map(d => <_DriverListEntry
+                key={d.internalName}
                 driver={d}
                 teams={teams}
                 isPlayer={d.internalName === playerDriverId}

@@ -1,5 +1,5 @@
 import { Data } from "../userdata";
-import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_INITIALIZE_RENDER_STEP, HANDLER_DATA_LOAD_COUNTRY_TIERS, HANDLER_DATA_SAVE_COUNTRY_TIERS, HANDLER_DATA_OPEN_FOLDER_LEAGUES } from "./ipcNames";
+import { HANDLER_AC_GET_CAR_DATA, HANDLER_AC_GET_CAR_BRAND_LIST, HANDLER_AC_GET_CAR, HANDLER_AC_GET_CAR_LIST, HANDLER_AC_LOAD_DATA, HANDLER_AC_SET_PATH, HANDLER_DATA_LOAD_LEAGUES, HANDLER_DATA_LOAD_SETTINGS, HANDLER_DATA_SAVE_LEAGUE, HANDLER_DATA_SAVE_SETTINGS, HANDLER_FILES_OPEN_DIRECTORY, HANDLER_FILES_SCAN_DIRECTORY, HANDLER_FILES_UPLOAD, HANDLER_FILES_VERIFY_PATH, HANDLER_FILES_VERIFY_PATHS, HANDLER_GET_DATA_PATH, HANDLER_AC_GET_TRACK, HANDLER_AC_GET_TRACK_LIST, HANDLER_AC_GET_TRACK_DATA, HANDLER_AC_INITIALIZE_RENDER_STEP, HANDLER_DATA_LOAD_COUNTRY_TIERS, HANDLER_DATA_SAVE_COUNTRY_TIERS, HANDLER_DATA_OPEN_FOLDER_LEAGUES, HANDLER_ACS_LAUNCH_RACE } from "./ipcNames";
 import { dialog } from "electron";
 import fsAsync from "fs/promises";
 import fs from "fs";
@@ -8,6 +8,9 @@ import { AssetFolder } from "data/assets";
 import { AssettoCorsa } from "../assettoCorsa/acFolder";
 import Cars, { loadAcCarCollection } from "../assettoCorsa/cars";
 import Tracks, { initializeTracks, loadAcTrackCollection } from "../assettoCorsa/tracks";
+import { RaceIni } from "../../logic/game/iniSchemas";
+import { setupRace } from "../game/configFolder";
+import { launchGame } from "../game/client";
 
 interface UploadFilesArgs {
     format: Electron.FileFilter[],
@@ -21,6 +24,10 @@ interface SaveLeagueArgs {
      */
     originalInternalName: string | null;
     league: League;
+}
+
+interface LaunchRaceArgs {
+    raceIni: RaceIni;
 }
 
 export function createIpcHandlers (ipcMain: Electron.IpcMain) {
@@ -153,6 +160,13 @@ export function createIpcHandlers (ipcMain: Electron.IpcMain) {
         : AcTrack | null =>
     {
         return Tracks.tracksById[folderName] ?? null;
+    });
+
+    ipcMain.handle(HANDLER_ACS_LAUNCH_RACE, (evt, {
+        raceIni,
+    }: LaunchRaceArgs) => {
+        setupRace(raceIni);
+        launchGame(AssettoCorsa.acPath);
     });
 
     //ipcMain.handle(HANDLER_AC_INITIALIZE_RENDER_STEP, (evt, args: {

@@ -8,11 +8,11 @@ import LeagueEditor from './editor-page/LeagueEditor';
 import { LeagueScreenPage, useNavigationContext } from '../../context/useNavigation';
 import { useDataContext } from 'context/useDataContext';
 
-export interface LeaguePageProps {
+export interface ChampionshipPageProps {
 
 }
 
-function LeaguePage (props: LeaguePageProps) {
+function ChampionshipPage (props: ChampionshipPageProps) {
     const { leagueScreen, setLeagueScreen } = useNavigationContext();
     const { leagues } = useDataContext();
 
@@ -51,4 +51,4 @@ function LeaguePage (props: LeaguePageProps) {
     );
 }
 
-export default LeaguePage;
+export default ChampionshipPage;
