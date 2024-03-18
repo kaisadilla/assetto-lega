@@ -5,6 +5,7 @@ import { LeagueTeam } from 'data/schemas';
 import AssetImage from 'elements/AssetImage';
 import AutoSizeGrid from 'elements/AutoSizeGrid';
 import DefaultHighlighter from 'elements/Highlighter';
+import Img from 'elements/Img';
 import SelectableItem from 'elements/SelectableItem';
 import FlagImage from 'elements/images/FlagImage';
 import React, { CSSProperties } from 'react';
@@ -111,7 +112,7 @@ function _TeamGalleryEntry ({
             </div>
             <div className="team-data">
                 <div className="team-car">
-                    <img className="team-badge" src={FILE_PROTOCOL + teamCar.badgePath} />
+                    <Img className="team-badge" src={FILE_PROTOCOL + teamCar.badgePath} />
                     <div>{teamCar.ui.name ?? teamCar.folderName}</div>
                 </div>
                 <div className="team-bop">

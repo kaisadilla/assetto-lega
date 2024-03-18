@@ -7,6 +7,7 @@ import { getClassString } from 'utils';
 import ImagePicker from './ImagePicker';
 import CoverPanel from 'elements/CoverPanel';
 import { PickerImageBackgroundColor } from './PickerDialog';
+import Img from 'elements/Img';
 
 export interface ImageFieldProps {
     /**
@@ -67,7 +68,7 @@ function ImageField ({
             const imgPath = Files.getFilePath(dataPath, directory, image);
 
             return (
-                <img src={imgPath} />
+                <Img src={imgPath} />
             )
         }
     })();

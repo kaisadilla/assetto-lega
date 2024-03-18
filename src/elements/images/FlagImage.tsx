@@ -14,7 +14,7 @@ function FlagImage ({
     const path = (countryObj ?? Countries["assetto_corsa"]).flag;
 
     return (
-        <img className={className} src={path} />
+        <Img className={className} src={path} />
     );
 }
 

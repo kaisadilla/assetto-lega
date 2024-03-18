@@ -5,6 +5,7 @@ import { AcTrack, AcTrackLayout } from 'data/schemas';
 import React from 'react';
 import { getClassString, isString } from 'utils';
 import FlagImage from './images/FlagImage';
+import Img from './Img';
 
 export interface TrackThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
     track: string | AcTrack | null | undefined;
@@ -66,10 +67,10 @@ function TrackThumbnail ({
         <div className={classStr} {...divProps}>
             <div className="thumbnail-multi-layer-background">
                 <div className="thumbnail-layer">
-                    <img src={FILE_PROTOCOL + layoutObj.previewPath} />
+                    <Img src={FILE_PROTOCOL + layoutObj.previewPath} />
                 </div>
                 <div className="thumbnail-layer layer-outline">
-                    <img src={FILE_PROTOCOL + layoutObj.outlinePath} />
+                    <Img src={FILE_PROTOCOL + layoutObj.outlinePath} />
                 </div>
             </div>
             <div className="thumbnail-info">

@@ -5,6 +5,7 @@ import Button from 'elements/Button';
 import CustomizableContextMenu from 'elements/CustomizableContextMenu';
 import Dialog from 'elements/Dialog';
 import DefaultHighlighter from 'elements/Highlighter';
+import Img from 'elements/Img';
 import Textbox from 'elements/Textbox';
 import TierContextMenu from 'elements/TierContextMenu';
 import ToolboxRow from 'elements/ToolboxRow';
@@ -217,7 +218,7 @@ function SelectableCountry ({
             onDoubleClick={onDoubleClick}
             tabIndex={tabIndex}
         >
-            <img className="country-flag" src={country.flag} />
+            <Img className="country-flag" src={country.flag} />
             <div className={nameClassStr}>
                 {
                     country.displayName === ""

@@ -2,6 +2,7 @@ import { useAcContext } from 'context/useAcContext';
 import { useSettingsContext } from 'context/useSettings';
 import { Countries } from 'data/countries';
 import { AcTrackCollection, LeagueCalendarEntry } from 'data/schemas';
+import Img from 'elements/Img';
 import Ipc from 'main/ipc/ipcRenderer';
 import React, { useEffect, useState } from 'react';
 import { dateToDisplayName, getClassString } from 'utils';
@@ -66,13 +67,13 @@ function CalendarEntry ({
                 {dateToDisplayName(new Date(entry.date ?? ""))}
             </div>
             <div className="country">
-                <img src={countryData?.flag} />
+                <Img src={countryData?.flag} />
             </div>
             <div className="name">
                 {entry.name}
             </div>
             <div className={layoutClass}>
-                <img src={layoutImg} />
+                <Img src={layoutImg} />
             </div>
             <div className="layout-name">
                 {trackName}

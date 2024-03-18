@@ -2,6 +2,7 @@ import { useDataContext } from 'context/useDataContext';
 import { AssetFolder } from 'data/assets';
 import { Files } from 'data/files';
 import React, { CSSProperties } from 'react';
+import Img from './Img';
 
 export interface AssetImageProps {
     folder: AssetFolder;
@@ -25,7 +26,7 @@ function AssetImage ({
     );
 
     return (
-        <img className={className} style={style} src={src} alt={alt} />
+        <Img className={className} style={style} src={src} alt={alt} />
     );
 }
 

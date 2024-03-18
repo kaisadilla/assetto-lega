@@ -45,6 +45,7 @@ function __returnPath (path: string, asResource: boolean) {
     return (asResource ? FILE_PROTOCOL : "") + __cureImgSrc(path);
 }
 
+// TODO: Use utils.
 /**
  * Replaces the character '#' in the string given for its HTML safe
  * representation: '%23'.

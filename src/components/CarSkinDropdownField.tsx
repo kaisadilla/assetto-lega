@@ -1,6 +1,7 @@
 import { useAcContext } from 'context/useAcContext';
 import { AcCar, AcCarSkin } from 'data/schemas';
 import Dropdown from 'elements/Dropdown';
+import Img from 'elements/Img';
 import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIcon } from 'paths';
 import React, { useEffect, useRef, useState } from 'react';
@@ -74,7 +75,7 @@ function CarSkinDropdownField ({
             >
                 {selectedSkin && <>
                     <div className="icon">
-                        <img src={getCarSkinIcon(selectedSkin.folderPath, true)} />
+                        <Img src={getCarSkinIcon(selectedSkin.folderPath, true)} />
                     </div>
                     <div className="name">
                         {selectedSkin.ui.skinname ?? selectedSkin.folderName}
@@ -129,7 +130,7 @@ function CarSkinDropdownFieldEntry ({
             onClick={() => onSelect()}
         >
             <div className="icon">
-                <img src={getCarSkinIcon(skin.folderPath, true)} />
+                <Img src={getCarSkinIcon(skin.folderPath, true)} />
             </div>
             <div className="name">
                 {skin.ui.skinname ?? skin.folderName}

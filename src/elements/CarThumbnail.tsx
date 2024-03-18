@@ -3,6 +3,7 @@ import { FILE_PROTOCOL } from 'data/files';
 import { AcCar, AcCarSkin } from 'data/schemas';
 import React from 'react';
 import { getClassString, isString } from 'utils';
+import Img from './Img';
 
 export interface CarThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
     car: AcCar | string | null | undefined;
@@ -54,11 +55,11 @@ function CarThumbnail ({
     return (
         <div className={classStr} {...divProps}>
             <div className="thumbnail-background">
-                <img src={FILE_PROTOCOL + carSkinObj.previewPath} />
+                <Img src={FILE_PROTOCOL + carSkinObj.previewPath} />
             </div>
             <div className="thumbnail-info">
                 <div className="thumbnail-badge">
-                    <img src={FILE_PROTOCOL + carObj.badgePath} />
+                    <Img src={FILE_PROTOCOL + carObj.badgePath} />
                 </div>
                 <div className="thumbnail-name">{carObj.ui.name}</div>
             </div>

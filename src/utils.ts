@@ -376,6 +376,16 @@ export function timeNumberToString (time: number | undefined | null) {
         + (minutes * 59).toFixed(0).padStart(2, '0');
 }
 
+/**
+ * Replaces the character '#' in the string given for its HTML safe
+ * representation: '%23'.
+ * @param path 
+ * @returns 
+ */
+export function cureHtmlPath (path: string) {
+    return path.replace("#", "%23");
+}
+
 function __buildSmartFilterRegex (filter: string, caseSensitive?: boolean) {
     try {
         let regexStr = "";

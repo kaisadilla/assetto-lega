@@ -29,6 +29,7 @@ import Textbox from 'elements/Textbox';
 import CarSkinThumbnailField from 'components/CarSkinThumbnailField';
 import CarThumbnail from 'elements/CarThumbnail';
 import FreeSession_RaceInfoPanel from './FreeSessionPage.RaceInfoPanel';
+import Img from 'elements/Img';
 
 const MIN_TIME_SCALE = 0;
 const MAX_TIME_SCALE = 100;
@@ -636,7 +637,7 @@ function _TrackSectionEvent ({
             onClick={() => onSelect()}
         >
             <div className={outlineClass}>
-                <img src={FILE_PROTOCOL + layout.outlinePath} />
+                <Img src={FILE_PROTOCOL + layout.outlinePath} />
             </div>
             <div className="info-section">
                 <div className="event-title">
@@ -924,7 +925,7 @@ function _DriverSectionTeam ({
                 </div>
                 <div className="car-data">
                     <div className="team-car">
-                        <img className="team-badge" src={FILE_PROTOCOL + teamCar.badgePath} />
+                        <Img className="team-badge" src={FILE_PROTOCOL + teamCar.badgePath} />
                         <div>{teamCar.ui.name ?? teamCar.folderName}</div>
                     </div>
                     <div className="team-bop">

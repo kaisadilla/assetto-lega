@@ -14,6 +14,7 @@ import { chooseW3CTextColor, getClassString } from 'utils';
 import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIconFromId } from 'paths';
 import { useAcContext } from 'context/useAcContext';
+import Img from 'elements/Img';
 
 export interface TeamTableProps {
     teams: LeagueTeam[];
@@ -70,10 +71,10 @@ function TeamEntry ({
             <div className="team-info" style={teamInfoStyle}>
                 <div className="team-color" style={teamColorStyle} />
                 <div className="team-logo">
-                    <img src={logoImg} />
+                    <Img src={logoImg} />
                 </div>
                 <div className="team-flag">
-                    <img src={countryData?.flag} />
+                    <Img src={countryData?.flag} />
                 </div>
                 <div className="team-names-and-badge">
                     <div className="team-names">
@@ -84,7 +85,7 @@ function TeamEntry ({
                             </span>
                         )}
                     </div>
-                    <img className="team-badge" src={badgeImg} />
+                    <Img className="team-badge" src={badgeImg} />
                 </div>
                 <div className="team-car">
                     <div className="team-car-name">
@@ -149,7 +150,7 @@ function DriverEntry ({
             <div className="driver-number">
                 <div>{driver.number}</div>
             </div>
-            <img className="driver-flag" src={countryData.flag} />
+            <Img className="driver-flag" src={countryData.flag} />
             <span className="driver-initials">{driver.initials}</span>
             <span className="driver-name">{driver.name}</span>
             <div className="skin-icons">
@@ -195,7 +196,7 @@ function DriverEntryCarSkinCollection ({
         )
 
         return (
-            <img
+            <Img
                 key={skin}
                 className={classStr}
                 src={getCarSkinIconFromId(

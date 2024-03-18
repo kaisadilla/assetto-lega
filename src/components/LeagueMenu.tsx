@@ -4,6 +4,7 @@ import { Files } from 'data/files';
 import { League, Tier } from 'data/schemas';
 import DefaultHighlighter from 'elements/Highlighter';
 import Icon from 'elements/Icon';
+import Img from 'elements/Img';
 import TextSelectorList from 'elements/TextSelectorList';
 import React, { useEffect, useState } from 'react';
 import { getClassString } from 'utils';
@@ -188,7 +189,7 @@ function SeriesPanelThumbnail ({
             <div className="series-highlighter"
         />
             <div className="logo-container">
-                <img src={imgLogo} />
+                <Img src={imgLogo} />
             </div>
             <div className="name-container">
                 <span>{series}</span>
@@ -265,7 +266,7 @@ function SeasonsPanelEntry ({
                 style={{backgroundColor: league.color}}
             />
             <div className="season-logo">
-                <img src={imgLogo} />
+                <Img src={imgLogo} />
             </div>
             <div className="season-name">
                 <span className="name">{league.displayName ?? league.year}</span>

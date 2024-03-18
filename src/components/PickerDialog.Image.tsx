@@ -1,4 +1,5 @@
 import DefaultHighlighter from "elements/Highlighter";
+import Img from "elements/Img";
 import { getClassString } from "utils";
 
 export interface PickerDialog_ImageProps {
@@ -51,7 +52,7 @@ export function PickerDialog_Image ({
         >
             <div className="content-container">
                 <div className="image-container">
-                    <img src={src} />
+                    <Img src={src} />
                 </div>
             </div>
             <DefaultHighlighter highlight={selected} />

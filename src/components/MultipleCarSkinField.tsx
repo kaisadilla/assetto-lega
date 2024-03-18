@@ -101,7 +101,7 @@ function CarSkinCollection ({
                 )
                 else return (
                     <div key={sel} className="skin">
-                        <img src={getCarSkinIcon(skin.folderPath, true)} />
+                        <Img src={getCarSkinIcon(skin.folderPath, true)} />
                     </div>
                 )
             })}

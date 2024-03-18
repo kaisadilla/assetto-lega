@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import outline from "../../assets/outline.png";
 import flag from "../../assets/flags/eu.png";
 import { Countries } from 'data/countries';
+import Img from './Img';
 
 export interface ThumbnailProps {
     /** The name of the background file. */
@@ -30,11 +31,11 @@ function Thumbnail ({
             onMouseEnter={() => setShowTools(true)}
             onMouseLeave={() => setShowTools(false)}
         >
-            <img className="background" src={background} />
-            <img className="logo" src={logo} />
+            <Img className="background" src={background} />
+            <Img className="logo" src={logo} />
             <div className="title">
                 <div className="flag-container">
-                    <img className="flag" src={flagPath} />
+                    <Img className="flag" src={flagPath} />
                 </div>
                 <div className="name">{name}</div>
             </div>

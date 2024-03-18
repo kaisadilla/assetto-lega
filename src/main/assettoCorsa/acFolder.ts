@@ -104,11 +104,18 @@ export const AssettoCorsa = {
 
             const displayName = skinUi?.skinname ?? f.name;
 
+            // previews can be .png or .jpg. Use .png but, if it doesn't exist,
+            // use .jpg (if that doesn't exist either then tough luck).
+            let previewFile = "preview.png"; 
+            if (fs.existsSync(skinFolder + "/" + previewFile) === false) {
+                previewFile = "preview.jpg";
+            }
+
             if (skinUi) {
                 skinsById[f.name] = {
                     folderName: f.name,
                     folderPath: skinFolder,
-                    previewPath: skinFolder + "/preview.jpg",
+                    previewPath: skinFolder + "/" + previewFile,
                     liveryPath: skinFolder + "/livery.png",
                     displayName,
                     ui: skinUi,

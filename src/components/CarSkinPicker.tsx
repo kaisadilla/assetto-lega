@@ -7,6 +7,7 @@ import Ipc from 'main/ipc/ipcRenderer';
 import { getCarSkinIcon, getCarSkinPreviewFile } from 'paths';
 import { getClassString } from 'utils';
 import Checkbox from 'elements/Checkbox';
+import Img from 'elements/Img';
 
 // TODO: Document - parameters receive a string if multipleSelection = false,
 // or an array of strings if multipleSelection = true.
@@ -133,7 +134,7 @@ function CarSkinInfo ({
     return (
         <div className="skin-preview">
             <div className="skin-preview-image">
-                <img src={getCarSkinPreviewFile(skin.folderPath, true)} />
+                <Img src={getCarSkinPreviewFile(skin.folderPath, true)} />
             </div>
             <div className="skin-preview-info">
                 <div className="info-entry">
@@ -267,7 +268,7 @@ function CarSkinListEntry ({
                 />
             </div>}
             <div className="skin-icon">
-                <img src={getCarSkinIcon(skin.folderPath, true)} />
+                <Img src={getCarSkinIcon(skin.folderPath, true)} />
             </div>
             <div className="skin-info">
                 <span className="skin-number">{number}</span>

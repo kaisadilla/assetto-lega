@@ -1,5 +1,6 @@
 import { useDataContext } from 'context/useDataContext';
 import { FILE_PROTOCOL } from 'data/files';
+import Img from 'elements/Img';
 import React from 'react';
 import { getClassString } from 'utils';
 
@@ -22,7 +23,7 @@ function CarLogoImage ({
     )
 
     return (
-        <img className={classStr} src={path} alt={carFolderName} />
+        <Img className={classStr} src={path} alt={carFolderName} />
     );
 }
 

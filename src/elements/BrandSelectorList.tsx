@@ -1,6 +1,7 @@
 import { Tier } from 'data/schemas';
 import React from 'react';
 import { getClassString } from 'utils';
+import Img from './Img';
 
 export interface BrandSelectorListEntryData {
     name: string;
@@ -48,7 +49,7 @@ function BrandSelectorListEntry ({
     return (
         <div className={classStr} onClick={handleClick}>
             <div className="brand-badge">
-                {data.badgePath && <img src={data.badgePath} />}
+                {data.badgePath && <Img src={data.badgePath} />}
             </div>
             <div className="brand-name">
                 {data.name}

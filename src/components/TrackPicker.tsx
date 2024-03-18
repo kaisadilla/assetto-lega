@@ -17,6 +17,7 @@ import { FILE_PROTOCOL } from 'data/files';
 import TagList from 'elements/TagList';
 import { useAcContext } from 'context/useAcContext';
 import { useSettingsContext } from 'context/useSettings';
+import Img from 'elements/Img';
 
 const MIN_IMAGE_SIZE = 100;
 const MAX_IMAGE_SIZE = 256;
@@ -334,11 +335,11 @@ function SelectedTrackShowcase ({
         <div className="selected-track-showcase">
             <div className="image-section">
                 <div className="image-container">
-                    <img
+                    <Img
                         className="preview-img"
                         src={FILE_PROTOCOL + layout.previewPath}
                     />
-                    <img
+                    <Img
                         className="outline-img"
                         src={FILE_PROTOCOL +layout.outlinePath}
                     />
@@ -384,7 +385,7 @@ function TrackInfo ({
             <div className="datum">
                 <span className="name">Country:</span>
                 <div className="value country">
-                    <img src={ctry.flag} />
+                    <Img src={ctry.flag} />
                     <span>{ctry.displayName}</span>
                 </div>
             </div>
@@ -465,7 +466,7 @@ function LayoutEntry ({
             onDoubleClick={() => onSubmit()}
         >
             <div className={layoutClass}>
-                <img src={FILE_PROTOCOL + layout.outlinePath} />
+                <Img src={FILE_PROTOCOL + layout.outlinePath} />
             </div>
             <div className="layout-name">
                 {layout.layoutName}

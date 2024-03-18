@@ -3,6 +3,7 @@ import CoverPanel from 'elements/CoverPanel';
 import React, { useState } from 'react';
 import CountryPicker from './CountryPicker';
 import { getClassString } from 'utils';
+import Img from 'elements/Img';
 
 export interface CountryFieldProps {
     /**
@@ -45,7 +46,7 @@ function CountryField ({
         return (
             <>
                 <div className="country-flag">
-                    <img className="small-flag" src={country.flag} />
+                    <Img className="small-flag" src={country.flag} />
                 </div>
                 <div className={nameClassStr}>
                     {

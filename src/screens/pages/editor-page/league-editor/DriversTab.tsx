@@ -7,6 +7,7 @@ import { League, LeagueTeam, LeagueTeamDriver, LeagueTeamDriverQualifying, getLe
 import Button from 'elements/Button';
 import ContentDialog from 'elements/ContentDialog';
 import Icon from 'elements/Icon';
+import Img from 'elements/Img';
 import LabeledControl from 'elements/LabeledControl';
 import MaterialSymbol from 'elements/MaterialSymbol';
 import NavBar from 'elements/NavBar';
@@ -211,7 +212,7 @@ function DriverEntry ({
     return (
         <div className={classStr} style={style}>
             <div className="cell-badge driver-team-badge">
-                <img src={badgeImg} />
+                <Img src={badgeImg} />
             </div>
             <div className="cell-name driver-name">
                 {driver.name}
@@ -577,7 +578,7 @@ function SimulatorSectionDriver ({
             </div>
             <div className="driver">
                 <div className="team-badge">
-                    <img src={badgeImg} />
+                    <Img src={badgeImg} />
                 </div>
                 <div className="name">
                     {driver.driverInfo.name}

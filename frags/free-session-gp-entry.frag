@@ -6,7 +6,7 @@
 		{entry.name}
 	</div>
 	<div className="track-outline">
-		<img src={FILE_PROTOCOL + layout.outlinePath} />
+		<Img src={FILE_PROTOCOL + layout.outlinePath} />
 	</div>
 	<div className="track-name">
 		{layout.ui.name}
