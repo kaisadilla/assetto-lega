@@ -15,6 +15,8 @@ interface _CommonSliderProps {
     //logarithmic?: boolean;
     onChange?: (value: number) => void;
     showNumberBox?: boolean | 'left' | 'right';
+    numberBoxMin?: number;
+    numberBoxMax?: number;
     className?: string;
     tabIndex?: number;
     textColor?: TextColor;
@@ -41,6 +43,8 @@ function Slider ({
     markSpacing,
     onChange,
     showNumberBox = false,
+    numberBoxMin = min,
+    numberBoxMax = max,
     className,
     tabIndex = 1,
     textColor,
@@ -86,6 +90,8 @@ function Slider ({
             readonly={readonly}
             onChange={handleChange}
             showNumberBox={showNumberBox}
+            numberBoxMin={numberBoxMin}
+            numberBoxMax={numberBoxMax}
             className={className}
             tabIndex={tabIndex}
             textColor={textColor}
@@ -103,6 +109,8 @@ function Slider ({
             marks={marks}
             onChange={handleChange}
             showNumberBox={showNumberBox}
+            numberBoxMin={numberBoxMin}
+            numberBoxMax={numberBoxMax}
             className={className}
             tabIndex={tabIndex}
             textColor={textColor}
@@ -148,6 +156,8 @@ function _FillSlider ({
     readonly,
     onChange,
     showNumberBox,
+    numberBoxMin = min,
+    numberBoxMax = max,
     className,
     tabIndex,
     textColor,
@@ -182,8 +192,8 @@ function _FillSlider ({
                 <NumericBox
                     className="number-box"
                     value={value}
-                    min={min}
-                    max={max}
+                    min={numberBoxMin}
+                    max={numberBoxMax}
                     allowDecimals={isInteger(step) === false}
                     maxDecimalPlaces={countDecimalPlaces(step)}
                     step={step}
@@ -213,6 +223,8 @@ function _ThumbSlider ({
     marks,
     onChange,
     showNumberBox,
+    numberBoxMin = min,
+    numberBoxMax = max,
     className,
     tabIndex,
     textColor,
@@ -258,8 +270,8 @@ function _ThumbSlider ({
                 <NumericBox
                     className="number-box"
                     value={value}
-                    min={min}
-                    max={max}
+                    min={numberBoxMin}
+                    max={numberBoxMax}
                     allowDecimals={isInteger(step) === false}
                     maxDecimalPlaces={countDecimalPlaces(step)}
                     step={step}

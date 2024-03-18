@@ -43,6 +43,19 @@ $-default-padding: 16px;
         width: 100%;
     }
 
+    .button-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 1px;
+
+        > * {
+            flex-shrink: 0;
+        }
+    }
+
     .section-controls {
         grid-area: too;
 
@@ -904,19 +917,6 @@ $-default-padding: 16px;
             flex-wrap: nowrap;
             overflow-y: auto;
             gap: 8px;
-
-            .button-row {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-                gap: 8px;
-                overflow-x: auto;
-                padding: 1px;
-
-                > * {
-                    flex-shrink: 0;
-                }
-            }
 
             .two-column-options {
                 display: flex;

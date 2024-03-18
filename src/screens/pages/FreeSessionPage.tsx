@@ -59,6 +59,7 @@ enum TrackCondition {
 }
 
 export interface TrackSettings {
+    event: LeagueCalendarEntry | null;
     track: AcTrack | null;
     layout: AcTrackLayout | null;
     startTime: number;
@@ -85,6 +86,7 @@ export interface DriverSettings {
 
 export interface RaceSettings {
     driverEntries: string[] | null;
+    laps: number;
 
     hasPractice: boolean;
     practiceLength: number;
@@ -150,6 +152,7 @@ function FreeSessionPage (props: FreeSessionPageProps) {
                 league={league}
                 trackSettings={trackSettings}
                 onChange={setTrackSettings}
+                setLaps={handleSetLaps}
                 onExpand={() => handleExpandSection(Section.Track)}
                 onContinue={() => handleExpandSection(Section.Driver)}
             />
@@ -198,6 +201,13 @@ function FreeSessionPage (props: FreeSessionPageProps) {
             ...prevState,
             driverEntries: null,
         }));
+    }
+
+    function handleSetLaps (laps: number) {
+        setRaceSettings(prevState => ({
+            ...prevState,
+            laps,
+        }))
     }
 }
 
@@ -254,6 +264,7 @@ interface _TrackSectionProps {
     league: League | null;
     trackSettings: TrackSettings;
     onChange: (trackSettings: TrackSettings) => void;
+    setLaps: (laps: number) => void;
     onExpand: () => void;
     onContinue: () => void;
 }
@@ -265,6 +276,7 @@ function _TrackSection ({
     league,
     trackSettings,
     onChange,
+    setLaps,
     onExpand,
     onContinue,
 }: _TrackSectionProps) {
@@ -306,13 +318,12 @@ function _TrackSection ({
         )
     }
     if (expanded === false) {
-        const selectedEvent = getCurrentlySelectedEvent();
         const eventName = (() => {
-            if (selectedEvent) {
-                if (isStringNullOrEmpty(selectedEvent.officialName)) {
-                    return selectedEvent.name;
+            if (trackSettings.event) {
+                if (isStringNullOrEmpty(trackSettings.event.officialName)) {
+                    return trackSettings.event.name;
                 }
-                return selectedEvent.officialName;
+                return trackSettings.event.officialName;
             }
             if (trackSettings.track && trackSettings.layout) {
                 return `Custom event at '${trackSettings.layout.ui.name}'`;
@@ -414,7 +425,7 @@ function _TrackSection ({
                     {league.calendar.map(e => <_TrackSectionEvent
                         key={e.internalName}
                         entry={e}
-                        selected={getCurrentlySelectedEvent()?.internalName === e.internalName}
+                        selected={trackSettings.event?.internalName === e.internalName}
                         onSelect={() => handleSelectEvent(e)}
                     />)}
                 </div>
@@ -569,10 +580,12 @@ function _TrackSection ({
 
         onChange({
             ...trackSettings,
+            event: event,
             track: track,
             layout: layout,
             startTime: timeStringToNumber(event.raceStartHour) ?? trackSettings.startTime,
         })
+        setLaps(event.laps);
     }
 
     function handleTrackChange (values: TrackPickerValue) {
@@ -592,12 +605,6 @@ function _TrackSection ({
             ...trackSettings,
             [field]: value,
         });
-    }
-
-    function getCurrentlySelectedEvent () {
-        return league?.calendar.find(
-            e => e.track === trackSettings.track?.folderName
-        ) ?? null;
     }
 }
 
@@ -1093,6 +1100,7 @@ function _DriverSelectionCustomization ({
  */
 function loadTrackSettings () : TrackSettings {
     return {
+        event: null,
         track: null,
         layout: null,
         startTime: 0.5,
@@ -1123,6 +1131,7 @@ function loadDriverSettings (profile: UserProfile) : DriverSettings {
 function loadRaceSettings () : RaceSettings {
     return {
         driverEntries: null,
+        laps: 20,
     
         hasPractice: false,
         practiceLength: 30,

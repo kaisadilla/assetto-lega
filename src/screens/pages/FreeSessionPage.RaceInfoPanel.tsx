@@ -93,8 +93,9 @@ function FreeSession_RaceInfoPanel ({
             <div className="sessions-section">
                 <h2 className="header">Race settings</h2>
                 <_RaceSettings
-                   raceSettings={raceSettings}
-                   onChangeField={handleFieldChange}
+                    trackSettings={trackSettings}
+                    raceSettings={raceSettings}
+                    onChangeField={handleFieldChange}
                 />
                 <LabeledCheckbox
                     className="h2-header"
@@ -365,16 +366,41 @@ function _RealQualifyingOptions ({
 }
 
 interface _RaceSettingsProps {
+    trackSettings: TrackSettings;
     raceSettings: RaceSettings;
     onChangeField: (field: keyof RaceSettings, value: any) => void;
 }
 
 function _RaceSettings ({
+    trackSettings,
     raceSettings,
     onChangeField,
 }: _RaceSettingsProps) {
+    const noLapBtn = trackSettings.event === null;
 
     return (<>
+        <div className="button-row">
+            <Button disabled={noLapBtn} onClick={() => _laps(0.1)}>10%</Button>
+            <Button disabled={noLapBtn} onClick={() => _laps(0.25)}>25%</Button>
+            <Button disabled={noLapBtn} onClick={() => _laps(0.33)}>33%</Button>
+            <Button disabled={noLapBtn} onClick={() => _laps(0.5)}>50%</Button>
+            <Button disabled={noLapBtn} onClick={() => _laps(0.75)}>75%</Button>
+            <Button disabled={noLapBtn} onClick={() => _laps(1)}>100%</Button>
+        </div>
+        <LabeledControl label="Laps">
+            <Slider
+                mode='thumb'
+                value={raceSettings.laps}
+                min={1}
+                max={Math.max(trackSettings.event?.laps ?? 1, 120)}
+                step={1}
+                longStep={5}
+                showNumberBox
+                numberBoxMax={500}
+                markSpacing={5}
+                onChange={v => onChangeField('laps', v)}
+            />
+        </LabeledControl>
         <LabeledCheckbox
             label="Tyre blankets"
             value={raceSettings.tyreBlankets}
@@ -397,6 +423,12 @@ function _RaceSettings ({
             />
         </LabeledControl>
     </>);
+
+    function _laps (proportion: number) {
+        if (trackSettings.event === null) return;
+
+        onChangeField('laps', Math.trunc(trackSettings.event.laps * proportion));
+    }
 }
 
 interface _DifficultySectionProps {
