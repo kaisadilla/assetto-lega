@@ -35,6 +35,8 @@
         }
     }
     &.readonly {
+        cursor: not-allowed;
+
         > .default-checkbox-container {
             > .default-checkbox-input { 
                 &:checked ~ .default-checkbox-checkmark {

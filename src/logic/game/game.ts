@@ -27,7 +27,12 @@ export interface RaceDriver {
     restrictor: number;
 }
 
-export type StartingGridMode = 'random' | 'realistic' | 'custom';
+export enum StartingGridMode {
+    Realistic,
+    Random,
+    Custom,
+}
+
 export enum QualifyingMode {
     timeAttack,
 }
@@ -57,7 +62,7 @@ export class Race {
      */
     private playerDriverId: string | null = null;
     private customPlayerIdentity: CustomPlayerIdentity | null = null;
-    private startingGridMode: StartingGridMode = 'realistic';
+    private startingGridMode = StartingGridMode.Realistic;
 
     /**
      * The drivers of the race, in the order they'll start the race.
@@ -106,10 +111,10 @@ export class Race {
         if (this.drivers === null) err("'drivers' can't be null");
         if (this.playerDriverId === null) err("'playerDriverId' can't be null");
 
-        if (this.startingGridMode === 'realistic') {
+        if (this.startingGridMode === StartingGridMode.Realistic) {
             this._generateStartingGridRealistic();
         }
-        if (this.startingGridMode === 'random') {
+        if (this.startingGridMode === StartingGridMode.Random) {
             this._generateStartingGridRandom();
         }
 

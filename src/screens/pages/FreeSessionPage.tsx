@@ -90,8 +90,9 @@ export interface RaceSettings {
     practiceLength: number;
 
     hasQualifying: boolean;
-    simulatedQualifyingMode?: StartingGridMode;
+    simulatedQualifyingMode: StartingGridMode;
     qualifyingMode: QualifyingMode;
+    qualifyingLength: number;
     customStartingPositionForPlayer: number | null;
     gridOrder: string[] | null;
 
@@ -817,7 +818,7 @@ function _DriverSection ({
         race.setDrivers(getLeagueDrivers(league!.teams).filter(d => !d.isReserveDriver));
         race.setPlayerDriver(driverSettings.selectedDriver!.internalName);
         race.setCustomPlayerIdentity(null);
-        race.setGridMode('realistic');
+        race.setGridMode(StartingGridMode.Realistic);
         race.generateRaceSettings();
 
         createRaceIni(race);
@@ -1127,8 +1128,9 @@ function loadRaceSettings () : RaceSettings {
         practiceLength: 30,
     
         hasQualifying: false,
-        simulatedQualifyingMode: 'realistic',
+        simulatedQualifyingMode: StartingGridMode.Realistic,
         qualifyingMode: QualifyingMode.timeAttack,
+        qualifyingLength: 30,
         customStartingPositionForPlayer: null,
         gridOrder: null,
     
@@ -1147,7 +1149,7 @@ function loadRaceSettings () : RaceSettings {
         abs: CarAid.On,
         stabilityControl: 100,
         fuelConsumption: 1,
-        mechanicalDamage: 1,
+        mechanicalDamage: 100,
         tyreWear: 1,
         slipstreamEffect: 1,
     }

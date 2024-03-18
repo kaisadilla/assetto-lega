@@ -71,7 +71,7 @@ function Slider ({
     }
     else if (markSpacing !== undefined) {
         marks = [];
-        for (let i = 0; i <= max; i += markSpacing) {
+        for (let i = min; i <= max; i += markSpacing) {
             marks.push(i);
         }
     }

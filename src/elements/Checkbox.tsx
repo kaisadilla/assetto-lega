@@ -26,7 +26,7 @@ function Checkbox ({
     const checkboxBgStyle = {} as CSSProperties;
     let checkmarkClass = "default-checkbox-checkmark";
 
-    if (value && checkboxColor) {
+    if (value && checkboxColor && readonly === false) {
         const textColor = chooseW3CTextColor(checkboxColor);
 
         checkboxBgStyle.backgroundColor = checkboxColor;
