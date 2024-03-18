@@ -9,6 +9,7 @@ import CarPicker from './CarPicker';
 import CarSkinPicker from './CarSkinPicker';
 import { getCarSkinIcon } from 'paths';
 import { useAcContext } from 'context/useAcContext';
+import Img from 'elements/Img';
 
 export interface MultipleCarSkinFieldProps {
     skins?: string[];
@@ -42,7 +43,7 @@ function MultipleCarSkinField ({
     return (
         <div className={classStr} tabIndex={tabIndex}>
             <div className="skin-container" onClick={handleClick}>
-                {skins.length > 0 && <CarSkinCollection
+                {skins.length > 0 && <_CarSkinCollection
                     skins={car!.skinsById}
                     selectedSkins={skins}
                 />}
@@ -78,15 +79,15 @@ function MultipleCarSkinField ({
     }
 }
 
-interface CarSkinCollectionProps {
+interface _CarSkinCollectionProps {
     skins: AcCarSkinCollection;
     selectedSkins: string[];
 }
 
-function CarSkinCollection ({
+function _CarSkinCollection ({
     skins,
     selectedSkins,
-}: CarSkinCollectionProps) {
+}: _CarSkinCollectionProps) {
     const skinArr = Object.values(skins);
 
     return (

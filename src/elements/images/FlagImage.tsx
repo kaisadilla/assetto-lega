@@ -1,4 +1,5 @@
 import { Countries } from 'data/countries';
+import Img from 'elements/Img';
 import React from 'react';
 
 export interface FlagImageProps {
