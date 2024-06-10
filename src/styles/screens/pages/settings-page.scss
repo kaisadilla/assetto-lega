@@ -3,4 +3,10 @@
     flex-direction: column;
     gap: 6px;
     padding: 16px;
+
+    .settings-form {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
 }

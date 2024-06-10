@@ -174,7 +174,7 @@
   },
   "build": {
     "productName": "assetto-lega",
-    "appId": "kaisa.assetto-lega",
+    "appId": "azaria.assetto-lega",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [

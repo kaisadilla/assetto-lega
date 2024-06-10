@@ -1,39 +1,17 @@
-import { useDataContext } from 'context/useDataContext';
-import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam, LeagueTeamDriver, getLeagueDrivers } from 'data/schemas';
-import React, { useEffect, useState } from 'react';
 import LeagueMenu from 'components/LeagueMenu';
-import { FILE_PROTOCOL } from 'data/files';
-import { AssetFolder } from 'data/assets';
-import BackgroundDiv from 'elements/BackgroundDiv';
-import AssetImage from 'elements/AssetImage';
-import FlagImage from 'elements/images/FlagImage';
-import { chooseW3CTextColor, getClassString, isStringNullOrEmpty, timeNumberToString, timeStringToNumber, truncateNumber } from 'utils';
-import { useAcContext } from 'context/useAcContext';
-import TrackThumbnailField from 'components/TrackThumbnailField';
-import { TrackPickerValue } from 'components/TrackPicker';
-import Slider from 'elements/Slider';
-import LabeledControl from 'elements/LabeledControl';
-import HourSlider from 'components/HourSlider';
-import DropdownField from 'elements/DropdownField';
-import LabeledCheckbox from 'elements/LabeledCheckbox';
-import DirectionCircleField from 'elements/DirectionCircleField';
+import LS_KEYS from 'constants/localStorage';
+import { LeagueCollection, useDataContext } from 'context/useDataContext';
 import { UserProfile, useSettingsContext } from 'context/useSettings';
-import TrackThumbnail from 'elements/TrackThumbnail';
-import Button from 'elements/Button';
-import TeamGallery from 'components/TeamGallery';
-import DefaultHighlighter from 'elements/Highlighter';
-import SelectableItem from 'elements/SelectableItem';
-import { createRaceIni } from 'logic/game/iniFiles';
-import CountryField from 'components/CountryField';
-import Textbox from 'elements/Textbox';
-import CarSkinThumbnailField from 'components/CarSkinThumbnailField';
-import CarThumbnail from 'elements/CarThumbnail';
-import FreeSession_RaceInfoPanel from './FreeSessionPage.RaceInfoPanel';
-import Img from 'elements/Img';
-import FreeSession_TrackPanel from './FreeSessionPage.TrackPanel';
-import FreeSession_DriverPanel from './FreeSessionPage.DriverPanel';
+import { AssetFolder } from 'data/assets';
+import { AcTrack, AcTrackLayout, League, LeagueCalendarEntry, LeagueTeam, LeagueTeamDriver, getLeagueDrivers } from 'data/schemas';
+import AssetImage from 'elements/AssetImage';
 import { CarAid, JumpStartPenalty, QualifyingMode, Race, StartingGridMode } from 'logic/Race';
+import { createRaceIni } from 'logic/game/iniFiles';
 import Ipc from 'main/ipc/ipcRenderer';
+import { useState } from 'react';
+import FreeSession_DriverPanel from './FreeSessionPage.DriverPanel';
+import FreeSession_RaceInfoPanel from './FreeSessionPage.RaceInfoPanel';
+import FreeSession_TrackPanel from './FreeSessionPage.TrackPanel';
 
 export const MIN_TIME_SCALE = 0;
 export const MAX_TIME_SCALE = 100;
@@ -129,13 +107,14 @@ export interface FreeSessionPageProps {
 
 function FreeSessionPage (props: FreeSessionPageProps) {
     const { profile } = useSettingsContext();
+    const { leaguesById } = useDataContext();
 
     const [section, setSection] = useState(Section.League);
 
-    const [league, setLeague] = useState<League | null>(null);
-    const [trackSettings, setTrackSettings] = useState(loadTrackSettings());
-    const [driverSettings, setDriverSettings] = useState(loadDriverSettings(profile));
-    const [raceSettings, setRaceSettings] = useState(loadRaceSettings());
+    const [league, setLeague] = useState<League | null>(loadLeague(leaguesById));
+    const [trackSettings, setTrackSettings] = useState(loadTrackSettings(false));
+    const [driverSettings, setDriverSettings] = useState(loadDriverSettings(profile, false));
+    const [raceSettings, setRaceSettings] = useState(loadRaceSettings(false));
 
     const canOpenTrackSection = league !== null;
     const canOpenDriverSection = canOpenTrackSection && trackSettings.track !== null;
@@ -156,7 +135,7 @@ function FreeSessionPage (props: FreeSessionPageProps) {
                 canContinue={canOpenDriverSection}
                 league={league}
                 trackSettings={trackSettings}
-                onChange={setTrackSettings}
+                onChange={handleChangeTrackSettings}
                 setLaps={handleSetLaps}
                 onExpand={() => handleExpandSection(Section.Track)}
                 onContinue={() => handleExpandSection(Section.Driver)}
@@ -168,7 +147,7 @@ function FreeSessionPage (props: FreeSessionPageProps) {
                 league={league}
                 trackSettings={trackSettings}
                 driverSettings={driverSettings}
-                onChange={setDriverSettings}
+                onChange={handleChangeDriverSettings}
                 onExpand={() => handleExpandSection(Section.Driver)}
                 onContinue={() => handleExpandSection(Section.RaceInfo)}
             />
@@ -179,12 +158,27 @@ function FreeSessionPage (props: FreeSessionPageProps) {
                 trackSettings={trackSettings}
                 driverSettings={driverSettings}
                 raceSettings={raceSettings}
-                onChange={setRaceSettings}
+                onChange={handleChangeRaceSettings}
                 onExpand={() => handleExpandSection(Section.RaceInfo)}
                 onStartRace={launchRace}
             />
         </div>
     );
+
+    function handleChangeTrackSettings (settings: TrackSettings) {
+        setTrackSettings(settings);
+        saveTrackSettings(settings);
+    }
+
+    function handleChangeDriverSettings (settings: DriverSettings) {
+        setDriverSettings(settings);
+        saveDriverSettings(settings);
+    }
+
+    function handleChangeRaceSettings (settings: RaceSettings) {
+        setRaceSettings(settings);
+        saveRaceSettings(settings);
+    }
 
     function handleExpandSection (section: Section) {
         setSection(section);
@@ -198,10 +192,11 @@ function FreeSessionPage (props: FreeSessionPageProps) {
         }
 
         setLeague(selectedLeague);
+        saveLeague(selectedLeague);
+
         setSection(Section.Track);
-        // track settings are valid across all leagues, but driver settings
-        // are not.
-        setDriverSettings(loadDriverSettings(profile));
+        setTrackSettings(loadTrackSettings(true));
+        setDriverSettings(loadDriverSettings(profile, true));
         setRaceSettings(prevState => ({
             ...prevState,
             driverEntries: null,
@@ -307,73 +302,143 @@ function _LeagueSection ({
     );
 }
 
+function saveLeague (league: League) {
+    localStorage.setItem(
+        LS_KEYS.freeSession.league,
+        league.internalName
+    );
+}
+
+function saveTrackSettings (settings: TrackSettings) {
+    localStorage.setItem(
+        LS_KEYS.freeSession.trackSettings,
+        JSON.stringify(settings)
+    );
+}
+
+function saveDriverSettings (settings: DriverSettings) {
+    localStorage.setItem(
+        LS_KEYS.freeSession.driverSettings,
+        JSON.stringify(settings)
+    );
+}
+
+function saveRaceSettings (settings: RaceSettings) {
+    localStorage.setItem(
+        LS_KEYS.freeSession.raceSettings,
+        JSON.stringify(settings)
+    );
+}
+
+function loadLeague (leaguesById: LeagueCollection) : League | null {
+    const leagueId = localStorage.getItem(LS_KEYS.freeSession.league) as string;
+    if (!leagueId) {
+        return null;
+    }
+    else {
+        const league = leaguesById[leagueId];
+
+        return league ?? null;
+    }
+}
+
 /**
  * Loads track settings to use.
  */
-function loadTrackSettings () : TrackSettings {
-    return {
-        event: null,
-        track: null,
-        layout: null,
-        startTime: 0.5,
-        timeMultiplier: 1.0,
-        randomTime: false,
-        trackCondition: TrackCondition.Auto,
-        ambientTemperature: 26.0,
-        roadTemperature: 36.7,
-        windSpeedMin: 0,
-        windSpeedMax: 0,
-        windDirection: 0,
+function loadTrackSettings (reset: boolean) : TrackSettings {
+    let settings = {} as TrackSettings;
+
+    if (reset === false) {
+        const json = localStorage.getItem(
+            LS_KEYS.freeSession.trackSettings
+        );
+
+        settings = json ? JSON.parse(json) : {};
     }
+
+    settings.event ??= null;
+    settings.track ??= null;
+    settings.layout ??= null;
+    settings.startTime ??= 0.5;
+    settings.timeMultiplier ??= 1.0;
+    settings.randomTime ??= false;
+    settings.trackCondition ??= TrackCondition.Auto;
+    settings.ambientTemperature ??= 26.0;
+    settings.roadTemperature ??= 36.7;
+    settings.windSpeedMin ??= 0;
+    settings.windSpeedMax ??= 0;
+    settings.windDirection ??= 0;
+
+    return settings;
 }
 
-function loadDriverSettings (profile: UserProfile) : DriverSettings {
-    return {
-        selectedTeam: null,
-        selectedDriver: null,
-        selectedSkin: null,
-        useDriverIdentity: true,
-        customDriverCountry: profile.country,
-        customDriverName: profile.name,
-        customDriverNumber: profile.number,
-        customDriverInitials: profile.initials,
+function loadDriverSettings (profile: UserProfile, reset: boolean) : DriverSettings {
+    let settings = {} as DriverSettings;
+
+    if (reset === false) {
+        const json = localStorage.getItem(
+            LS_KEYS.freeSession.driverSettings
+        );
+
+        settings = json ? JSON.parse(json) : {};
     }
+
+    settings.selectedTeam ??= null;
+    settings.selectedDriver ??= null;
+    settings.selectedSkin ??= null;
+    settings.useDriverIdentity ??= true;
+    settings.customDriverCountry ??= profile.country;
+    settings.customDriverName ??= profile.name;
+    settings.customDriverNumber ??= profile.number;
+    settings.customDriverInitials ??= profile.initials;
+
+    return settings;
 }
 
-function loadRaceSettings () : RaceSettings {
-    return {
-        driverEntries: null,
-        laps: 20,
-    
-        hasPractice: false,
-        practiceLength: 30,
-    
-        hasQualifying: false,
-        simulatedQualifyingMode: StartingGridMode.Realistic,
-        qualifyingMode: QualifyingMode.timeAttack,
-        qualifyingLength: 30,
-        customStartingPositionForPlayer: null,
-        gridOrder: null,
-    
-        penaltiesEnabled: true,
-        jumpStartPenalty: JumpStartPenalty.DriveThrough,
-        tyreBlankets: true,
-    
-        opponentStrength: 100,
-        opponentAggression: 100,
-    
-        automaticShifting: true,
-        automaticClutch: true,
-        autoblip: true,
-        idealLine: true,
-        tractionControl: CarAid.On,
-        abs: CarAid.On,
-        stabilityControl: 100,
-        fuelConsumption: 1,
-        mechanicalDamage: 100,
-        tyreWear: 1,
-        slipstreamEffect: 1,
+function loadRaceSettings (reset: boolean) : RaceSettings {
+    let settings = {} as RaceSettings;
+
+    if (reset === false) {
+        const json = localStorage.getItem(
+            LS_KEYS.freeSession.raceSettings
+        );
+
+        settings = json ? JSON.parse(json) : {};
     }
+
+    settings.driverEntries ??= null;
+    settings.laps ??= 20;
+    
+    settings.hasPractice ??= false;
+    settings.practiceLength ??= 30;
+    
+    settings.hasQualifying ??= false;
+    settings.simulatedQualifyingMode ??= StartingGridMode.Realistic;
+    settings.qualifyingMode ??= QualifyingMode.timeAttack;
+    settings.qualifyingLength ??= 30;
+    settings.customStartingPositionForPlayer ??= null;
+    settings.gridOrder ??= null;
+    
+    settings.penaltiesEnabled ??= true;
+    settings.jumpStartPenalty ??= JumpStartPenalty.DriveThrough;
+    settings.tyreBlankets ??= true;
+    
+    settings.opponentStrength ??= 100;
+    settings.opponentAggression ??= 100;
+    
+    settings.automaticShifting ??= true;
+    settings.automaticClutch ??= true;
+    settings.autoblip ??= true;
+    settings.idealLine ??= true;
+    settings.tractionControl ??= CarAid.On;
+    settings.abs ??= CarAid.On;
+    settings.stabilityControl ??= 100;
+    settings.fuelConsumption ??= 1;
+    settings.mechanicalDamage ??= 100;
+    settings.tyreWear ??= 1;
+    settings.slipstreamEffect ??= 1;
+
+    return settings;
 }
 
 export default FreeSessionPage;

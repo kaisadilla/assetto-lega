@@ -25,8 +25,8 @@ function TrackThumbnailField ({
         className,
     );
 
-    const trackStr = isString(track) ? track as string : (track as AcTrack)?.folderName;
-    const layoutStr = isString(layout) ? layout as string : (layout as AcTrackLayout)?.folderName;
+    const trackStr = isString(track) ? track : track?.folderName;
+    const layoutStr = isString(layout) ? layout : layout?.folderName;
 
     return (
         <div className={classStr} {...divProps}>

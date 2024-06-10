@@ -26,7 +26,7 @@ function CarThumbnail ({
     const { cars } = useAcContext();
 
     if (isString(car)) {
-        car = cars.carsById[car as string];
+        car = cars.carsById[car];
     }
 
     if (car === null || car === undefined) {
@@ -48,7 +48,7 @@ function CarThumbnail ({
     const carObj = car as AcCar;
 
     if (isString(carSkin)) {
-        carSkin = carObj.skinsById[carSkin as string];
+        carSkin = carObj.skinsById[carSkin];
     }
     const carSkinObj = carSkin as AcCarSkin;
 

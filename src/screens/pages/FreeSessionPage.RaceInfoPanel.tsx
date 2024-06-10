@@ -13,6 +13,7 @@ import Slider from 'elements/Slider';
 import DropdownField from 'elements/DropdownField';
 import { CarAid, JumpStartPenalty, StartingGridMode } from 'logic/Race';
 import Button from 'elements/Button';
+import { useAcContext } from 'context/useAcContext';
 
 export interface FreeSession_RaceInfoPanelProps {
     expanded: boolean;
@@ -380,15 +381,29 @@ function _RaceSettings ({
     const noLapBtn = trackSettings.event === null;
 
     return (<>
-        <div className="button-row">
-            <Button disabled={noLapBtn} onClick={() => _laps(0.1)}>10%</Button>
-            <Button disabled={noLapBtn} onClick={() => _laps(0.25)}>25%</Button>
-            <Button disabled={noLapBtn} onClick={() => _laps(0.33)}>33%</Button>
-            <Button disabled={noLapBtn} onClick={() => _laps(0.5)}>50%</Button>
-            <Button disabled={noLapBtn} onClick={() => _laps(0.75)}>75%</Button>
-            <Button disabled={noLapBtn} onClick={() => _laps(1)}>100%</Button>
-        </div>
-        <LabeledControl label="Laps">
+        <h4 className="header">Number of laps</h4>
+        <LabeledControl label="Distance (approx, in km)">
+            <div className="button-row">
+                <Button onClick={() => _lapsByKm(30)}>30</Button>
+                <Button onClick={() => _lapsByKm(50)}>70</Button>
+                <Button onClick={() => _lapsByKm(100)}>100</Button>
+                <Button onClick={() => _lapsByKm(150)}>150</Button>
+                <Button onClick={() => _lapsByKm(200)}>200</Button>
+                <Button onClick={() => _lapsByKm(300)}>300</Button>
+                <Button onClick={() => _lapsByKm(500)}>500</Button>
+            </div>
+        </LabeledControl>
+        <LabeledControl label="% of event">
+            <div className="button-row">
+                <Button disabled={noLapBtn} onClick={() => _lapsByPerc(0.1)}>10%</Button>
+                <Button disabled={noLapBtn} onClick={() => _lapsByPerc(0.25)}>25%</Button>
+                <Button disabled={noLapBtn} onClick={() => _lapsByPerc(0.33)}>33%</Button>
+                <Button disabled={noLapBtn} onClick={() => _lapsByPerc(0.5)}>50%</Button>
+                <Button disabled={noLapBtn} onClick={() => _lapsByPerc(0.75)}>75%</Button>
+                <Button disabled={noLapBtn} onClick={() => _lapsByPerc(1)}>100%</Button>
+            </div>
+        </LabeledControl>
+        <LabeledControl label="# of laps">
             <Slider
                 mode='thumb'
                 value={raceSettings.laps}
@@ -425,7 +440,16 @@ function _RaceSettings ({
         </LabeledControl>
     </>);
 
-    function _laps (proportion: number) {
+    function _lapsByKm (km: number) {
+        const trackLength = trackSettings.layout?.length;
+
+        if (trackLength) {
+            const raceLength = Math.ceil(km / (trackLength / 1000));
+            onChangeField('laps', raceLength);
+        }
+    }
+
+    function _lapsByPerc (proportion: number) {
         if (trackSettings.event === null) return;
 
         onChangeField('laps', Math.trunc(trackSettings.event.laps * proportion));
@@ -524,14 +548,14 @@ function _DifficultySection ({
         <LabeledControl label="Stability control">
             <Slider
                 mode='thumb'
-                value={raceSettings.opponentAggression}
+                value={raceSettings.stabilityControl}
                 min={0}
                 max={100}
                 step={1}
                 longStep={10}
                 showNumberBox
                 markSpacing={10}
-                onChange={v => onChangeField('opponentAggression', v)}
+                onChange={v => onChangeField('stabilityControl', v)}
             />
         </LabeledControl>
         <LabeledControl label="Mechanical damage">

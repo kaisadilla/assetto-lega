@@ -1,0 +1,2920 @@
+
+{
+	"track": "vrc_southstar-day",
+	"number_of_sessions": 1,
+	"players": [
+		{
+			"name": "Scott Dixon",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 9 Scott Dixon - PNC Bank"
+		}, 
+		{
+			"name": "Christian Lundgaard",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 45 Christian Lundgaard - Hyvee"
+		}, 
+		{
+			"name": "Colton Herta",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 26 Colton Herta - Gainbridge"
+		}, 
+		{
+			"name": "Kyle Kirkwood",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 27 Kyle Kirkwood - Autonation"
+		}, 
+		{
+			"name": "Álex Palou",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 10 Alex Palou - American Legion chrome"
+		}, 
+		{
+			"name": "Ryan Hunter-Reay",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 20 Ryan Hunter-Reay - Bitnile"
+		}, 
+		{
+			"name": "Rinus VeeKay",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 21 Rinus VeeKay - Bitnile"
+		}, 
+		{
+			"name": "Felix Rosenqvist",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 6 Felix Rosenqvist - NTT Data"
+		}, 
+		{
+			"name": "Alexander Rossi",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 7 Alexander Rossi - VELO"
+		}, 
+		{
+			"name": "Benjamin Pedersen",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 55 Benjamin Pedersen - Bavarian Meats"
+		}, 
+		{
+			"name": "Devlin DeFrancesco",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 29 Devlin DeFrancesco - Trubar"
+		}, 
+		{
+			"name": "Scott McLaughlin",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 3 Scott McLaughlin - Sonsio"
+		}, 
+		{
+			"name": "Will Power",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 12 Will Power - Verizon"
+		}, 
+		{
+			"name": "Pato O'Ward",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 5 Pato O'Ward - Arrow"
+		}, 
+		{
+			"name": "Sting Ray Robb",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 51 Sting Ray Robb - Biohaven 2"
+		}, 
+		{
+			"name": "David Malukas",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 18 David Malukas - HMD"
+		}, 
+		{
+			"name": "Marcus Ericsson",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 8 Marcus Ericsson - Huski Chocolate"
+		}, 
+		{
+			"name": "Josef Newgarden",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 2 Josef Newgarden - Snap-On"
+		}, 
+		{
+			"name": "Jack Harvey",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 30 Jack Harvey - Amada"
+		}, 
+		{
+			"name": "Callum Ilott",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 77 Callum Ilott - JHR"
+		}, 
+		{
+			"name": "Santino Ferrucci",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 14 Santino Ferrucci - Bommarito"
+		}, 
+		{
+			"name": "Simon Pagenaud",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 60 Simon Pagenaud - Sirius XM"
+		}, 
+		{
+			"name": "Hélio Castroneves",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 06 Helio Castroneves - Cliffs"
+		}, 
+		{
+			"name": "Agustín Canapino",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 78 Agustín Canapino - JHR"
+		}, 
+		{
+			"name": "Romain Grosjean",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 28 Romain Grosjean - DHL"
+		}, 
+		{
+			"name": "Graham Rahal",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 15 Graham Rahal - Blue Compass RV"
+		}, 
+		{
+			"name": "Marcus Armstrong",
+			"car": "rss_formula_americas_2020",
+			"skin": "2023 11 Marcus Armstrong - American Legion"
+		}],
+	"sessions": [
+		{
+			"event": 0,
+			"name": "Quick Race",
+			"type": 3,
+			"lapsCount": 13,
+			"duration": 0,
+			"laps": [
+				{
+					"lap": 0,
+					"car": 0,
+					"sectors": [24790, 15052],
+					"time": 39842,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 0,
+					"sectors": [22952, 14963],
+					"time": 37915,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 0,
+					"sectors": [15477, 14728],
+					"time": 30205,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 0,
+					"sectors": [15270, 14314],
+					"time": 29584,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 0,
+					"sectors": [14923, 14292],
+					"time": 29215,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 0,
+					"sectors": [16845, 14782],
+					"time": 31627,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 0,
+					"sectors": [15472, 14405],
+					"time": 29877,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 0,
+					"sectors": [14984, 14373],
+					"time": 29357,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 0,
+					"sectors": [15086, 14257],
+					"time": 29343,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 0,
+					"sectors": [15525, 15119],
+					"time": 30644,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 0,
+					"sectors": [15465, 17046],
+					"time": 32511,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 0,
+					"sectors": [16861, 14472],
+					"time": 31333,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 0,
+					"sectors": [15170, 14553],
+					"time": 29723,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 1,
+					"sectors": [22625, 15705],
+					"time": 38330,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 1,
+					"sectors": [18268, 15385],
+					"time": 33653,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 1,
+					"sectors": [15280, 15097],
+					"time": 30377,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 1,
+					"sectors": [17548, 15025],
+					"time": 32573,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 1,
+					"sectors": [15946, 15138],
+					"time": 31084,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 1,
+					"sectors": [15526, 15143],
+					"time": 30669,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 1,
+					"sectors": [15529, 15066],
+					"time": 30595,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 1,
+					"sectors": [15656, 14887],
+					"time": 30543,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 1,
+					"sectors": [16487, 16183],
+					"time": 32670,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 1,
+					"sectors": [18143, 15247],
+					"time": 33390,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 1,
+					"sectors": [17010, 16528],
+					"time": 33538,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 1,
+					"sectors": [19211, 16102],
+					"time": 35313,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 1,
+					"sectors": [18890, 16273],
+					"time": 35163,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 2,
+					"sectors": [22608, 15345],
+					"time": 37953,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 2,
+					"sectors": [16816, 15093],
+					"time": 31909,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 2,
+					"sectors": [15598, 14917],
+					"time": 30515,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 2,
+					"sectors": [15878, 15076],
+					"time": 30954,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 2,
+					"sectors": [15479, 15085],
+					"time": 30564,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 2,
+					"sectors": [15480, 15012],
+					"time": 30492,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 2,
+					"sectors": [15606, 15137],
+					"time": 30743,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 2,
+					"sectors": [17629, 15336],
+					"time": 32965,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 2,
+					"sectors": [17821, 15039],
+					"time": 32860,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 2,
+					"sectors": [15990, 16649],
+					"time": 32639,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 2,
+					"sectors": [19024, 16303],
+					"time": 35327,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 2,
+					"sectors": [18632, 16498],
+					"time": 35130,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 2,
+					"sectors": [19075, 15925],
+					"time": 35000,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 3,
+					"sectors": [23260, 15854],
+					"time": 39114,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 3,
+					"sectors": [18423, 15470],
+					"time": 33893,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 3,
+					"sectors": [18214, 15214],
+					"time": 33428,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 3,
+					"sectors": [15631, 15476],
+					"time": 31107,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 3,
+					"sectors": [18207, 15889],
+					"time": 34096,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 3,
+					"sectors": [18546, 15619],
+					"time": 34165,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 3,
+					"sectors": [18802, 14980],
+					"time": 33782,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 3,
+					"sectors": [15933, 15106],
+					"time": 31039,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 3,
+					"sectors": [15530, 14959],
+					"time": 30489,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 3,
+					"sectors": [15551, 14877],
+					"time": 30428,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 3,
+					"sectors": [15807, 14827],
+					"time": 30634,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 3,
+					"sectors": [16682, 16192],
+					"time": 32874,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 3,
+					"sectors": [18593, 16619],
+					"time": 35212,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 4,
+					"sectors": [22783, 15800],
+					"time": 38583,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 4,
+					"sectors": [18207, 14903],
+					"time": 33110,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 4,
+					"sectors": [15572, 15489],
+					"time": 31061,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 4,
+					"sectors": [18561, 15569],
+					"time": 34130,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 4,
+					"sectors": [18619, 15188],
+					"time": 33807,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 4,
+					"sectors": [15731, 15156],
+					"time": 30887,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 4,
+					"sectors": [16562, 15197],
+					"time": 31759,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 4,
+					"sectors": [15513, 15093],
+					"time": 30606,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 4,
+					"sectors": [15623, 14972],
+					"time": 30595,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 4,
+					"sectors": [15931, 15741],
+					"time": 31672,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 4,
+					"sectors": [17803, 16326],
+					"time": 34129,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 4,
+					"sectors": [18537, 16640],
+					"time": 35177,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 4,
+					"sectors": [19451, 16624],
+					"time": 36075,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 5,
+					"sectors": [23462, 15323],
+					"time": 38785,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 5,
+					"sectors": [18609, 15214],
+					"time": 33823,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 5,
+					"sectors": [17123, 15116],
+					"time": 32239,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 5,
+					"sectors": [16426, 15125],
+					"time": 31551,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 5,
+					"sectors": [17662, 15242],
+					"time": 32904,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 5,
+					"sectors": [15520, 15133],
+					"time": 30653,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 5,
+					"sectors": [15518, 15053],
+					"time": 30571,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 5,
+					"sectors": [15639, 14930],
+					"time": 30569,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 5,
+					"sectors": [15914, 15116],
+					"time": 31030,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 5,
+					"sectors": [16710, 15300],
+					"time": 32010,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 5,
+					"sectors": [16955, 16853],
+					"time": 33808,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 5,
+					"sectors": [18995, 16030],
+					"time": 35025,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 5,
+					"sectors": [18985, 16465],
+					"time": 35450,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 6,
+					"sectors": [23710, 15633],
+					"time": 39343,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 6,
+					"sectors": [41671, 15331],
+					"time": 57002,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 6,
+					"sectors": [15519, 15102],
+					"time": 30621,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 6,
+					"sectors": [15488, 15013],
+					"time": 30501,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 6,
+					"sectors": [15606, 14890],
+					"time": 30496,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 6,
+					"sectors": [17717, 16093],
+					"time": 33810,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 6,
+					"sectors": [18773, 15364],
+					"time": 34137,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 6,
+					"sectors": [17995, 16020],
+					"time": 34015,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 6,
+					"sectors": [18519, 15187],
+					"time": 33706,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 6,
+					"sectors": [17177, 17060],
+					"time": 34237,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 6,
+					"sectors": [18680, 15939],
+					"time": 34619,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 6,
+					"sectors": [18875, 16034],
+					"time": 34909,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 7,
+					"sectors": [24344, 15526],
+					"time": 39870,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 7,
+					"sectors": [21383, 15346],
+					"time": 36729,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 7,
+					"sectors": [15479, 15053],
+					"time": 30532,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 7,
+					"sectors": [15548, 15337],
+					"time": 30885,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 7,
+					"sectors": [17612, 14747],
+					"time": 32359,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 7,
+					"sectors": [15845, 15053],
+					"time": 30898,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 7,
+					"sectors": [15454, 15062],
+					"time": 30516,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 7,
+					"sectors": [15461, 14986],
+					"time": 30447,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 7,
+					"sectors": [15592, 14854],
+					"time": 30446,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 7,
+					"sectors": [16247, 16403],
+					"time": 32650,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 7,
+					"sectors": [18393, 15929],
+					"time": 34322,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 7,
+					"sectors": [17728, 16614],
+					"time": 34342,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 7,
+					"sectors": [19670, 17020],
+					"time": 36690,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 8,
+					"sectors": [24309, 15885],
+					"time": 40194,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 8,
+					"sectors": [22049, 15732],
+					"time": 37781,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 8,
+					"sectors": [18012, 15722],
+					"time": 33734,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 8,
+					"sectors": [18511, 15872],
+					"time": 34383,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 8,
+					"sectors": [18607, 15385],
+					"time": 33992,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 8,
+					"sectors": [15226, 15341],
+					"time": 30567,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 8,
+					"sectors": [15885, 15326],
+					"time": 31211,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 8,
+					"sectors": [16464, 16569],
+					"time": 33033,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 8,
+					"sectors": [18409, 15512],
+					"time": 33921,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 8,
+					"sectors": [15911, 15606],
+					"time": 31517,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 8,
+					"sectors": [15942, 15299],
+					"time": 31241,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 8,
+					"sectors": [15995, 16502],
+					"time": 32497,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 8,
+					"sectors": [18806, 16376],
+					"time": 35182,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 9,
+					"sectors": [25123, 18760],
+					"time": 43883,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 9,
+					"sectors": [19510, 15260],
+					"time": 34770,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 9,
+					"sectors": [17275, 15169],
+					"time": 32444,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 9,
+					"sectors": [15951, 15065],
+					"time": 31016,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 9,
+					"sectors": [15528, 15286],
+					"time": 30814,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 9,
+					"sectors": [17218, 14994],
+					"time": 32212,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 9,
+					"sectors": [16453, 15097],
+					"time": 31550,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 9,
+					"sectors": [15460, 15070],
+					"time": 30530,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 9,
+					"sectors": [15465, 14994],
+					"time": 30459,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 9,
+					"sectors": [15592, 14864],
+					"time": 30456,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 9,
+					"sectors": [15705, 15619],
+					"time": 31324,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 9,
+					"sectors": [17646, 16478],
+					"time": 34124,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 9,
+					"sectors": [19663, 16060],
+					"time": 35723,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 10,
+					"sectors": [24614, 15831],
+					"time": 40445,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 10,
+					"sectors": [22944, 15817],
+					"time": 38761,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 10,
+					"sectors": [18213, 15660],
+					"time": 33873,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 10,
+					"sectors": [18409, 15759],
+					"time": 34168,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 10,
+					"sectors": [18685, 15642],
+					"time": 34327,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 10,
+					"sectors": [18455, 15890],
+					"time": 34345,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 10,
+					"sectors": [18244, 15296],
+					"time": 33540,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 10,
+					"sectors": [16775, 15282],
+					"time": 32057,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 10,
+					"sectors": [15320, 14864],
+					"time": 30184,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 10,
+					"sectors": [15864, 15093],
+					"time": 30957,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 10,
+					"sectors": [15471, 15106],
+					"time": 30577,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 10,
+					"sectors": [15900, 15763],
+					"time": 31663,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 10,
+					"sectors": [17916, 15988],
+					"time": 33904,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 12,
+					"sectors": [25299, 17819],
+					"time": 43118,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 12,
+					"sectors": [20010, 15732],
+					"time": 35742,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 12,
+					"sectors": [18207, 15578],
+					"time": 33785,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 12,
+					"sectors": [18407, 15768],
+					"time": 34175,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 12,
+					"sectors": [17944, 15044],
+					"time": 32988,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 12,
+					"sectors": [15488, 14994],
+					"time": 30482,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 12,
+					"sectors": [15608, 14918],
+					"time": 30526,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 12,
+					"sectors": [15881, 15085],
+					"time": 30966,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 12,
+					"sectors": [15488, 15102],
+					"time": 30590,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 12,
+					"sectors": [15500, 15030],
+					"time": 30530,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 12,
+					"sectors": [15626, 14896],
+					"time": 30522,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 12,
+					"sectors": [15763, 17014],
+					"time": 32777,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 12,
+					"sectors": [19119, 16802],
+					"time": 35921,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 13,
+					"sectors": [25578, 20142],
+					"time": 45720,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 13,
+					"sectors": [18684, 16037],
+					"time": 34721,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 13,
+					"sectors": [18408, 15623],
+					"time": 34031,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 13,
+					"sectors": [17868, 16141],
+					"time": 34009,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 13,
+					"sectors": [18689, 15787],
+					"time": 34476,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 13,
+					"sectors": [18670, 15156],
+					"time": 33826,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 13,
+					"sectors": [17663, 15260],
+					"time": 32923,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 13,
+					"sectors": [16732, 14791],
+					"time": 31523,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 13,
+					"sectors": [15626, 15616],
+					"time": 31242,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 13,
+					"sectors": [18643, 14994],
+					"time": 33637,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 13,
+					"sectors": [15927, 15209],
+					"time": 31136,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 13,
+					"sectors": [15941, 16002],
+					"time": 31943,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 13,
+					"sectors": [27254, 16354],
+					"time": 43608,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 14,
+					"sectors": [26019, 20205],
+					"time": 46224,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 14,
+					"sectors": [18449, 15607],
+					"time": 34056,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 14,
+					"sectors": [17329, 15741],
+					"time": 33070,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 14,
+					"sectors": [18748, 15777],
+					"time": 34525,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 14,
+					"sectors": [17735, 15652],
+					"time": 33387,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 14,
+					"sectors": [18567, 15358],
+					"time": 33925,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 14,
+					"sectors": [17115, 15146],
+					"time": 32261,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 14,
+					"sectors": [15609, 14953],
+					"time": 30562,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 14,
+					"sectors": [15908, 15156],
+					"time": 31064,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 14,
+					"sectors": [16895, 15337],
+					"time": 32232,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 14,
+					"sectors": [15425, 15220],
+					"time": 30645,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 14,
+					"sectors": [15543, 16033],
+					"time": 31576,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 14,
+					"sectors": [19149, 15201],
+					"time": 34350,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 15,
+					"sectors": [25668, 18414],
+					"time": 44082,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 15,
+					"sectors": [19795, 15961],
+					"time": 35756,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 15,
+					"sectors": [17499, 15628],
+					"time": 33127,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 15,
+					"sectors": [18280, 15619],
+					"time": 33899,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 15,
+					"sectors": [18624, 15151],
+					"time": 33775,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 15,
+					"sectors": [16475, 15102],
+					"time": 31577,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 15,
+					"sectors": [15577, 14949],
+					"time": 30526,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 15,
+					"sectors": [15868, 15210],
+					"time": 31078,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 15,
+					"sectors": [15450, 15119],
+					"time": 30569,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 15,
+					"sectors": [15509, 15044],
+					"time": 30553,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 15,
+					"sectors": [15647, 14918],
+					"time": 30565,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 15,
+					"sectors": [15913, 15835],
+					"time": 31748,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 15,
+					"sectors": [18417, 16838],
+					"time": 35255,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 16,
+					"sectors": [26306, 20786],
+					"time": 47092,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 16,
+					"sectors": [18284, 15458],
+					"time": 33742,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 16,
+					"sectors": [18104, 15336],
+					"time": 33440,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 16,
+					"sectors": [17786, 15949],
+					"time": 33735,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 16,
+					"sectors": [18652, 16007],
+					"time": 34659,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 16,
+					"sectors": [18657, 15925],
+					"time": 34582,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 16,
+					"sectors": [18608, 15787],
+					"time": 34395,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 16,
+					"sectors": [18535, 15345],
+					"time": 33880,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 16,
+					"sectors": [15738, 16317],
+					"time": 32055,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 16,
+					"sectors": [18598, 15719],
+					"time": 34317,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 16,
+					"sectors": [19053, 15335],
+					"time": 34388,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 16,
+					"sectors": [15969, 16051],
+					"time": 32020,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 17,
+					"sectors": [26000, 19103],
+					"time": 45103,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 17,
+					"sectors": [18834, 15686],
+					"time": 34520,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 17,
+					"sectors": [17372, 15579],
+					"time": 32951,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 17,
+					"sectors": [17597, 15089],
+					"time": 32686,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 17,
+					"sectors": [15450, 15020],
+					"time": 30470,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 17,
+					"sectors": [15582, 15335],
+					"time": 30917,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 17,
+					"sectors": [18083, 15093],
+					"time": 33176,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 17,
+					"sectors": [15595, 15030],
+					"time": 30625,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 17,
+					"sectors": [15454, 14985],
+					"time": 30439,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 17,
+					"sectors": [15594, 14868],
+					"time": 30462,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 17,
+					"sectors": [15848, 15134],
+					"time": 30982,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 17,
+					"sectors": [16763, 16790],
+					"time": 33553,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 17,
+					"sectors": [19491, 16523],
+					"time": 36014,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 18,
+					"sectors": [26392, 20133],
+					"time": 46525,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 18,
+					"sectors": [18789, 15821],
+					"time": 34610,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 18,
+					"sectors": [18093, 15448],
+					"time": 33541,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 18,
+					"sectors": [17628, 15984],
+					"time": 33612,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 18,
+					"sectors": [18711, 15466],
+					"time": 34177,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 18,
+					"sectors": [17574, 15583],
+					"time": 33157,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 18,
+					"sectors": [18348, 15187],
+					"time": 33535,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 18,
+					"sectors": [15576, 14976],
+					"time": 30552,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 18,
+					"sectors": [15916, 15107],
+					"time": 31023,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 18,
+					"sectors": [15421, 14886],
+					"time": 30307,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 18,
+					"sectors": [15440, 14900],
+					"time": 30340,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 18,
+					"sectors": [15935, 15120],
+					"time": 31055,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 18,
+					"sectors": [15933, 15641],
+					"time": 31574,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 19,
+					"sectors": [26838, 20817],
+					"time": 47655,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 19,
+					"sectors": [18540, 15326],
+					"time": 33866,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 19,
+					"sectors": [17975, 16039],
+					"time": 34014,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 19,
+					"sectors": [18836, 15494],
+					"time": 34330,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 19,
+					"sectors": [17569, 16177],
+					"time": 33746,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 19,
+					"sectors": [18453, 15974],
+					"time": 34427,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 19,
+					"sectors": [18916, 16182],
+					"time": 35098,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 19,
+					"sectors": [18793, 15394],
+					"time": 34187,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 19,
+					"sectors": [16459, 16079],
+					"time": 32538,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 19,
+					"sectors": [18832, 16168],
+					"time": 35000,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 19,
+					"sectors": [18997, 15228],
+					"time": 34225,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 19,
+					"sectors": [15805, 15268],
+					"time": 31073,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 20,
+					"sectors": [26982, 20303],
+					"time": 47285,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 20,
+					"sectors": [18790, 15926],
+					"time": 34716,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 20,
+					"sectors": [18238, 16146],
+					"time": 34384,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 20,
+					"sectors": [18293, 15723],
+					"time": 34016,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 20,
+					"sectors": [18570, 16060],
+					"time": 34630,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 20,
+					"sectors": [18680, 15908],
+					"time": 34588,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 20,
+					"sectors": [17713, 16173],
+					"time": 33886,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 20,
+					"sectors": [18523, 15030],
+					"time": 33553,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 20,
+					"sectors": [16656, 15390],
+					"time": 32046,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 20,
+					"sectors": [17361, 15786],
+					"time": 33147,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 20,
+					"sectors": [18918, 15308],
+					"time": 34226,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 20,
+					"sectors": [15735, 15101],
+					"time": 30836,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 21,
+					"sectors": [27067, 21136],
+					"time": 48203,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 21,
+					"sectors": [18822, 15768],
+					"time": 34590,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 21,
+					"sectors": [18414, 16236],
+					"time": 34650,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 21,
+					"sectors": [18814, 16087],
+					"time": 34901,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 21,
+					"sectors": [18943, 15881],
+					"time": 34824,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 21,
+					"sectors": [18256, 15813],
+					"time": 34069,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 21,
+					"sectors": [17906, 15971],
+					"time": 33877,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 21,
+					"sectors": [18573, 15025],
+					"time": 33598,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 21,
+					"sectors": [16025, 16489],
+					"time": 32514,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 21,
+					"sectors": [19151, 16214],
+					"time": 35365,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 21,
+					"sectors": [18960, 15731],
+					"time": 34691,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 21,
+					"sectors": [18241, 15260],
+					"time": 33501,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 22,
+					"sectors": [27229, 21213],
+					"time": 48442,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 22,
+					"sectors": [18897, 15390],
+					"time": 34287,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 22,
+					"sectors": [17729, 16286],
+					"time": 34015,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 22,
+					"sectors": [18676, 15889],
+					"time": 34565,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 22,
+					"sectors": [17813, 16587],
+					"time": 34400,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 22,
+					"sectors": [19186, 15282],
+					"time": 34468,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 22,
+					"sectors": [17402, 16421],
+					"time": 33823,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 22,
+					"sectors": [19103, 14896],
+					"time": 33999,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 22,
+					"sectors": [16258, 16335],
+					"time": 32593,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 22,
+					"sectors": [18892, 16061],
+					"time": 34953,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 22,
+					"sectors": [18508, 15925],
+					"time": 34433,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 22,
+					"sectors": [18795, 15169],
+					"time": 33964,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 23,
+					"sectors": [27882, 20875],
+					"time": 48757,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 23,
+					"sectors": [19450, 15692],
+					"time": 35142,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 23,
+					"sectors": [17648, 16156],
+					"time": 33804,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 23,
+					"sectors": [18526, 15678],
+					"time": 34204,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 23,
+					"sectors": [17461, 16006],
+					"time": 33467,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 23,
+					"sectors": [18516, 15506],
+					"time": 34022,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 23,
+					"sectors": [17670, 16568],
+					"time": 34238,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 23,
+					"sectors": [18961, 15174],
+					"time": 34135,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 23,
+					"sectors": [16282, 16187],
+					"time": 32469,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 23,
+					"sectors": [18742, 14859],
+					"time": 33601,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 23,
+					"sectors": [17583, 15295],
+					"time": 32878,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 23,
+					"sectors": [15944, 15980],
+					"time": 31924,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 24,
+					"sectors": [27252, 20546],
+					"time": 47798,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 24,
+					"sectors": [18605, 15435],
+					"time": 34040,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 24,
+					"sectors": [17885, 16165],
+					"time": 34050,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 24,
+					"sectors": [18684, 15453],
+					"time": 34137,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 24,
+					"sectors": [17513, 15706],
+					"time": 33219,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 24,
+					"sectors": [18661, 15727],
+					"time": 34388,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 24,
+					"sectors": [18160, 15124],
+					"time": 33284,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 24,
+					"sectors": [15838, 15975],
+					"time": 31813,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 24,
+					"sectors": [18347, 16133],
+					"time": 34480,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 24,
+					"sectors": [18847, 15160],
+					"time": 34007,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 24,
+					"sectors": [16959, 15178],
+					"time": 32137,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 24,
+					"sectors": [15845, 15098],
+					"time": 30943,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 25,
+					"sectors": [28296, 21091],
+					"time": 49387,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 25,
+					"sectors": [19027, 15593],
+					"time": 34620,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 25,
+					"sectors": [18598, 15822],
+					"time": 34420,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 25,
+					"sectors": [18006, 16213],
+					"time": 34219,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 25,
+					"sectors": [18852, 15408],
+					"time": 34260,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 25,
+					"sectors": [18054, 15677],
+					"time": 33731,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 25,
+					"sectors": [18309, 15947],
+					"time": 34256,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 25,
+					"sectors": [18462, 14949],
+					"time": 33411,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 25,
+					"sectors": [16370, 16381],
+					"time": 32751,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 25,
+					"sectors": [18602, 16101],
+					"time": 34703,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 25,
+					"sectors": [19537, 16285],
+					"time": 35822,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 25,
+					"sectors": [19398, 15138],
+					"time": 34536,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 0,
+					"car": 26,
+					"sectors": [27841, 21289],
+					"time": 49130,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 1,
+					"car": 26,
+					"sectors": [18471, 15488],
+					"time": 33959,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 2,
+					"car": 26,
+					"sectors": [18088, 16043],
+					"time": 34131,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 3,
+					"car": 26,
+					"sectors": [18278, 15485],
+					"time": 33763,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 4,
+					"car": 26,
+					"sectors": [17951, 15679],
+					"time": 33630,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 5,
+					"car": 26,
+					"sectors": [17626, 16088],
+					"time": 33714,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 6,
+					"car": 26,
+					"sectors": [18562, 15746],
+					"time": 34308,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 7,
+					"car": 26,
+					"sectors": [17685, 14922],
+					"time": 32607,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 8,
+					"car": 26,
+					"sectors": [15795, 14957],
+					"time": 30752,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 9,
+					"car": 26,
+					"sectors": [15847, 15048],
+					"time": 30895,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 10,
+					"car": 26,
+					"sectors": [15386, 15166],
+					"time": 30552,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 11,
+					"car": 26,
+					"sectors": [15696, 15097],
+					"time": 30793,
+					"cuts": 0,
+					"tyre": "S"
+				}, 
+				{
+					"lap": 12,
+					"car": 26,
+					"sectors": [15855, 15822],
+					"time": 31677,
+					"cuts": 0,
+					"tyre": "S"
+				}],
+			"lapstotal": [13, 13, 13, 13, 13, 13, 12, 13, 13, 13, 13, 0, 13, 13, 13, 13, 12, 13, 13, 12, 12, 12, 12, 12, 12, 12, 13],
+			"bestLaps": [
+				{
+					"car": 0,
+					"time": 29215,
+					"lap": 4
+				}, 
+				{
+					"car": 1,
+					"time": 30377,
+					"lap": 2
+				}, 
+				{
+					"car": 2,
+					"time": 30492,
+					"lap": 5
+				}, 
+				{
+					"car": 3,
+					"time": 30428,
+					"lap": 9
+				}, 
+				{
+					"car": 4,
+					"time": 30595,
+					"lap": 8
+				}, 
+				{
+					"car": 5,
+					"time": 30569,
+					"lap": 7
+				}, 
+				{
+					"car": 6,
+					"time": 30496,
+					"lap": 4
+				}, 
+				{
+					"car": 7,
+					"time": 30446,
+					"lap": 8
+				}, 
+				{
+					"car": 8,
+					"time": 30567,
+					"lap": 5
+				}, 
+				{
+					"car": 9,
+					"time": 30456,
+					"lap": 9
+				}, 
+				{
+					"car": 10,
+					"time": 30184,
+					"lap": 8
+				}, 
+				{
+					"car": 12,
+					"time": 30482,
+					"lap": 5
+				}, 
+				{
+					"car": 13,
+					"time": 31136,
+					"lap": 10
+				}, 
+				{
+					"car": 14,
+					"time": 30562,
+					"lap": 7
+				}, 
+				{
+					"car": 15,
+					"time": 30526,
+					"lap": 6
+				}, 
+				{
+					"car": 16,
+					"time": 32020,
+					"lap": 11
+				}, 
+				{
+					"car": 17,
+					"time": 30439,
+					"lap": 8
+				}, 
+				{
+					"car": 18,
+					"time": 30307,
+					"lap": 9
+				}, 
+				{
+					"car": 19,
+					"time": 31073,
+					"lap": 11
+				}, 
+				{
+					"car": 20,
+					"time": 30836,
+					"lap": 11
+				}, 
+				{
+					"car": 21,
+					"time": 32514,
+					"lap": 8
+				}, 
+				{
+					"car": 22,
+					"time": 32593,
+					"lap": 8
+				}, 
+				{
+					"car": 23,
+					"time": 31924,
+					"lap": 11
+				}, 
+				{
+					"car": 24,
+					"time": 30943,
+					"lap": 11
+				}, 
+				{
+					"car": 25,
+					"time": 32751,
+					"lap": 8
+				}, 
+				{
+					"car": 26,
+					"time": 30552,
+					"lap": 10
+				}],
+			"raceResult": [0, 2, 1, 5, 9, 3, 7, 4, 17, 12, 15, 18, 14, 10, 8, 26, 13, 24, 20, 16, 23, 19, 22, 21, 25, 6, 11]
+		}],
+	"extras": [
+		{
+			"name": "bestlap",
+			"time": 29215
+		}]
+}

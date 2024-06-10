@@ -26,14 +26,14 @@ function TrackThumbnail ({
     layout ??= null;
 
     if (isString(track)) {
-        track = tracks.tracksById[track as string] ?? null;
+        track = tracks.tracksById[track] ?? null;
     }
     if (track === null) {
         layout = null;
     }
     else if (isString(layout)) {
-        layout = (track as AcTrack)?.layoutsById[layout as string];
-        layout ??= (track as AcTrack)?.layouts[0];
+        layout = track?.layoutsById[layout];
+        layout ??= track?.layouts[0];
     }
     
     const classStr = getClassString(

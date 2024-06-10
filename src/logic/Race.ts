@@ -220,7 +220,7 @@ export class Race {
             throw `Can't get AI players before defining the starting grid.`;
         }
 
-        return this.startingGrid.findIndex(d => d.internalName === this.playerDriverId)!;
+        return this.startingGrid.findIndex(d => d.internalName === this.playerDriverId)! + 1;
     }
 
     public getAiDriversByGridOrder () : RaceDriver[] {

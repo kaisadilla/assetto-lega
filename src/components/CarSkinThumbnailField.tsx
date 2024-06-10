@@ -31,7 +31,7 @@ function CarSkinThumbnailField ({
     );
     
     if (isString(car)) {
-        car = cars.carsById[car as string];
+        car = cars.carsById[car];
     }
 
     if (car === null || car === undefined) {

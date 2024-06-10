@@ -176,6 +176,15 @@
                 justify-content: center;
                 gap: 6px;
                 min-width: 0;
+
+                > .team-car-name {
+                    width: 100%;
+                    display: flex;
+
+                    > span {
+                        @include ellipsis();
+                    }
+                }
     
                 > .team-car-stats {
                     display: flex;

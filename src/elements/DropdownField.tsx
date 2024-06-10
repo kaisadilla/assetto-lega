@@ -1,6 +1,7 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { getClassString } from 'utils';
 import Dropdown from './Dropdown';
+import MaterialSymbol from './MaterialSymbol';
 
 export interface DropdownItem<T> {
     value: T;
@@ -63,6 +64,7 @@ function DropdownField<T> ({
                 onClick={() => setDropdownOpen(true)}
             >
                 {displayValue}
+                <MaterialSymbol symbol='arrow_drop_down' />
             </div>
             {isDropdownOpen && <Dropdown
                 className="dropdown-field-menu"

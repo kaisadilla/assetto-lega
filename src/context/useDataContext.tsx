@@ -6,7 +6,7 @@ import Ipc from "main/ipc/ipcRenderer";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { LOCALE } from "utils";
 
-type LeagueCollection = {[key: string]: League};
+export type LeagueCollection = {[key: string]: League};
 
 export enum AppStatus {
     /**

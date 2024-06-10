@@ -44,7 +44,7 @@ export function createRaceIni (race: Race) {
         NATIONALITY: playerCountry.assettoCorsa?.name ?? "Unknown",
         NATION_CODE: playerCountry.assettoCorsa?.code ?? "AC",
     }
-    ini["RACE"].MODEL = playerDriver.car;
+    ini["RACE"].MODEL = playerDriver.car.toLowerCase();
     ini["RACE"].SKIN = playerDriver.skin;
     ini["SESSION_0"].STARTING_POSITION = race.getPlayerStartingPosition();
 
@@ -64,7 +64,7 @@ function _createRaceIniDriver (driver: RaceDriver) {
     const country = Countries[driver.driverInfo.country]!; // TODO: null
 
     return {
-        MODEL: driver.car,
+        MODEL: driver.car.toLowerCase(),
         SKIN: driver.skin,
         SETUP: "",
         MODEL_CONFIG: "",
@@ -176,7 +176,7 @@ function _newRaceIni () : RaceIni {
             SPAWN_SET: "START",
             TYPE: 3,
             LAPS: 9, // there's also RACE -> RACE_LAPS
-            STARTING_POSITION: 0,
+            STARTING_POSITION: 1,
         },
     };
 }

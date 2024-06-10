@@ -1,14 +1,15 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { TextColor, chooseW3CTextColor } from "utils";
 
+// TODO: use LS_KEYS.
 enum Setting {
-    Theme = "theme",
-    Accent = "accent",
-    SearchMode = "search-mode",
-    ProfileName = "profile/name",
-    ProfileCountry = "profile/country",
-    ProfileNumber = "profile/number",
-    ProfileInitials = "profile/initials",
+    Theme = "settings/theme",
+    Accent = "settings/accent",
+    SearchMode = "settings/search-mode",
+    ProfileName = "settings/profile/name",
+    ProfileCountry = "settings/profile/country",
+    ProfileNumber = "settings/profile/number",
+    ProfileInitials = "settings/profile/initials",
 }
 
 export const DEFAULT_SETTINGS = {
